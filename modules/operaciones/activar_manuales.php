@@ -28,6 +28,13 @@ if ($venta) {
 
 	// Actualiza la informacion
 	$db->where($condicion)->update('inv_egresos', $dato);
+	
+	// echo json_encode($Lotes); die();
+	$_SESSION[temporary] = array(
+		'alert' => 'success',
+		'title' => 'Se anulo correctamente!',
+		'message' => 'La operacion se realizó correctamente.'
+	);
 
 	// Redirecciona a la pagina principal
 	redirect('?/operaciones/manuales_listar');

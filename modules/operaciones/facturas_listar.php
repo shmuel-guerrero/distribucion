@@ -145,7 +145,7 @@ $permiso_activar_factura = in_array('activar_factura', $permisos);
 				<td class="text-nowrap text-right"><?= escape($venta['nro_factura']); ?></td>
 				<td class="text-nowrap text-right" data-total="<?= escape($venta['monto_total_descuento']); ?>"><?= escape($venta['monto_total']); ?></td>
 				<td class="text-nowrap text-right"><?= escape($venta['nro_registros']); ?></td>
-				<td class="text-nowrap text-center"><?php if($venta['anulado'] == 3){echo 'Anulado'; }else if($venta['anulado'] == 2){echo 'Anulado en Nota'; }else if($venta['anulado'] == 1){echo 'Anulado'; }else{echo 'Activo'; } ?></td>
+				<td class="text-nowrap text-center <?= (($venta['anulado'] == 0) ? 'text-primary' : 'text-danger')  ?> "><?php if($venta['anulado'] == 3){echo 'Anulado'; }else if($venta['anulado'] == 2){echo 'Anulado en Nota'; }else if($venta['anulado'] == 1){echo 'Anulado'; }else{echo 'Activo'; } ?></td>
 				<td class="text-nowrap"><?= escape($venta['almacen']); ?></td>
 				<td class="width-md"><?= escape($venta['nombres'] . ' ' . $venta['paterno'] . ' ' . $venta['materno']); ?></td>
 				<td class="text-nowrap">

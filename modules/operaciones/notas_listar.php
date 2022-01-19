@@ -174,23 +174,33 @@ $permiso_cambiar = true;
 						<?php if ($permiso_ver || $permiso_eliminar) { ?>
 							<td class="text-nowrap">
 							    <?php if ($venta['anulado'] != 3 /* || $venta['fecha_egreso'] == date('Y-m-d') */) { ?>
-							        <a href="?/operaciones/notas_editar/<?= $venta['id_egreso']; ?>" data-toggle="tooltip" data-title="Editar nota de remisión"><i class="glyphicon glyphicon-edit"></i></a>
+							        <a href="?/operaciones/notas_editar/<?= $venta['id_egreso']; ?>"  style="margin-right: 5px" data-toggle="tooltip" data-title="Editar nota de remisión"><i class="glyphicon glyphicon-edit"></i></a>
 							    <?php } ?>
 								<?php if ($permiso_ver) { ?>
-									<a href="?/operaciones/notas_ver/<?= $venta['id_egreso']; ?>" data-toggle="tooltip" data-title="Ver detalle de nota de remisión"><i class="glyphicon glyphicon-list-alt"></i></a>
+									<a href="?/operaciones/notas_ver/<?= $venta['id_egreso']; ?>"  style="margin-right: 5px" data-toggle="tooltip" data-title="Ver detalle de nota de remisión"><i class="glyphicon glyphicon-list-alt"></i></a>
 								<?php } ?>
-							<?php if ($venta['anulado'] != 3) { ?>
-    								<?php if ($permiso_eliminar) { ?>
-    									<a href="?/operaciones/notas_eliminar/<?= $venta['id_egreso']; ?>" data-toggle="tooltip" data-title="Eliminar nota de remisión" data-eliminar="true"><span class="glyphicon glyphicon-trash"></span></a>
+								
+								<?php $masUnMesdate = date("Y-m-d", strtotime($venta['fecha_egreso'] . "+ 1 month")); ?>
+								<?php if ($permiso_eliminar && $venta['estadoe'] == 0 && strtotime(date('Y-m-d')) <= strtotime($masUnMesdate)) {
+									if ($venta['anulado'] == 0){ ?>
+                                                <a href='?/operaciones/activar_nota/<?= $venta['id_egreso']; ?>'  style="margin-right: 5px" class='text-info' data-toggle='tooltip' data-title='Confirmar anulacion' data-activar-producto='true'><i class='glyphicon glyphicon-check'></i></a>
+                                    <?php   }else if($venta['anulado'] == 1) { ?>
+									<a href="?/operaciones/notas_eliminar/<?= $venta['id_egreso']; ?>"  style="margin-right: 5px" data-toggle="tooltip" data-title="Eliminar nota de remisión" data-eliminar="true"><span class="glyphicon glyphicon-trash text-danger"></span></a>
+								<?php } ?>
+								<?php } ?>
+
+							<?php if ($venta['estadoe'] != 0 ) { ?>
+    								<?php if ($permiso_eliminar && $venta['estadoe'] != 0 && $venta['anulado'] != 0) { ?>
+    									<a href="?/operaciones/notas_eliminar/<?= $venta['id_egreso']; ?>"  style="margin-right: 5px" data-toggle="tooltip" data-title="Eliminar nota de remisión" data-eliminar="true"><span class="glyphicon glyphicon-trash text-danger"></span></a>
     								<?php } ?>
     							 <?php 
                 				    if ($permiso_activar_factura && $venta['estadoe'] > 0){
                                             if ($venta['anulado'] == 1){ ?>
-                                                <a href='?/operaciones/activar_nota/<?= $venta['id_egreso']; ?>' class='text-info' data-toggle='tooltip' data-title='Confirmar anulacion' data-activar-producto='true'><i class='glyphicon glyphicon-check'></i></a>
+                                                <a href='?/operaciones/activar_nota/<?= $venta['id_egreso']; ?>'  style="margin-right: 5px" class='text-info' data-toggle='tooltip' data-title='Confirmar anulacion' data-activar-producto='true'><i class='glyphicon glyphicon-check'></i></a>
                                     <?php   } if($venta['anulado'] == 2) { ?>
-                                                <a href='?/operaciones/activar_nota/<?= $venta['id_egreso']; ?>' class='text-danger' data-toggle='tooltip' data-title='Anular factura' data-activar-producto='true'><i class='glyphicon glyphicon-unchecked'></i></a>
+                                                <a href='?/operaciones/activar_nota/<?= $venta['id_egreso']; ?>'  style="margin-right: 5px" class='text-danger' data-toggle='tooltip' data-title='Anular factura' data-activar-producto='true'><i class='glyphicon glyphicon-unchecked'></i></a>
                                     <?php   } if($venta['anulado'] == 0) { ?>
-                                                <a href='?/operaciones/activar_nota/<?= $venta['id_egreso']; ?>' class='text-danger' data-toggle='tooltip' data-title='Anular factura' data-activar-producto='true'><i class='glyphicon glyphicon-unchecked'></i></a>
+                                                <a href='?/operaciones/activar_nota/<?= $venta['id_egreso']; ?>'  style="margin-right: 5px" class='text-danger' data-toggle='tooltip' data-title='Anular factura' data-activar-producto='true'><i class='glyphicon glyphicon-unchecked'></i></a>
                                     <?php   } ;
                                     };
                                     if($permiso_devolucion): ?> 

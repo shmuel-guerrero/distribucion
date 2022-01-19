@@ -17,8 +17,15 @@ $venta = $db->from('inv_egresos')->where('id_egreso', $id_factura)->fetch_first(
 
 // Verifica si el producto existe
 if ($venta) {
-	// Obtiene el nuevo estado
-	$estado = ($venta['anulado'] == 0) ? 1 : 3;
+
+	if ($venta['estadoe'] == 3) {
+		
+		// Obtiene el nuevo estado
+		$estado = ($venta['anulado'] == 0) ? 1 : 3;
+	}else if($venta['estadoe'] == 0){
+		// Obtiene el nuevo estado
+		$estado = ($venta['anulado'] == 0) ? 1 : 0;
+	}
 
 	// Instancia el producto
 	$dato = array(
@@ -31,7 +38,7 @@ if ($venta) {
 	// Actualiza la informacion
 	$db->where($condicion)->update('inv_egresos', $dato);
 
-
+/* 
 	/////////////////////////////////////////////////////////////////////////////////////
 	// Agregamos el retorno del stock
 	$Lotes=$db->query("SELECT producto_id,lote,unidad_id
@@ -75,7 +82,7 @@ if ($venta) {
 			$db->insert('sys_procesos', $data);
 		};
 	};
-
+ */
 	// echo json_encode($Lotes); die();
 	$_SESSION[temporary] = array(
 		'alert' => 'success',
