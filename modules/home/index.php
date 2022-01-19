@@ -93,7 +93,7 @@ if($verifica == true) {
     	LEFT join inv_egresos e ON e.id_egreso=d.egreso_id
     	LEFT join inv_asignaciones a ON a.id_asignacion=d.asignacion_id AND a.visible = 's'
     	LEFT join inv_unidades u ON u.id_unidad=a.unidad_id
-    	WHERE e.tipo = 'Venta' AND e.anulado != 3
+    	WHERE e.tipo = 'Venta' AND e.anulado != 3 AND a.visible = 's'
     	group by p.id_producto
     	order by costomax DESC
     	limit 5")->fetch();
@@ -149,7 +149,7 @@ if($verifica == true) {
     			LEFT JOIN inv_ingresos i ON i.id_ingreso = d.ingreso_id
     			LEFT JOIN inv_asignaciones a ON a.id_asignacion = d.asignacion_id AND a.visible = 's'
     			LEFT JOIN inv_unidades u ON u.id_unidad= a.unidad_id
-    			WHERE i.almacen_id=1 
+    			WHERE i.almacen_id=1  AND a.visible = 's'
     			GROUP BY d.producto_id
     		) I
     		LEFT JOIN(
@@ -158,7 +158,7 @@ if($verifica == true) {
     			LEFT JOIN inv_egresos e ON e.id_egreso = d.egreso_id
     			LEFT JOIN inv_asignaciones a ON a.id_asignacion = d.asignacion_id AND a.visible = 's'
     			LEFT JOIN inv_unidades u ON u.id_unidad= a.unidad_id
-    			WHERE e.almacen_id = 1 AND e.anulado != 3
+    			WHERE e.almacen_id = 1 AND e.anulado != 3 AND a.visible = 's'
     			GROUP BY d.producto_id
     		) E ON E.producto_id = I.producto_id
     	) A LEFT JOIN inv_productos p ON A.producto_id=p.id_producto
@@ -215,7 +215,7 @@ if($verifica == true) {
     		$query .= " LEFT JOIN inv_asignaciones a ON a.id_asignacion=vd.asignacion_id  AND a.visible = 's' ";
     		$query .= " LEFT JOIN inv_unidades u ON u.id_unidad=a.unidad_id ";
     
-    		$query .= " WHERE v.fecha_egreso = '" . $vFecha['fecha_egreso'] . "' AND v.tipo='Venta'";
+    		$query .= " WHERE v.fecha_egreso = '" . $vFecha['fecha_egreso'] . "' AND v.tipo='Venta' AND a.visible = 's' ";
     		$query .= " GROUP BY p.id_producto ";
     		$ventas = $db->query($query)->fetch();
     
@@ -233,7 +233,7 @@ if($verifica == true) {
     			$query .= " LEFT JOIN inv_asignaciones a ON a.id_asignacion=vd.asignacion_id  AND a.visible = 's' ";
     			$query .= " LEFT JOIN inv_unidades u ON u.id_unidad=a.unidad_id ";
     
-    			$query .= " WHERE vd.producto_id='" . $venta['id_producto'] . "' AND v.fecha_egreso < '" . $vFecha['fecha_egreso'] . "' ";
+    			$query .= " WHERE vd.producto_id='" . $venta['id_producto'] . "' AND v.fecha_egreso < '" . $vFecha['fecha_egreso'] . "' AND a.visible = 's' ";
     			$vAntiguos = $db->query($query)->fetch();
     			foreach ($vAntiguos as $nro2 => $vAntiguo) {
     				$cantidadAnterior = $vAntiguo['cantidadAnterior'];
@@ -263,7 +263,7 @@ if($verifica == true) {
     			$query .= " LEFT JOIN inv_asignaciones a ON a.id_asignacion=vd.asignacion_id  AND a.visible = 's' ";
     			$query .= " LEFT JOIN inv_unidades u ON u.id_unidad=a.unidad_id ";
     
-    			$query .= " WHERE vd.producto_id='" . $venta['id_producto'] . "' AND v.fecha_ingreso <= '" . $vFecha['fecha_egreso'] . "' ";
+    			$query .= " WHERE vd.producto_id='" . $venta['id_producto'] . "' AND v.fecha_ingreso <= '" . $vFecha['fecha_egreso'] . "' AND a.visible = 's' ";
     			$query .= " ORDER BY fecha_ingreso, u.tamanio, u.unidad ";
     
     			$iAntiguos = $db->query($query)->fetch();
@@ -317,7 +317,7 @@ if($verifica == true) {
     				$query .= " INNER JOIN inv_ingresos v ON ingreso_id=id_ingreso ";
     				$query .= " INNER JOIN inv_asignaciones a ON a.id_asignacion=vd.asignacion_id  AND a.visible = 's' ";
     				$query .= " INNER JOIN inv_unidades u ON u.id_unidad=a.unidad_id AND tamanio='1' ";
-    				$query .= " WHERE vd.producto_id='" . $venta['id_producto'] . "' AND v.fecha_ingreso <= '$fecha_final' ";
+    				$query .= " WHERE vd.producto_id='" . $venta['id_producto'] . "' AND v.fecha_ingreso <= '$fecha_final' AND a.visible = 's' ";
     				$query .= " ORDER BY fecha_ingreso DESC ";
     				$iUltimo = $db->query($query)->fetch_first();
     
@@ -333,7 +333,7 @@ if($verifica == true) {
     					$query .= " INNER JOIN inv_ingresos v ON ingreso_id=id_ingreso ";
     					$query .= " INNER JOIN inv_asignaciones a ON a.id_asignacion=vd.asignacion_id  AND a.visible = 's' ";
     					$query .= " INNER JOIN inv_unidades u ON u.id_unidad=a.unidad_id ";
-    					$query .= " WHERE vd.producto_id='" . $venta['id_producto'] . "' AND v.fecha_ingreso <= '$fecha_final' ";
+    					$query .= " WHERE vd.producto_id='" . $venta['id_producto'] . "' AND v.fecha_ingreso <= '$fecha_final' AND a.visible = 's' ";
     					$query .= " ORDER BY fecha_ingreso DESC ";
     					$iUltimo = $db->query($query)->fetch_first();
     					$ultimoSaldo = $cantidadTotal - $saldo;
@@ -1022,6 +1022,7 @@ if($verifica == true) {
     									left join inv_ingresos i on i.id_ingreso = d.ingreso_id
     									LEFT JOIN inv_asignaciones a ON a.id_asignacion = d.asignacion_id  AND a.visible = 's'
     									LEFT JOIN inv_unidades u ON u.id_unidad = a.unidad_id 
+										WHERE a.visible = 's'
     									group by d.producto_id
     								) as e on e.producto_id = p.id_producto
     								LEFT JOIN (
@@ -1030,7 +1031,7 @@ if($verifica == true) {
     									left join inv_egresos e on e.id_egreso = d.egreso_id 
     									LEFT JOIN inv_asignaciones a ON a.id_asignacion = d.asignacion_id AND a.visible = 's'
     									LEFT JOIN inv_unidades u ON u.id_unidad = a.unidad_id 
-    									WHERE e.anulado = 0
+    									WHERE e.anulado = 0 AND a.visible = 's'
     									group by d.producto_id
     								) as s on s.producto_id = p.id_producto
     								ORDER BY p.nombre";

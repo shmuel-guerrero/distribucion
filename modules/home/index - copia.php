@@ -107,7 +107,7 @@
                                                     LEFT JOIN inv_unidades u ON
                                                         u.id_unidad = a.unidad_id
                                                     WHERE
-                                                        e.almacen_id = $id_almacen
+                                                        e.almacen_id = $id_almacen AND a.visible = 's'
                                                         GROUP BY d.producto_id, d.lote
                                                     ) E ON (E.lote = d.lote AND E.producto_id = d.producto_id)
                                         
@@ -118,7 +118,7 @@
                                             LEFT JOIN inv_unidades u ON
                                                 u.id_unidad = a.unidad_id
                                             WHERE
-                                                d.almacen_id = $id_almacen
+                                                d.almacen_id = $id_almacen AND a.visible = 's'
                                             GROUP BY
                                                 d.producto_id, d.lote
                                           ) I ON  I.producto_id = p.id_producto
@@ -138,7 +138,7 @@
                                                     FROM
                                                         inv_asignaciones q
                                                     LEFT JOIN inv_unidades u ON
-                                                        q.unidad_id = u.id_unidad AND q.visible = 's'
+                                                        q.unidad_id = u.id_unidad AND q.visible = 's' WHERE q.visible = 's'
                                                     ORDER BY
                                                         u.unidad
                                                     DESC
@@ -301,6 +301,7 @@
 											left join inv_ingresos i on i.id_ingreso = d.ingreso_id 
 											LEFT JOIN inv_asignaciones a ON a.id_asignacion = d.asignacion_id  AND a.visible = 's'
 											LEFT JOIN inv_unidades u ON u.id_unidad = a.unidad_id 
+											WHERE a.visible = 's'
 											group by d.producto_id
 											) as e on e.producto_id = p.id_producto 																
 										LEFT JOIN (
@@ -309,6 +310,7 @@
 											left join inv_egresos e on e.id_egreso = d.egreso_id 
 											LEFT JOIN inv_asignaciones a ON a.id_asignacion = d.asignacion_id AND a.visible = 's'
 											LEFT JOIN inv_unidades u ON u.id_unidad = a.unidad_id 
+											WHERE a.visible = 's'
 											group by d.producto_id
 											) as s on s.producto_id = p.id_producto 										
 								ORDER BY egresos";

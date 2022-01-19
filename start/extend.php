@@ -512,7 +512,7 @@ function nombre_unidad($db, $id_unidad){
 function precio_unidad($db, $id, $unidad){
     $producto = $db->select('unidad_id, precio_actual')->from('inv_productos')->where('id_producto',$id)->fetch_first();
     if($producto['unidad_id']!=$unidad){
-        $otra_unidad = $db->select('cantidad_unidad, otro_precio')->from('inv_asignaciones')->where(array('unidad_id' => $unidad, 'producto_id' => $id))->fetch_first();
+        $otra_unidad = $db->select('cantidad_unidad, otro_precio')->from('inv_asignaciones')->where(array('unidad_id' => $unidad, 'producto_id' => $id, 'visible' => 's'))->fetch_first();
         return $otra_unidad['otro_precio'];
     }else{
         return $producto['precio_actual'];
@@ -623,7 +623,7 @@ function utilidadvendedor($db, $fecha_inicial, $fecha_final, $vendedor)
             INNER JOIN inv_egresos v ON vd.egreso_id=v.id_egreso
             LEFT JOIN inv_asignaciones a ON a.producto_id = vd.producto_id AND a.unidad_id = vd.unidad_id
             LEFT JOIN inv_unidades u ON u.id_unidad = vd.unidad_id
-            WHERE v.fecha_egreso >= '$fecha_inicial' and v.fecha_egreso <= '$fecha_final' AND v.tipo='Venta'
+            WHERE v.fecha_egreso >= '$fecha_inicial' and v.fecha_egreso <= '$fecha_final' AND v.tipo='Venta' AND a.visible = 's' 
             ";
     $ventas = $db->query($query)->fetch();
 
@@ -647,7 +647,7 @@ function utilidadvendedor($db, $fecha_inicial, $fecha_final, $vendedor)
         $query .= " INNER JOIN inv_egresos v ON (egreso_id=id_egreso) ";
         $query .= " LEFT JOIN inv_asignaciones a ON a.producto_id = vd.producto_id AND a.unidad_id = vd.unidad_id ";
         $query .= " LEFT JOIN inv_unidades u ON u.id_unidad=vd.unidad_id ";
-        $query .= " WHERE vd.producto_id='" . $venta['id_producto'] . "' AND v.fecha_egreso < '$fecha_inicial' ";
+        $query .= " WHERE vd.producto_id='" . $venta['id_producto'] . "' AND v.fecha_egreso < '$fecha_inicial' AND a.visible = 's' ";
 
         $vAntiguos = $db->query($query)->fetch();
         foreach ($vAntiguos as $nro2 => $vAntiguo) {
@@ -789,7 +789,7 @@ function utilidadvendedor($db, $fecha_inicial, $fecha_final, $vendedor)
         $query .= " LEFT JOIN inv_asignaciones a ON a.id_asignacion=vd.asignacion_id ";
         $query .= " LEFT JOIN inv_unidades u ON u.id_unidad=a.unidad_id ";
 
-        $query .= " WHERE vd.producto_id='" . $venta['id_producto'] . "' AND v.fecha_egreso >= '$fecha_inicial' and v.fecha_egreso <= '$fecha_final' AND v.tipo='venta'";
+        $query .= " WHERE vd.producto_id='" . $venta['id_producto'] . "' AND v.fecha_egreso >= '$fecha_inicial' and v.fecha_egreso <= '$fecha_final' AND v.tipo='venta' AND a.visible = 's' ";
         $query .= " GROUP BY precio, u.tamanio, unidad ";
 
         $vventas = $db->query($query)->fetch();
@@ -1149,7 +1149,7 @@ function validar_stock_devueltos($db, $id_producto = 0, $cantidad = 0, $unidad =
                         LEFT JOIN tmp_egresos AS e ON ed.tmp_egreso_id = e.id_tmp_egreso
                         WHERE ed.producto_id = '{$id_producto}'
                         AND e.distribuidor_estado NOT IN ('ENTREGA', 'VENTA') 
-                        AND e.estado = 3  AND e.distribuidor_id = '{$id_distribuidor}' AND e.anulado = 0
+                        AND e.estado = 3  AND e.distribuidor_id = '{$id_distribuidor}' AND e.anulado = 0 AND asi.visible = 's' 
                         AND ed.promocion_id != 1) B 
                                                 
                         LEFT JOIN (SELECT ed.producto_id, IFNULL(SUM((ed.cantidad/(IF(asi.cantidad_unidad is null,1,asi.cantidad_unidad)))), 0) AS total_venta_directa
@@ -1157,7 +1157,7 @@ function validar_stock_devueltos($db, $id_producto = 0, $cantidad = 0, $unidad =
                         LEFT JOIN inv_asignaciones asi ON asi.producto_id = ed.producto_id AND asi.unidad_id = ed.unidad_id
                         LEFT JOIN tmp_egresos AS e ON ed.tmp_egreso_id = e.id_tmp_egreso
                         WHERE ed.producto_id = '{$id_producto}' AND e.distribuidor_id = '{$id_distribuidor}'
-                        AND e.distribuidor_estado IN ('VENTA')
+                        AND e.distribuidor_estado IN ('VENTA') AND asi.visible = 's' 
                         AND ed.promocion_id != 1 AND e.anulado = 0) C ON C.producto_id = B.producto_id ")->fetch_first()['total_entrega'];
 
 
@@ -1285,7 +1285,7 @@ function obtener_total($db, $cadena_ids = 0){
                                 FROM inv_egresos_detalles d 
                                 LEFT JOIN inv_asignaciones a ON a.producto_id = d.producto_id AND a.unidad_id = d.unidad_id
                                 LEFT JOIN inv_unidades u ON u.id_unidad = d.unidad_id            
-                                WHERE d.egreso_id IN ({$cadena_ids})")->fetch_first();
+                                WHERE d.egreso_id IN ({$cadena_ids}) AND a.visible = 's' ")->fetch_first();
 
         } 
 
@@ -1484,6 +1484,41 @@ function configurar_atributo($db, $reporte = '', $modulo = '', $archivo = '', $a
         return '';
     }  
 }
+
+
+
+/*
++--------------------------------------------------------------------------
+| CONFIGURAR ATRIBUTO
++--------------------------------------------------------------------------
+*/
+
+function historial_conversion($db, $id_origen = 0, $origen = '', $id_destino = 0, $destino = '',$id_empleado = 0, $tipo = "", $id_backup = 0, $ids_backups = ''){
+
+    $datos = array(
+        'fecha_registro' => date('Y-m-d'),
+        'hora_registro' => date('H:i:s'),
+        'id_origen' => $id_origen,
+        'origen_movimiento' => $origen,
+        'id_destino' => $id_destino,
+        'destino_movimiento' => $destino,
+        'empleado_id' => ($id_empleado > 0) ? $id_empleado : 0,
+        'tipo' => $tipo,
+        'id_backup_egreso' => $id_backup,
+        'ids_backup_detalles' => $ids_backups
+    );    
+
+    $id_conversion = $db->insert('hist_conversiones', $datos);
+
+    //validamos cantidad de registros insertados
+    if($id_conversion){        
+        return true;
+    }else{
+        return false;
+    }  
+}
+
+
 
 ?>
 

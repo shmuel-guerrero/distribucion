@@ -61,7 +61,7 @@ require_once show_template('header-advanced');
                             FROM inv_egresos_detalles AS ed
                             LEFT JOIN inv_asignaciones asi ON asi.producto_id = ed.producto_id AND asi.unidad_id = ed.unidad_id AND asi.visible = 's'
                             LEFT JOIN inv_egresos AS e ON e.id_egreso=ed.egreso_id
-                            WHERE ed.producto_id='{$Dato['producto_id']}' AND e.anulado = 0 AND e.estadoe != 0
+                            WHERE ed.producto_id='{$Dato['producto_id']}' AND e.anulado = 0 AND e.estadoe != 0 AND asi.visible = 's'
                             AND e.fecha_egreso BETWEEN '{$Dato['fecha_inicio']}' AND '{$Dato['fecha_fin']}'")->fetch_first();
                     $Conseguido = ($Conseguido['total'] >= 0) ? $Conseguido['total'] : 0;   
                         

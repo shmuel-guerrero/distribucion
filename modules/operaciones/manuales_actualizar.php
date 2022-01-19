@@ -369,7 +369,7 @@ if(is_post()) {
             'title' => 'La actualizaci&oacute;n se realiz&oacute; satisfactoriamente.',
             'message' => 'La actualizaci&oacute;n se guard&oacute; en la base de datos.'
         );        
-        header('Location:?/operaciones/listar_manuales');
+        header('Location:?/operaciones/manuales_listar');
         
     } else {
         // Envia respuesta

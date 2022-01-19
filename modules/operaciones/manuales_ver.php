@@ -28,7 +28,7 @@ $permisos = explode(',', permits);
 
 // Almacena los permisos en variables
 $permiso_editar = in_array('manuales_editar', $permisos);
-$permiso_listar = in_array('listar_manuales', $permisos);
+$permiso_listar = in_array('manuales_listar', $permisos);
 $permiso_reimprimir = false;//in_array('facturas_obtener', $permisos);
 $permiso_imprimir = false;
 
@@ -60,7 +60,7 @@ $permiso_imprimir = false;
 			<a href="?/operaciones/manuales_editar/<?= $venta['id_egreso']; ?>" class="btn btn-danger"><i class="glyphicon glyphicon-edit"></i><span class="hidden-xs"> Editar venta</span></a>
 			<?php } ?>
 			<?php if ($permiso_listar) { ?>
-			<a href="?/operaciones/listar_manuales" class="btn btn-primary"><i class="glyphicon glyphicon-list-alt"></i><span class="hidden-xs hidden-sm hidden-md"> Listado de ventas manuales</span></a>
+			<a href="?/operaciones/manuales_listar" class="btn btn-primary"><i class="glyphicon glyphicon-list-alt"></i><span class="hidden-xs hidden-sm hidden-md"> Listado de ventas manuales</span></a>
 			<?php } ?>
 		</div>
 	</div>

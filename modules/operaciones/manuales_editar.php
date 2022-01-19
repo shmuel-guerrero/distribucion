@@ -9,7 +9,7 @@ endif;
 $permisos = explode(',', permits);
 // Almacena los permisos en variables
 $permiso_editar = in_array('manuales_editar', $permisos);
-$permiso_listar = in_array('listar_manuales', $permisos);
+$permiso_listar = in_array('manuales_listar', $permisos);
 
 $limite_monetario = 1000000;
 $limite_monetario = number_format($limite_monetario, 2, '.', '');
@@ -30,7 +30,7 @@ $DetalleEgreso = $db->query("SELECT a.*, b.*, a.unidad_id AS unidad_det, GROUP_C
                     	FROM inv_egresos_detalles a
                     	LEFT JOIN inv_productos b ON a.producto_id = b.id_producto
                     	LEFT JOIN inv_asignaciones c ON b.id_producto = c.producto_id AND c.visible = 's'
-                    	LEFT JOIN inv_unidades d ON c.unidad_id = id_unidad WHERE a.egreso_id = '$IdNotaRemision' and a.promocion_id <2 GROUP BY a.id_detalle")->fetch();
+                    	LEFT JOIN inv_unidades d ON c.unidad_id = id_unidad WHERE a.egreso_id = '$IdNotaRemision' and a.promocion_id <2 AND c.visible = 's' GROUP BY a.id_detalle ")->fetch();
 	
 
 $clientes = $db->query("select * FROM inv_clientes ORDER BY cliente asc, nit asc")->fetch();
@@ -363,7 +363,7 @@ if($permiso_editar){
                 <hr>
                 <?php if ($permiso_listar) : ?>
                     <p class='text-right'>
-                        <a href='?/operaciones/listar_manuales' class='btn btn-warning'>Listado ventas manuales</a>
+                        <a href='?/operaciones/manuales_listar' class='btn btn-warning'>Listado ventas manuales</a>
                     </p>
                 <?php endif ?>
                 <form method='post' action='?/notas/buscar' id='form_buscar_0' class='margin-bottom' autocomplete='off'>

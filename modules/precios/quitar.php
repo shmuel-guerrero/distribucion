@@ -14,12 +14,12 @@ if (is_post()) {
 		$id_asignacion = (isset($params[0])) ? $params[0] : 0;
 
 		// Obtiene la asignacion
-		$asignacion = $db->from('inv_asignaciones')->where('id_asignacion', $id_asignacion)->fetch_first();
+		$asignacion = $db->from('inv_asignaciones')->where('id_asignacion', $id_asignacion)->where('visible', 's')->fetch_first();
 
 		// Verifica si la asignacion existe
 		if ($asignacion) {
 			// Elimina la asignacion
-			$db->delete()->from('inv_asignaciones')->where('id_asignacion', $id_asignacion)->execute();
+			$db->delete()->from('inv_asignaciones')->where('id_asignacion', $id_asignacion)->where('visible', 's')->execute();
 			
 			// Verifica la eliminacion
 			if ($db->affected_rows) {

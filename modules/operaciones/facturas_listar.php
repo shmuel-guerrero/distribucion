@@ -153,9 +153,8 @@ $permiso_activar_factura = in_array('activar_factura', $permisos);
 					    <a href="?/operaciones/facturas_ver/<?= $venta['id_egreso']; ?>" data-toggle="tooltip"  style="margin-right: 5px" data-title="Ver detalle de venta"><i class="glyphicon glyphicon-list-alt"></i></a>
 				    <?php } ?>
 				    <?php 
-					$fecha_registro = $venta['fecha_egreso'];	
-								;
-				    if ($permiso_activar_factura && (date("d-m-Y", strtotime($fecha_registro."+ 7 days")) <= date('Y-m-d'))) {
+					$fecha_registro = $venta['fecha_egreso'];									
+				    if ($permiso_activar_factura && (strtotime(date('Y-m-d')) <= strtotime(date("d-m-Y", strtotime($fecha_registro."+ 7 days"))))) {
                             if ($venta['anulado'] == 1){ ?>
                                 <a href='?/operaciones/activar_factura/<?= $venta['id_egreso']; ?>' class='text-success' data-toggle='tooltip'  style="margin-right: 5px" data-title='Activar factura' data-activar-producto='true'><i class='glyphicon glyphicon-check'></i></a>
                     <?php   } if($venta['anulado'] < 2) {?>

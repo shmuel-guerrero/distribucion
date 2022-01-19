@@ -127,7 +127,7 @@ $Empleados=$db->query("SELECT e.id_empleado,e.nombres,e.paterno,e.materno,GROUP_
                                                         FROM inv_egresos_detalles AS ed
                                                         LEFT JOIN inv_egresos AS e ON e.id_egreso=ed.egreso_id
                                                         LEFT JOIN inv_asignaciones AS asi ON asi.producto_id=ed.producto_id AND asi.unidad_id = ed.unidad_id  AND asi.visible = 's' 
-                                                        WHERE e.anulado != 1 AND e.empleado_id='{$Empleado['id_empleado']}' AND e.fecha_egreso BETWEEN '{$fecha_inicial}' AND '{$fecha_final}'")->fetch();
+                                                        WHERE e.anulado != 1 AND e.empleado_id='{$Empleado['id_empleado']}' AND e.fecha_egreso BETWEEN '{$fecha_inicial}' AND '{$fecha_final}' AND asi.visible = 's' ")->fetch();
                         foreach($EgresosUtilidad as $Fila=>$EgresosU):
                             $Cantidad=$EgresosU['cantidad'];
                             $Precio=$EgresosU['precio'];

@@ -20,7 +20,7 @@ $moneda = ($moneda) ? '(' . $moneda['sigla'] . ')' : '';
                         LEFT JOIN inv_egresos_detalles AS ed ON e.id_egreso=ed.egreso_id
                         LEFT JOIN inv_asignaciones asi ON asi.producto_id = ed.producto_id AND asi.unidad_id = ed.unidad_id AND asi.visible = 's'
                         LEFT JOIN inv_productos AS p ON ed.producto_id=p.id_producto
-                        WHERE p.categoria_id='{$IdCategoria}'  AND e.anulado = 0 AND e.estadoe != 0
+                        WHERE p.categoria_id='{$IdCategoria}'  AND e.anulado = 0 AND e.estadoe != 0 AND asi.visible = 's'
                         AND fecha_egreso BETWEEN '{$FechaInicio}' AND '{$FechaFinal}' GROUP BY em.id_empleado ORDER BY em.id_empleado")->fetch();
 
     $Conseguido=$db->query("SELECT IFNULL(SUM(ed.precio*(ed.cantidad/(IF(asi.cantidad_unidad is null,1,asi.cantidad_unidad)))),0)AS total
@@ -28,7 +28,7 @@ $moneda = ($moneda) ? '(' . $moneda['sigla'] . ')' : '';
                             LEFT JOIN inv_asignaciones asi ON asi.producto_id = ed.producto_id AND asi.unidad_id = ed.unidad_id AND asi.visible = 's'
                             LEFT JOIN inv_egresos AS e ON e.id_egreso=ed.egreso_id
                             LEFT JOIN inv_productos AS p ON ed.producto_id=p.id_producto
-                            WHERE p.categoria_id='{$IdCategoria}'  AND e.anulado = 0 AND e.estadoe != 0
+                            WHERE p.categoria_id='{$IdCategoria}'  AND e.anulado = 0 AND e.estadoe != 0 AND asi.visible = 's'
                             AND e.fecha_egreso BETWEEN '{$Consulta['fecha_inicio']}' AND '{$Consulta['fecha_fin']}'")->fetch_first();
     $Conseguido = ($Conseguido['total']) ? $Conseguido['total'] : 0 ;
     require_once show_template('header-advanced');

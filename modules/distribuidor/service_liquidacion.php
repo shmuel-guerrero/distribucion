@@ -80,7 +80,7 @@ $detalles = $db->query("SELECT e.id_egreso,
                         FROM inv_egresos_detalles_editar_previo edep 
                         LEFT JOIN inv_asignaciones a ON a.producto_id = edep.producto_id AND a.unidad_id = edep.unidad_id  AND a.visible = 's'
                         LEFT JOIN inv_unidades u ON u.id_unidad = edep.unidad_id
-                        WHERE edep.empleado_id_accion = '{$distribuidor}' AND edep.producto_id IN ({$egresos_mov['id_productos']}) AND edep.egreso_id IN ({$egresos_mov['id_egresos']})
+                        WHERE edep.empleado_id_accion = '{$distribuidor}' AND edep.producto_id IN ({$egresos_mov['id_productos']}) AND edep.egreso_id IN ({$egresos_mov['id_egresos']}) AND a.visible = 's'
                         GROUP BY edep.producto_id, edep.egreso_id) A ON A.egreso_id = e.id_egreso AND A.producto_id = edi.producto_id
 
                         -- DEVUELTOS POSTERIORMENTE
@@ -94,7 +94,7 @@ $detalles = $db->query("SELECT e.id_egreso,
                         FROM inv_egresos_detalles_editar_post edepo
                         LEFT JOIN inv_asignaciones a ON a.producto_id = edepo.producto_id AND a.unidad_id = edepo.unidad_id  AND a.visible = 's'
                         LEFT JOIN inv_unidades u ON u.id_unidad = edepo.unidad_id
-                        WHERE edepo.empleado_id_accion = '{$distribuidor}' AND edepo.producto_id IN ({$egresos_mov['id_productos']}) AND edepo.egreso_id IN ({$egresos_mov['id_egresos']})
+                        WHERE edepo.empleado_id_accion = '{$distribuidor}' AND edepo.producto_id IN ({$egresos_mov['id_productos']}) AND edepo.egreso_id IN ({$egresos_mov['id_egresos']}) AND a.visible = 's'
                         GROUP BY edepo.producto_id, edepo.egreso_id) B ON B.egreso_id = e.id_egreso AND B.producto_id = edi.producto_id
 
 
@@ -109,7 +109,7 @@ $detalles = $db->query("SELECT e.id_egreso,
                         FROM inv_egresos_detalles_eliminar_previo elpre
                         LEFT JOIN inv_asignaciones a ON a.producto_id = elpre.producto_id AND a.unidad_id = elpre.unidad_id  AND a.visible = 's'
                         LEFT JOIN inv_unidades u ON u.id_unidad = elpre.unidad_id
-                        WHERE elpre.empleado_id_accion = '{$distribuidor}' AND elpre.producto_id IN ({$egresos_mov['id_productos']}) AND elpre.egreso_id IN ({$egresos_mov['id_egresos']})
+                        WHERE elpre.empleado_id_accion = '{$distribuidor}' AND elpre.producto_id IN ({$egresos_mov['id_productos']}) AND elpre.egreso_id IN ({$egresos_mov['id_egresos']}) AND a.visible = 's'
                         GROUP BY elpre.producto_id, elpre.egreso_id) C ON C.egreso_id = e.id_egreso AND C.producto_id = edi.producto_id
 
                         -- DEVUELTOS POSTERIORMENTE
@@ -123,7 +123,7 @@ $detalles = $db->query("SELECT e.id_egreso,
                         FROM inv_egresos_detalles_eliminar_post elpost
                         LEFT JOIN inv_asignaciones a ON a.producto_id = elpost.producto_id AND a.unidad_id = elpost.unidad_id  AND a.visible = 's'
                         LEFT JOIN inv_unidades u ON u.id_unidad = elpost.unidad_id
-                        WHERE elpost.empleado_id_accion = '{$distribuidor}' AND elpost.producto_id IN ({$egresos_mov['id_productos']}) AND elpost.egreso_id IN ({$egresos_mov['id_egresos']})
+                        WHERE elpost.empleado_id_accion = '{$distribuidor}' AND elpost.producto_id IN ({$egresos_mov['id_productos']}) AND elpost.egreso_id IN ({$egresos_mov['id_egresos']}) AND a.visible = 's'
                         GROUP BY elpost.producto_id, elpost.egreso_id) D ON D.egreso_id = e.id_egreso AND D.producto_id = edi.producto_id
 
 
@@ -138,7 +138,7 @@ $detalles = $db->query("SELECT e.id_egreso,
                         FROM inv_egresos_detalles_anular eda
                         LEFT JOIN inv_asignaciones a ON a.producto_id = eda.producto_id AND a.unidad_id = eda.unidad_id  AND a.visible = 's'
                         LEFT JOIN inv_unidades u ON u.id_unidad = eda.unidad_id
-                        WHERE eda.empleado_id_accion = '{$distribuidor}' AND eda.producto_id IN ({$egresos_mov['id_productos']}) AND eda.egreso_id IN ({$egresos_mov['id_egresos']})
+                        WHERE eda.empleado_id_accion = '{$distribuidor}' AND eda.producto_id IN ({$egresos_mov['id_productos']}) AND eda.egreso_id IN ({$egresos_mov['id_egresos']}) AND a.visible = 's'
                         GROUP BY eda.producto_id, eda.egreso_id)  E ON E.egreso_id = e.id_egreso AND E.producto_id = edi.producto_id
 
                         -- no entregas
@@ -152,10 +152,10 @@ $detalles = $db->query("SELECT e.id_egreso,
                         FROM inv_egresos_detalles_noentregas edne
                         LEFT JOIN inv_asignaciones a ON a.producto_id = edne.producto_id AND a.unidad_id = edne.unidad_id  AND a.visible = 's'
                         LEFT JOIN inv_unidades u ON u.id_unidad = edne.unidad_id
-                        WHERE edne.empleado_id_accion = '{$distribuidor}' AND edne.producto_id IN ({$egresos_mov['id_productos']}) AND edne.egreso_id IN ({$egresos_mov['id_egresos']})
+                        WHERE edne.empleado_id_accion = '{$distribuidor}' AND edne.producto_id IN ({$egresos_mov['id_productos']}) AND edne.egreso_id IN ({$egresos_mov['id_egresos']}) AND a.visible = 's'
                         GROUP BY edne.producto_id, edne.egreso_id) F ON F.egreso_id = e.id_egreso AND F.producto_id = edi.producto_id
 
-                        WHERE edi.egreso_id IS NOT NULL 
+                        WHERE edi.egreso_id IS NOT NULL  AND a.visible = 's'
                         GROUP BY e.id_egreso, edi.producto_id")->fetch();
 
 
@@ -353,7 +353,7 @@ $ventas_directas = $db->query('SELECT te.id_egreso,
                 LEFT JOIN inv_unidades u ON u.id_unidad = edi.unidad_id
                 LEFT JOIN inv_categorias c ON c.id_categoria = p.categoria_id      
 
-                WHERE edi.egreso_id IS NOT NULL AND 
+                WHERE edi.egreso_id IS NOT NULL AND a.visible = "s" AND 
                 te.estado = 2 AND te.distribuidor_id = ' . $distribuidor . ' AND te.distribuidor_estado IN ("VENTA") AND edi.promocion_id != 1
                 GROUP BY edi.producto_id')->fetch(); 
 

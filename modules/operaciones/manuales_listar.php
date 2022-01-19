@@ -45,7 +45,7 @@ $permisos = explode(',', permits);
 
 // Almacena los permisos en variables
 $permiso_ver = in_array('manuales_ver', $permisos);
-$permiso_eliminar = false;//in_array('manuales_eliminar', $permisos);
+$permiso_eliminar = in_array('manuales_eliminar', $permisos);
 $permiso_anular = in_array('activar_manuales', $permisos);
 $permiso_cambiar = true;
 $permiso_editar = in_array('manuales_editar', $permisos);
@@ -255,7 +255,7 @@ $(function () {
 			final_fecha = (final_fecha != '') ? ('/' + final_fecha ) : '';
 			inicial_fecha = (inicial_fecha != '') ? ('/' + inicial_fecha) : ((final_fecha != '') ? ('/' + vacio) : ''); 
 			
-			window.location = '?/operaciones/listar_manuales' + inicial_fecha + final_fecha;
+			window.location = '?/operaciones/manuales_listar' + inicial_fecha + final_fecha;
 		}
 	});
 

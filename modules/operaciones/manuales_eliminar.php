@@ -1,11 +1,5 @@
 <?php
 
-/**
- * SimplePHP - Simple Framework PHP
- * 
- * @package  SimplePHP
- * @author   Wilfredo Nina <wilnicho@hotmail.com>
- */
 
 // Obtiene el id_proforma
 $id_proforma = (isset($params[0])) ? $params[0] : 0;
@@ -17,6 +11,10 @@ $venta = $db->from('inv_egresos')
 
 // Verifica si el proforma existe
 if ($venta) {
+
+	//se guarda una copia de la factura original
+	$verifica_id = backup_registros($db, 'inv_egresos', 'id_egreso', $id_proforma, '', '', $_user['persona_id'], 'SI', 0, "Eliminado");
+
 	// Elimina el proforma
 	$db->delete()->from('inv_egresos')->where('id_egreso', $id_proforma)->limit(1)->execute();
 	
@@ -61,7 +59,11 @@ if ($venta) {
 		endfor;
 	endforeach;
 	/////////////////////////////////////////////////////////////////////
-	// Elimina los detalles
+
+	//se guarda una copia del detalle de la factura original
+	$verifica = backup_registros($db, 'inv_egresos_detalles', 'egreso_id', $id_proforma, '', '', $_user['persona_id'], 'NO', $verifica_id, "Eliminado");
+
+
 	// Elimina los detalles
 	$db->delete()->from('inv_egresos_detalles')->where('egreso_id', $id_proforma)->execute();
 	
@@ -88,7 +90,7 @@ if ($venta) {
 	}
 
 	// Redirecciona a la pagina principal
-	redirect('?/operaciones/listar_manuales');
+	redirect('?/operaciones/manuales_listar');
 } else {
 	// Error 404
 	require_once not_found();

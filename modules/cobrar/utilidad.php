@@ -77,7 +77,7 @@ function Utilidad($db){
 				$query.=" LEFT JOIN inv_asignaciones a ON a.producto_id = vd.producto_id AND a.unidad_id = vd.unidad_id  AND a.visible = 's'";
 				$query.=" LEFT JOIN inv_unidades u ON u.id_unidad=vd.unidad_id ";
 
-				$query.=" WHERE v.fecha_egreso = '".$vFecha['fecha_egreso']."'";
+				$query.=" WHERE v.fecha_egreso = '".$vFecha['fecha_egreso']."' AND a.visible = 's' ";
 				$query.=" GROUP BY p.id_producto ";
 				$ventas = $db->query($query)->fetch();
 
@@ -96,7 +96,7 @@ function Utilidad($db){
 					$query.=" LEFT JOIN inv_asignaciones a ON a.producto_id = vd.producto_id AND a.unidad_id = vd.unidad_id  AND a.visible = 's'";
 					$query.=" LEFT JOIN inv_unidades u ON u.id_unidad=vd.unidad_id ";
 
-					$query.=" WHERE vd.producto_id='".$venta['id_producto']."' AND v.fecha_egreso < '".$vFecha['fecha_egreso']."' ";
+					$query.=" WHERE vd.producto_id='".$venta['id_producto']."' AND v.fecha_egreso < '".$vFecha['fecha_egreso']."' AND a.visible = 's' ";
 					$vAntiguos = $db->query($query)->fetch();
 					foreach ($vAntiguos as $nro2 => $vAntiguo) { 
 						$cantidadAnterior = $vAntiguo['cantidadAnterior'];			

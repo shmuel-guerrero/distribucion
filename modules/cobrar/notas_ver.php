@@ -33,7 +33,7 @@ $detalles = $db->query("SELECT d.*, p.codigo, p.nombre, p.nombre_factura, u.unid
 								LEFT JOIN inv_categorias c ON c.id_categoria = p.categoria_id
 								LEFT JOIN inv_asignaciones a ON a.producto_id = d.producto_id AND a.unidad_id = d.unidad_id  AND a.visible = 's'
 								LEFT JOIN inv_unidades u ON u.id_unidad = d.unidad_id
-								WHERE d.egreso_id = $id_venta 
+								WHERE d.egreso_id = $id_venta AND a.visible = 's'
 								ORDER BY codigo asc")->fetch();
 
 // echo json_encode($detalles); die();

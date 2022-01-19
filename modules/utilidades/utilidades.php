@@ -40,7 +40,7 @@ $query = "SELECT vd.*, p.codigo as codprod, p.nombre, p.promocion, u.unidad, SUM
 		LEFT JOIN inv_asignaciones a ON a.producto_id = vd.producto_id AND a.unidad_id = vd.unidad_id  AND a.visible = 's' 
 		LEFT JOIN inv_unidades u ON u.id_unidad = vd.unidad_id
 		LEFT JOIN inv_categorias c ON p.categoria_id = c.id_categoria
-		WHERE v.fecha_egreso between '$fecha_inicial' and '$fecha_final' AND v.tipo='Venta' and v.anulado != 3
+		WHERE v.fecha_egreso between '$fecha_inicial' and '$fecha_final' AND v.tipo='Venta' and v.anulado != 3 AND a.visible = 's' 
 		GROUP BY p.id_producto, u.id_unidad";
 $ventas = $db->query($query)->fetch();
 

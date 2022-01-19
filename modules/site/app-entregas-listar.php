@@ -71,7 +71,8 @@ if (is_post()) {
                     ->join('inv_asignaciones asig', 'asig.producto_id = a.producto_id AND asig.unidad_id = a.unidad_id AND asig.visible = "s"')
                     ->join('inv_productos b','a.producto_id = b.id_producto')
                     ->join('inv_unidades c','a.unidad_id = c.id_unidad')
-                    ->where('a.egreso_id',$egreso['id_egreso'])->fetch();
+                    ->where('a.egreso_id',$egreso['id_egreso'])
+                    ->where('asig.visible', 's')->fetch();
                     
                     $egresos[$nro5]['detalles'] = $detalles;
                     $egresos[$nro5]['cobro'] = 111;

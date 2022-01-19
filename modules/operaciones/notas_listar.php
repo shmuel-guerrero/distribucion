@@ -181,10 +181,10 @@ $permiso_cambiar = true;
 								<?php } ?>
 							<?php if ($venta['anulado'] != 3) { ?>
     								<?php if ($permiso_eliminar) { ?>
-    									<!-- <a href="?/operaciones/notas_eliminar/<?= $venta['id_egreso']; ?>" data-toggle="tooltip" data-title="Eliminar nota de remisión" data-eliminar="true"><span class="glyphicon glyphicon-trash"></span></a> -->
+    									<a href="?/operaciones/notas_eliminar/<?= $venta['id_egreso']; ?>" data-toggle="tooltip" data-title="Eliminar nota de remisión" data-eliminar="true"><span class="glyphicon glyphicon-trash"></span></a>
     								<?php } ?>
-    							<!-- <?php 
-                				    if ($permiso_activar_factura){
+    							 <?php 
+                				    if ($permiso_activar_factura && $venta['estadoe'] > 0){
                                             if ($venta['anulado'] == 1){ ?>
                                                 <a href='?/operaciones/activar_nota/<?= $venta['id_egreso']; ?>' class='text-info' data-toggle='tooltip' data-title='Confirmar anulacion' data-activar-producto='true'><i class='glyphicon glyphicon-check'></i></a>
                                     <?php   } if($venta['anulado'] == 2) { ?>
@@ -193,7 +193,7 @@ $permiso_cambiar = true;
                                                 <a href='?/operaciones/activar_nota/<?= $venta['id_egreso']; ?>' class='text-danger' data-toggle='tooltip' data-title='Anular factura' data-activar-producto='true'><i class='glyphicon glyphicon-unchecked'></i></a>
                                     <?php   } ;
                                     };
-                                    if($permiso_devolucion): ?> -->
+                                    if($permiso_devolucion): ?> 
                                         <!-- <a href='?/operaciones/notas_devolucion/<?= $venta['id_egreso']; ?>' data-toggle='tooltip' data-title='devolución'><span class='glyphicon glyphicon-transfer'></span></a>
     									<a onclick="convertir_facturar(<?= $venta['id_egreso']; ?>)" data-toggle='tooltip' data-title='Convertir de Nota a Electronica'><span class='glyphicon glyphicon-refresh'></span></a> -->
     									<!-- <a href='?/operaciones/nota_electronica/<?= $venta['id_egreso']; ?>' data-toggle='tooltip' data-title='Convertir de Nota a Electronica'><span class='glyphicon glyphicon-refresh'></span></a> -->

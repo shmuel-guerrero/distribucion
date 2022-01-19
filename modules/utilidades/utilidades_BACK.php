@@ -29,7 +29,7 @@ $query = "SELECT *, SUM(cantidad)AS cantidadAcumul, SUM(precio*cantidad/IF(a.can
             INNER JOIN inv_egresos v ON vd.egreso_id=v.id_egreso
             LEFT JOIN inv_asignaciones a ON a.producto_id = vd.producto_id AND a.unidad_id = vd.unidad_id  AND a.visible = 's' 
             LEFT JOIN inv_unidades u ON u.id_unidad = vd.unidad_id
-            WHERE v.fecha_egreso between '$fecha_inicial' and '$fecha_final' AND v.tipo='Venta' and v.anulado != 1
+            WHERE v.fecha_egreso between '$fecha_inicial' and '$fecha_final' AND v.tipo='Venta' and v.anulado != 1 AND a.visible = 's' 
             GROUP BY p.id_producto";
 $ventas = $db->query($query)->fetch();
 
@@ -152,7 +152,7 @@ $utilidadTotalAcumulado = 0;
 					$query .= " INNER JOIN inv_egresos v ON (egreso_id=id_egreso) ";
 					$query .= " LEFT JOIN inv_asignaciones a ON a.producto_id = vd.producto_id AND a.unidad_id = vd.unidad_id   AND a.visible = 's' ";
 					$query .= " LEFT JOIN inv_unidades u ON u.id_unidad=vd.unidad_id ";
-					$query .= " WHERE vd.producto_id='" . $venta['id_producto'] . "' AND v.fecha_egreso < '$fecha_inicial' AND v.anulado != 1";
+					$query .= " WHERE vd.producto_id='" . $venta['id_producto'] . "' AND v.fecha_egreso < '$fecha_inicial' AND v.anulado != 1 AND a.visible = 's'  ";
 
 					$vAntiguos = $db->query($query)->fetch();
 					foreach ($vAntiguos as $nro2 => $vAntiguo) {

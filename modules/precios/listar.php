@@ -8,7 +8,7 @@ $moneda = $db->from('inv_monedas')->where('oficial', 'S')->fetch_first();
 $moneda = ($moneda) ? '(' . $moneda['sigla'] . ')' : '';
 
 //otros precios
-$otro = $db->select('*')->from('inv_asignaciones')->fetch();
+$otro = $db->select('*')->from('inv_asignaciones')->where('visible', 's')->fetch();
 
 // Obtiene el modelo unidades
 $unidades = $db->from('inv_unidades')->order_by('unidad')->fetch();

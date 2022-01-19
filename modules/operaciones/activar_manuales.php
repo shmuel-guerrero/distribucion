@@ -30,7 +30,7 @@ if ($venta) {
 	$db->where($condicion)->update('inv_egresos', $dato);
 
 	// Redirecciona a la pagina principal
-	redirect('?/operaciones/listar_manuales');
+	redirect('?/operaciones/manuales_listar');
 } else {
 	// Error 404
 	require_once not_found();

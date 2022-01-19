@@ -123,7 +123,7 @@ if (is_post()) {
                                         LEFT JOIN tmp_egresos_detalles b ON a.id_tmp_egreso = b.tmp_egreso_id
                                         LEFT JOIN inv_asignaciones asg ON asg.producto_id = b.producto_id  AND asg.visible = 's'
                                         WHERE a.estadoe = 0 AND a.distribuidor_id = '{$usuario['id_empleado']}' 
-                                        AND b.producto_id = '{$detalle['id_producto']}' AND a.distribuidor_estado = 'VENTA'")->fetch_first()['suma'];
+                                        AND b.producto_id = '{$detalle['id_producto']}' AND a.distribuidor_estado = 'VENTA'  AND asg.visible = 's'")->fetch_first()['suma'];
                     
                     // Verifica elemento 
                     $sum = ($venta_directa > 0) ? round($venta_directa, 2) : 0;

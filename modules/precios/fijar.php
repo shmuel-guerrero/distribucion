@@ -15,7 +15,7 @@ if (is_post()) {
 		$id_asignacion = (isset($params[0])) ? $params[0] : 0;
 
 		// Obtiene la asignacion
-		$asignacion = $db->from('inv_asignaciones')->where('id_asignacion', $id_asignacion)->fetch_first();
+		$asignacion = $db->from('inv_asignaciones')->where('id_asignacion', $id_asignacion)->where('visible', 's')->fetch_first();
 
 		// Verifica si existen los productos
 		if ($asignacion) {

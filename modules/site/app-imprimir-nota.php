@@ -501,6 +501,9 @@ if (is_post()) {
         $id_egreso = $_POST['id_egreso'];
         $id_user = $_POST['id_user'];
         $fecha = date('Y-m-d');
+
+        $id_empleado = $db->query("SELECT * FROM sys_users u WHERE u.id_user = '{$id_user}'")->fetch_first();
+
         $venta = $db->select('*')->from('tmp_egresos a')->where('a.cliente_id', $id_cliente)->where('a.id_egreso', $id_egreso)->where(array('a.estado' => 3, 'a.distribuidor_estado' => 'ENTREGA'))->fetch_first();
         // para montos totales con las ediciones correspondientes
         $venta_inv = $db->select('*')->from('inv_egresos a')->where('a.cliente_id', $id_cliente)->where('a.id_egreso', $id_egreso)->where('a.estadoe', 3)->fetch_first();
@@ -517,7 +520,7 @@ if (is_post()) {
         }
         $empleado = $db->select("CONCAT(paterno, ' ', nombres) as empleado")->from('sys_empleados')->where('id_empleado',$venta['empleado_id'])->fetch_first();
         $empleado = ($empleado['empleado']) ? $empleado['empleado'] : '';
-        $productos = $db->select('a.descuento, a.producto_id, a.promocion_id, b.nombre_factura, b.codigo, if(c.cantidad_unidad is null, a.cantidad, a.cantidad/c.cantidad_unidad) as cantidad, a.precio, if(c.cantidad_unidad is null, a.precio*a.cantidad, a.precio*(a.cantidad/c.cantidad_unidad)) as subtotal, d.unidad')->from('inv_egresos_detalles a')->join('inv_productos b', 'a.producto_id = b.id_producto')->join('inv_asignaciones c', 'a.producto_id = c.producto_id AND a.unidad_id = c.unidad_id  AND c.visible = "s"')->join('inv_unidades d', 'a.unidad_id = d.id_unidad')->where('a.egreso_id', $venta['id_egreso'])->where('a.promocion_id !=','1')->fetch();
+        $productos = $db->select('a.descuento, a.producto_id, a.promocion_id, b.nombre_factura, b.codigo, if(c.cantidad_unidad is null, a.cantidad, a.cantidad/c.cantidad_unidad) as cantidad, a.precio, if(c.cantidad_unidad is null, a.precio*a.cantidad, a.precio*(a.cantidad/c.cantidad_unidad)) as subtotal, d.unidad')->from('inv_egresos_detalles a')->join('inv_productos b', 'a.producto_id = b.id_producto')->join('inv_asignaciones c', 'a.producto_id = c.producto_id AND a.unidad_id = c.unidad_id  AND c.visible = "s"')->join('inv_unidades d', 'a.unidad_id = d.id_unidad')->where('a.egreso_id', $venta['id_egreso'])->where('c.visible', 's')->where('a.promocion_id !=','1')->fetch();
 
         // echo json_encode($productos); die();
         // $precios = $db->select('if(b.cantidad_unidad is null, a.precio*a.cantidad, a.precio*(a.cantidad/b.cantidad_unidad)) as precio')->from('inv_egresos_detalles a')->join('inv_asignaciones b','a.producto_id = b.producto_id and a.unidad_id = b.unidad_id')->join('inv_unidades c','a.unidad_id = c.id_unidad')->where('a.egreso_id',$venta['id_egreso'])->fetch();
@@ -637,32 +640,13 @@ if (is_post()) {
             $id_v = $venta['id_egreso'];
             $venta2 = $db->query("SELECT * FROM inv_egresos WHERE id_egreso = '$id_v'")->fetch_first();
             
-            // if ($venta['nro_autorizacion'] != '') {
-            //     $nro_factura = $venta2['nro_factura'];    
-            // }
-            
-            // //almacen
             $id_almacen = $venta['almacen_id'];
-
-            // // Obtiene la fecha de hoy
+            //Obtiene la fecha de hoy
             $hoy = date('Y-m-d');
 
-            // // Obtiene la dosificacion del periodo actual
+            //Obtiene la dosificacion del periodo actual
             $dosificacion = $db->from('inv_dosificaciones')->where('fecha_registro <=', $hoy)->where('fecha_limite >=', $hoy)->where('activo', 'S')->fetch_first();
-            
-            // $titulo = ' F A C T U R A';
-            // $nro_factura = $venta['nro_factura'];
-            // //almacen
-            // $id_almacen = $venta['almacen_id'];
 
-            // // Obtiene la fecha de hoy
-            // $hoy = date('Y-m-d');
-
-            // // Obtiene la dosificacion del periodo actual
-            // $dosificacion = $db->from('inv_dosificaciones')->where('fecha_registro <=', $hoy)->where('fecha_limite >=', $hoy)->where('activo', 'S')->fetch_first();
-            // $id_v = $venta['id_egreso'];
-            // $venta2 = $db->query("SELECT * FROM inv_egresos WHERE id_egreso = '$id_v'")->fetch_first();
-            // $venta2T = $venta2['monto_total'];
             $venta2T = round($venta2['monto_total'], 0, PHP_ROUND_HALF_UP);
 
             //se verifica la existencia de dosificacion
@@ -682,9 +666,13 @@ if (is_post()) {
                     // $nro_factura = 'Nro DE FACT.: ' . $venta2['nro_factura'];
                     $nro_factura = 'Nº DE FACTURA: ' . $nro_factura;
                     
-                    //se crea backup de registros//////
+                    //se crea backup de registros
                     $verifica_id = backup_registros($db, 'inv_egresos', 'id_egreso', $venta['id_egreso'], '', '', $id_user, 'SI', 0, "Editado");                    
                     $db->where('id_egreso', $venta['id_egreso'])->update('inv_egresos', array('factura'=>'Factura'));
+                    //se crea backup de registros
+                    $verifica = backup_registros($db, 'inv_egresos_detalles', 'egreso_id', $venta['id_egreso'], '', '', $id_user, 'NO', $verifica_id, "Backup"); 
+
+                    historial_conversion($db, $id_egreso, 'Electronicas', $id_egreso, 'Electronicas', $id_empleado, "ConversionDirecta", $verifica_id, 'sinDatos');
 
                     //se guarda proceso u(update),c(create), r(read),d(delet)
                     save_process($db, 'u', '?/site/app-imprimir-nota', 'modifico', $venta['id_egreso'], $id_user);
@@ -692,6 +680,9 @@ if (is_post()) {
                     //se crea backup de registros//////
                     $verifica_id2 = backup_registros($db, 'tmp_egresos', 'id_egreso', $venta['id_egreso'], 'distribuidor_estado', 'ENTREGA', $id_user, 'SI', 0, "Editado");
                     $db->where('id_egreso', $venta['id_egreso'])->where('distribuidor_estado', 'ENTREGA')->update('tmp_egresos', array('factura'=>'Factura'));
+                    
+                    //se crea backup de registros
+                    $verifica = backup_registros($db, 'tmp_egresos_detalles', 'egreso_id', $venta['id_egreso'], '', '', $id_user, 'NO', $verifica_id2, "Backup"); 
 
                     //se guarda proceso u(update),c(create), r(read),d(delet)
                     save_process($db, 'u', '?/site/app-imprimir-nota', 'modifico', $venta['id_egreso'], $id_user);
@@ -726,6 +717,12 @@ if (is_post()) {
                     //se crea backup de registros//////
                     $verifica_id = backup_registros($db, 'inv_egresos', 'id_egreso', $venta['id_egreso'], '', '', $id_user, 'SI', 0, "Editado");  
                     $db->where('id_egreso', $venta['id_egreso'])->update('inv_egresos', $datos_venta);
+
+                    //se crea backup de registros
+                    $verifica = backup_registros($db, 'inv_egresos_detalles', 'egreso_id', $venta['id_egreso'], '', '', $id_user, 'NO', $verifica_id, "Backup"); 
+
+                    historial_conversion($db, $id_egreso, 'Preventa', $id_egreso, 'Electronicas', $id_empleado, "ConversionDirecta", $verifica_id, 'sinDatos');
+                    
 
                     //se guarda proceso u(update),c(create), r(read),d(delet)
                     save_process($db, 'u', '?/site/app-imprimir-nota', 'modifico', $venta['id_egreso'], $id_user);
@@ -765,9 +762,17 @@ if (is_post()) {
             $verifica_id = backup_registros($db, 'inv_egresos', 'id_egreso', $venta['id_egreso'], '', '', $id_user, 'SI', 0, "Editado");
             $db->where('id_egreso', $venta['id_egreso'])->update('inv_egresos', array('factura'=>'Nota'));
 
+            //se crea backup de registros
+            $verifica = backup_registros($db, 'inv_egresos_detalles', 'egreso_id', $venta['id_egreso'], '', '', $id_user, 'NO', $verifica_id, "Backup"); 
+
+            historial_conversion($db, $id_egreso, 'Preventa', $id_egreso, 'NotaRemision', $id_empleado, "ConversionDirecta", $verifica_id, 'sinDatos');
+
             //se crea backup de registros//////
-            $verifica_id = backup_registros($db, 'tmp_egresos', 'id_egreso', $venta['id_egreso'], 'distribuidor_estado', 'ENTREGA', $id_user, 'SI', 0, "Editado");
+            $verifica_id2 = backup_registros($db, 'tmp_egresos', 'id_egreso', $venta['id_egreso'], 'distribuidor_estado', 'ENTREGA', $id_user, 'SI', 0, "Editado");
             $db->where('id_egreso', $venta['id_egreso'])->where('distribuidor_estado', 'ENTREGA')->update('tmp_egresos', array('factura'=>'Nota'));
+
+            //se crea backup de registros
+            $verifica = backup_registros($db, 'tmp_egresos_detalles', 'egreso_id', $venta['id_egreso'], '', '', $id_user, 'NO', $verifica_id2, "Backup"); 
 
             //se guarda proceso u(update),c(create), r(read),d(delet)
             save_process($db, 'u', '?/site/app-imprimir-nota', 'modifico', $venta['id_egreso'], $id_user);

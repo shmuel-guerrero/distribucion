@@ -53,7 +53,7 @@ if (true) {
                                                     GROUP_CONCAT(w.cantidad_unidad SEPARATOR '*') AS cantidad2
                                 FROM (SELECT *
                                 FROM inv_asignaciones q
-                                LEFT JOIN inv_unidades u ON q.unidad_id = u.id_unidad AND q.visible = 's'
+                                LEFT JOIN inv_unidades u ON q.unidad_id = u.id_unidad AND q.visible = 's'  WHERE q.visible = 's'
                                 ORDER BY u.unidad DESC) w GROUP BY w.producto_id ) z ON p.id_producto = z.producto_id
                                 WHERE p.eliminado = 0 ")->fetch();
 

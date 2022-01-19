@@ -47,6 +47,7 @@ if ($id_egreso == 0) {
 				   ->join('inv_asignaciones asi','asi.producto_id = d.producto_id AND asi.unidad_id = d.unidad_id AND asi.visible = "s"')
 				   ->join('inv_unidades u','u.id_unidad = d.unidad_id')
 				   ->where('d.egreso_id', $id_egreso)
+				   ->where('asi.visible', 's')
 				   ->order_by('id_detalle asc')
 				   ->fetch();
 }
