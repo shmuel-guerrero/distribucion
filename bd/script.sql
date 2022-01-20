@@ -47,3 +47,39 @@ ALTER TABLE `backup_inv_pagos_detalles`
 
 --->>>>> Ejecutar acrchivo:::::::       update/tabla_device.sql  
 
+ALTER TABLE backup_inv_egresos MODIFY COLUMN nro_factura VARCHAR(20);
+ALTER TABLE backup_tmp_egresos MODIFY COLUMN nro_factura VARCHAR(20);
+ALTER TABLE inv_egresos MODIFY COLUMN nro_factura VARCHAR(20);
+
+ALTER TABLE inv_egresos_anular MODIFY COLUMN nro_factura VARCHAR(20);
+ALTER TABLE inv_egresos_editar_post MODIFY COLUMN nro_factura VARCHAR(20);
+ALTER TABLE inv_egresos_editar_previo MODIFY COLUMN nro_factura VARCHAR(20);
+ALTER TABLE inv_egresos_eliminar_post MODIFY COLUMN nro_factura VARCHAR(20);
+ALTER TABLE inv_egresos_eliminar_previo MODIFY COLUMN nro_factura VARCHAR(20);
+ALTER TABLE inv_egresos_entregas MODIFY COLUMN nro_factura VARCHAR(20);
+ALTER TABLE inv_egresos_inicio MODIFY COLUMN nro_factura VARCHAR(20);
+ALTER TABLE inv_egresos_noentregas MODIFY COLUMN nro_factura VARCHAR(20);
+ALTER TABLE inv_egresos_noventas MODIFY COLUMN nro_factura VARCHAR(20);
+ALTER TABLE inv_egresos_ventas_editadas MODIFY COLUMN nro_factura VARCHAR(20);
+ALTER TABLE tmp_egresos MODIFY COLUMN nro_factura VARCHAR(20);
+ALTER TABLE tmp_reposiciones MODIFY COLUMN nro_factura VARCHAR(20);
+
+
+-- se AGREGA el campo tipo
+
+ALTER TABLE backup_inv_egresos ADD COLUMN tipo_venta ENUM('Preventa','Nota','Manual','Electronica','otros')  NOT NULL DEFAULT 'otros' AFTER 'tipo';
+ALTER TABLE backup_tmp_egresos ADD COLUMN tipo_venta ENUM('Preventa','Nota','Manual','Electronica','otros')  NOT NULL DEFAULT 'otros' AFTER 'tipo';
+ALTER TABLE inv_egresos ADD COLUMN tipo_venta ENUM('Preventa','Nota','Manual','Electronica','otros')  NOT NULL DEFAULT 'otros' AFTER 'tipo';
+ALTER TABLE inv_egresos_anular ADD COLUMN tipo_venta ENUM('Preventa','Nota','Manual','Electronica','otros')  NOT NULL DEFAULT 'otros' AFTER 'tipo';
+ALTER TABLE inv_egresos_editar_post ADD COLUMN tipo_venta ENUM('Preventa','Nota','Manual','Electronica','otros')  NOT NULL DEFAULT 'otros' AFTER 'tipo';
+ALTER TABLE inv_egresos_editar_previo ADD COLUMN tipo_venta ENUM('Preventa','Nota','Manual','Electronica','otros')  NOT NULL DEFAULT 'otros' AFTER 'tipo';
+ALTER TABLE inv_egresos_eliminar_post ADD COLUMN tipo_venta ENUM('Preventa','Nota','Manual','Electronica','otros')  NOT NULL DEFAULT 'otros' AFTER 'tipo';
+ALTER TABLE inv_egresos_eliminar_previo ADD COLUMN tipo_venta ENUM('Preventa','Nota','Manual','Electronica','otros')  NOT NULL DEFAULT 'otros' AFTER 'tipo';
+ALTER TABLE inv_egresos_entregas ADD COLUMN tipo_venta ENUM('Preventa','Nota','Manual','Electronica','otros')  NOT NULL DEFAULT 'otros' AFTER 'tipo';
+ALTER TABLE inv_egresos_inicio ADD COLUMN tipo_venta ENUM('Preventa','Nota','Manual','Electronica','otros')  NOT NULL DEFAULT 'otros' AFTER 'tipo';
+ALTER TABLE inv_egresos_noentregas ADD COLUMN tipo_venta ENUM('Preventa','Nota','Manual','Electronica','otros')  NOT NULL DEFAULT 'otros' AFTER 'tipo';
+ALTER TABLE inv_egresos_noventas ADD COLUMN tipo_venta ENUM('Preventa','Nota','Manual','Electronica','otros')  NOT NULL DEFAULT 'otros' AFTER 'tipo';
+ALTER TABLE inv_egresos_ventas_editadas ADD COLUMN tipo_venta ENUM('Preventa','Nota','Manual','Electronica','otros')  NOT NULL DEFAULT 'otros' AFTER 'tipo';
+ALTER TABLE tmp_egresos ADD COLUMN tipo_venta ENUM('Preventa','Nota','Manual','Electronica','otros')  NOT NULL DEFAULT 'otros' AFTER 'tipo';
+ALTER TABLE tmp_reposiciones ADD COLUMN tipo_venta ENUM('Preventa','Nota','Manual','Electronica','otros')  NOT NULL DEFAULT 'otros' AFTER 'tipo';
+

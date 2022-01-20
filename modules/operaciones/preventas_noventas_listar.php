@@ -21,20 +21,15 @@ $fecha_final = (is_date($fecha_final)) ? $fecha_final : $gestion_limite;
 $fecha_final = date_encode($fecha_final);
 
 // Obtiene las ventas
-$ventas = $db->select('i.*, a.almacen, a.principal, e.nombres, e.paterno, e.materno')
+$ventas = $db->select('i.*, a.almacen, a.principal, e.nombres, e.paterno, e.materno, c.cliente')
 	->from('inv_egresos i')
+	->join('inv_clientes c', 'i.cliente_id = c.id_cliente', 'left')
 	->join('inv_almacenes a', 'i.almacen_id = a.id_almacen', 'left')
 	->join('sys_empleados e', 'i.empleado_id = e.id_empleado', 'left')
-	->where('i.tipo', 'Venta')
-	->where('i.nro_autorizacion !=', '')
-	// ->where('i.codigo_control!=', '')
-	// ->where('i.codigo_control', '')
-	//->where('i.nro_autorizacion!=', 0)
-	->where('i.fecha_egreso >= ', $fecha_inicial)
-	->where('i.fecha_egreso <= ', $fecha_final)
-	->order_by('i.fecha_egreso desc, i.hora_egreso desc')->fetch();
+	->where('i.tipo', 'No venta')->where('i.provisionado', 'N')
+    ->where('i.fecha_egreso >= ', $fecha_inicial)->where('i.fecha_egreso <= ', $fecha_final)
+    ->order_by('i.fecha_egreso desc, i.hora_egreso desc')->fetch();
 
-// echo $db->last_query(); die();
 
 // Obtiene la moneda oficial
 $moneda = $db->from('inv_monedas')->where('oficial', 'S')->fetch_first();
@@ -44,11 +39,14 @@ $moneda = ($moneda) ? '(' . $moneda['sigla'] . ')' : '';
 $permisos = explode(',', permits);
 
 // Almacena los permisos en variables
-$permiso_ver = in_array('manuales_ver', $permisos);
-$permiso_eliminar = in_array('manuales_eliminar', $permisos);
-$permiso_anular = in_array('activar_manuales', $permisos);
+$permiso_crear = in_array('notas_crear', $permisos);
+$permiso_ver = in_array('notas_ver', $permisos);
+$permiso_eliminar = in_array('notas_eliminar', $permisos);
+$permiso_imprimir = in_array('notas_imprimir', $permisos);
+$permiso_activar_factura = in_array('activar_nota', $permisos);
+$permiso_anular = in_array('activar_nota', $permisos);
+$permiso_devolucion = in_array('notas_devolucion', $permisos);
 $permiso_cambiar = true;
-$permiso_editar = in_array('manuales_editar', $permisos);
 
 ?>
 <?php require_once show_template('header-advanced'); ?>
@@ -72,17 +70,19 @@ $permiso_editar = in_array('manuales_editar', $permisos);
 <div class="panel-heading" data-formato="<?= strtoupper($formato_textual); ?>" data-mascara="<?= $formato_numeral; ?>" data-gestion="<?= date_decode($gestion_base, $_institution['formato']); ?>">
 	<h3 class="panel-title">
 		<span class="glyphicon glyphicon-option-vertical"></span>
-		<strong>Lista de todas las ventas manuales </strong>
+		<strong>Lista de todas las No Ventas</strong>
 	</h3>
 </div>
 <div class="panel-body">
-	<?php if ($permiso_cambiar) { ?>
+	<?php if ($permiso_cambiar || $permiso_crear) { ?>
 		<div class="row">
 			<div class="col-sm-8 hidden-xs">
-				<div class="text-label">Para cambiar la fecha hacer clic en el siguiente botón: </div>
+				<div class="text-label">Para realizar una acción clic en el siguiente botón: </div>
 			</div>
 			<div class="col-xs-12 col-sm-4 text-right">
-				<button class="btn btn-primary" data-cambiar="true"><i class="glyphicon glyphicon-calendar"></i><span class=""> Cambiar fecha</span></button>
+				<?php if ($permiso_cambiar && false) { ?>
+					<button class="btn btn-default" data-cambiar="true"><i class="glyphicon glyphicon-calendar"></i><span class="hidden-xs"> Cambiar</span></button>
+				<?php } ?>
 			</div>
 		</div>
 		<hr>
@@ -94,17 +94,19 @@ $permiso_editar = in_array('manuales_editar', $permisos);
 					<th class="text-nowrap">#</th>
 					<th class="text-nowrap">Fecha</th>
 					<th class="text-nowrap">Tipo</th>
+					<th class="text-nowrap">Codigo</th>
 					<th class="text-nowrap">Cliente</th>
 					<th class="text-nowrap">NIT/CI</th>
-					<th class="text-nowrap">Nro. Factura</th>
-					<th class="text-nowrap">Importe total <?= escape($moneda); ?></th>
-					<th class="text-nowrap">Nro. Registros</th>
-					<th class="text-nowrap">Almacen</th>
-					<th class="text-nowrap">Empleado</th>
+					<th class="text-nowrap">Tipo</th>
+					<th class="text-nowrap">Registros</th>
 					<th class="text-nowrap">Estado</th>
-					<?php if ($permiso_ver || $permiso_eliminar || $permiso_anular) { ?>
+					<th class="text-nowrap">Empleado</th>
+					<?php if ($permiso_ver || $permiso_eliminar) { ?>
 						<th class="text-nowrap">Opciones</th>
 					<?php } ?>
+					<!--<th class="text-nowrap">-->
+					<!--	<input type="checkbox" class="text-checkbox" data-toggle="tooltip" data-title="Seleccionar producto" data-grupo-seleccionar="true">-->
+					<!--</th>-->
 				</tr>
 			</thead>
 			<tfoot>
@@ -112,17 +114,17 @@ $permiso_editar = in_array('manuales_editar', $permisos);
 					<th class="text-nowrap text-middle" data-datafilter-filter="false">#</th>
 					<th class="text-nowrap text-middle" data-datafilter-filter="true">Fecha</th>
 					<th class="text-nowrap text-middle" data-datafilter-filter="true">Tipo</th>
+					<th class="text-nowrap text-middle" data-datafilter-filter="true">Codigo</th>
 					<th class="text-nowrap text-middle" data-datafilter-filter="true">Cliente</th>
 					<th class="text-nowrap text-middle" data-datafilter-filter="true">NIT/CI</th>
-					<th class="text-nowrap text-middle" data-datafilter-filter="true">Nro. Factura</th>
-					<th class="text-nowrap text-middle" data-datafilter-filter="true">Importe total <?= escape($moneda); ?></th>
-					<th class="text-nowrap text-middle" data-datafilter-filter="true">Nro. Registros</th>
-					<th class="text-nowrap text-middle" data-datafilter-filter="true">Almacen</th>
-					<th class="text-nowrap text-middle" data-datafilter-filter="true">Empleado</th>
+					<th class="text-nowrap text-middle" data-datafilter-filter="true">Tipo</th>
+					<th class="text-nowrap text-middle" data-datafilter-filter="true">Registros</th>
 					<th class="text-nowrap text-middle" data-datafilter-filter="true">Estado</th>
-					<?php if ($permiso_ver || $permiso_eliminar || $permiso_anular) { ?>
+					<th class="text-nowrap text-middle" data-datafilter-filter="true">Empleado</th>
+					<?php if ($permiso_ver || $permiso_eliminar) { ?>
 						<th class="text-nowrap text-middle" data-datafilter-filter="false">Opciones</th>
 					<?php } ?>
+					<!--<th class="text-nowrap" data-datafilter-filter="false"></th>-->
 				</tr>
 			</tfoot>
 			<tbody>
@@ -130,31 +132,41 @@ $permiso_editar = in_array('manuales_editar', $permisos);
 					<tr>
 						<th class="text-nowrap"><?= $nro + 1; ?></th>
 						<td class="text-nowrap"><?= escape(date_decode($venta['fecha_egreso'], $_institution['formato'])); ?> <small class="text-success"><?= escape($venta['hora_egreso']); ?></small></td>
-						<td class="text-nowrap"><?= escape($venta['tipo'] . ' manual'); ?></td>
-						<td class="text-nowrap"><?= escape($venta['nombre_cliente']); ?></td>
-						<td class="text-nowrap"><?= escape($venta['nit_ci']); ?></td>
-						<td class="text-nowrap text-right"><?= escape($venta['nro_factura']); ?></td>
-						<td class="text-nowrap text-right"><?= escape($venta['monto_total']); ?></td>
-						<td class="text-nowrap text-right"><?= escape($venta['nro_registros']); ?></td>
-						<td class="text-nowrap"><?= escape($venta['almacen']); ?></td>
-						<td class="width-md text-uppercase"><?= escape($venta['nombres'] . ' ' . $venta['paterno'] . ' ' . $venta['materno']); ?></td>
-						<?php $estadoAnulado = $venta['anulado'] == 0 ? true : false ?>
-						<td class="text-nowrap text-center  text-uppercase h5 <?= (($venta['anulado'] == 0)? 'text-primary' : 'text-danger') ?>"><?= ($estadoAnulado ? '<span class="text-info">Activo</span>' : '<span class="text-danger">Anulado</span>'); ?></td>
+						<td class="text-nowrap">No Venta</td>
+						<td class="text-nowrap text-right"><?= escape($venta['cliente_id']); ?></td>
 						<td class="text-nowrap">
-							<?php if ($permiso_ver) { ?>
-								<a href="?/operaciones/manuales_ver/<?= $venta['id_egreso']; ?>" data-toggle="tooltip" style="margin-right: 5px" data-title="Ver detalle de venta"><i class="glyphicon glyphicon-list-alt"></i></a>
-							<?php } ?>
-							<?php if ($permiso_editar /* || $venta['fecha_egreso'] == date('Y-m-d') */) { ?>
-								<a href="?/operaciones/manuales_editar/<?= $venta['id_egreso']; ?>" data-toggle="tooltip" style="margin-right: 5px" data-title="Modificar venta"><i class="glyphicon glyphicon-edit"></i></a>
-							<?php } ?>
-							<?php $masUnMesdate = date("Y-m-d", strtotime($venta['fecha_egreso'] . "+ 1 month")); ?>
-							<?php if ($permiso_anular && strtotime(date('Y-m-d')) <= strtotime($masUnMesdate)) { ?>
-								<a href="?/operaciones/activar_manuales/<?= $venta['id_egreso']; ?>" data-toggle="tooltip" style="margin-right: 5px" data-title="<?= $estadoAnulado ? 'Anular' : 'Activar' ?> (puede <?= $estadoAnulado ? 'anular' : 'activar' ?> venta hasta el <?= $masUnMesdate; ?>)."  data-activar-producto='true'><i class="text-<?= $estadoAnulado ? 'info' : 'warning' ?> glyphicon glyphicon-<?= $estadoAnulado ? 'remove-circle' : 'ok-circle' ?>"></i></a>
-							<?php } ?>
-							<?php if ($permiso_eliminar && $venta['anulado'] == 1) { ?>
-								<a href="?/operaciones/manuales_eliminar/<?= $venta['id_egreso']; ?>" data-toggle="tooltip" style="margin-right: 5px" data-title="Eliminar venta" data-eliminar="true"><i class="glyphicon glyphicon-trash text-danger"></i></a>
-							<?php } ?>
+							<b>Cliente: </b><?= ($venta['cliente']) ? $venta['cliente'] : $venta['nombre_cliente']; ?> <br>
+							<span class="text-muted"><b>Razón social: </b><?= escape($venta['nombre_cliente']); ?></span>
 						</td>
+						<td class="text-nowrap"><?= escape($venta['nit_ci']); ?></td>
+						<td class="text-nowrap text-right">
+							<?php if ($venta['estadoe'] != 0 || $venta['estado'] != 0) {
+								echo 'Preventa';
+							} else {
+								echo 'Nota Remisión';
+							} ?></td>
+						<td class="text-nowrap text-right"><?= escape($venta['nro_registros']); ?></td>
+						<td class="text-nowrap text-right text-uppercase h5 <?= (($venta['anulado'] == 0)? 'text-primary' : 'text-danger') ?>">
+							<?php if ($venta['anulado'] == 0) {
+								echo 'Activo';
+							} else {
+								if ($venta['anulado'] == 2) {
+									echo '<span class="text-info" >Anulado de factura</span>';
+								} else {
+									echo 'Anulado';
+								}
+							} ?> </td>
+
+						<td class="width-md text-uppercase"><?= escape($venta['nombres'] . ' ' . $venta['paterno'] . ' ' . $venta['materno']); ?></td>
+						<?php if (true) { ?>
+							<td class="text-nowrap">
+								<?php $estadoAnulado = $venta['anulado'] == 0 ? true : false ?>
+								<?php $masUnMesdate = date("Y-m-d", strtotime($venta['fecha_egreso'] . "+ 1 month")); ?>
+								<?php if ($permiso_eliminar && $venta['tipo'] == 'No venta' && strtotime(date('Y-m-d')) <= strtotime($masUnMesdate)) {	?>
+									<a href="?/operaciones/noventas_eliminar/<?= $venta['id_egreso']; ?>" style="margin-right: 5px" data-toggle="tooltip" data-title="Eliminar nota de remisión" data-eliminar="true"><span class="glyphicon glyphicon-trash text-danger"></span></a>						
+								<?php } ?>
+							</td>
+						<?php } ?>
 					</tr>
 				<?php } ?>
 			</tbody>
@@ -162,7 +174,7 @@ $permiso_editar = in_array('manuales_editar', $permisos);
 	<?php } else { ?>
 		<div class="alert alert-danger">
 			<strong>Advertencia!</strong>
-			<p>No existen ventas electrónicas registrados en la base de datos.</p>
+			<p>No existen registros en la base de datos.</p>
 		</div>
 	<?php } ?>
 </div>
@@ -223,15 +235,17 @@ $permiso_editar = in_array('manuales_editar', $permisos);
 <script src="<?= js; ?>/bootstrap-datetimepicker.min.js"></script>
 <script src="<?= js; ?>/sweetalert2.all.min.js"></script>
 <script>
-	$(function() {
+		$(function() {
+
 		<?php if ($permiso_eliminar) { ?>
 			$('[data-eliminar]').on('click', function(e) {
 				e.preventDefault();
 				var url = $(this).attr('href');
+
 				Swal.fire({
 					title: 'ESTA SEGURO DE REALIZAR ACCIÓN ELIMINAR?',
 					width: 800,
-					html: "<h5 class='text-danger'>Si el movimiento tiene credito tambien se eliminara estos registros!</h5>",
+					html: "<h5 class='text-danger'>Se eliminara la no venta registrada!</h5>",
 					icon: 'warning',
 					showCancelButton: true,
 					confirmButtonColor: '#d33',
@@ -251,16 +265,6 @@ $permiso_editar = in_array('manuales_editar', $permisos);
 			});
 		<?php } ?>
 
-
-		$('[data-activar-producto]').on('click', function(e) {
-			e.preventDefault();
-			var url = $(this).attr('href');
-			 bootbox.confirm('Está seguro que desea anular ó activar el movimiento y todo su detalle?', function(result) {
-				if (result) {
-					window.location = url;
-				}
-			}); 
-		});
 
 		<?php if ($permiso_cambiar) { ?>
 			var formato = $('[data-formato]').attr('data-formato');
@@ -286,7 +290,7 @@ $permiso_editar = in_array('manuales_editar', $permisos);
 					final_fecha = (final_fecha != '') ? ('/' + final_fecha) : '';
 					inicial_fecha = (inicial_fecha != '') ? ('/' + inicial_fecha) : ((final_fecha != '') ? ('/' + vacio) : '');
 
-					window.location = '?/operaciones/manuales_listar' + inicial_fecha + final_fecha;
+					window.location = '?/operaciones/notas_listar' + inicial_fecha + final_fecha;
 				}
 			});
 
@@ -337,14 +341,27 @@ $permiso_editar = in_array('manuales_editar', $permisos);
 				});
 			});
 		<?php } ?>
+		var $grupo_seleccionar = $('[data-grupo-seleccionar]'),
+			$seleccionar = $('[data-seleccionar]'),
+			$imprimir = $('[data-imprimir]');
+		$grupo_seleccionar.on('change', function() {
+			$seleccionar.prop('checked', $(this).prop('checked')).trigger('change');
+		});
+
+
 
 		<?php if ($ventas) { ?>
-			var table = $('#table').DataFilter({
+			var table = $('#table').on('draw.dt', function() { // search.dt order.dt page.dt length.dt
+				
+			}).DataFilter({
 				filter: true,
-				name: 'reporte_ventas_manuales',
+				name: 'notas_remision',
 				reports: 'excel|word|pdf|html'
 			});
+
 		<?php } ?>
 	});
+
+
 </script>
 <?php require_once show_template('footer-advanced'); ?>

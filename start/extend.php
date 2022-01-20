@@ -1469,7 +1469,7 @@ function configurar_atributo($db, $reporte = '', $modulo = '', $archivo = '', $a
     if ($reporte && $modulo && $archivo) {
         
         $id_detalle = $db->query("SELECT * FROM sys_reportes r WHERE r.reporte = '{$reporte}' 
-                        AND r.modulo = '{$modulo}' and r.archivo = '{$archivo}'")->fetch_first()['id_reporte'];
+                        AND r.modulo = '{$modulo}' and r.archivo = '{$archivo}' AND r.habilitado = 'Si'")->fetch_first()['id_reporte'];
         
         if ($id_detalle && $atributo) {
             $dato = $db->query("SELECT * FROM sys_reportes_detalles d WHERE d.reporte_id = '{$id_detalle}' AND d.atributo = '{$atributo}'")->fetch_first()['detalle'];

@@ -22,19 +22,26 @@ $fecha_final = date_encode($fecha_final);
 
 // Obtiene las ventas
 $ventas = $db->select('i.*, a.almacen, a.principal, e.nombres, e.paterno, e.materno, c.cliente')
-            ->from('inv_egresos i')
-            ->join('inv_clientes c', 'i.cliente_id = c.id_cliente', 'left')
-            ->join('inv_almacenes a', 'i.almacen_id = a.id_almacen', 'left')
-            ->join('sys_empleados e', 'i.empleado_id = e.id_empleado', 'left')
-            ->where('i.tipo', 'Venta')->where('i.codigo_control', '')->where('i.estadoe!=', 2)->where('i.estadoe!=', 1)->where('i.provisionado', 'S')->where('i.fecha_egreso >= ', $fecha_inicial)->where('i.fecha_egreso <= ', $fecha_final)->order_by('i.fecha_egreso desc, i.hora_egreso desc')->fetch();
-$ventas2 = $db->select('i.*, a.almacen, a.principal, e.nombres, e.paterno, e.materno,  c.cliente')
-            ->from('inv_egresos i')
-            ->join('inv_clientes c', 'i.cliente_id = c.id_cliente', 'left')
-            ->join('inv_almacenes a', 'i.almacen_id = a.id_almacen', 'left')
-            ->join('sys_empleados e', 'i.empleado_id = e.id_empleado', 'left')
-            ->where('i.tipo', 'Venta')->where('i.codigo_control!=', '')->where('i.anulado', 2)->where('i.fecha_egreso >= ', $fecha_inicial)->where('i.fecha_egreso <= ', $fecha_final)->order_by('i.fecha_egreso desc, i.hora_egreso desc')->fetch();
-            
-$ventas = array_merge($ventas,$ventas2);
+	->from('inv_egresos i')
+	->join('inv_clientes c', 'i.cliente_id = c.id_cliente', 'left')
+	->join('inv_almacenes a', 'i.almacen_id = a.id_almacen', 'left')
+	->join('sys_empleados e', 'i.empleado_id = e.id_empleado', 'left')
+	->where('i.tipo', 'Venta')->where('i.codigo_control', '')
+	->where('i.estadoe', 0)->where('i.estado', 1)
+	->where('i.provisionado', 'S')->where('i.fecha_egreso >= ', $fecha_inicial)
+	->where('i.fecha_egreso <= ', $fecha_final)->order_by('i.fecha_egreso desc, i.hora_egreso desc')->fetch();
+
+	$ventas2 = $db->select('i.*, a.almacen, a.principal, e.nombres, e.paterno, e.materno,  c.cliente')
+	->from('inv_egresos i')
+	->join('inv_clientes c', 'i.cliente_id = c.id_cliente', 'left')
+	->join('inv_almacenes a', 'i.almacen_id = a.id_almacen', 'left')
+	->join('sys_empleados e', 'i.empleado_id = e.id_empleado', 'left')
+	->where('i.tipo', 'Venta')->where('i.codigo_control!=', '')->where('i.anulado', 2)
+	->where('i.estadoe', 0)->where('i.estado', 0)
+	->where('i.fecha_egreso >= ', $fecha_inicial)->where('i.fecha_egreso <= ', $fecha_final)
+	->order_by('i.fecha_egreso desc, i.hora_egreso desc')->fetch();
+
+$ventas = array_merge($ventas, $ventas2);
 
 // Obtiene la moneda oficial
 $moneda = $db->from('inv_monedas')->where('oficial', 'S')->fetch_first();
@@ -49,6 +56,7 @@ $permiso_ver = in_array('notas_ver', $permisos);
 $permiso_eliminar = in_array('notas_eliminar', $permisos);
 $permiso_imprimir = in_array('notas_imprimir', $permisos);
 $permiso_activar_factura = in_array('activar_nota', $permisos);
+$permiso_anular = in_array('activar_nota', $permisos);
 $permiso_devolucion = in_array('notas_devolucion', $permisos);
 $permiso_cambiar = true;
 
@@ -151,70 +159,81 @@ $permiso_cambiar = true;
 						<th class="text-nowrap"><?= $nro + 1; ?></th>
 						<td class="text-nowrap"><?= escape(date_decode($venta['fecha_egreso'], $_institution['formato'])); ?> <small class="text-success"><?= escape($venta['hora_egreso']); ?></small></td>
 						<td class="text-nowrap">Nota de remisión</td>
-						<td class="text-nowrap"><?= escape($venta['cliente_id']); ?></td>
-						<!--<td class="text-nowrap"><?php // escape($venta['nombre_cliente']); ?></td>-->
+						<td class="text-nowrap text-right"><?= escape($venta['cliente_id']); ?></td>
 						<td class="text-nowrap">
-        					<b>Cliente: </b><?= ($venta['cliente'])?$venta['cliente']:$venta['nombre_cliente']; ?> <br>
-        					<span class="text-muted"><b>Razón social: </b><?= escape($venta['nombre_cliente']); ?></span>
-        				</td>
+							<b>Cliente: </b><?= ($venta['cliente']) ? $venta['cliente'] : $venta['nombre_cliente']; ?> <br>
+							<span class="text-muted"><b>Razón social: </b><?= escape($venta['nombre_cliente']); ?></span>
+						</td>
 						<td class="text-nowrap"><?= escape($venta['nit_ci']); ?></td>
 						<td class="text-nowrap">
 							<?php if ($venta['cobrar'] == 'si') { ?><a href="?/operaciones/activar/<?= $venta['id_egreso']; ?>" class="label label-danger" data-toggle="tooltip" data-title="Cambiar estado" data-activar="true">Cobrar</a> <?= $venta['observacion']; ?><?php } else { ?><span class="label label-success">Pagado</span> <?php } ?>
 						</td>
+						<td class="text-nowrap text-right">	<?= escape($venta['nro_factura']); ?></td>
 						<td class="text-nowrap text-right">
-							<?= escape($venta['nro_factura']); ?></td>
-						<td class="text-nowrap text-right">
-							<?php if($venta['estadoe']!=0){echo 'Preventa';}else{echo 'Nota Remisión';} ?></td>
+							<?= ($venta['estadoe'] != 0 && $venta['estado'] != 0)? 'Preventa' : (($venta['estadoe'] != 0 && $venta['estado'] != 0) ? 'Nota Remisión': 'Conversión' ); ?>
+						</td>
 						<td class="text-nowrap text-right" data-total="<?= escape($venta['monto_total_descuento']); ?>"><?= escape($venta['monto_total_descuento']); ?></td>
 						<td class="text-nowrap text-right"><?= escape($venta['nro_registros']); ?></td>
-						<td class="text-nowrap text-right">
-							<?php if($venta['anulado'] == 0){echo 'Activo'; }else{if($venta['anulado'] == 2){echo '<span class="text-info" >Anulado de factura</span>';}else{ echo 'Anulado';} } ?> </td> 
+						<td class="text-nowrap text-right text-uppercase h5 <?= (($venta['anulado'] == 0)? 'text-primary' : 'text-danger') ?>">
+							<?php if ($venta['anulado'] == 0) {
+								echo 'Activo';
+							} else {
+								if ($venta['anulado'] == 2) {
+									echo '<span class="text-info" >Anulado de factura</span>';
+								} else {
+									echo 'Anulado';
+								}
+							} ?> </td>
 						<td class="text-nowrap"><?= escape($venta['almacen']); ?></td>
-						<td class="width-md"><?= escape($venta['nombres'] . ' ' . $venta['paterno'] . ' ' . $venta['materno']); ?></td>
+						<td class="width-md text-uppercase"><?= escape($venta['nombres'] . ' ' . $venta['paterno'] . ' ' . $venta['materno']); ?></td>
 						<?php if ($permiso_ver || $permiso_eliminar) { ?>
 							<td class="text-nowrap">
-							    <?php if ($venta['anulado'] != 3 /* || $venta['fecha_egreso'] == date('Y-m-d') */) { ?>
-							        <a href="?/operaciones/notas_editar/<?= $venta['id_egreso']; ?>"  style="margin-right: 5px" data-toggle="tooltip" data-title="Editar nota de remisión"><i class="glyphicon glyphicon-edit"></i></a>
-							    <?php } ?>
+								<?php if ($venta['anulado'] != 3 /* || $venta['fecha_egreso'] == date('Y-m-d') */) { ?>
+									<a href="?/operaciones/notas_editar/<?= $venta['id_egreso']; ?>" style="margin-right: 5px" data-toggle="tooltip" data-title="Editar nota de remisión"><i class="glyphicon glyphicon-edit"></i></a>
+								<?php } ?>
 								<?php if ($permiso_ver) { ?>
-									<a href="?/operaciones/notas_ver/<?= $venta['id_egreso']; ?>"  style="margin-right: 5px" data-toggle="tooltip" data-title="Ver detalle de nota de remisión"><i class="glyphicon glyphicon-list-alt"></i></a>
-								<?php } ?>
-								
-								<?php $masUnMesdate = date("Y-m-d", strtotime($venta['fecha_egreso'] . "+ 1 month")); ?>
-								<?php if ($permiso_eliminar && $venta['estadoe'] == 0 && strtotime(date('Y-m-d')) <= strtotime($masUnMesdate)) {
-									if ($venta['anulado'] == 0){ ?>
-                                                <a href='?/operaciones/activar_nota/<?= $venta['id_egreso']; ?>'  style="margin-right: 5px" class='text-info' data-toggle='tooltip' data-title='Confirmar anulacion' data-activar-producto='true'><i class='glyphicon glyphicon-check'></i></a>
-                                    <?php   }else if($venta['anulado'] == 1) { ?>
-									<a href="?/operaciones/notas_eliminar/<?= $venta['id_egreso']; ?>"  style="margin-right: 5px" data-toggle="tooltip" data-title="Eliminar nota de remisión" data-eliminar="true"><span class="glyphicon glyphicon-trash text-danger"></span></a>
-								<?php } ?>
+									<a href="?/operaciones/notas_ver/<?= $venta['id_egreso']; ?>" style="margin-right: 5px" data-toggle="tooltip" data-title="Ver detalle de nota de remisión"><i class="glyphicon glyphicon-list-alt"></i></a>
 								<?php } ?>
 
-							<?php if ($venta['estadoe'] != 0 ) { ?>
-    								<?php if ($permiso_eliminar && $venta['estadoe'] != 0 && $venta['anulado'] != 0) { ?>
-    									<a href="?/operaciones/notas_eliminar/<?= $venta['id_egreso']; ?>"  style="margin-right: 5px" data-toggle="tooltip" data-title="Eliminar nota de remisión" data-eliminar="true"><span class="glyphicon glyphicon-trash text-danger"></span></a>
-    								<?php } ?>
-    							 <?php 
-                				    if ($permiso_activar_factura && $venta['estadoe'] > 0){
-                                            if ($venta['anulado'] == 1){ ?>
-                                                <a href='?/operaciones/activar_nota/<?= $venta['id_egreso']; ?>'  style="margin-right: 5px" class='text-info' data-toggle='tooltip' data-title='Confirmar anulacion' data-activar-producto='true'><i class='glyphicon glyphicon-check'></i></a>
-                                    <?php   } if($venta['anulado'] == 2) { ?>
-                                                <a href='?/operaciones/activar_nota/<?= $venta['id_egreso']; ?>'  style="margin-right: 5px" class='text-danger' data-toggle='tooltip' data-title='Anular factura' data-activar-producto='true'><i class='glyphicon glyphicon-unchecked'></i></a>
-                                    <?php   } if($venta['anulado'] == 0) { ?>
-                                                <a href='?/operaciones/activar_nota/<?= $venta['id_egreso']; ?>'  style="margin-right: 5px" class='text-danger' data-toggle='tooltip' data-title='Anular factura' data-activar-producto='true'><i class='glyphicon glyphicon-unchecked'></i></a>
-                                    <?php   } ;
-                                    };
-                                    if($permiso_devolucion): ?> 
-                                        <!-- <a href='?/operaciones/notas_devolucion/<?= $venta['id_egreso']; ?>' data-toggle='tooltip' data-title='devolución'><span class='glyphicon glyphicon-transfer'></span></a>
+								<?php $estadoAnulado = $venta['anulado'] == 0 ? true : false ?>
+								<?php $masUnMesdate = date("Y-m-d", strtotime($venta['fecha_egreso'] . "+ 1 month")); ?>
+								<?php if ($permiso_eliminar && $venta['estadoe'] == 0 && strtotime(date('Y-m-d')) <= strtotime($masUnMesdate)) {
+									if ($permiso_anular && strtotime(date('Y-m-d')) <= strtotime($masUnMesdate)) { ?>
+										<a href='?/operaciones/activar_nota/<?= $venta['id_egreso']; ?>' style="margin-right: 5px" class='text-info' data-toggle='tooltip' data-title="<?= $estadoAnulado ? 'Anular' : 'Activar' ?> (puede <?= $estadoAnulado ? 'anular' : 'activar' ?> venta hasta el <?= $masUnMesdate; ?>)." data-activar-producto='true'><i class="text-<?= $estadoAnulado ? 'info' : 'warning' ?> glyphicon glyphicon-<?= $estadoAnulado ? 'remove-circle' : 'ok-circle' ?>"></i></a>
+									<?php   }
+									 if ($venta['anulado'] == 1) { ?>
+										<a href="?/operaciones/notas_eliminar/<?= $venta['id_egreso']; ?>" style="margin-right: 5px" data-toggle="tooltip" data-title="Eliminar nota de remisión" data-eliminar="true"><span class="glyphicon glyphicon-trash text-danger"></span></a>
+									<?php } ?>
+								<?php } ?>
+								<?php if ($venta['estadoe'] != 0 || ($venta['estadoe'] == 0 && $venta['estado'] == 2)) { ?>
+									<?php if ($permiso_eliminar && $venta['anulado'] != 0) { ?>
+										<a href="?/operaciones/notas_eliminar/<?= $venta['id_egreso']; ?>" style="margin-right: 5px" data-toggle="tooltip" data-title="Eliminar nota de remisión" data-eliminar="true"><span class="glyphicon glyphicon-trash text-danger"></span></a>
+									<?php } ?>
+									<?php
+									if ($permiso_activar_factura) {
+										if ($venta['anulado'] == 1) { ?>
+											<a href='?/operaciones/activar_nota/<?= $venta['id_egreso']; ?>' style="margin-right: 5px" class='text-info' data-toggle='tooltip' data-title='Confirmar anulacion' data-activar-producto='true'><i class='glyphicon glyphicon-check'></i></a>
+										<?php   }
+										if ($venta['anulado'] == 2) { ?>
+											<a href='?/operaciones/activar_nota/<?= $venta['id_egreso']; ?>' style="margin-right: 5px" class='text-danger' data-toggle='tooltip' data-title='Anular factura' data-activar-producto='true'><i class='glyphicon glyphicon-unchecked'></i></a>
+										<?php   }
+										if ($venta['anulado'] == 0) { ?>
+											<a href='?/operaciones/activar_nota/<?= $venta['id_egreso']; ?>' style="margin-right: 5px" class='text-danger' data-toggle='tooltip' data-title='Anular factura' data-activar-producto='true'><i class='glyphicon glyphicon-unchecked'></i></a>
+										<?php   };
+									};
+									if ($permiso_devolucion) : ?>
+										<!-- <a href='?/operaciones/notas_devolucion/<?= $venta['id_egreso']; ?>' data-toggle='tooltip' data-title='devolución'><span class='glyphicon glyphicon-transfer'></span></a>
     									<a onclick="convertir_facturar(<?= $venta['id_egreso']; ?>)" data-toggle='tooltip' data-title='Convertir de Nota a Electronica'><span class='glyphicon glyphicon-refresh'></span></a> -->
-    									<!-- <a href='?/operaciones/nota_electronica/<?= $venta['id_egreso']; ?>' data-toggle='tooltip' data-title='Convertir de Nota a Electronica'><span class='glyphicon glyphicon-refresh'></span></a> -->
-                                    <?php endif;
-                                ?>
-                            <?php } ?>
+										<!-- <a href='?/operaciones/nota_electronica/<?= $venta['id_egreso']; ?>' data-toggle='tooltip' data-title='Convertir de Nota a Electronica'><span class='glyphicon glyphicon-refresh'></span></a> -->
+									<?php endif;
+									?>
+								<?php } ?>
 							</td>
 						<?php } ?>
-						
+
 						<!--<th class="text-nowrap">-->
-						<!--	<input type="checkbox" data-toggle="tooltip" data-title="Seleccionar" data-seleccionar="<?php // $venta['id_egreso']; ?>">-->
+						<!--	<input type="checkbox" data-toggle="tooltip" data-title="Seleccionar" data-seleccionar="<?php // $venta['id_egreso']; 
+																														?>">-->
 						<!--</th>-->
 					</tr>
 				<?php } ?>
@@ -292,6 +311,7 @@ $permiso_cambiar = true;
 <script src="<?= js; ?>/moment.min.js"></script>
 <script src="<?= js; ?>/moment.es.js"></script>
 <script src="<?= js; ?>/bootstrap-datetimepicker.min.js"></script>
+<script src="<?= js; ?>/sweetalert2.all.min.js"></script>
 <script>
 	$(function() {
 		<?php if ($permiso_crear) { ?>
@@ -311,14 +331,48 @@ $permiso_cambiar = true;
 			$('[data-eliminar]').on('click', function(e) {
 				e.preventDefault();
 				var url = $(this).attr('href');
-				bootbox.confirm('Está seguro que desea eliminar la nota de remisión y todo su detalle?', function(result) {
-					if (result) {
+
+				Swal.fire({
+					title: 'ESTA SEGURO DE REALIZAR ACCIÓN ELIMINAR?',
+					width: 800,
+					html: "<h5 class='text-danger'>Si el movimiento tiene credito tambien se eliminara estos registros!</h5>",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#d33',
+					cancelButtonColor: '#3085d6',
+					cancelButtonText: 'CANCELAR',
+					confirmButtonText: 'SI, ELIMINAR!'
+				}).then((result) => {
+					if (result.isConfirmed) {
+						Swal.fire(
+							'Eliminado!',
+							'Losregistro fueron eliminados.',
+							'success'
+						);
 						window.location = url;
 					}
 				});
+
+
+				/* bootbox.confirm('Está seguro que desea eliminar la nota de remisión y todo su detalle?', function(result) {
+					if (result) {
+						window.location = url;
+					}
+				}); */
 			});
 		<?php } ?>
 
+		$('[data-activar-producto]').on('click', function(e) {
+			e.preventDefault();
+			var url = $(this).attr('href');
+			 bootbox.confirm('Está seguro que desea anular ó activar el movimiento y todo su detalle?', function(result) {
+				if (result) {
+					window.location = url;
+				}
+			}); 
+		});
+
+		
 		<?php if ($permiso_cambiar) { ?>
 			var formato = $('[data-formato]').attr('data-formato');
 			var mascara = $('[data-mascara]').attr('data-mascara');
@@ -439,7 +493,7 @@ $permiso_cambiar = true;
 			productos = (productos != '') ? productos : 'true';
 			$imprimir.attr('data-imprimir', productos);
 		});
-		
+
 		$imprimir.on('click', function(e) {
 			if ($imprimir.attr('data-imprimir') == 'true') {
 				e.preventDefault();
@@ -451,31 +505,32 @@ $permiso_cambiar = true;
 		});
 
 		<?php if ($ventas) { ?>
-		var table = $('#table').on('draw.dt', function () { // search.dt order.dt page.dt length.dt
-    		var suma = 0;
-    		$('[data-total]:visible').each(function (i) {
-    			var total = parseFloat($(this).attr('data-total'));
-                //console.log(total);
-    			suma = suma + total;
-    		});
-    		$('#total').text(suma.toFixed(2));
-    	}).DataFilter({
-    		filter: true,
-    		name: 'notas_remision',
-    		reports: 'excel|word|pdf|html'
-    	});
-// 			var table = $('#table').DataFilter({
-// 				filter: true,
-// 				name: 'notas_remision',
-// 				reports: 'excel|word|pdf|html'
-// 			});
+			var table = $('#table').on('draw.dt', function() { // search.dt order.dt page.dt length.dt
+				var suma = 0;
+				$('[data-total]:visible').each(function(i) {
+					var total = parseFloat($(this).attr('data-total'));
+					//console.log(total);
+					suma = suma + total;
+				});
+				$('#total').text(suma.toFixed(2));
+			}).DataFilter({
+				filter: true,
+				name: 'notas_remision',
+				reports: 'excel|word|pdf|html'
+			});
+			// 			var table = $('#table').DataFilter({
+			// 				filter: true,
+			// 				name: 'notas_remision',
+			// 				reports: 'excel|word|pdf|html'
+			// 			});
 		<?php } ?>
 	});
-	function convertir_facturar (id_venta){
+
+	function convertir_facturar(id_venta) {
 		// alert('mostrando id_venta '+id_venta);
-		bootbox.confirm('¿Está seguro que desea convertir la Nota de remisión a Factura?', function (result) {
-			if(result){
-	
+		bootbox.confirm('¿Está seguro que desea convertir la Nota de remisión a Factura?', function(result) {
+			if (result) {
+
 				$.ajax({
 					type: 'post',
 					dataType: 'json',
@@ -483,18 +538,18 @@ $permiso_cambiar = true;
 					data: {
 						id_venta: id_venta
 					}
-				}).done(function (egreso) {
-					
-						$('#loader').fadeIn(100);
-						window.open('?/electronicas/imprimir/' + egreso, '_blank');						
-						window.location = '?/operaciones/notas_listar/<?= $fecha_inicial."/".$fecha_final ?>';
+				}).done(function(egreso) {
+
+					$('#loader').fadeIn(100);
+					window.open('?/electronicas/imprimir/' + egreso, '_blank');
+					window.location = '?/operaciones/notas_listar/<?= $fecha_inicial . "/" . $fecha_final ?>';
 
 					$.notify({
 						message: 'La conversin se actualizó correctamente.'
 					}, {
 						type: 'success'
 					});
-				}).fail(function () {
+				}).fail(function() {
 					$.notify({
 						message: 'No se puede convertir.'
 					}, {

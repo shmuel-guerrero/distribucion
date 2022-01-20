@@ -113,6 +113,7 @@ $permiso_cambiar = true;
 				<tr class="active">
 					<th class="text-nowrap">#</th>
 					<th class="text-nowrap">Fecha</th>
+					<th class="text-nowrap">Código</th>
 					<th class="text-nowrap">Cliente</th>
 					<th class="text-nowrap">NIT/CI</th>
 					<th class="text-nowrap">Nro. preventa</th>
@@ -134,6 +135,7 @@ $permiso_cambiar = true;
 				<tr class="active">
 					<th class="text-nowrap text-middle" data-datafilter-filter="false">#</th>
 					<th class="text-nowrap text-middle" data-datafilter-filter="true">Fecha</th>
+					<th class="text-nowrap text-middle" data-datafilter-filter="true">Código</th>
 					<th class="text-nowrap text-middle" data-datafilter-filter="true">Cliente</th>
 					<th class="text-nowrap text-middle" data-datafilter-filter="true">NIT/CI</th>
 					<th class="text-nowrap text-middle" data-datafilter-filter="true">Proforma</th>
@@ -154,6 +156,7 @@ $permiso_cambiar = true;
 					<tr>
 						<th class="text-nowrap"><?= $nro + 1; ?></th>
 						<td class="text-nowrap"><?= escape(date_decode($proforma['fecha_egreso'], $_institution['formato'])); ?> <br> <small class="text-success"><?= escape($proforma['hora_egreso']); ?></small></td>
+						<td class="text-nowrap text-right"><?= escape($proforma['cliente_id']); ?></td>
 						<td class="text-nowrap"><?= escape('Cliente: ' . $proforma['cliente']); ?> <br> <small class="text-success"><?= escape('Razón social: ' . $proforma['nombre_factura']); ?></small></td>
 						<td class="text-nowrap"><?= escape($proforma['nit_ci']); ?></td>
 						<td class="text-nowrap text-right"><?= escape($proforma['nro_factura']); ?></td>

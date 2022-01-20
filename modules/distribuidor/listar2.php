@@ -179,7 +179,7 @@ $permiso_activar = in_array('activar', $permisos);
                                 <?php if ($permiso_activar) { ?>
                                     <?php if ($empleado['fecha'] != date('Y-m-d')) { ?>
                                         <a href="?/distribuidor/activar2/<?= $empleado['id_empleado']; ?>" class="text-info" data-toggle="tooltip" style="margin-right: 3px;" data-title="Cerrar distribucion" data-activar="true"><i class="glyphicon glyphicon-unchecked"></i></a>
-                                        <a href="?/distribuidor/activar/<?= $empleado['id_empleado']; ?>" class="text-danger" data-toggle="tooltip" style="margin-right: 3px;" data-title="Cerrar distribucion (limpiar)" data-activar="true"><i class="glyphicon glyphicon-unchecked"></i></a>
+                                        <a href="?/distribuidor/activar/<?= $empleado['id_empleado']; ?>" class="text-danger" data-toggle="tooltip" style="margin-right: 3px;" data-title="Cerrar distribucion (limpiar)" data-activar1="true"><i class="glyphicon glyphicon-unchecked"></i></a>
                                     <?php } else { ?>
                                         <a href="?/distribuidor/imprimir3/<?= $empleado['id_empleado']; ?>" class="btn btn-default btn-xs text-success" target="_blank" data-toggle="tooltip" style="margin-right: 3px;" data-title="Imprimir liquidación" ><i class="glyphicon glyphicon-print"></i></a>  
                                         <a href="?/distribuidor/activar3/<?= $empleado['id_empleado']; ?>" class="text-success" data-toggle="tooltip" style="margin-right: 3px;" data-title="Entrega realizada"><i class="glyphicon glyphicon-check"></i></a>
@@ -273,7 +273,7 @@ $permiso_activar = in_array('activar', $permisos);
     <script src="<?= js; ?>/vfs_fonts.js"></script>
     <script src="<?= js; ?>/jquery.dataFilters.min.js"></script>
     <script src="<?= js; ?>/bootstrap-datetimepicker.min.js"></script>
-
+    <script src="<?= js; ?>/sweetalert2.all.min.js"></script>
     <script>
         function imprimir(distribuidor){
             $.ajax({
@@ -460,11 +460,61 @@ $permiso_activar = in_array('activar', $permisos);
                 $('[data-activar]').on('click', function (e) {
                     e.preventDefault();
                     var url = $(this).attr('href');
-                    bootbox.confirm('Está seguro que desea cambiar el estado del distribuidor?', function (result) {
-                        if(result){
+
+                    Swal.fire({
+                        title: 'ESTA SEGURO DE CERRAR LA DISTRIBUCIÓN?',
+                        width: 800,
+                        html: "<h5 class='text-danger'>Esta operación cerrara la distribución.</h5><small>Esta operación repercutira en las operaciones del distribuidor en Dispositivo Movil</small>",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        cancelButtonText: 'CANCELAR',
+                        confirmButtonText: 'SI, CERRAR!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire(
+                                'Cerrado!',
+                                'La distribución fue cerrada.',
+                                'success'
+                            );
                             window.location = url;
                         }
                     });
+
+                });
+                $('[data-activar1]').on('click', function (e) {
+                    e.preventDefault();
+                    var url = $(this).attr('href');
+
+
+/*                     bootbox.confirm('Está seguro que desea cambiar el estado del distribuidor?', function (result) {
+                        if(result){
+                            window.location = url;
+                        }
+                    }); */
+
+                    Swal.fire({
+                        title: 'PRECAUCIÓN !!!    ESTA SEGURO DE LIMPIAR LA DISTRIBUCIÓN?',
+                        width: 800,
+                        html: "<h4 class='text-danger'>Esta operación limpiara la distribución.</h5><small>Esta operación repercutira en las operaciones del distribuidor en Dispositivo Movil; las entregas no ejecutadas volveran al almacen.</small>",
+                        icon: 'danger',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        cancelButtonText: 'CANCELAR',
+                        confirmButtonText: 'SI, LIMPIAR!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire(
+                                'Limpiado!',
+                                'se limpio la distribución.',
+                                'success'
+                            );
+                            window.location = url;
+                        }
+                    });
+
                 });
             <?php } ?>
         });

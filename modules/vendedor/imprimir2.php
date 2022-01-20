@@ -8,6 +8,20 @@ if ($id_egreso == 0) {
     require_once not_found();
     exit;
 }
+
+
+//Habilita las funciones internas de notificación
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT );
+
+try {
+
+    //Se abre nueva transacción.
+    $db->autocommit(false);
+    $db->beginTransaction();
+
+
+
+
 $egreso = $db->select('*')->from('inv_egresos a')->join('inv_clientes c','a.cliente_id = c.id_cliente')->join('sys_empleados b','a.empleado_id = b.id_empleado')->where('a.id_egreso ', $id_egreso)->fetch_first();
 $dia_egreso = date('w', strtotime($egreso['fecha_egreso']));
 $ruta = $db->select('nombre')->from('gps_rutas')->where('empleado_id',$egreso['empleado_id'])->where('dia', $dia_egreso)->fetch_first();
@@ -252,5 +266,32 @@ $nombre = 'orden_compra' . $id_orden . '_' . date('Y-m-d_H-i-s') . '.pdf';
 
 // Cierra y devuelve el fichero pdf
 $pdf->Output($nombre, 'I');
+
+
+//se cierra transaccion
+$db->commit();
+
+} catch (Exception $e) {
+    $status = false;
+    $error = $e->getMessage();
+
+    // Instancia la variable de notificacion
+    $_SESSION[temporary] = array(
+        'alert' => 'danger',
+        'title' => 'Problemas en el proceso de interacción con la base de datos.',
+        'message' => (environment == 'development' || ($_user['id_user'] == 1 && $_user['rol'] == 'Superusuario' )) ? $error: 'Error en el proceso; comunicarse con soporte tecnico'
+    );
+
+            //Se devuelve el error en mensaje json
+    //echo json_encode(array("estado" => 'n', 'msg'=>$error));
+
+    // Error 404
+    return redirect(back());
+    exit;
+    //se cierra transaccion
+    $db->rollback();
+}
+
+
 
 ?>

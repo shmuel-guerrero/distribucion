@@ -188,13 +188,13 @@ $_terminal=true;
 						<div class="form-group">
 							<label for="nro_factura" class="col-sm-4 control-label">Número de factura:</label>
 							<div class="col-sm-8">
-								<input type="text" value="" name="nro_factura" id="nro_factura" class="form-control" autocomplete="off" data-validation="required number">
+								<input type="text" value="" name="nro_factura" id="nro_factura" class="form-control" autocomplete="off" data-validation="required number" maxlength="15">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="nro_autorizacion" class="col-sm-4 control-label">Número de autorización:</label>
 							<div class="col-sm-8">
-								<input type="text" value="" name="nro_autorizacion" id="nro_autorizacion" class="form-control" autocomplete="off" data-validation="required number">
+								<input type="text" value="" name="nro_autorizacion" id="nro_autorizacion" class="form-control" autocomplete="off" data-validation="required number" maxlength="15">
 							</div>
 						</div>
 					</div>

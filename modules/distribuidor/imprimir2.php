@@ -20,6 +20,20 @@ $fecha_final = (isset($params[2])) ? $params[2] : $gestion_limite;
 $fecha_final = (is_date($fecha_final)) ? $fecha_final : $gestion_limite;
 $fecha_final = date_encode($fecha_final);
 
+
+
+//Habilita las funciones internas de notificación
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT );
+
+try {
+
+    //Se abre nueva transacción.
+    $db->autocommit(false);
+    $db->beginTransaction();
+
+
+
+
 $caja = $db->select('id_unidad')->from('inv_unidades')->where('unidad', 'CAJA')->fetch_first();
 
 $id_caja = (isset($caja['id_unidad'])) ? $caja['id_unidad'] : 0;
@@ -448,5 +462,31 @@ $nombre = 'orden_compra' . $id_orden . '_' . date('Y-m-d_H-i-s') . '.pdf';
 
 // Cierra y devuelve el fichero pdf
 $pdf->Output($nombre, 'I');
+
+
+//se cierra transaccion
+$db->commit();
+
+} catch (Exception $e) {
+    $status = false;
+    $error = $e->getMessage();
+
+    // Instancia la variable de notificacion
+    $_SESSION[temporary] = array(
+        'alert' => 'danger',
+        'title' => 'Problemas en el proceso de interacción con la base de datos.',
+        'message' => (environment == 'development' || ($_user['id_user'] == 1 && $_user['rol'] == 'Superusuario' )) ? $error: 'Error en el proceso; comunicarse con soporte tecnico'
+    );
+
+            //Se devuelve el error en mensaje json
+    //echo json_encode(array("estado" => 'n', 'msg'=>$error));
+
+    // Error 404
+    return redirect(back());
+    exit;
+    //se cierra transaccion
+    $db->rollback();
+}
+
 
 ?>
