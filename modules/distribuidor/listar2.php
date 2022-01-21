@@ -464,7 +464,7 @@ $permiso_activar = in_array('activar', $permisos);
                     Swal.fire({
                         title: 'ESTA SEGURO DE CERRAR LA DISTRIBUCIÓN?',
                         width: 800,
-                        html: "<h5 class='text-danger'>Esta operación cerrara la distribución.</h5><small>Esta operación repercutira en las operaciones del distribuidor en Dispositivo Movil</small>",
+                        html: "<h4 class='text-danger'>Esta operación cerrara la distribución.</h4><h5>Esta operación repercutira en las operaciones del distribuidor en Dispositivo Movil</h5>",
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#d33',
@@ -497,13 +497,14 @@ $permiso_activar = in_array('activar', $permisos);
                     Swal.fire({
                         title: 'PRECAUCIÓN !!!    ESTA SEGURO DE LIMPIAR LA DISTRIBUCIÓN?',
                         width: 800,
-                        html: "<h4 class='text-danger'>Esta operación limpiara la distribución.</h5><small>Esta operación repercutira en las operaciones del distribuidor en Dispositivo Movil; las entregas no ejecutadas volveran al almacen.</small>",
-                        icon: 'danger',
+                        html: "<h4 class='text-primary'>Esta operación limpiara la distribución.</h4><h5>Esta operación repercutira en las operaciones del distribuidor en Dispositivo Movil; las entregas no ejecutadas volveran al almacen.</h5>",
+                        icon: 'question',
                         showCancelButton: true,
                         confirmButtonColor: '#d33',
                         cancelButtonColor: '#3085d6',
                         cancelButtonText: 'CANCELAR',
-                        confirmButtonText: 'SI, LIMPIAR!'
+                        confirmButtonText: 'SI, LIMPIAR!',
+                        background: 'rgba(235, 78, 90, 0.8)'
                     }).then((result) => {
                         if (result.isConfirmed) {
                             Swal.fire(
@@ -514,6 +515,8 @@ $permiso_activar = in_array('activar', $permisos);
                             window.location = url;
                         }
                     });
+
+                 
 
                 });
             <?php } ?>
