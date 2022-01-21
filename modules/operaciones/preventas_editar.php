@@ -646,7 +646,7 @@ $categorias = $db->from('inv_categorias')->order_by('categoria')->fetch();
                 $(this).select();
             });
 
-            $ventas.find('[data-xxx]').on('change', function () {
+            $ventas.find('[data-producto=' + id_producto + ']').find('[data-xxx]').on('change', function () {
                 var v = $(this).find('option:selected').attr('data-yyy');
                 $(this).parent().parent().find('[data-precio]').val(v);
                 $(this).parent().parent().find('[data-precio]').attr(v);

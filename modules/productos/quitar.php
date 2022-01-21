@@ -32,15 +32,24 @@ if (is_post()) {
 
 		// Verifica si la asignacion existe
 		if ($asignacion) {
-			// Elimina la asignacion
-			// $db->delete()->from('inv_asignaciones')->where('id_asignacion', $id_asignacion)->execute();
-			$actualizar = array(
+
+			/**
+			 * Se saca un backup y se elimina el registro para que no afecte en la opracion de los servicios de APK
+			 */
+			//se crea backup de registros//////
+			$verifica_id = backup_registros($db, 'inv_asignaciones', 'id_asignacion', $asignacion['id_asignacion'], '', '', $_user['persona_id'], 'SI', 0, "Eliminado");
+
+
+			/* $actualizar = array(
 				'visible' => 'n',
 			);		
 			// Actualiza la informacion
-			$condicion = array('id_asignacion' => $id_asignacion);
-			$db->where($condicion)->update('inv_asignaciones', $actualizar);
+			$condicion = array('id_asignacion' => $id_asignacion); 
+			$db->where($condicion)->update('inv_asignaciones', $actualizar); */
 
+			// Elimina la asignacion
+			$db->delete()->from('inv_asignaciones')->where('id_asignacion', $id_asignacion)->limit(1)->execute();
+			
 			// Verifica la eliminacion
 			if ($db->affected_rows) {// $db->affected_rows
 				// Elimina los dependientes

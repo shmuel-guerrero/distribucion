@@ -924,7 +924,7 @@ function adicionar_producto(id_producto) {
 			$(this).select();
 		});
 
-        $ventas.find('[data-xxx]').on('change', function () {
+        $ventas.find('[data-producto=' + id_producto + ']').find('[data-xxx]').on('change', function () {
             var v = $(this).find('option:selected').attr('data-yyy');
 			v = v.trim();
             var st = $(this).find('option:selected').attr('data-xyyz');
@@ -936,7 +936,7 @@ function adicionar_producto(id_producto) {
             var x = $.trim($('[data-stock2=' + id_producto + ']').text());
             var ze = Math.trunc(x / z);
             var zt = Math.trunc(st / z);
-            $.trim($('[data-stock=' + id_producto + ']').text(ze));
+            $.trim($('[data-stock=' + id_producto + ']').first().text(ze));
             $(this).parent().parent().find('[data-cantidad]').attr('data-validation-allowing','range[1;' + zt + ']');
             $(this).parent().parent().find('[data-cantidad]').attr('data-validation-error-msg','Debe ingresar un número positivo entre 1 y ' + zt );
             //console.log($(this).parent().parent().find('[data-cantidad]').attr('data-validation-allowing'));

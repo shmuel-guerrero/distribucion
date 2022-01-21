@@ -1493,22 +1493,26 @@ function configurar_atributo($db, $reporte = '', $modulo = '', $archivo = '', $a
 +--------------------------------------------------------------------------
 */
 
-function historial_conversion($db, $id_origen = 0, $origen = '', $id_destino = 0, $destino = '',$id_empleado = 0, $tipo = "", $id_backup = 0, $ids_backups = ''){
+function historial_conversion($db, $id_origen = 0, $origen = '', $id_destino = 0, $destino = '', $id_empleado = 0, $tipo = "", $id_backup = 0, $ids_backups = ''){
 
-    $datos = array(
-        'fecha_registro' => date('Y-m-d'),
-        'hora_registro' => date('H:i:s'),
-        'id_origen' => $id_origen,
-        'origen_movimiento' => $origen,
-        'id_destino' => $id_destino,
-        'destino_movimiento' => $destino,
-        'empleado_id' => ($id_empleado > 0) ? $id_empleado : 0,
-        'tipo' => $tipo,
-        'id_backup_egreso' => $id_backup,
-        'ids_backup_detalles' => $ids_backups
-    );    
 
-    $id_conversion = $db->insert('hist_conversiones', $datos);
+    if ($id_origen > 0 && $origen != null && $origen != '' && $id_destino > 0 && $tipo != null && $tipo != '' && $id_backup > 0) {
+                        
+        $datos = array(
+            'fecha_registro' => date('Y-m-d'),
+            'hora_registro' => date('H:i:s'),
+            'id_origen' => $id_origen,
+            'origen_movimiento' => $origen,
+            'id_destino' => $id_destino,
+            'destino_movimiento' => $destino,
+            'empleado_id' => ($id_empleado > 0) ? $id_empleado : 0,
+            'tipo' => $tipo,
+            'id_backup_egreso' => $id_backup,
+            'ids_backup_detalles' => $ids_backups
+        );    
+        
+        $id_conversion = $db->insert('hist_conversiones', $datos);
+    }
 
     //validamos cantidad de registros insertados
     if($id_conversion){        
@@ -1518,6 +1522,35 @@ function historial_conversion($db, $id_origen = 0, $origen = '', $id_destino = 0
     }  
 }
 
+
+/*
++--------------------------------------------------------------------------
+| VALIDAR CONVERSION DE NOTAS A  FACTURAS
++--------------------------------------------------------------------------
+*/
+
+function validar_conversion($db, $id_egreso = 0, $id_destino = 0, $origen_tipo = 'Preventa'){
+
+    $respuesta = false;
+
+    $cantidad_notas = 3;
+
+    // validamos la existencia de datos
+    if ($id_egreso != null && $id_egreso != '' && $origen_tipo != '' && $origen_tipo != null) {
+        
+        $cantidad_notas = $db->query("
+        SELECT count(*)nro_registros FROM hist_conversiones hc 
+        WHERE hc.id_origen = '{$id_egreso}'
+        AND hc.origen_movimiento = '{$origen_tipo}' AND hc.destino_movimiento = 'Electronicas'")->fetch_first()['nro_registros'];
+    }
+    
+    //validadmos que esl resultdo sea menor al permitido
+    if ($cantidad_notas <= 2) {
+        $respuesta = true;
+    }
+
+    return $respuesta;
+}
 
 
 ?>
