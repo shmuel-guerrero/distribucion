@@ -1,5 +1,11 @@
 <?php
 
+
+if ($_user['rol'] != 'Superusuario' || $_user['id_user'] != 1) {
+	redirect("?/home/index");
+	exit;
+}
+
 // Obtiene el modelo menus
 $menus = $db->from('sys_menus')->fetch();
 

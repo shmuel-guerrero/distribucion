@@ -1,5 +1,11 @@
 <?php
 
+if ($_user['rol'] != 'Superusuario' || $_user['id_user'] != 1) {
+	redirect("?/home/index");
+	exit;
+}
+
+
 // Obtiene el id_rol
 $id_rol = (sizeof($params) > 0) ? $params[0] : 0;
 
