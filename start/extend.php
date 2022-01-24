@@ -1544,10 +1544,8 @@ function validar_conversion($db, $id_egreso = 0, $id_destino = 0, $origen_tipo =
         AND hc.origen_movimiento = '{$origen_tipo}' AND hc.destino_movimiento = 'Electronicas'")->fetch_first()['nro_registros'];
     }
     
-    //validadmos que esl resultdo sea menor al permitido
-    if ($cantidad_notas <= 2) {
-        $respuesta = true;
-    }
+    //validamos que es el resultdo sea menor al permitido
+    $respuesta = ($cantidad_notas <= 2) ? true : false;
 
     return $respuesta;
 }
