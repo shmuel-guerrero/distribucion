@@ -33,7 +33,7 @@ if ($id_almacen != 0) {
 					LEFT JOIN (SELECT w.producto_id, GROUP_CONCAT(w.id_asignacion SEPARATOR '|') AS id_asignacion, GROUP_CONCAT(w.unidad_id SEPARATOR '|') AS unidad_id, GROUP_CONCAT(w.cantidad_unidad,')',w.unidad,':',w.otro_precio SEPARATOR '&') AS unidade, GROUP_CONCAT(w.cantidad_unidad SEPARATOR '*') AS cantidad2
 					   FROM (SELECT *
 							FROM inv_asignaciones q
-								  LEFT JOIN inv_unidades u ON q.unidad_id = u.id_unidad AND q.visible = 's' WHERE q.visible = 's'
+								  LEFT JOIN inv_unidades u ON q.unidad_id = u.id_unidad AND q.visible = 's' 
 										 ORDER BY u.unidad DESC) w GROUP BY w.producto_id ) z ON p.id_producto = z.producto_id")->fetch();
 } else {
     $productos = null;
@@ -248,7 +248,7 @@ $categorias = $db->from('inv_categorias')->order_by('categoria')->fetch();
 								if($pr['unidad_id'] == $detalle['unidad_id']){
 									$unidad = $pr['unidad'];
 								}else{
-									$pr = $db->select('*')->from('inv_asignaciones a')->join('inv_unidades b', 'a.unidad_id = b.id_unidad AND a.visible = "s"')->where(array('a.producto_id'=>$detalle['producto_id'],'a.unidad_id'=>$detalle['unidad_id'], 'a.visible' => 's'))->fetch_first();
+									$pr = $db->select('*')->from('inv_asignaciones a')->join('inv_unidades b', 'a.unidad_id = b.id_unidad AND a.visible = "s"')->where(array('a.producto_id'=>$detalle['producto_id'],'a.unidad_id'=>$detalle['unidad_id']))->fetch_first();
 									//Validacion
 									if($pr['cantidad_unidad'])
 									{

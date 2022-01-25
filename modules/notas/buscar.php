@@ -39,7 +39,7 @@ if (is_ajax() && is_post()) {
 					   FROM (SELECT *
 							FROM inv_asignaciones q
 								  LEFT JOIN inv_unidades u ON q.unidad_id = u.id_unidad
-								  WHERE q.visible = 's'
+								  
 										 ORDER BY u.unidad DESC) w GROUP BY w.producto_id ) z ON p.id_producto = z.producto_id
 					WHERE ('$Fecha'<=p.fecha_limite OR p.fecha_limite='1000-01-01') AND eliminado = 0 AND (p.codigo like '%" . $busqueda . "%' OR p.nombre_factura like '%" . $busqueda . "%' OR c.categoria like '%" . $busqueda . "%') order by p.nombre asc")->fetch();
 

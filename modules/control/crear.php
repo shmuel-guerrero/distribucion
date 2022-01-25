@@ -118,19 +118,19 @@ $permiso_cambiar = true;
 <div class="panel-heading" data-formato="<?= strtoupper($formato_textual); ?>" data-mascara="<?= $formato_numeral; ?>" data-gestion="<?= date_decode($gestion_base, $_institution['formato']); ?>">
 	<h3 class="panel-title">
 		<span class="glyphicon glyphicon-option-vertical"></span>
-		<b>Lista de todas las proformas <?= $_institution['empresa1'] ?></b>
+		<b>Lista de todas las rutas <?= $_institution['empresa1'] ?></b>
 	</h3>
 </div>
 <div class="panel-body">
 
 	<div class="row">
         <div class="col-sm-9 hidden-xs">
-            <form method="post" class="form-horizontal">
+            <form method="post" class="form-horizontal" >
                 <div class="row">
                     <div class="form-group">
                         <label for="nombre" class="col-md-3 control-label">Nombre de la ruta:</label>
                         <div class="col-md-6">
-                            <input type="text" name="nombre" id="nombre" class="form-control" />
+                            <input type="text" name="nombre" id="nombre" class="form-control"  autocomplete="off" />
                             <input type="hidden" name="cliente" id="cliente" value="<?= $t_clientes ?>"/>
                             <input type="hidden" name="empresa" id="empresa" value="<?= $empresa ?>"/>
                             <input type="hidden" name="nombre2" id="nombre2" value="<?= $n_clientes ?>"/>

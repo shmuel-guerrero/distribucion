@@ -1402,13 +1402,13 @@ function guardar_proforma() {
             $('#formulario').trigger('reset');
 			//imprimir_proforma(proforma);
 
-			if(proforma.guardar!=1){
+			 if(proforma.guardar!=1){
             	imprimir_nota(proforma.id_egreso);
             } else {
             	imprimir_proforma(proforma);
             }
 
-            $('#loader').fadeOut(100);
+            $('#loader').fadeOut(100); 
 		} else {
 			$('#loader').fadeOut(100);
 			$.notify({
@@ -1418,7 +1418,7 @@ function guardar_proforma() {
 			});
 		}
 	}).fail(function (e) {
-	
+		//console.log(e);
 		$('#loader').fadeOut(100);
 		$.notify({
 			message: 'Ocurrió un problema en el proceso, no se puedo guardar los datos de la preventa, verifique si la se guardó parcialmente.'

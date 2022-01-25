@@ -150,7 +150,7 @@ require_once show_template('header-advanced');
                                     tr.monto_total 
                                     FROM tmp_reposiciones tr
                                     ) B ON  B.nro_factura = AB.nro_factura AND B.cliente_id = AB.cliente_id 
-                                    AND B.nro_autorizacion = AB.nro_autorizacion")->fetch_first()['total_retorno'];
+                                    ")->fetch_first()['total_retorno'];
                     $retorno = ($retorno >= 0) ? $retorno : 0;
 
                     // se realiza los calculos para obtener monto total retorno

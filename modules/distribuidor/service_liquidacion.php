@@ -190,7 +190,6 @@ if (($egresos_mov['id_egresos'] != '' || $egresos_mov['id_egresos'] != null) && 
             $total_entregados = (count($dato) > 0) ? $dato[0] : $value['total_inicio']; 
     
             //se calcula cantidad devuelta previa entrega
-            //se calcula cantidad devuelta previa entrega
             $cant_devuelta = (count($dato) > 0) ? $value['total_inicio_uno'] - $dato[0] : (($value['total_inicio_uno']) ? $value['total_inicio_uno'] : 0);
             $cant_devuelta_previ = $cant_devuelta;
     
@@ -198,7 +197,9 @@ if (($egresos_mov['id_egresos'] != '' || $egresos_mov['id_egresos'] != null) && 
             $total_entregados = (count($dato) > 0) ? $dato[0] : $total_entregados;
     
             //se calcula cantidad devuelta post entrega
-            $cant_devuelta = (count($dato) > 0) ? (($cant_devuelta > 0 && $cant_devuelta != null) ? $cant_devuelta - $dato[0] : $value['total_inicio_uno'] - $dato[0]) : (($cant_devuelta) ? $cant_devuelta : 0);
+            //$cant_devuelta = (count($dato) > 0) ? (($cant_devuelta > 0 && $cant_devuelta != null) ? $cant_devuelta - $dato[0] : $value['total_inicio_uno'] - $dato[0]) : (($cant_devuelta) ? $cant_devuelta : 0);
+            $cant_devuelta = (count($dato) > 0) ? (($cant_devuelta > 0 && $cant_devuelta != null) ? $value['total_inicio_uno'] - $dato[0] : (($cant_devuelta) ? $cant_devuelta : 0)) : (($cant_devuelta) ? $cant_devuelta : 0);
+
             $cant_devuelta_post = $cant_devuelta;
     
             //CALCULO DE LOS DEVUELTOS PREcIO(EDICION) PREV Y POST
@@ -273,22 +274,11 @@ if (($egresos_mov['id_egresos'] != '' || $egresos_mov['id_egresos'] != null) && 
             $devueltos[$key]['precio'] = ($precios_devueltos && $precios_devueltos != null) ? $precios_devueltos : 0;
             $devueltos[$key]['id_producto'] = $value['producto_id'];
             $devueltos[$key]['precio_actual'] = $value['precio_actual'];
-           /*  var_dump($devueltos[$key]);
-            echo "<br>"; */
+            /*  var_dump($devueltos[$key]);
+            echo "<br>";  */
         }    
     }
-    
-    
-    /* echo "<br>";
-    echo "<br>";
-    echo "<br>";
-    echo "<br>";
-    var_dump($devueltos);
-    echo "<br>";
-    echo "<br>";
-    echo "<br>"; */
-    
-    
+
     ///Obtiene las entregas realizadas
     $prod_entregados = $db->query("SELECT 
                     GROUP_CONCAT(A.cantidad SEPARATOR '|') AS cantidades,
@@ -403,16 +393,7 @@ if (($egresos_mov['id_egresos'] != '' || $egresos_mov['id_egresos'] != null) && 
         $cobros[$key]['monto3'] = number_format((($value['monto_cancelado'] >= 0) ? $value['monto_cancelado'] : 0), 2, '.', '');
     }
      
-    /* echo "<br>";
-    var_dump($devueltos);
-    echo "<br>";
-    echo "<br>";
-    echo "<br>";
-    
-    var_dump($ventas_directas);
-    exit;  */
-    
-    
+
     $productos_devueltos = array();
     $datos_resumen = '';
     $datos_cobros = '';

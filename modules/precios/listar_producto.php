@@ -127,8 +127,7 @@
         $ids_asignaciones = $db->select('*')
                                ->from('inv_asignaciones a')
                                ->join('inv_unidades b','a.unidad_id = b.id_unidad  AND a.visible = "s" ' )
-                               ->where('a.producto_id',$Dato['id_producto'])
-                               ->where('a.visible','s')
+                               ->where('a.producto_id',$Dato['id_producto'])                               
                                ->fetch();
         
         if (($ids_asignaciones) > 0) {
@@ -194,7 +193,6 @@
                                ->from('inv_asignaciones a')
                                ->join('inv_unidades b','a.unidad_id = b.id_unidad  AND a.visible = "s" ' )
                                ->where('a.producto_id',$Dato['id_producto'])
-                               ->where('a.visible', 's')
                                ->fetch();
 
         $AuxPrecio=[escape($Dato['unidad']),escape($Dato['precio_actual'])];

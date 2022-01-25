@@ -4,9 +4,9 @@
 $moneda = $db->from('inv_monedas')->where('oficial', 'S')->fetch_first();
 $moneda = ($moneda) ? '(' . $moneda['sigla'] . ')' : '';
 
-$Consulta = $db->query("SELECT m.id_meta_categoria,m.monto,m.fecha_inicio,m.fecha_fin,m.categoria_id,c.categoria,c.descripcion
+$Consulta = $db->query("SELECT m.id_meta_categoria, m.monto, m.fecha_inicio, m.fecha_fin, m.categoria_id, c.categoria, c.descripcion
                         FROM inv_meta_categoria AS m
-                        LEFT JOIN inv_categorias AS c ON c.id_categoria=m.categoria_id
+                        LEFT JOIN inv_categorias AS c ON c.id_categoria = m.categoria_id
                         WHERE CURDATE() BETWEEN m.fecha_inicio AND m.fecha_fin
                         GROUP BY m.id_meta_categoria ORDER BY m.id_meta_categoria DESC")->fetch();
 require_once show_template('header-advanced');
@@ -65,7 +65,7 @@ require_once show_template('header-advanced');
                             LEFT JOIN inv_asignaciones asi ON asi.producto_id = ed.producto_id AND asi.unidad_id = ed.unidad_id AND asi.visible = 's'
                             LEFT JOIN inv_egresos AS e ON e.id_egreso = ed.egreso_id
                             LEFT JOIN inv_productos AS p ON ed.producto_id=p.id_producto
-                            WHERE p.categoria_id='{$Dato['categoria_id']}' AND e.anulado = 0 AND e.estadoe != 0 AND asi.visible = 's'
+                            WHERE p.categoria_id='{$Dato['categoria_id']}' AND e.anulado = 0 AND e.estadoe != 0
                             AND e.fecha_egreso BETWEEN '{$Dato['fecha_inicio']}' AND '{$Dato['fecha_fin']}'")->fetch_first();
                     $Conseguido = ($Conseguido['total'] >= 0) ? $Conseguido['total'] : 0;
                     $meta = ($Dato['monto'] >= 0) ? $Dato['monto']: 0;

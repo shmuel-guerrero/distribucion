@@ -164,7 +164,8 @@ $permiso_cambiar = true;
 				<th class="text-nowrap"><?= $nro + 1; ?></th>
 				<td class="text-nowrap"><?= escape(date_decode($egreso['fecha_egreso'], $_institution['formato'])); ?> <small class="text-success"><?= escape($egreso['hora_egreso']); ?></small></td>
 				<td class="text-nowrap <?= ($egreso['principal'] == 'S') ? 'info' : ''; ?>"><?= escape($egreso['almacen']); ?></td>
-				<td class="text-nowrap"><?= escape($egreso['tipo']); ?></td>
+				<?php $tipo_complemento =  ($egreso['descripcion'] && $egreso['tipo'] == 'Baja') ? explode('-', $egreso['descripcion']) : ''; ?>
+				<td class="text-nowrap"><?= escape($egreso['tipo']);  ?></td>
 				<td class="width-md"><?= escape($egreso['descripcion']); ?></td>
 				<td class="text-nowrap text-right"><?= escape($egreso['tipo']) == 'Venta' ? escape($egreso['monto_total_descuento']) : escape($egreso['monto_total']); ?></td>
 				<td class="text-nowrap text-right"><?= escape($egreso['nro_registros']); ?></td>

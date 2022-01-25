@@ -30,7 +30,7 @@ $DetalleEgreso = $db->query("SELECT a.*, b.*, a.unidad_id AS unidad_det, GROUP_C
                     	FROM inv_egresos_detalles a
                     	LEFT JOIN inv_productos b ON a.producto_id = b.id_producto
                     	LEFT JOIN inv_asignaciones c ON b.id_producto = c.producto_id AND c.visible = 's'
-                    	LEFT JOIN inv_unidades d ON c.unidad_id = id_unidad WHERE a.egreso_id = '$IdNotaRemision' and a.promocion_id <2 AND c.visible = 's' GROUP BY a.id_detalle ")->fetch();
+                    	LEFT JOIN inv_unidades d ON c.unidad_id = id_unidad WHERE a.egreso_id = '$IdNotaRemision' and a.promocion_id <2  GROUP BY a.id_detalle ")->fetch();
 	
 
 $clientes = $db->query("select * FROM inv_clientes ORDER BY cliente asc, nit asc")->fetch();

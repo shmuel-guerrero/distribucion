@@ -118,7 +118,6 @@
                              ->from('inv_asignaciones a')
                              ->join('inv_unidades b','a.unidad_id = b.id_unidad  AND a.visible = "s" ' )
                              ->where('a.producto_id',$Dato['id_producto'])
-                             ->where('a.visible','s')
                              ->fetch();
 
         foreach($ids_asignaciones as $i => $id_asignacion):

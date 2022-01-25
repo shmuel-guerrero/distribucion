@@ -63,7 +63,7 @@ $permiso_cambiar = true;
 <div class="panel-heading" data-formato="<?= strtoupper($formato_textual); ?>" data-mascara="<?= $formato_numeral; ?>" data-gestion="<?= date_decode($gestion_base, $_institution['formato']); ?>">
 	<h3 class="panel-title">
 		<span class="glyphicon glyphicon-option-vertical"></span>
-		<strong>Reporte de ventas por producto</strong>
+		<strong>Reporte de ventas a detalle</strong>
 	</h3>
 </div>
 <div class="panel-body" data-servidor="<?= ip_local . name_project . '/diario.php'; ?>">
@@ -84,6 +84,7 @@ $permiso_cambiar = true;
 			<tr class="active">
 				<th class="text-nowrap">#</th>
 				<th class="text-nowrap">Fecha</th>				
+				<th class="text-nowrap">Código</th>				
 				<th class="text-nowrap">Cliente</th>				
 				<th class="text-nowrap">Tipo de venta</th>
 				<th class="text-nowrap">Nro. venta</th>
@@ -104,6 +105,7 @@ $permiso_cambiar = true;
 			<tr class="active">
 				<th class="text-nowrap text-middle" data-datafilter-filter="false">#</th>
 				<th class="text-nowrap text-middle" data-datafilter-filter="true">Fecha</th>				
+				<th class="text-nowrap text-middle" data-datafilter-filter="true">Código</th>								
 				<th class="text-nowrap text-middle" data-datafilter-filter="true">Cliente</th>								
 				<th class="text-nowrap text-middle" data-datafilter-filter="true">Tipo de venta</th>
 				<th class="text-nowrap text-middle" data-datafilter-filter="true">Nro. venta</th>
@@ -134,6 +136,9 @@ $permiso_cambiar = true;
 					<span><?= escape(date_decode($venta['fecha_egreso'], $_institution['formato'])); ?></span><br>
 					<small class="text-success"><?= escape($venta['hora_egreso']); ?></small>
 				</td>				
+				<td class="text-nowrap">
+					<?= ($venta['cliente_id'] > 0) ? escape($venta['cliente_id']) : 'Distribuidor'; ?>					
+				</td>							
 				<td class="text-nowrap">
 					<span><?= escape($venta['nombre_cliente']); ?></span><br>
 					<small class="text-success"><?= escape($venta['nit_ci']); ?></small>					

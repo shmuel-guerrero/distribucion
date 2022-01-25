@@ -74,7 +74,7 @@ $permiso_cambiar = true;
 <div class="panel-heading" data-formato="<?= strtoupper($formato_textual); ?>" data-mascara="<?= $formato_numeral; ?>" data-gestion="<?= date_decode($gestion_base, $_institution['formato']); ?>">
 	<h3 class="panel-title">
 		<span class="glyphicon glyphicon-option-vertical"></span>
-		<strong>Reporte de ventas por producto</strong>
+		<strong>Reporte de producto</strong>
 	</h3>
 </div>
 <div class="panel-body" data-servidor="<?= ip_local . name_project . '/diario.php'; ?>">

@@ -7,7 +7,7 @@ $id_venta = (sizeof($params) > 0) ? $params[0] : 0;
 $venta = $db->select('i.*, a.almacen, a.principal, e.nombres, e.paterno, e.materno')->from('inv_egresos i')->join('inv_almacenes a', 'i.almacen_id = a.id_almacen', 'left')->join('sys_empleados e', 'i.empleado_id = e.id_empleado', 'left')->where('id_egreso', $id_venta)->fetch_first();
 
 // Verifica si existe el egreso
-if (!$venta || $venta['empleado_id'] != $_user['persona_id']) {
+if (!$venta ) {
 	// Error 404
 	require_once not_found();
 	exit;
@@ -144,7 +144,7 @@ $permiso_reimprimir = in_array('facturas_obtener', $permisos);
 										if($pr['unidad_id'] == $detalle['unidad_id']){
 											$unidad = $pr['unidad'];
 										}else{
-											$pr = $db->select('*')->from('inv_asignaciones a')->join('inv_unidades b', 'a.unidad_id = b.id_unidad AND a.visible = "s"')->where(array('a.producto_id'=>$detalle['producto_id'],'a.unidad_id'=>$detalle['unidad_id'], 'a.visible' => 's'))->fetch_first();
+											$pr = $db->select('*')->from('inv_asignaciones a')->join('inv_unidades b', 'a.unidad_id = b.id_unidad AND a.visible = "s"')->where(array('a.producto_id'=>$detalle['producto_id'],'a.unidad_id'=>$detalle['unidad_id']))->fetch_first();
 											$unidad = $pr['unidad'];
 											$cantidad = $cantidad/$pr['cantidad_unidad'];
 										}

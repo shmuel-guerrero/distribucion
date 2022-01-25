@@ -103,9 +103,9 @@ if (is_post()) {
 			$venta = array(
 				'fecha_egreso' => date('Y-m-d'),
 				'hora_egreso' => date('H:i:s'),
-				'tipo' => $tipo,
+				'tipo' => ($tipo == 'Baja') ? $tipo : 'Baja',
 				'provisionado' => 'N',
-				'descripcion' => ($descripcion != '')?$descripcion:'Traspaso de productos',
+				'descripcion' => ($descripcion != '') ?  (($tipo == 'Perdida') ? 'Perdida - ' . $descripcion : $descripcion) : 'Traspaso de productos',
 				'nro_factura' => 0,
 				'nro_autorizacion' => 0,
 				'codigo_control' => '',

@@ -13,7 +13,7 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 -- Volcando estructura para tabla distribuidhgc_beta.sys_procesos
-CREATE TABLE IF NOT EXISTS `sys_procesos` (
+CREATE TABLE IF NOT EXISTS `sys_procesos_device` (
   `id_proceso` int(11) NOT NULL AUTO_INCREMENT,
   `fecha_proceso` datetime NOT NULL,
   `hora_proceso` time NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `sys_procesos` (
   `detalle` text NOT NULL,
   `usuario_id` int(11) NOT NULL,
   PRIMARY KEY (`id_proceso`)
-) ENGINE=MyISAM AUTO_INCREMENT=22523 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- La exportación de datos fue deseleccionada.
 

@@ -81,7 +81,7 @@ if (is_post()) {
 
 		// Recorre los productos
 		foreach ($productos as $nro => $elemento) {
-			$id_unidade = $db->select('*')->from('inv_asignaciones a')->join('inv_unidades u', 'a.unidad_id=u.id_unidad AND a.visible = "s"')->where(array('u.unidad' => $unidad[$nro], 'a.producto_id' => $productos[$nro], 'a.visible' => 's'))->fetch_first();
+			$id_unidade = $db->select('*')->from('inv_asignaciones a')->join('inv_unidades u', 'a.unidad_id=u.id_unidad AND a.visible = "s"')->where(array('u.unidad' => $unidad[$nro], 'a.producto_id' => $productos[$nro]))->fetch_first();
 			$id_unidad = 0;
 			if ($id_unidade) {
 				$id_unidad = $id_unidade['id_unidad'];

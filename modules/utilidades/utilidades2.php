@@ -29,7 +29,7 @@ $query = "SELECT *, SUM(cantidad)AS cantidadAcumul, SUM(precio*cantidad/IF(a.can
             LEFT JOIN inv_asignaciones a ON a.producto_id = vd.producto_id AND a.unidad_id = vd.unidad_id  AND a.visible = 's' 
             LEFT JOIN inv_unidades u ON u.id_unidad = vd.unidad_id
             LEFT JOIN inv_categorias c ON p.categoria_id = c.id_categoria
-            WHERE v.tipo='Venta' and v.anulado != 3 AND v.fecha_egreso between '$fecha_inicial' and '$fecha_final' AND a.visible = 's' 
+            WHERE v.tipo='Venta' and v.anulado != 3 AND v.fecha_egreso between '$fecha_inicial' and '$fecha_final' 
             GROUP BY p.id_producto";
 $query2 = "SELECT *, SUM(cantidad) AS cantidadAcumul, SUM(precio*cantidad/IF(a.cantidad_unidad IS NULL, 1, a.cantidad_unidad)) AS importeAcumul , GROUP_CONCAT(vd.lote) as lotes, GROUP_CONCAT((IF(vd.precio = 0.00, 0, vd.precio)),'-',vd.lote,'-',IFNULL(a.cantidad_unidad, 1)) as precios, GROUP_CONCAT(vd.cantidad) as cantidades
 			, GROUP_CONCAT(DISTINCT(u.unidad)) as unidades, (cantidad*precio) as importe_total,
@@ -40,7 +40,7 @@ $query2 = "SELECT *, SUM(cantidad) AS cantidadAcumul, SUM(precio*cantidad/IF(a.c
 			LEFT JOIN inv_asignaciones a ON a.producto_id = vd.producto_id AND a.unidad_id = vd.unidad_id   AND a.visible = 's' 
 			LEFT JOIN inv_unidades u ON u.id_unidad = vd.unidad_id 
 			LEFT JOIN inv_categorias c ON p.categoria_id = c.id_categoria 
-			WHERE v.tipo='Venta'  AND a.visible = 's' 
+			WHERE v.tipo='Venta'  
 			and v.anulado != 3 
 			AND v.fecha_egreso 
             between '$fecha_inicial' and '$fecha_final'
