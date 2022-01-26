@@ -4,16 +4,7 @@
 if ($distribuidor && $contrasenia_distri && $contrasenia_distri != null) {
 
     $estado_validar_consulta_datos = true;
-    
-    //OBTIENE ID_EGRESOS implementado en hgc/adiciones
-    /*     $egresos_mov = $db->query("SELECT GROUP_CONCAT(DISTINCTROW(ei.id_egreso) SEPARATOR ',')AS id_egresos,
-                            GROUP_CONCAT(DISTINCTROW(edi.producto_id) SEPARATOR ',')AS id_productos
-                            FROM inv_egresos_inicio ei 
-                            LEFT JOIN inv_egresos_detalles_inicio edi ON ei.id_egreso = edi.egreso_id
-                            LEFT JOIN gps_rutas r ON r.id_ruta = ei.ruta_id AND r.estado = 1
-                            LEFT JOIN gps_asigna_distribucion gad ON gad.ruta_id = r.id_ruta AND gad.estado = 1
-                            WHERE ei.estado_vendedor = 'Abierto' AND  gad.distribuidor_id = '{$distribuidor}'")->fetch_first();
-    */                            
+                       
         //OBTIENE ID_EGRESOS
         $egresos_mov = $db->query("SELECT GROUP_CONCAT(DISTINCTROW(te.id_egreso) SEPARATOR ',')AS id_egresos,
         GROUP_CONCAT(DISTINCTROW(ted.producto_id) SEPARATOR ',')AS id_productos
@@ -22,13 +13,10 @@ if ($distribuidor && $contrasenia_distri && $contrasenia_distri != null) {
         WHERE te.estado = 3 AND te.distribuidor_id = '{$distribuidor}' 
         AND te.distribuidor_estado NOT IN ('VENTA')")->fetch_first();
         
-        //var_dump($egresos_mov);
     
     if (count($egresos_mov) > 0 && $egresos_mov['id_egresos'] != null && $egresos_mov['id_productos'] != null) {
 
         //obtiene  PRODUCTOS ENTREGADOS
-        // Obtiene los detalles
-
         $detalles = $db->query("SELECT e.id_egreso,
                         ROUND(IFNULL(SUM((edi.cantidad / (IF(a.cantidad_unidad is null,1,IF(a.cantidad_unidad>0,a.cantidad_unidad, 1))))),0),2)AS total_inicio, 
                         ROUND(IFNULL(SUM(edi.cantidad),0),2)AS total_inicio_uno, 
@@ -298,9 +286,6 @@ if ($distribuidor && $contrasenia_distri && $contrasenia_distri != null) {
         }
         
         
-
-
-
 
         //obtiene PRODUCTOS VENDIDOS - VENTA DIRECTA(REVENDIDOS) POR PRODUCTO
         $ventas_directas = $db->query('SELECT te.id_egreso,

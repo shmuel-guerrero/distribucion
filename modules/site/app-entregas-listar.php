@@ -28,6 +28,10 @@ if (is_post()) {
     if (isset($_POST['id_user'])) {
         // Importa la configuracion para el manejo de la base de datos
         require config . '/database.php';
+
+        //se inporta la clase creada para la obtencion de datos de devoluciones del distribuidor
+        require_once(libraries . '/mis_clases/class_devoluciones.php');
+
   		//Habilita las funciones internas de notificación
 		mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT );
 
@@ -45,7 +49,13 @@ if (is_post()) {
             // Verifica la existencia del usuario
             if ($usuario) {
                 $totalentrega = $db->select('SUM(monto_total) as total, COUNT(cliente_id) as cont')->from('tmp_egresos')->where('distribuidor_id',$usuario['id_empleado'])->where('distribuidor_estado','ENTREGA')->where('estado',3)->where('anulado !=',3)->fetch_first();
-                $totaldevuelto = $db->select('SUM(monto_total) as total')->from('tmp_egresos')->where('distribuidor_id',$usuario['id_empleado'])->where('distribuidor_estado!=','ENTREGA')->where('estado',3)->where('anulado !=',3)->fetch_first();
+                
+                //se inicia la clse se envia la variable de la basde de datos y el id_distribuidor(id_empleado)
+                $resultado = new devoluciones_distribucion($db, $usuario['id_empleado']);            
+                $totaldevuelto = $resultado->total_devoluciones($db); 
+                $totaldevuelto = ($totaldevuelto > 0) ? number_format($totaldevuelto, 2, '.', '') : 0;
+
+                //$totaldevuelto = $db->select('SUM(monto_total) as total')->from('tmp_egresos')->where('distribuidor_id',$usuario['id_empleado'])->where('distribuidor_estado!=','ENTREGA')->where('estado',3)->where('anulado !=',3)->fetch_first();
                 $totaldescuento = $db->select('SUM(descripcion_venta) as descuento')->from('tmp_egresos')->where('distribuidor_id',$usuario['id_empleado'])->where('distribuidor_estado','ENTREGA')->where('estado',3)->where('anulado !=',3)->fetch_first();
                 
                 /*$egresos = $db->select('e.*, c.nombre_factura AS razon_social')->from('tmp_egresos e')
@@ -87,7 +97,7 @@ if (is_post()) {
                         'estado' => 's',
                         'nro_clientes' => $totalentrega['cont'],
                         'total_entregas' => $totalentrega['total'],
-                        'total_devueltos' => $totaldevuelto['total'],
+                        'total_devueltos' => $totaldevuelto,
                         'total_descuentos' => $totaldescuento['descuento'],
                         'total_cobros' => 111,
                         'total_cobros_anteriores' => 222,

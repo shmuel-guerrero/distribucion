@@ -209,7 +209,7 @@ if(is_post()) {
                             $usuario['ruta'] = '';
                             $respuesta = array(
                                 'estado' => 'sr',
-                                'estado_device' => $estado_device,
+                                //'estado_device' => $estado_device,
                                 'vendedor' => $usuario
                             );
                         }
@@ -222,6 +222,7 @@ if(is_post()) {
                 //se cierra transaccion
 				$db->commit();
                 echo json_encode(array('estado' => 'n',
+                                        'estado_device' => '',
                                         'msg' => 'Datos incorrectos.'));
             }
         } catch (Exception $e) {
@@ -229,7 +230,7 @@ if(is_post()) {
             $error = $e->getMessage();
 
             //Se devuelve el error en mensaje json
-            echo json_encode(array("estado" => 'n', 'msg'=>$error));
+            echo json_encode(array("estado" => 'n', 'estado_device' => '', 'msg'=>$error));
 
             //se cierra transaccion
             $db->rollback();
@@ -237,10 +238,12 @@ if(is_post()) {
         
     } else {
         echo json_encode(array('estado' => 'n',
+                                'estado_device' => '',
                                 'msg' => 'Datos no definidos'));
     }
 }else{
     echo json_encode(array('estado' => 'n',
+                            'estado_device' => '',
                             'msg' => 'Metodo no definido.'));
 }
 ?>
