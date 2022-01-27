@@ -380,7 +380,7 @@ class devoluciones_distribucion
                     LEFT JOIN inv_categorias c ON c.id_categoria = p.categoria_id      
     
                     WHERE edi.egreso_id IS NOT NULL AND 
-                    te.estado = 3 AND te.distribuidor_id = ' . $id_distribuidor . ' AND te.distribuidor_estado IN ("VENTA") AND edi.promocion_id != 1 AND a.visible = "s"
+                    te.estado = 3 AND te.distribuidor_id = ' . $id_distribuidor . ' AND te.distribuidor_estado IN ("VENTA") AND edi.promocion_id != 1
                     GROUP BY edi.producto_id')->fetch();
 
             $this->array_vendidos = $ventas_directas;
