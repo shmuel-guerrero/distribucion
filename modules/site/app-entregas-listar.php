@@ -50,7 +50,7 @@ if (is_post()) {
             if ($usuario) {
                 $totalentrega = $db->select('SUM(monto_total) as total, COUNT(cliente_id) as cont')->from('tmp_egresos')->where('distribuidor_id',$usuario['id_empleado'])->where('distribuidor_estado','ENTREGA')->where('estado',3)->where('anulado !=',3)->fetch_first();
                 
-                //se inicia la clse se envia la variable de la basde de datos y el id_distribuidor(id_empleado)
+                //se inicia la clase se envia la variable de la base de datos y el id_distribuidor(id_empleado)
                 $resultado = new devoluciones_distribucion($db, $usuario['id_empleado']);            
                 $totaldevuelto = $resultado->total_devoluciones($db); 
                 $totaldevuelto = ($totaldevuelto > 0) ? number_format($totaldevuelto, 2, '.', '') : 0;

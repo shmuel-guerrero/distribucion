@@ -38,11 +38,13 @@ if (is_post()) {
             $db->autocommit(false);
             $db->beginTransaction();
 
+            $id_user_recibido = ($_POST['id_user']) ? $_POST['id_user'] : 0;
             //buscamos al empleado
             $empleado = $db->select('persona_id')->from('sys_users')->where('id_user', $_POST['id_user'])->fetch_first();
             $id_user = $empleado['persona_id'];
             $id_detalle = $_POST['id_detalle'];
             $estadoE = $_POST['estadoE'];
+            $token = (isset($_POST['token'])) ? $_POST['token'] : '';
             
             //buscamos el detalle
             $detalle = $db->select('a.*, a.id_detalle as tmp_egreso_id')->from('inv_egresos_detalles a')->where('id_detalle', $id_detalle)->fetch_first();
@@ -183,6 +185,9 @@ if (is_post()) {
                         $db->insert('inv_pagos_detalles', $detallePlan);
                     }
                         
+                    //se guarda proceso u(update),c(create), r(read),d(delet), cr(cerrar), a(anular)
+                    save_process($db, 'd', '?/site/app-eliminar-detalle', 'elimino item de movimiento previa entrega', $egreso['id_egreso'], $id_user_recibido, $token); 
+
 					//se cierra transaccion
 					$db->commit();
 

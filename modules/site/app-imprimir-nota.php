@@ -677,9 +677,6 @@ if (is_post()) {
                         $verifica = backup_registros($db, 'inv_egresos_detalles', 'egreso_id', $venta['id_egreso'], '', '', $id_user, 'NO', $verifica_id, "Backup"); 
     
                         historial_conversion($db, $id_egreso, 'Electronicas', $id_egreso, 'Electronicas', $id_empleado, "ConversionDirecta", $verifica_id, 'sinDatos');
-    
-                        //se guarda proceso u(update),c(create), r(read),d(delet)
-                        save_process($db, 'u', '?/site/app-imprimir-nota', 'modifico', $venta['id_egreso'], $id_user);
                         
                         //se crea backup de registros//////
                         $verifica_id2 = backup_registros($db, 'tmp_egresos', 'id_egreso', $venta['id_egreso'], 'distribuidor_estado', 'ENTREGA', $id_user, 'SI', 0, "Editado");
@@ -688,8 +685,8 @@ if (is_post()) {
                         //se crea backup de registros
                         $verifica = backup_registros($db, 'tmp_egresos_detalles', 'egreso_id', $venta['id_egreso'], '', '', $id_user, 'NO', $verifica_id2, "Backup"); 
     
-                        //se guarda proceso u(update),c(create), r(read),d(delet)
-                        save_process($db, 'u', '?/site/app-imprimir-nota', 'modifico', $venta['id_egreso'], $id_user);
+                        //se guarda proceso u(update),c(create), r(read),d(delet), cr(cerrar), a(anular)
+                        save_process($db, 'u', '?/site/app-imprimir-nota', 'modifico', $venta['id_egreso'], $id_user, $token);
     
                     }else{
                         // Obtiene los datos para el codigo de control
@@ -728,8 +725,8 @@ if (is_post()) {
                         historial_conversion($db, $id_egreso, 'Preventa', $id_egreso, 'Electronicas', $id_empleado, "ConversionDirecta", $verifica_id, 'sinDatos');
                         
     
-                        //se guarda proceso u(update),c(create), r(read),d(delet)
-                        save_process($db, 'u', '?/site/app-imprimir-nota', 'modifico', $venta['id_egreso'], $id_user);
+                        //se guarda proceso u(update),c(create), r(read),d(delet), cr(cerrar), a(anular)
+                        save_process($db, 'u', '?/site/app-imprimir-nota', 'modifico', $venta['id_egreso'], $id_user, $token);
     
     
                         // $db->where('id_egreso', $venta['id_egreso'])->where('distribuidor_estado', 'ENTREGA')->update('tmp_egresos', $datos_venta);
@@ -784,8 +781,8 @@ if (is_post()) {
             //se crea backup de registros
             $verifica = backup_registros($db, 'tmp_egresos_detalles', 'egreso_id', $venta['id_egreso'], '', '', $id_user, 'NO', $verifica_id2, "Backup"); 
 
-            //se guarda proceso u(update),c(create), r(read),d(delet)
-            save_process($db, 'u', '?/site/app-imprimir-nota', 'modifico', $venta['id_egreso'], $id_user);
+            //se guarda proceso u(update),c(create), r(read),d(delet), cr(cerrar), a(anular)
+            save_process($db, 'u', '?/site/app-imprimir-nota', 'modifico', $venta['id_egreso'], $id_user, $token);
 
         }
 

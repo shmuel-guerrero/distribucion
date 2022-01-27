@@ -34,6 +34,7 @@ if (is_post()) {
             $egresos = (isset($_POST['id_egreso'])) ? $_POST['id_egreso'] : array();
             $id_user = $_POST['id_user'];
             $acciones = 0;
+            $token = (isset($_POST['token'])) ? $_POST['token'] : '';
 
         try {
 
@@ -121,7 +122,12 @@ if (is_post()) {
                             $db->insert('tmp_egresos_detalles', $detalle);
                         }
                     } 
+
+                    //se guarda proceso u(update),c(create), r(read),d(delet), cr(cerrar), a(anular)
+                    save_process($db, 'u', '?/site/app-entrega-distribuidor', 'se realizo entrega', $id_egreso, $id_user, $token); 
                 }
+
+
                 //se cierra transaccion
                 $db->commit();
                              

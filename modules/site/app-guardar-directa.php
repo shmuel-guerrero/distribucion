@@ -40,6 +40,7 @@ if (is_post()) {
         $precio         = trim($_POST['precio']);
         $total          = trim($_POST['monto_total']);
         $id_cliente     = trim($_POST['codigo_cliente']);
+        $token = (isset($_POST['token'])) ? $_POST['token'] : '';
 
         try {
             //Se abre nueva transacción.
@@ -163,6 +164,9 @@ if (is_post()) {
                     $detalle['tmp_egreso_id'] = $id;
                     $detalle['id_detalle'] = $ide;
                     $db->insert('tmp_egresos_detalles', $detalle);
+
+                    //se guarda proceso u(update),c(create), r(read),d(delet), cr(cerrar), a(anular)
+                    save_process($db, 'c', '?/site/app-guardar-directa', 'una venta directa', $egreso_id, $id_user, $token); 
     
                     //se cierra transaccion
                     $db->commit();

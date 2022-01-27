@@ -33,6 +33,7 @@ if (is_post()) {
 
         // Obtiene los usuarios que cumplen la condicion
         $id_user = $_POST['id_user'];
+        $token = (isset($_POST['token'])) ? $_POST['token'] : '';
 
         try {
 
@@ -64,8 +65,13 @@ if (is_post()) {
                     // Actualiza la informacion
                     $idg = $db->where($condicion)->update('sys_empleados', $user);
                     $modificacion = $db->affected_rows;
+
+                    //se guarda proceso u(update),c(create), r(read),d(delet), cr(cerrar), a(anular)
+                    save_process($db, 'ce', '?/site/app-cerrar-venta', 'cierre', 'ventas', $id_user, $token);
+                    
                     //se cierra transaccion
                     $db->commit();
+                    
 
                     if (($modificacion) > 0) {
                         // Instancia el objeto
