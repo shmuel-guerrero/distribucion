@@ -65,6 +65,31 @@ ALTER TABLE tmp_egresos MODIFY COLUMN nro_factura VARCHAR(20);
 ALTER TABLE tmp_reposiciones MODIFY COLUMN nro_factura VARCHAR(20);
 
 
+
+
+
+/* AGREGAR CAMPOS EN LAS TABLAS DE sys_institucion*/
+ALTER TABLE `sys_instituciones`
+	ADD COLUMN `descripcion`  varchar(1500) NOT NULL DEFAULT '' AFTER `direccion`;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 -- se AGREGA el campo tipo
 
 ALTER TABLE backup_inv_egresos ADD COLUMN tipo_venta ENUM('Preventa','Nota','Manual','Electronica','otros')  NOT NULL DEFAULT 'otros' AFTER 'tipo';

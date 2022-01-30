@@ -105,7 +105,7 @@ $permiso_activar = in_array('activar', $permisos);
                     <tr>
                         <th class="text-nowrap"><?= $nro + 1; ?></th>
                         <td class="text-nowrap text-uppercase"><?= escape($empleado['nombres']) . " " . escape($empleado['paterno']) . " " . escape($empleado['materno']); ?><br>
-                            <small class="text-success">usuario: <?= escape($empleado['username']) ?></small>
+                            <small data-usuario="<?= $empleado['id_empleado']; ?>" class="text-success">usuario: <?= escape($empleado['username']) ?></small>
                         </td>
                         <td class="text-nowrap text-uppercase"><?= ($empleado['ruta']) ? escape($empleado['ruta']) : 'ruta no asignada'; ?><br>
                             <small class="text-success"><?php switch($empleado['dia']){case 0: echo "Domingo "; break; case 1: echo "Lunes"; break; case 2: echo "Martes"; break; case 3: echo "Miercoles"; break; case 4: echo "Jueves"; break; case 5: echo "Viernes"; break; case 6: echo "Sábado"; break; default: echo "DIA NO ASIGNADO";} ?></small>
@@ -460,9 +460,16 @@ $permiso_activar = in_array('activar', $permisos);
                 $('[data-activar]').on('click', function (e) {
                     e.preventDefault();
                     var url = $(this).attr('href');
+                    let id_ususario = url.split("/");
+                    id_usuario = (id_ususario[3]) ? id_ususario[3] : 0;
+
+                    let $fila_tabla = $(this).parent().parent();
+                    let dato_usuario = $fila_tabla.find("[data-usuario=" + id_usuario + "]").text();
+                    let usuario_obtenido = dato_usuario.split(":");
+                    usuario_obtenido = usuario_obtenido[1].toUpperCase();
 
                     Swal.fire({
-                        title: 'ESTA SEGURO DE CERRAR LA DISTRIBUCIÓN?',
+                        title: '<h3>ESTA SEGURO DE CERRAR LA DISTRIBUCIÓN DE </h3><h3 class="text-danger">' + usuario_obtenido + ' ?</h3>',
                         width: 800,
                         html: "<h4 class='text-danger'>Esta operación cerrara la distribución. Acción irreversible!!</h4><h5>Esta operación repercutira en las operaciones del distribuidor en Dispositivo Movil</h5>",
                         icon: 'warning',
@@ -487,15 +494,16 @@ $permiso_activar = in_array('activar', $permisos);
                     e.preventDefault();
                     var url = $(this).attr('href');
 
+                    let id_ususario = url.split("/");
+                    id_usuario = (id_ususario[3]) ? id_ususario[3] : 0;
 
-/*                     bootbox.confirm('Está seguro que desea cambiar el estado del distribuidor?', function (result) {
-                        if(result){
-                            window.location = url;
-                        }
-                    }); */
+                    let $fila_tabla = $(this).parent().parent();
+                    let dato_usuario = $fila_tabla.find("[data-usuario=" + id_usuario + "]").text();
+                    let usuario_obtenido = dato_usuario.split(":");
+                    usuario_obtenido = usuario_obtenido[1].toUpperCase();
 
                     Swal.fire({
-                        title: 'PRECAUCIÓN !!!    ESTA SEGURO DE LIMPIAR LA DISTRIBUCIÓN?',
+                        title: '<h3>PRECAUCIÓN !!!    ESTA SEGURO DE LIMPIAR LA DISTRIBUCIÓN DE </h3><h3 class="text-primary">' + usuario_obtenido + ' ?</h3>',
                         width: 800,
                         html: "<h4 class='text-primary'>Esta operación limpiara la distribución. Acción irreversible!!</h4><h5>Esta operación repercutira en las operaciones del distribuidor en Dispositivo Movil; las entregas no ejecutadas volveran al almacen.</h5>",
                         icon: 'question',
