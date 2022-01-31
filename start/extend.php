@@ -1482,17 +1482,30 @@ function validar_stock_edicion_egreso($db, $id_productos = array(), $cantidades 
 +--------------------------------------------------------------------------
 */
 
-function save_process($db, $proceso = 'a', $direccion = '', $accion = 'accion', $id_egreso = 0, $id_user = 0){
+function save_process($db, $proceso = 'a', $direccion = '', $accion = 'accion', $id_egreso = 0, $id_user = 0, $token = ''){
+
+    if ($token) {
+        $imei = $db->query("SELECT sd.model, sd.imei, sd.user_id AS user_id_principal, sd.token AS token_principal, sdd.user_id AS user_id_secundario, sdd.token AS token_secundario 
+                        FROM sys_users_devices sd 
+                        LEFT JOIN sys_users_devices_detalles sdd ON sd.id_device = sdd.device_id
+                        WHERE (sd.token = '{$token}' || sdd.token = '{$token}') 
+                        AND (sd.user_id = '{$id_user}' || sdd.user_id = '{$id_user}')
+                        GROUP BY sd.user_id")->fetch_first()['imei'];
+    }
+
+    $imei = ($imei) ? $imei : null;
 
     // Guarda Historial
     $data = array(
-                'fecha_proceso' => date("Y-m-d"),
+                'fecha_proceso' => date("Y-m-d H:i:s"),
                 'hora_proceso' => date("H:i:s"),
                 'proceso' => $proceso,
                 'nivel' => 'l',
                 'direccion' => $direccion,
                 'detalle' => 'Se realizo ' . $accion . ' con identificador numero ' . $id_egreso,
-                'usuario_id' => $id_user
+                'id_movimiento' => ($id_egreso > 0) ? $id_egreso : 0,
+                'usuario_id' => $id_user,
+                'imei' => $imei
             );
 
     $id = $db->insert('sys_procesos_device', $data);

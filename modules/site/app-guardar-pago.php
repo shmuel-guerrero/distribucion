@@ -36,7 +36,8 @@ if (is_post()) {
         $id_pago        = trim($_POST['id_pago']);
         $id_pago_detalle= trim($_POST['id_pago_detalle']);
         $pago           = trim($_POST['pago']);
-
+        $token = (isset($_POST['token'])) ? $_POST['token'] : '';
+        $accion_device = 'u';
         try {
 
             //Se abre nueva transacción.
@@ -52,6 +53,8 @@ if (is_post()) {
                     $detalle = $db->select('*')->from('inv_pagos_detalles')->where('id_pago_detalle',$id_pago_detalle)->fetch_first();
                     //si el pago es el mismo que tiene que cancela solo cobramos
                     if($detalle['monto'] == $pago){
+                        
+                        $accion_device = 'u';
                         $db->where('id_pago_detalle',$id_pago_detalle)->update('inv_pagos_detalles', array('estado' => 1, 'fecha_pago' => date('Y-m-d'),'tipo_pago' => 'efectivo','empleado_id'=>$usuario['id_empleado']));
                     }else{
                         //en el caso que cancele mas de su deuda
@@ -86,9 +89,12 @@ if (is_post()) {
                                     $monto = 0;
                                 }
                             }
+                            $accion_device = 'u';
                             if($monto > 0){
                                 $dat = $db->select('*')->from('inv_pagos_detalles')->where('pago_id',$id_pago)->fetch();
                                 $cont = count($dat)+1;
+
+                                //se crea nuevo credito con plazo de una semana
                                 $fecha_n = date("Y-m-d",strtotime(date('Y-m-d')."+ 1 week"));
                                 $detallePlan = array(
                                     'pago_id'   => $id_pago,
@@ -101,9 +107,13 @@ if (is_post()) {
                                     'empleado_id' => $usuario['id_empleado']
                                 );
                                 $accion = $db->insert('inv_pagos_detalles', $detallePlan);
+                                $accion_device = 'c';
                             }
                         }
                     }
+
+                    //se guarda proceso u(update),c(create), r(read),d(delet), cr(cerrar), a(anular)
+                    save_process($db, $accion_device, '?/site/app-guardar-pago', 'se guarda pago', $id_pago, $id_user, $token); 
 
                     //se cierra transaccion
                     $db->commit();

@@ -69,7 +69,8 @@ $imagen = (IMAGEN != '') ? institucion . '/' . IMAGEN : imgs . '/empty.jpg' ;
 
 $nro_nota = 0;
 // Instancia el documento PDF
-$pdf = new MYPDF('P', 'pt', array(612,935), true, 'UTF-8', false);
+//$pdf = new MYPDF('P', 'pt', array(612,935), true, 'UTF-8', false);
+$pdf = new MYPDF('L', 'pt', array(610, 414), true, 'UTF-8', true); 
 
 // Asigna la informacion al documento
 $pdf->SetCreator(name_autor);
@@ -82,11 +83,11 @@ $pdf->SetKeywords($_institution['sigla']);
 $pdf->SetMargins(30, 20, -1, false);
 $pdf->SetHeaderMargin(0);
 $pdf->SetFooterMargin(0);
-$pdf->SetAutoPageBreak(true, 50);
+$pdf->SetAutoPageBreak(true, 30);
 
 
 // Adiciona la pagina
-$pdf->AddPage();
+//$pdf->AddPage();
 
 $aux1 = 0;
 $aux2 = 0;
@@ -124,7 +125,8 @@ ORDER BY e.cliente_id')->fetch_first();
 // Obtiene los detalles
                 $detalles = $db->query("select d.*, p.codigo, p.nombre, p.nombre_factura, f.nombre as nombre_promo from inv_egresos_detalles d left join inv_productos p ON d.producto_id = p.id_producto left join (SELECT c.id_promocion, e.nombre FROM inv_promociones c left join inv_productos e on c.id_promocion = e.id_producto ) AS f ON d.promocion_id = f.id_promocion where d.egreso_id = '$id_orden3' and promocion_id != 1 GROUP by d.id_detalle order by id_detalle asc")->fetch();
                 $aux2 = $aux2 + count($detalles);
-                if ($aux1 == 2) {
+                $pdf->AddPage();
+               /*  if ($aux1 == 2) {
                     if ($aux2 > 9) {
                         $pdf->AddPage();
                         $aux1 = 1;
@@ -135,10 +137,10 @@ ORDER BY e.cliente_id')->fetch_first();
                     $pdf->AddPage();
                     $aux1 = 1;
                     $aux2 = count($detalles);
-                }
+                } */
               
 // Asigna la orientacion de la pagina
-                $pdf->SetPageOrientation('P');
+                $pdf->SetPageOrientation('L');
 
 // Establece la fuente del titulo
                 $pdf->SetFont(PDF_FONT_NAME_MAIN, 'B', 16);
@@ -169,7 +171,8 @@ ORDER BY e.cliente_id')->fetch_first();
 
 // Define las variables
                 $valor_fecha = escape(date_decode($orden['fecha_egreso'], $_institution['formato']) . ' ' . $orden['hora_egreso']);
-                $valor_nombre_cliente = escape($orden['nombre_cliente']);
+                $valor_nombre_cliente = ($orden['nombre_factura'] != '' && $orden['nombre_factura'] != null) ? escape($orden['nombre_factura']) : escape($orden['nombre_cliente']);
+                $valor_nombre_cliente = $orden['cliente_id'] . " - " . $valor_nombre_cliente;
                 $valor_nit_ci = escape($orden['nit_ci']);
                 $valor_direccion = escape($orden['direccion']);
                 $valor_descripcion = escape($orden['referencia']);
@@ -198,7 +201,7 @@ ORDER BY e.cliente_id')->fetch_first();
                     if ($pr['unidad_id'] == $detalle['unidad_id']) {
                         $unidad = $pr['unidad'];
                     } else {
-                        $pr = $db->select('*')->from('inv_asignaciones a')->join('inv_unidades b', 'a.unidad_id = b.id_unidad')->where(array('a.producto_id' => $detalle['producto_id'], 'a.unidad_id' => $detalle['unidad_id']))->fetch_first();
+                        $pr = $db->select('*')->from('inv_asignaciones a')->join('inv_unidades b', 'a.unidad_id = b.id_unidad AND a.visible = "s"')->where(array('a.producto_id' => $detalle['producto_id'], 'a.unidad_id' => $detalle['unidad_id']))->fetch_first();
                         if($pr['cantidad_unidad'])
         				{
         					$unidad = $pr['unidad'];
@@ -212,9 +215,9 @@ ORDER BY e.cliente_id')->fetch_first();
 
                     $body .= '<tr height="2%">';
                     $body .= '<td class="left-right bot" align="right">' . $detalle['codigo'] . '</td>';
-                    $body .= '<td class="left-right bot" align="right">' . $detalle['nombre'].''.$detalle['nombre_factura']. '</td>';
+                    $body .= '<td class="left-right bot" align="right">' . $detalle['nombre_factura']. '</td>';
                     $body .= '<td class="left-right bot">' . $pr['unidad'] . '</td>';
-                    $body .= '<td class="left-right bot" align="center">' . $detalle['cantidad'] . '</td>';
+                    $body .= '<td class="left-right bot" align="center">' . $cantidad . '</td>';
                     $body .= '<td class="left-right bot" align="right">' . number_format(round($precio/$uni_detalle, 2),2, '.', '') . '</td>';
                     $body .= '<td class="left-right bot" align="right">' . number_format($importe, 2, '.', '') . '</td>';
                     $body .= '</tr>';
@@ -350,8 +353,9 @@ ORDER BY e.cliente_id')->fetch_first();
 // Obtiene los detalles
                 $detalles2 = $db->query("select d.*, p.codigo, p.nombre, p.nombre_factura, f.nombre as nombre_promo from inv_egresos_detalles d left join inv_productos p ON d.producto_id = p.id_producto left join (SELECT c.id_promocion, e.nombre FROM inv_promociones c left join inv_productos e on c.id_promocion = e.id_producto ) AS f ON d.promocion_id = f.id_promocion where d.egreso_id = '$id_orden3' and promocion_id != 1 GROUP by d.id_detalle order by id_detalle asc")->fetch();
                 $aux2 = $aux2 + count($detalles2);
+                $pdf->AddPage();
 
-                if ($aux1 == 2) {
+               /*  if ($aux1 == 2) {
                     if ($aux2 > 59) {
                         $pdf->AddPage();
                         $aux1 = 1;
@@ -390,10 +394,10 @@ ORDER BY e.cliente_id')->fetch_first();
                     $pdf->AddPage();
                     $aux1 = 1;
                     $aux2 = count($detalles);
-                }
+                } */
 
 // Asigna la orientacion de la pagina
-                $pdf->SetPageOrientation('P');
+                $pdf->SetPageOrientation('L');
 
 // Establece la fuente del titulo
                 $pdf->SetFont(PDF_FONT_NAME_MAIN, 'B', 16);
@@ -430,9 +434,7 @@ ORDER BY e.cliente_id')->fetch_first();
 
                 $body2 = '<tr height="2%">
                 <td align="left" width="30%"><img src="'.$imagen.'" width="55"/></td>
-                <td align="center" width="40%"> <h2><font color="#a1a1a1"> "' . ((escape($_institution['empresa1']))? escape($_institution['empresa1']): 'CHECKCODE') . '"</font>
-                <br><small>' . ((escape($_institution['razon_social']))? escape($_institution['razon_social']): ' - DISTRIBUCIÓN') . '</small>
-                </h2></td>
+                <td align="center" width="40%"> <h2><font color="#a1a1a1">DISTRIBUIDORA DE PRODUCTOS DE<br />CONSUMO MASIVOS ' . ((escape($_institution['empresa1']))? escape($_institution['empresa1']): 'CHECKCODE') . '</font></h2></td>
                 <td  align="right" width="30%"><img src="'.$imagen.'" width="55"/></td>
                 </tr><tr>
                 <td align="right" colspan="3" width="60%" bgcolor="#a1a1a1"><h1><em><font color="#fff" >NOTA DE VENTA </font></em></h1></td>
@@ -452,7 +454,7 @@ ORDER BY e.cliente_id')->fetch_first();
                     if ($pr['unidad_id'] == $detalle['unidad_id']) {
                         $unidad = $pr['unidad'];
                     } else {
-                        $pr = $db->select('*')->from('inv_asignaciones a')->join('inv_unidades b', 'a.unidad_id = b.id_unidad')->where(array('a.producto_id' => $detalle['producto_id'], 'a.unidad_id' => $detalle['unidad_id']))->fetch_first();
+                        $pr = $db->select('*')->from('inv_asignaciones a')->join('inv_unidades b', 'a.unidad_id = b.id_unidad AND a.visible = "s"')->where(array('a.producto_id' => $detalle['producto_id'], 'a.unidad_id' => $detalle['unidad_id']))->fetch_first();
                         if($pr['cantidad_unidad'])
         				{
         					$unidad = $pr['unidad'];

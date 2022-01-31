@@ -8,12 +8,12 @@ $fecha_inicial = (isset($params[1])) ? $params[1] : date('Y-m-d');
 $fecha_inicial = date_encode($fecha_inicial);
 
 // Obtiene los empleados
-$empleados = $db->select('w.id_empleado, w.nombres, w.paterno, w.materno, GROUP_CONCAT(a.ruta_id SEPARATOR "&") as emp')->from('gps_asigna_distribucion a')->join('gps_rutas z','a.ruta_id = z.id_ruta')->join('sys_empleados w','z.empleado_id = w.id_empleado')->where('a.grupo_id', '')->where('a.distribuidor_id', $distribuidor)->where('a.estado', 1)->group_by('a.distribuidor_id')->fetch_first();
+$empleados = $db->select('w.id_empleado, w.nombres, w.paterno, w.materno, GROUP_CONCAT(a.ruta_id SEPARATOR "&") as emp')->from('gps_asigna_distribucion a')->join('gps_rutas z', 'a.ruta_id = z.id_ruta')->join('sys_empleados w', 'z.empleado_id = w.id_empleado')->where('a.grupo_id', '')->where('a.distribuidor_id', $distribuidor)->where('a.estado', 1)->group_by('a.distribuidor_id')->fetch_first();
 
 $empleados = explode('&', $empleados['emp']);
 // var_dump($empleados);
 
-$empleados2 = $db->select('w.id_empleado, w.nombres, w.paterno, w.materno, GROUP_CONCAT(a.grupo_id SEPARATOR "&") as emp')->from('gps_asigna_distribucion a')->join('gps_rutas z','a.ruta_id = z.id_ruta')->join('sys_empleados w','z.empleado_id = w.id_empleado')->where('a.grupo_id!=', '')->where('a.distribuidor_id', $distribuidor)->where('a.estado', 1)->group_by('a.distribuidor_id')->fetch_first();
+$empleados2 = $db->select('w.id_empleado, w.nombres, w.paterno, w.materno, GROUP_CONCAT(a.grupo_id SEPARATOR "&") as emp')->from('gps_asigna_distribucion a')->join('gps_rutas z', 'a.ruta_id = z.id_ruta')->join('sys_empleados w', 'z.empleado_id = w.id_empleado')->where('a.grupo_id!=', '')->where('a.distribuidor_id', $distribuidor)->where('a.estado', 1)->group_by('a.distribuidor_id')->fetch_first();
 $empleados2 = explode('&', $empleados2['emp']);
 // var_dump($empleados2);
 
@@ -56,20 +56,17 @@ class MYPDF extends TCPDF
 {
     public function Header()
     {
-        
-       
     }
 
     public function Footer()
     {
-
     }
 }
-$imagen = (IMAGEN != '') ? institucion . '/' . IMAGEN : imgs . '/empty.jpg' ;
+$imagen = (IMAGEN != '') ? institucion . '/' . IMAGEN : imgs . '/empty.jpg';
 
 $nro_nota = 0;
 // Instancia el documento PDF
-$pdf = new MYPDF('P', 'pt', array(612,935), true, 'UTF-8', false);
+$pdf = new MYPDF('P', 'pt', array(612, 935), true, 'UTF-8', false);
 
 // Asigna la informacion al documento
 $pdf->SetCreator(name_autor);
@@ -90,12 +87,12 @@ $pdf->AddPage();
 
 $aux1 = 0;
 $aux2 = 0;
-if($empleados) {
+if ($empleados) {
 
 
     foreach ($empleados as $id_orden) {
 
-//BUSCAMOS LOS CLIENTES DEL VENDEDOR
+        //BUSCAMOS LOS CLIENTES DEL VENDEDOR
         $orden = $db->query('SELECT GROUP_CONCAT(e.id_egreso , "," , e.cliente_id ORDER BY e.cliente_id ASC SEPARATOR "|") AS ides1
 FROM gps_rutas z
 LEFT JOIN inv_egresos e ON z.id_ruta = e.ruta_id
@@ -103,11 +100,11 @@ LEFT JOIN sys_empleados w ON e.empleado_id = w.id_empleado
 WHERE e.estadoe = 2 AND e.ruta_id = "' . $id_orden . '" AND e.grupo = ""  AND (e.fecha_egreso <= w.fecha OR e.fecha_egreso < CURDATE())
 GROUP BY z.id_ruta
 ORDER BY e.cliente_id')->fetch_first();
-//var_dump($orden);
+        //var_dump($orden);
         $id_orden1 = $orden['ides1'];
         if ($id_orden1) {
             $id_ordenes = explode('|', $id_orden1);
-//    var_dump($id_ordenes);
+            //    var_dump($id_ordenes);
 
             foreach ($id_ordenes as $id_orden2) {
                 $aaux = explode(',', $id_orden2);
@@ -118,10 +115,10 @@ ORDER BY e.cliente_id')->fetch_first();
                 $rut = $db->select('*')->from('gps_rutas')->where('empleado_id', $id_emp)->order_by('id_ruta desc')->fetch_first();
                 $ruta = $rut['nombre'];
 
-// Obtiene el orden de compra
+                // Obtiene el orden de compra
                 $orden = $db->select('c.*, c.descripcion as referencia, n.*, a.almacen, a.principal, e.nombres, e.paterno, e.materno, e.cargo ')->from('inv_egresos n')->join('inv_almacenes a', 'n.almacen_id = a.id_almacen', 'left')->join('sys_empleados e', 'n.empleado_id = e.id_empleado', 'left')->join('inv_clientes c', 'n.cliente_id = c.id_cliente')->where('n.id_egreso', $id_orden3)->where('n.tipo', 'Venta')->where('n.provisionado', 'S')->fetch_first();
 
-// Obtiene los detalles
+                // Obtiene los detalles
                 $detalles = $db->query("select d.*, p.codigo, p.nombre, p.nombre_factura, f.nombre as nombre_promo from inv_egresos_detalles d left join inv_productos p ON d.producto_id = p.id_producto left join (SELECT c.id_promocion, e.nombre FROM inv_promociones c left join inv_productos e on c.id_promocion = e.id_producto ) AS f ON d.promocion_id = f.id_promocion where d.egreso_id = '$id_orden3' and promocion_id != 1 GROUP by d.id_detalle order by id_detalle asc")->fetch();
                 $aux2 = $aux2 + count($detalles);
                 if ($aux1 == 2) {
@@ -136,14 +133,14 @@ ORDER BY e.cliente_id')->fetch_first();
                     $aux1 = 1;
                     $aux2 = count($detalles);
                 }
-              
-// Asigna la orientacion de la pagina
+
+                // Asigna la orientacion de la pagina
                 $pdf->SetPageOrientation('P');
 
-// Establece la fuente del titulo
+                // Establece la fuente del titulo
                 $pdf->SetFont(PDF_FONT_NAME_MAIN, 'B', 16);
 
-// Titulo del documento
+                // Titulo del documento
                 $pdf->Cell(0, 10, '', 0, true, 'C', false, '', 0, false, 'T', 'M');
                 $h = substr($orden['fecha_egreso'], 0, 4);
                 $m = substr($orden['fecha_egreso'], 5, 2);
@@ -151,23 +148,31 @@ ORDER BY e.cliente_id')->fetch_first();
                 $nro_nota = $nro_nota + 1;
                 $valor_empresa = ($orden['cargo'] == 1) ? $_institution['empresa1'] : $_institution['empresa2'];
                 $valor_empleado = escape($orden['nombres'] . ' ' . $orden['paterno'] . ' ' . $orden['materno']);
-                
-                $body1 = '<tr height="2%">
-                <td align="left" width="30%"><img src="'.$imagen.'" width="55"/></td>
-                <td align="center" width="40%"> <h2><font color="#a1a1a1"> "' . ((escape($_institution['empresa1']))? escape($_institution['empresa1']): 'CHECKCODE') . '"</font>
+
+
+                /* $body1 = '<tr height="2%">
+                <td align="center" width="25%"> <h2>' . ((escape($_institution['empresa1']))? escape($_institution['empresa1']): 'CHECKCODE') . '
                 <br><small>' . ((escape($_institution['razon_social']))? escape($_institution['razon_social']): ' - DISTRIBUCIÓN') . '</small>
                 </h2></td>
-                <td  align="right" width="30%"><img src="'.$imagen.'" width="55"/></td>
-                </tr><tr>
-                <td align="right" colspan="3" width="60%" bgcolor="#a1a1a1"><h1><em><font color="#fff" >NOTA DE VENTA </font></em></h1></td>
-                <td align="right" colspan="3" width="40%" bgcolor="#a1a1a1"><h1><font color="#fff">' . $nro_nota . '</font></h1></td>
-                </tr>';
-// Salto de linea
+                <td width="45%"><b>VENDEDOR(A): </b>'.$valor_empleado.'</td>
+                <td width="10%" align="right"><h3>'.date('d/m/Y').'</h3></td>
+                </tr>'; */
 
-// Establece la fuente del contenido
+                $body1 = '<tr height="2%">
+                <td width="20%" align="center">
+                </td><td width="25%" align="center"><h3> NOTA DE VENTA #' . $nro_nota . '</h3></td>
+                <td width="45%"><b>VENDEDOR(A): </b>' . $valor_empleado . '</td>
+                <td width="10%" align="right"><h3>' . date('d/m/Y') . '</h3></td>
+                </tr>';
+
+
+
+                // Salto de linea
+
+                // Establece la fuente del contenido
                 $pdf->SetFont(PDF_FONT_NAME_DATA, '', 9);
 
-// Define las variables
+                // Define las variables
                 $valor_fecha = escape(date_decode($orden['fecha_egreso'], $_institution['formato']) . ' ' . $orden['hora_egreso']);
                 $valor_nombre_cliente = escape($orden['nombre_cliente']);
                 $valor_nit_ci = escape($orden['nit_ci']);
@@ -181,17 +186,17 @@ ORDER BY e.cliente_id')->fetch_first();
                 $valor_moneda = $moneda;
                 $total = 0;
                 $fecha_actual = date('d-m-Y');
-// Establece la fuente del contenido
+                // Establece la fuente del contenido
                 $pdf->SetFont(PDF_FONT_NAME_DATA, '', 8);
 
-// Estructura la tabla
+                // Estructura la tabla
                 $body = '';
                 foreach ($detalles as $nro => $detalle) {
                     //var_dump($detalle);exit();
                     $cantidad = escape($detalle['cantidad']);
-                    if($detalle['precio'])
+                    if ($detalle['precio'])
                         $precio = escape($detalle['precio']);
-                        else
+                    else
                         $precio = 0;
 
                     $pr = $db->select('*')->from('inv_productos a')->join('inv_unidades b', 'a.unidad_id = b.id_unidad')->where('a.id_producto', $detalle['producto_id'])->fetch_first();
@@ -199,11 +204,10 @@ ORDER BY e.cliente_id')->fetch_first();
                         $unidad = $pr['unidad'];
                     } else {
                         $pr = $db->select('*')->from('inv_asignaciones a')->join('inv_unidades b', 'a.unidad_id = b.id_unidad')->where(array('a.producto_id' => $detalle['producto_id'], 'a.unidad_id' => $detalle['unidad_id']))->fetch_first();
-                        if($pr['cantidad_unidad'])
-        				{
-        					$unidad = $pr['unidad'];
-                       		$cantidad = $cantidad / $pr['cantidad_unidad'];
-        				}
+                        if ($pr['cantidad_unidad']) {
+                            $unidad = $pr['unidad'];
+                            $cantidad = $cantidad / $pr['cantidad_unidad'];
+                        }
                     }
                     $uni_detalle = cantidad_unidad($db, $detalle['producto_id'], $detalle['unidad_id']);
                     $precio_sugerido = $detalle['precio_sugerido'];
@@ -212,18 +216,18 @@ ORDER BY e.cliente_id')->fetch_first();
 
                     $body .= '<tr height="2%">';
                     $body .= '<td class="left-right bot" align="right">' . $detalle['codigo'] . '</td>';
-                    $body .= '<td class="left-right bot" align="right">' . $detalle['nombre'].''.$detalle['nombre_factura']. '</td>';
+                    $body .= '<td class="left-right bot" align="right">' . $detalle['nombre_factura'] . '  <small>' . $detalle['nombre'] . '</small></td>';
                     $body .= '<td class="left-right bot">' . $pr['unidad'] . '</td>';
                     $body .= '<td class="left-right bot" align="center">' . $detalle['cantidad'] . '</td>';
-                    $body .= '<td class="left-right bot" align="right">' . number_format(round($precio/$uni_detalle, 2),2, '.', '') . '</td>';
+                    $body .= '<td class="left-right bot" align="right">' . number_format(round($precio / $uni_detalle, 2), 2, '.', '') . '</td>';
                     $body .= '<td class="left-right bot" align="right">' . number_format($importe, 2, '.', '') . '</td>';
                     $body .= '</tr>';
                 }
 
-// Obtiene el valor total
+                // Obtiene el valor total
                 $valor_total = number_format($total, 2, '.', '');
 
-// Obtiene los datos del monto total
+                // Obtiene los datos del monto total
                 $conversor = new NumberToLetterConverter();
                 $monto_textual = explode('.', $valor_total);
                 $monto_numeral = $monto_textual[0];
@@ -231,88 +235,89 @@ ORDER BY e.cliente_id')->fetch_first();
                 $monto_literal = strtoupper($conversor->to_word($monto_numeral));
                 $body = ($body == '') ? '<tr><td colspan="6" align="center" class="all">Este egreso no tiene detalle, es muy importante que todos los egresos cuenten con un detalle de venta.</td></tr>' : $body;
 
-// Formateamos la tabla
+                // Formateamos la tabla
                 $tabla = <<<EOD
-	<style>
-	th {
-		background-color: #eee;
-		font-weight: bold;
-	}
-	.left-right {
-		border-left: 1px solid #444;
-		border-right: 1px solid #444;
-	}
-	.bot {
-		border-top: 1px solid #444;
-	}
-	.none {
-		border: 1px solid #fff;
-	}
-	.all {
-		border: 1px solid #444;
-	}
-	</style>
-	<table cellpadding="2" >
-	    $body1
-	</table>
-	<p></p>
-	<table cellpadding="2">
-        <tr>
-            <td width="15%" bgcolor="#a1a1a1" ><h4><em><font color="#fff">CLIENTE</font></em></h4></td>
-            <td width="45%" colspan="2">$valor_nombre_cliente</td>
-            <td width="10%" bgcolor="#a1a1a1" ><h4><em><font color="#fff">FECHA</font></em></h4></td>
-            <td width="30%"colspan="2" >$fecha_actual</td>
-        </tr>
-        <tr>
-            <td width="15%" bgcolor="#a1a1a1" ><h4><em><font color="#fff">DIRECCION</font></em></h4></td>
-            <td width="45%" colspan="2">$valor_direccion</td>
-            <td width="10%" bgcolor="#a1a1a1"><h4><em><font color="#fff">VENDEDOR</font></em></h4></td>
-            <td width="30%"colspan="2">$valor_empleado</td>
-        </tr>
-        <tr>
-            <td width="15%" bgcolor="#a1a1a1" ><h4><em><font color="#fff">REFERENCIA</font></em></h4></td>
-            <td width="45%" colspan="2"> $valor_descripcion</td>
-            <td width="10%" bgcolor="#a1a1a1" ><h4><em><font color="#fff">CELULAR</font></em></h4></td>
-            <td width="30%"colspan="2"> $valor_telefono</td>
-        </tr>
-    </table>
-    <p></p>
-	
-	<table cellpadding="5" style="border:1px solid black;">
-        <tr>
-		    <th width="15%" bgcolor="#a1a1a1" align="center" style="border-right:1px solid black;"><font color="#fff">CODIGO</font></th>
-			<th width="35%" bgcolor="#a1a1a1" align="center" style="border-right:1px solid black;"><font color="#fff">ARTICULO</font></th>
-            <th width="10%" bgcolor="#a1a1a1" align="center" style="border-right:1px solid black;"><font color="#fff">U.M</font></th>
-            <th width="15%" bgcolor="#a1a1a1" align="center"><font color="#fff">CANTIDAD</font></th>
-            <th width="10%" bgcolor="#a1a1a1" align="center"><font color="#fff">P.U</font></th>
-            <th width="15%" bgcolor="#a1a1a1" align="center"><font color="#fff">SUBTOTAL</font></th>
-
-		</tr>
-		$body
-     </table>
-    <table cellpadding="5" style="border:1px solid black;">
-        <tr>
-            <td width="15%" bgcolor="#a1a1a1" align="center" style="border-bottom:1px solid black;"><h2><font color="#ffffff"><em>OBS</em></font></h2></td>
-            <td width="60%" bgcolor="#a1a1a1" style="border-bottom:1px solid black;"><font color="#fff">$valor_observacion</font></td>
-            <td width="15%" bgcolor="#a1a1a1" style="border-bottom:1px solid black;" align="right"><font color="#ffffff">SUBTOTAL</font></td>
-            <td width="10%">$valor_total</td>
-        </tr>
-        <tr>
-            <td width="15%" rowspan="2" bgcolor="#a1a1a1" align="center" vertical-align="center" style="border-bottom:1px solid black;border-right:1px solid black;"><h1><font color="#ffffff">$nro_nota</font></h1></td>
-            <td width="60%" bgcolor="#a1a1a1" style="border-bottom:1px solid black;">&nbsp;</td>
-            <td width="15%" bgcolor="#a1a1a1" style="border-bottom:1px solid black; border-bottom:1px solid black;" align="right"><font color="#ffffff">DESCUENTO</font></td>
-            <td width="10%" style="border-bottom:1px solid black;border-top:1px solid black;">$valor_descuento</td>
-        </tr>
-        <tr>
-            <td bgcolor="#a1a1a1" >&nbsp;</td>
-            <td bgcolor="#a1a1a1" align="right"><font color="#ffffff">TOTAL</font></td>
-            <td>$valor_total</td>
-        </tr>
-
-	</table>
-	<HR>
+                <style>
+                th {
+                    background-color: #fff;
+                    font-weight: bold;
+                }
+                .extra {
+                    background-color: #fff;
+                    font-weight: bold;
+                }
+                .left-right {
+                    border-left: 1px solid #444;
+                    border-right: 1px solid #444;
+                }
+                .bot {
+                    border-top: 1px solid #444;
+                }
+                .none {
+                    border: 1px solid #fff;
+                }
+                .all {
+                    border: 1px solid #444;
+                }
+                </style>
+                <table cellpadding="1">
+                    <tr>
+                        <td width="25%" class="extra" align="center" rowspan="5"><h3> NOTA DE VENTA # $nro_nota</h3><h3>CÓDIGO CLIENTE</h3><h3> $valor_id_cliente</h3></td>
+                        <td width="15%" class="none" align="right"><b>NOMBRE CLIENTE:</b></td>
+                        <td width="35%" class="none" align="left">$valor_nombre_cliente</td>
+                        <td width="11%" class="none" align="right"><b>NIT/CI:</b></td>
+                        <td width="14%" class="none" align="left">$valor_nit_ci</td>
+            
+                    </tr>
+                    <tr>
+                        <td class="none" align="right" rowspan="2" ><b>DIRECCIÓN:</b></td>
+                        <td class="none" align="left" rowspan="2">$valor_direccion</td>
+                        <td class="none" align="right" rowspan="2"><b>VENDEDOR: </b></td>
+                        <td class="none" align="left" rowspan="2">$valor_empleado</td>
+                    </tr>
+                    <tr>
+                    </tr>
+                    <tr>
+                        <td class="none" align="right"><b>DESCRIPCIÓN:</b></td>
+                        <td class="none" align="left">$valor_descripcion</td>
+                        <td class="none" align="right"><b>FECHA:</b></td>
+                        <td class="none" align="left">$valor_fecha</td>
+                    </tr>
+                    <tr>
+                        <td class="none" align="right"><b>TELÉFONO:</b></td>
+                        <td class="none" align="left">$valor_telefono</td>
+                        <td class="none" align="right"><b>PRIORIDAD:</b></td>
+                        <td class="none" align="left">$valor_observacion</td>
+                    </tr>
+                </table>
+                <hr>
+                <table cellpadding="3">
+                    <tr>
+                        <th width="15%" class="all" align="right">CODIGO</th>
+                        <th width="35%" class="all" align="right">ARTICULO</th>
+                        <th width="10%" class="all" align="left">U.M.</th>
+                        <th width="15%" class="all" align="left">CANTIDAD</th>
+                        <th width="10%" class="all" align="right">P. U.</th>
+                        <th width="15%" class="all" align="right">SUBTOTAL $valor_moneda</th>
+                    </tr>
+                    $body
+                    <tr>
+                        <th class="all" align="right" colspan="5">IMPORTE TOTAL $valor_moneda</th>
+                        <th class="all" align="right">$valor_total</th>
+                        <th bgcolor="#FFFFFF"></th><th style="border: 1px solid black;" ></th>
+                    </tr>
+                </table>
+                <table cellpadding="1">
+                    <tr>                        
+                        <td width="100%" class="none" align="right">$monto_literal $monto_decimal /100</td>                    
+                    </tr>
+                    <tr>                        
+                        <td width="100%"><small style="text-transform:uppercase">$detalle_venta</small></td>                       
+                    </tr>
+                </table>
+                <HR>
 EOD;
-// Imprime la tabla
+                // Imprime la tabla
                 $pdf->writeHTML($tabla, true, false, false, false, '');
             }
         }
@@ -320,20 +325,20 @@ EOD;
 }
 
 //var_dump($empleados2);
-if(count($empleados2) > 0){
+if (count($empleados2) > 0) {
     // var_dump($empleados2);
     foreach ($empleados2 as $id_orden) {
         //BUSCAMOS LOS CLIENTES DEL VENDEDOR
         $orden = $db->query('SELECT GROUP_CONCAT(e.id_egreso , "," , e.cliente_id ORDER BY e.cliente_id ASC SEPARATOR "|") AS ides1
         FROM inv_egresos e
         LEFT JOIN sys_empleados z ON e.empleado_id = z.id_empleado
-WHERE e.estadoe = 2 AND e.grupo = "'.$id_orden.'" AND e.grupo != ""  AND e.fecha_egreso <= CURDATE()
+WHERE e.estadoe = 2 AND e.grupo = "' . $id_orden . '" AND e.grupo != ""  AND e.fecha_egreso <= CURDATE()
 ORDER BY e.cliente_id')->fetch_first();
-// var_dump($orden);
+        // var_dump($orden);
         $id_orden2 = $orden['ides1'];
-        if($id_orden2) {
+        if ($id_orden2) {
             $id_ordenes = explode('|', $id_orden2);
-//    var_dump($id_ordenes);
+            //    var_dump($id_ordenes);
 
             foreach ($id_ordenes as $id_orden3) {
                 $aaux = explode(',', $id_orden3);
@@ -343,11 +348,11 @@ ORDER BY e.cliente_id')->fetch_first();
                 $rut = $db->select('*')->from('gps_rutas')->where('empleado_id', $id_emp)->order_by('id_ruta desc')->fetch_first();
                 $ruta = $rut['nombre'];
 
-// Obtiene el orden de compra
+                // Obtiene el orden de compra
                 $orden = '';
                 $orden = $db->select('c.*, c.descripcion as referencia, n.*, a.almacen, a.principal, e.nombres, e.paterno, e.materno, e.cargo ')->from('inv_egresos n')->join('inv_almacenes a', 'n.almacen_id = a.id_almacen', 'left')->join('sys_empleados e', 'n.empleado_id = e.id_empleado', 'left')->join('inv_clientes c', 'n.cliente_id = c.id_cliente')->where('n.id_egreso', $id_orden3)->where('n.tipo', 'Venta')->where('n.provisionado', 'S')->fetch_first();
-//var_dump($orden);
-// Obtiene los detalles
+                //var_dump($orden);
+                // Obtiene los detalles
                 $detalles2 = $db->query("select d.*, p.codigo, p.nombre, p.nombre_factura, f.nombre as nombre_promo from inv_egresos_detalles d left join inv_productos p ON d.producto_id = p.id_producto left join (SELECT c.id_promocion, e.nombre FROM inv_promociones c left join inv_productos e on c.id_promocion = e.id_producto ) AS f ON d.promocion_id = f.id_promocion where d.egreso_id = '$id_orden3' and promocion_id != 1 GROUP by d.id_detalle order by id_detalle asc")->fetch();
                 $aux2 = $aux2 + count($detalles2);
 
@@ -392,27 +397,27 @@ ORDER BY e.cliente_id')->fetch_first();
                     $aux2 = count($detalles);
                 }
 
-// Asigna la orientacion de la pagina
+                // Asigna la orientacion de la pagina
                 $pdf->SetPageOrientation('P');
 
-// Establece la fuente del titulo
+                // Establece la fuente del titulo
                 $pdf->SetFont(PDF_FONT_NAME_MAIN, 'B', 16);
 
-// Titulo del documento
+                // Titulo del documento
                 $pdf->Cell(0, 10, '', 0, true, 'C', false, '', 0, false, 'T', 'M');
                 $h = substr($orden['fecha_egreso'], 0, 4);
                 $m = substr($orden['fecha_egreso'], 5, 2);
                 $d = substr($orden['fecha_egreso'], 8, 2);
                 $nro_nota = $nro_nota + 1;
                 $valor_empresa = ($orden['empresa'] == 1) ? $_institution['empresa1'] : $_institution['empresa2'];
-                
-// Salto de linea
+
+                // Salto de linea
 
 
-// Establece la fuente del contenido
+                // Establece la fuente del contenido
                 $pdf->SetFont(PDF_FONT_NAME_DATA, '', 9);
 
-// Define las variables
+                // Define las variables
                 $valor_fecha = escape(date_decode($orden['fecha_egreso'], $_institution['formato']) . ' ' . $orden['hora_egreso']);
                 $valor_nombre_cliente = escape($orden['nombre_cliente']);
                 $valor_nit_ci = escape($orden['nit_ci']);
@@ -429,21 +434,21 @@ ORDER BY e.cliente_id')->fetch_first();
                 $total = 0;
 
                 $body2 = '<tr height="2%">
-                <td align="left" width="30%"><img src="'.$imagen.'" width="55"/></td>
-                <td align="center" width="40%"> <h2><font color="#a1a1a1"> "' . ((escape($_institution['empresa1']))? escape($_institution['empresa1']): 'CHECKCODE') . '"</font>
-                <br><small>' . ((escape($_institution['razon_social']))? escape($_institution['razon_social']): ' - DISTRIBUCIÓN') . '</small>
+                <td align="left" width="30%"><img src="' . $imagen . '" width="55"/></td>
+                <td align="center" width="40%"> <h2><font color="#a1a1a1"> "' . ((escape($_institution['empresa1'])) ? escape($_institution['empresa1']) : 'CHECKCODE') . '"</font>
+                <br><small>' . ((escape($_institution['razon_social'])) ? escape($_institution['razon_social']) : ' - DISTRIBUCIÓN') . '</small>
                 </h2></td>
-                <td  align="right" width="30%"><img src="'.$imagen.'" width="55"/></td>
+                <td  align="right" width="30%"><img src="' . $imagen . '" width="55"/></td>
                 </tr><tr>
                 <td align="right" colspan="3" width="60%" bgcolor="#a1a1a1"><h1><em><font color="#fff" >NOTA DE VENTA </font></em></h1></td>
                 <td align="right" colspan="3" width="40%" bgcolor="#a1a1a1"><h1><font color="#fff">' . $nro_nota . '</font></h1></td>
                 </tr>';
 
 
-// Establece la fuente del contenido
+                // Establece la fuente del contenido
                 $pdf->SetFont(PDF_FONT_NAME_DATA, '', 8);
 
-// Estructura la tabla
+                // Estructura la tabla
                 $body3 = '';
                 foreach ($detalles2 as $nro => $detalle) {
                     $cantidad = escape($detalle['cantidad']);
@@ -453,31 +458,30 @@ ORDER BY e.cliente_id')->fetch_first();
                         $unidad = $pr['unidad'];
                     } else {
                         $pr = $db->select('*')->from('inv_asignaciones a')->join('inv_unidades b', 'a.unidad_id = b.id_unidad')->where(array('a.producto_id' => $detalle['producto_id'], 'a.unidad_id' => $detalle['unidad_id']))->fetch_first();
-                        if($pr['cantidad_unidad'])
-        				{
-        					$unidad = $pr['unidad'];
-                       		$cantidad = $cantidad / $pr['cantidad_unidad'];
-        				}
+                        if ($pr['cantidad_unidad']) {
+                            $unidad = $pr['unidad'];
+                            $cantidad = $cantidad / $pr['cantidad_unidad'];
+                        }
                     }
                     $uni_detalle = cantidad_unidad($db, $detalle['producto_id'], $detalle['unidad_id']);
                     $precio_sugerido = $detalle['precio_sugerido'];
                     $importe = $cantidad * $precio;
                     $total = $total + $importe;
-                    
+
                     $body3 .= '<tr height="2%">';
                     $body3 .= '<td class="left-right bot" align="right">' . $detalle['codigo'] . '</td>';
-                    $body3 .= '<td class="left-right bot" align="right">' . $detalle['nombre'].''.$detalle['nombre_factura']. '</td>';
+                    $body3 .= '<td class="left-right bot" align="right">' . $detalle['nombre'] . '' . $detalle['nombre_factura'] . '</td>';
                     $body3 .= '<td class="left-right bot">' . $pr['unidad'] . '</td>';
                     $body3 .= '<td class="left-right bot" align="center">' . $detalle['cantidad'] . '</td>';
-                    $body3 .= '<td class="left-right bot" align="right">' . number_format(round($precio/$uni_detalle, 2),2, '.', '') . '</td>';
+                    $body3 .= '<td class="left-right bot" align="right">' . number_format(round($precio / $uni_detalle, 2), 2, '.', '') . '</td>';
                     $body3 .= '<td class="left-right bot" align="right">' . number_format($importe, 2, '.', '') . '</td>';
                     $body3 .= '</tr>';
                 }
 
-// Obtiene el valor total
+                // Obtiene el valor total
                 $valor_total = number_format($total, 2, '.', '');
 
-// Obtiene los datos del monto total
+                // Obtiene los datos del monto total
                 $conversor = new NumberToLetterConverter();
                 $monto_textual = explode('.', $valor_total);
                 $monto_numeral = $monto_textual[0];
@@ -486,58 +490,71 @@ ORDER BY e.cliente_id')->fetch_first();
 
                 $body3 = ($body3 == '') ? '<tr><td colspan="6" align="center" class="all">Este egreso no tiene detalle, es muy importante que todos los egresos cuenten con un detalle de venta.</td></tr>' : $body3;
 
-// Formateamos la tabla
+                // Formateamos la tabla
                 $tabla = <<<EOD
-	<style>
-	th {
-		background-color: #eee;
-		font-weight: bold;
-	}
-	.left-right {
-		border-left: 1px solid #444;
-		border-right: 1px solid #444;
-	}
-	.none {
-		border: 1px solid #fff;
-	}
-	.all {
-		border: 1px solid #444;
-	}
-	</style>
-	<table cellpadding="1" >
-	    $body2
-    </table>
-    <p></p>
-	<table cellpadding="1">
-        <tr>
-            <td width="15%" bgcolor="#a1a1a1" ><h4><em><font color="#fff">CLIENTE</font></em></h4></td>
-            <td width="45%" colspan="2">$valor_nombre_cliente</td>
-            <td width="10%" bgcolor="#a1a1a1" ><h4><em><font color="#fff">FECHA</font></em></h4></td>
-            <td width="30%"colspan="2" >$fecha_actual</td>
-        </tr>
-        <tr>
-            <td width="15%" bgcolor="#a1a1a1" ><h4><em><font color="#fff">DIRECCION</font></em></h4></td>
-            <td width="45%" colspan="2">$valor_direccion</td>
-            <td width="10%" bgcolor="#a1a1a1"><h4><em><font color="#fff">VENDEDOR</font></em></h4></td>
-            <td width="30%"colspan="2">$valor_empleado</td>
-        </tr>
-        <tr>
-            <td width="15%" bgcolor="#a1a1a1" ><h4><em><font color="#fff">REFERENCIA</font></em></h4></td>
-            <td width="45%" colspan="2"> $valor_descripcion</td>
-            <td width="10%" bgcolor="#a1a1a1" ><h4><em><font color="#fff">CELULAR</font></em></h4></td>
-            <td width="30%"colspan="2"> $valor_telefono</td>
-        </tr>
-	</table>
-	<p></p>
-	<table cellpadding="2">
-        <tr>
-            <th width="15%" bgcolor="#a1a1a1" align="center" style="border-right:1px solid black;"><font color="#fff">CODIGO</font></th>
-            <th width="35%" bgcolor="#a1a1a1" align="center" style="border-right:1px solid black;"><font color="#fff">ARTICULO</font></th>
-            <th width="10%" bgcolor="#a1a1a1" align="center" style="border-right:1px solid black;"><font color="#fff">U.M</font></th>
-            <th width="15%" bgcolor="#a1a1a1" align="center"><font color="#fff">CANTIDAD</font></th>
-            <th width="10%" bgcolor="#a1a1a1" align="center"><font color="#fff">P.U</font></th>
-            <th width="15%" bgcolor="#a1a1a1" align="center"><font color="#fff">SUBTOTAL</font></th>
-        </tr>
+                <style>
+                th {
+                    background-color: #fff;
+                    font-weight: bold;
+                }
+                .extra {
+                    background-color: #fff;
+                    font-weight: bold;
+                }
+                .left-right {
+                    border-left: 1px solid #444;
+                    border-right: 1px solid #444;
+                }
+                .bot {
+                    border-top: 1px solid #444;
+                }
+                .none {
+                    border: 1px solid #fff;
+                }
+                .all {
+                    border: 1px solid #444;
+                }
+                </style>
+                <table cellpadding="1">
+                    <tr>
+                        <td width="25%" class="extra" align="center" rowspan="5"><h3> NOTA DE VENTA # $nro_nota</h3><h3>CÓDIGO CLIENTE</h3><h3> $valor_id_cliente</h3></td>
+                        <td width="15%" class="none" align="right"><b>NOMBRE CLIENTE:</b></td>
+                        <td width="35%" class="none" align="left">$valor_nombre_cliente</td>
+                        <td width="11%" class="none" align="right"><b>NIT/CI:</b></td>
+                        <td width="14%" class="none" align="left">$valor_nit_ci</td>
+            
+                    </tr>
+                    <tr>
+                        <td class="none" align="right" rowspan="2" ><b>DIRECCIÓN:</b></td>
+                        <td class="none" align="left" rowspan="2">$valor_direccion</td>
+                        <td class="none" align="right" rowspan="2"><b>VENDEDOR: </b></td>
+                        <td class="none" align="left" rowspan="2">$valor_empleado</td>
+                    </tr>
+                    <tr>
+                    </tr>
+                    <tr>
+                        <td class="none" align="right"><b>DESCRIPCIÓN:</b></td>
+                        <td class="none" align="left">$valor_descripcion</td>
+                        <td class="none" align="right"><b>FECHA:</b></td>
+                        <td class="none" align="left">$valor_fecha</td>
+                    </tr>
+                    <tr>
+                        <td class="none" align="right"><b>TELÉFONO:</b></td>
+                        <td class="none" align="left">$valor_telefono</td>
+                        <td class="none" align="right"><b>PRIORIDAD:</b></td>
+                        <td class="none" align="left">$valor_observacion</td>
+                    </tr>
+                </table>
+                <hr>
+                <table cellpadding="3">
+                    <tr>
+                        <th width="15%" class="all" align="right">CODIGO</th>
+                        <th width="35%" class="all" align="right">ARTICULO</th>
+                        <th width="10%" class="all" align="left">U.M.</th>
+                        <th width="15%" class="all" align="left">CANTIDAD</th>
+                        <th width="10%" class="all" align="right">P. U.</th>
+                        <th width="15%" class="all" align="right">SUBTOTAL $valor_moneda</th>
+                    </tr>
         $body3
 	</table>
 	<table cellpadding="5" style="border:1px solid black;">
@@ -561,7 +578,7 @@ ORDER BY e.cliente_id')->fetch_first();
 	</table>
 	<HR>
 EOD;
-// Imprime la tabla
+                // Imprime la tabla
                 $pdf->writeHTML($tabla, true, false, false, false, '');
             }
         }
@@ -573,5 +590,3 @@ $nombre = 'orden_compra' . $id_orden . '_' . date('Y-m-d_H-i-s') . '.pdf';
 
 // Cierra y devuelve el fichero pdf
 $pdf->Output($nombre, 'I');
-
-?>
