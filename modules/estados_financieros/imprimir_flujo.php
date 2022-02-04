@@ -264,7 +264,7 @@ $where2 = array(
 $cuenta = $db->distinct()->select('plan.*')->from('con_asiento')->where($where2)->join('plan', 'plan.n_plan=asiento.cuenta')->order_by('n_plan', 'asc')->fetch();
 $mone = $db->select('*')->from('con_tipo_moneda')->where('estado', 1)->fetch_first();
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <div class="panel-heading">
     <h3 class="panel-title">
         <span class="<?= ICON_PANEL; ?>"></span>
@@ -690,4 +690,4 @@ $efe2 = $db->query("SELECT c.n_plan,c.plan_cuenta,SUM(a.debe),SUM(a.haber), c.no
         <?php } ?>
     });
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

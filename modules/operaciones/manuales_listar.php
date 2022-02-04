@@ -51,7 +51,7 @@ $permiso_cambiar = true;
 $permiso_editar = in_array('manuales_editar', $permisos);
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <style>
 	.table-xs tbody {
 		font-size: 12px;
@@ -347,4 +347,4 @@ $permiso_editar = in_array('manuales_editar', $permisos);
 		<?php } ?>
 	});
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

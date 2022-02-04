@@ -1,5 +1,5 @@
 <?php return redirect('?/control/visitas'); ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <div class="panel-heading">
 	<h3 class="panel-title" data-header="true">
 		<span class="glyphicon glyphicon-option-vertical"></span>
@@ -32,4 +32,4 @@
 	</div>
 
 </div>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

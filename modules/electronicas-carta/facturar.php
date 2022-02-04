@@ -55,7 +55,7 @@ $permisos = explode(',', permits);
 $permiso_mostrar = in_array('mostrar', $permisos);
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <style>
 .position-left-bottom {
 	bottom: 0;
@@ -946,4 +946,4 @@ function obtener(actualizar) {
 	});
 }
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

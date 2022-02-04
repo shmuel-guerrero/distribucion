@@ -40,7 +40,7 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 $_terminal=true;
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <style>
 	.position-left-bottom {
 		bottom: 0;
@@ -1519,4 +1519,4 @@ function calcular_descuento_total() {
 	} 
 }
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

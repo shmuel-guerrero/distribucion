@@ -49,7 +49,7 @@ $moneda = $db->query("SELECT sigla FROM inv_monedas WHERE oficial = 'S'")->fetch
 $moneda = ($moneda) ? '(' . $moneda['sigla'] . ')' : '';
 
 
-require_once show_template('header-advanced');
+require_once show_template('header-configured');
 
 if($permiso_editar){
     ?>
@@ -973,4 +973,4 @@ if($permiso_editar){
 	}
 </script>
 <?php
-require_once show_template('footer-advanced');
+require_once show_template('footer-configured');

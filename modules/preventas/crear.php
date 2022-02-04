@@ -48,7 +48,7 @@ $empleados = $db->query("SELECT * FROM `sys_empleados` e
 						WHERE u.rol_id = 3 and r.id_ruta is not null
 						GROUP by id_empleado")->fetch();
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <style>
 .position-left-bottom {
 	bottom: 0;
@@ -1838,4 +1838,4 @@ function tipo_descuento() {
 
 
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

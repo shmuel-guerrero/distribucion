@@ -35,7 +35,7 @@ $permiso_suprimir = in_array('suprimir', $permisos);
 $permiso_mostrar = in_array('mostrar', $permisos);
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <div class="panel-heading" data-venta="<?= $id_venta; ?>" data-servidor="<?= ip_local . name_project . '/factura.php'; ?>">
 	<h3 class="panel-title">
 		<span class="glyphicon glyphicon-option-vertical"></span>
@@ -397,4 +397,4 @@ $(function () {
 	<?php } ?>
 });
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

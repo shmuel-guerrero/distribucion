@@ -45,7 +45,7 @@ $permiso_activar = in_array('activar', $permisos);
 $permiso_control = in_array('control', $permisos);
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <div class="panel-heading" data-formato="<?= strtoupper($formato_textual); ?>" data-mascara="<?= $formato_numeral; ?>" data-gestion="<?= date_decode($gestion_base, $_institution['formato']); ?>">
 	<h3 class="panel-title">
 		<span class="glyphicon glyphicon-option-vertical"></span>
@@ -431,4 +431,4 @@ $(function () {
 	<?php } ?>
 });
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

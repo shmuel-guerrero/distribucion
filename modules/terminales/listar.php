@@ -15,7 +15,7 @@ $permiso_imprimir = in_array('imprimir', $permisos);
 $permiso_descargar = in_array('descargar', $permisos);
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <div class="panel-heading">
 	<h3 class="panel-title">
 		<span class="glyphicon glyphicon-option-vertical"></span>
@@ -147,4 +147,4 @@ $(function () {
 	<?php } ?>
 });
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

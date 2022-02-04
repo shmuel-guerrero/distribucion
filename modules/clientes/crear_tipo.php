@@ -11,7 +11,7 @@ $permiso_listar = in_array('listar', $permisos);
 $tipos = $db->select('*')->from('inv_tipos_clientes')->fetch();
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <div class="panel-heading">
 	<h3 class="panel-title">
 		<span class="glyphicon glyphicon-option-vertical"></span>
@@ -167,4 +167,4 @@ function Excepciones(error) {
 }
 
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

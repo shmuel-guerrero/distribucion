@@ -27,7 +27,7 @@ $permiso_quitar = true;
 $almacenes=$db->from('inv_almacenes')->order_by('id_almacen')->fetch();
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <style>
 	.width-sm {
 		min-width: 150px;
@@ -468,4 +468,4 @@ let columnas =  fila.getElementsByTagName("td");
 console.log(columnas);  */
 
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

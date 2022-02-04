@@ -73,7 +73,7 @@ $where2 = array(
 $cuenta = $db->distinct()->select('con_plan.*')->from('con_asiento')->where($where2)->join('con_plan', 'con_plan.n_plan=con_asiento.cuenta')->order_by('n_plan', 'asc')->fetch();
 $mone = $db->select('*')->from('con_tipo_moneda')->where('estado', 1)->fetch_first();
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <div class="panel-heading">
     <h3 class="panel-title">
         <span class="<?= ICON_PANEL; ?>"></span>
@@ -263,4 +263,4 @@ $mone = $db->select('*')->from('con_tipo_moneda')->where('estado', 1)->fetch_fir
         <?php } ?>
     });
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

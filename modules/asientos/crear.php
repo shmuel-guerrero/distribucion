@@ -10,7 +10,7 @@ $permiso_eliminar = in_array('eliminar', $permisos);
 $permiso_listar = in_array('listar', $permisos);
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
     <div class="panel-heading">
         <h3 class="panel-title">
             <span class="glyphicon glyphicon-option-vertical"></span>
@@ -369,4 +369,4 @@ $permiso_listar = in_array('listar', $permisos);
     }
 
     </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

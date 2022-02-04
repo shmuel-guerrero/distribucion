@@ -26,7 +26,7 @@ $permiso_capturar = in_array('capturar', $permisos);
 $permiso_subir = in_array('subir', $permisos);
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <link href="<?= css; ?>/jquery.Jcrop.min.css" rel="stylesheet">
 <div class="panel-heading">
 	<h3 class="panel-title">
@@ -395,4 +395,4 @@ $(function () {
 	<?php } ?>
 });
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

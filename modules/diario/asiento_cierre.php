@@ -22,7 +22,7 @@ $permisos = explode(',', permits);
 $permiso_listar = in_array('listar', $permisos);
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <div class="panel-heading" onload=";suma_d();suma_h();">
     <h3 class="panel-title">
         <span class="glyphicon glyphicon-option-vertical"></span>
@@ -329,6 +329,6 @@ $permiso_listar = in_array('listar', $permisos);
         parametro.document.getElementById('1').value = "num" ;
     }
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>
 
 

@@ -46,7 +46,7 @@ $permiso_facturar = in_array('proformas_facturar', $permisos);
 $permiso_cambiar = true;
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <style>
 .table-xs tbody {
 	font-size: 12px;
@@ -71,7 +71,7 @@ $permiso_cambiar = true;
 	<?php if ($permiso_cambiar || $permiso_imprimir) { ?>
 	<div class="row">
 		<div class="col-sm-8 hidden-xs">
-			<div class="text-label">Para realizar una acci¨®n hacer clic en los siguientes botones: </div>
+			<div class="text-label">Para realizar una acciï¿½ï¿½n hacer clic en los siguientes botones: </div>
 		</div>
 		<div class="col-xs-12 col-sm-4 text-right">
 			<?php if ($permiso_cambiar) { ?>
@@ -242,7 +242,7 @@ $(function () {
 	$('[data-eliminar]').on('click', function (e) {
 		e.preventDefault();
 		var url = $(this).attr('href');
-		bootbox.confirm('Est¨¢ seguro que desea eliminar la preventa y todo su detalle?', function (result) {
+		bootbox.confirm('Estï¿½ï¿½ seguro que desea eliminar la preventa y todo su detalle?', function (result) {
 			if(result){
 				window.location = url;
 			}
@@ -393,4 +393,4 @@ $(function () {
 
 });
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

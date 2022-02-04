@@ -24,7 +24,7 @@ $moneda = $db->from('inv_monedas')->where('oficial', 'S')->fetch_first();
 $moneda = ($moneda) ? '(' . $moneda['sigla'] . ')' : '';
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <div class="panel-heading">
 	<h3 class="panel-title">
 		<span class="glyphicon glyphicon-option-vertical"></span>
@@ -187,4 +187,4 @@ $modal_mostrar.on('hidden.bs.modal', function () {
 });
 
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

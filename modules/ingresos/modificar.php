@@ -57,7 +57,7 @@ $permiso_suprimir = in_array('suprimir', $permisos);
 $permiso_modificar = in_array('modificar', $permisos);
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <div class="panel-heading">
 	<h3 class="panel-title">
 		<span class="<?= ICON_PANEL; ?>"></span>
@@ -389,4 +389,4 @@ function calcular_estimado() {
 	});
 }
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

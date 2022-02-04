@@ -4,7 +4,7 @@ $formato_numeral = get_date_numeral($_institution['formato']);
 
 $Consulta = $db->query("SELECT id_empleado,nombres,paterno,materno FROM sys_empleados")->fetch();
 
-require_once show_template('header-advanced');
+require_once show_template('header-configured');
 ?>
 <link rel="stylesheet" href="<?=css?>/select233.css">
 <div class='panel-heading' data-formato='<?= strtoupper($formato_textual); ?>' data-mascara='<?= $formato_numeral; ?>' data-gestion='<?= date_decode($gestion_base, $_institution['formato']); ?>'>
@@ -122,4 +122,4 @@ require_once show_template('header-advanced');
         $fecha_ini.data('DateTimePicker').minDate(e.date);
     });
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

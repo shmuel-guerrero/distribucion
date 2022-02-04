@@ -62,7 +62,7 @@ $precioTotalAcumulado = 0;
 $utilidadTotalAcumulado = 0;
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 
 <div class="panel-heading" data-formato="<?= strtoupper($formato_textual); ?>" data-mascara="<?= $formato_numeral; ?>" data-gestion="<?= date_decode($gestion_base, $_institution['formato']); ?>">
 	<h3 class="panel-title">
@@ -428,5 +428,5 @@ $utilidadTotalAcumulado = 0;
 		}
 		return $str;
 	}
-	require_once show_template('footer-advanced');
+	require_once show_template('footer-configured');
 	?>

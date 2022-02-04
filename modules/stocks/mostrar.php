@@ -21,7 +21,7 @@ if (!$almacen || !$producto) {
 $movimientos = $db->query("select * from ((select d.*, concat(p.nombres, ' ', p.paterno, ' ', p.materno) as empleado from (select d.id_detalle, d.cantidad, d.producto_id, d.egreso_id as movimiento_id, e.fecha_egreso as fecha_movimiento, e.hora_egreso as hora_movimiento, 'Egreso' as estado, e.tipo, e.descripcion, e.almacen_id, e.empleado_id from inv_egresos_detalles d left join inv_egresos e on e.id_egreso = d.egreso_id where d.producto_id = $id_producto and e.almacen_id = $id_almacen) as d left join sys_empleados p on p.id_empleado = d.empleado_id) union (select d.*, concat(e.nombres, ' ', e.paterno, ' ', e.materno) as empleado from (select d.id_detalle, d.cantidad, d.producto_id, d.ingreso_id as movimiento_id, i.fecha_ingreso as fecha_movimiento, i.hora_ingreso as hora_movimiento, 'Ingreso' as estado, i.tipo, i.descripcion, i.almacen_id, i.empleado_id from inv_ingresos_detalles d left join inv_ingresos i on i.id_ingreso = d.ingreso_id where d.producto_id = $id_producto and i.almacen_id = $id_almacen) as d left join sys_empleados e on e.id_empleado = d.empleado_id)) as m order by m.fecha_movimiento asc, m.hora_movimiento asc")->fetch();
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <style>
 .table-xs tbody {
 	font-size: 12px;
@@ -139,4 +139,4 @@ $(function () {
 	<?php } ?>
 });
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

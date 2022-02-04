@@ -19,7 +19,7 @@
     $permiso_eliminar = true;
     $permiso_imprimir = true;
     $permiso_activar = true;
-    require_once show_template('header-advanced');
+    require_once show_template('header-configured');
 ?>
     <div class="panel-heading" data-formato="<?= strtoupper($formato_textual); ?>" data-mascara="<?= $formato_numeral; ?>" data-gestion="<?= date_decode($gestion_base, $_institution['formato']); ?>" data-servidor="<?= ip_local . name_project . '/nota_venta.php'; ?>">
         <h3 class="panel-title">
@@ -272,4 +272,4 @@
             });
         });*/
     </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

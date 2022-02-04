@@ -8,7 +8,7 @@ $Consulta = $db->query("SELECT m.id_meta_producto,m.monto,m.fecha_inicio,m.fecha
                         LEFT JOIN inv_productos AS p ON p.id_producto=m.producto_id
                         WHERE CURDATE() BETWEEN m.fecha_inicio AND m.fecha_fin
                         GROUP BY m.producto_id ORDER BY m.id_meta_producto DESC")->fetch();
-require_once show_template('header-advanced');
+require_once show_template('header-configured');
 ?>
 <div class='panel-heading'>
     <h3 class='panel-title'>
@@ -210,4 +210,4 @@ require_once show_template('header-advanced');
     	
     });
 </script>
-<?php require_once show_template('footer-advanced');
+<?php require_once show_template('footer-configured');

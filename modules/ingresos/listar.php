@@ -47,7 +47,7 @@ $permiso_editar = in_array('editar', $permisos);
 $permiso_libro_compra = in_array('libro_compra', $permisos);
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <style>
 	.table-xs tbody {
 		font-size: 12px;
@@ -371,4 +371,4 @@ $permiso_libro_compra = in_array('libro_compra', $permisos);
 		<?php } ?>
 	});
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

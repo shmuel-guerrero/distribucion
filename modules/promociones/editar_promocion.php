@@ -47,7 +47,7 @@ $unidades = $db->from('inv_unidades')->order_by('unidad')->fetch();
 $categorias = $db->from('inv_categorias')->order_by('categoria')->fetch();
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
     <style>
         .table-xs tbody {
             font-size: 12px;
@@ -657,4 +657,4 @@ $categorias = $db->from('inv_categorias')->order_by('categoria')->fetch();
         }
     }
     </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

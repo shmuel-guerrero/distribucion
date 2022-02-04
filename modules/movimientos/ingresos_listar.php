@@ -40,7 +40,7 @@ $permiso_modificar = in_array('ingresos_modificar', $permisos);
 $permiso_eliminar = in_array('ingresos_eliminar', $permisos);
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <div class="panel-heading">
 	<h3 class="panel-title" data-header="true">
 		<span class="glyphicon glyphicon-option-vertical"></span>
@@ -275,4 +275,4 @@ $(function () {
 	});
 });
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

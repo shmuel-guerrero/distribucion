@@ -357,7 +357,7 @@ if($verifica == true) {
     	$utilidadName[$nroSucursal] = $vSucursal['almacen'];
     }
 }
-	require_once show_template('header-advanced'); 
+	require_once show_template('header-configured'); 
 ?>
 <div class="panel-heading">
 	<h3 class="panel-title">
@@ -1334,4 +1334,4 @@ if($verifica == true) {
     	});
     </script>
 <?php } ?>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

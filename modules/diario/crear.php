@@ -29,7 +29,7 @@ $permiso_listar = in_array('listar', $permisos);
 }
 </style>
 
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <div class="panel-heading">
     <h3 class="panel-title">
         <span class="glyphicon glyphicon-option-vertical"></span>
@@ -344,5 +344,5 @@ $permiso_listar = in_array('listar', $permisos);
         $("#div_line_"+nro).css({'display':'block', 'margin-bottom':'-1px'});
     }
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>
 

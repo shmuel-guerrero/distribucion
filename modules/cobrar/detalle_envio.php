@@ -50,7 +50,7 @@ $permiso_eliminar_pago = in_array('eliminar_pago', $permisos);
 $permiso_imprimir_comprobante = in_array('imprimir_comprobante', $permisos);
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 
 <style>
 	.table-responsive {
@@ -362,4 +362,4 @@ $permiso_imprimir_comprobante = in_array('imprimir_comprobante', $permisos);
 	}
 </script>
 <?php
-	require_once show_template('footer-advanced');
+	require_once show_template('footer-configured');

@@ -12,7 +12,7 @@ $almacenes = $db->get('inv_almacenes');
 $promos = $db->select('id_promocion, nombre, tipo, fecha_ini, fecha_fin,descripcion,descuento_promo,monto_promo,item_promo')->from('inv_promociones_monto')->order_by('id_promocion')->fetch();
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <div class="panel-heading">
 	<h3 class="panel-title">
 		<span class="glyphicon glyphicon-option-vertical"></span>
@@ -104,4 +104,4 @@ $(function () {
 	<?php } ?>
 });
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

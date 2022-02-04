@@ -3,7 +3,7 @@
     $Consulta=$db->query("SELECT*FROM inv_metas_distribuidor WHERE id_meta='{$id_meta}'")->fetch_first();
     $Conseguido=$db->query("SELECT IFNULL(SUM(monto_total),0)AS total FROM tmp_egresos WHERE distribuidor_id='{$Consulta['distribuidor_id']}' AND distribuidor_estado='ENTREGA' AND distribuidor_fecha BETWEEN '{$Consulta['fecha_inicio']}' AND '{$Consulta['fecha_fin']}'")->fetch_first();
     $Conseguido = ($Conseguido['total']) ? $Conseguido['total'] : 0;
-    require_once show_template('header-advanced');
+    require_once show_template('header-configured');
 ?>
 <div class='panel-heading'>
     <h3 class='panel-title'>
@@ -64,4 +64,4 @@
 <script src='<?= js; ?>/moment.min.js'></script>
 <script src='<?= js; ?>/moment.es.js'></script>
 <script src='<?= js; ?>/bootstrap-datetimepicker.min.js'></script>
-<?php require_once show_template('footer-advanced');
+<?php require_once show_template('footer-configured');

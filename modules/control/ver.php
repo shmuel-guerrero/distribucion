@@ -64,7 +64,7 @@ $permiso_facturar = in_array('proformas_facturar', $permisos);
 $permiso_cambiar = false;
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <style>
 .table-xs tbody {
 	font-size: 12px;
@@ -357,4 +357,4 @@ $(function () {
  $('.leaflet-interactive').css('fill', color);
 
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

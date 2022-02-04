@@ -47,7 +47,7 @@ $permiso_facturar = in_array('proformas_facturar', $permisos);
 $permiso_cambiar = false;
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <link href="<?= css; ?>/bootstrap-colorselector.css" rel="stylesheet" />
 
     <style>
@@ -186,4 +186,4 @@ $permiso_cambiar = false;
     
 
     </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

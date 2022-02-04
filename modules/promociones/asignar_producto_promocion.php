@@ -117,7 +117,7 @@ $categorias = $db->from('inv_categorias')->order_by('categoria')->fetch();
 $permiso_cambiar = true;
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <link rel="stylesheet" href="css/selectize.bootstrap3.min.css">
 <style>
 .table-xs tbody {
@@ -871,4 +871,4 @@ function set_tipo_promo(){
 
 
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

@@ -21,7 +21,7 @@ $permiso_asignar = in_array('asignar', $permisos);
 $permiso_capturar = in_array('capturar', $permisos);
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <link rel="stylesheet" href="<?= css; ?>/dataTables.bootstrap.min.css">
 <link rel="stylesheet" href="<?= css; ?>/jquery.Jcrop.min.css">
 <div class="panel-heading">
@@ -392,4 +392,4 @@ $(function () {
 	<?php } ?>
 });
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

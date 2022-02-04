@@ -36,7 +36,7 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 $permiso_reimprimir = in_array('reimprimir', $permisos);
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <style>
 .table-display > .thead > .tr,
 .table-display > .tbody > .tr,
@@ -418,4 +418,4 @@ $(function () {
 	<?php } ?>
 });
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

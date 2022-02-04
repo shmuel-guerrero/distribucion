@@ -1,4 +1,4 @@
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <div class="panel-heading">
 	<h3 class="panel-title" data-header="true">
 		<span class="glyphicon glyphicon-option-vertical"></span>
@@ -11,4 +11,4 @@
 		<p>Vuelva a reintentar más tarde.</p>
 	</div>
 </div>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

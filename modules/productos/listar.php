@@ -29,7 +29,7 @@ $permiso_eliminados = in_array('eliminados', $permisos);
 $unidades = $db->from('inv_unidades')->order_by('unidad')->fetch();
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <div class="panel-heading">
 	<h3 class="panel-title">
 		<span class="glyphicon glyphicon-option-vertical"></span>
@@ -560,4 +560,4 @@ $(function () {
 	<?php endif ?>
 });
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

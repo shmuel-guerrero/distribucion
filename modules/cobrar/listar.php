@@ -53,7 +53,7 @@ $permiso_ver = true;
 $permiso_cambiar = true;
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <style>
 
 </style>
@@ -390,4 +390,4 @@ $(document).click(function() {
 })
 .trigger("click");
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

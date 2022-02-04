@@ -37,7 +37,7 @@ $Empleados=$db->query("SELECT e.id_empleado,e.nombres,e.paterno,e.materno,GROUP_
                 LEFT JOIN tmp_egresos AS te ON e.id_empleado=te.empleado_id
                 WHERE u.rol_id!='4' AND te.fecha_egreso BETWEEN '{$fecha_inicial}' AND '{$fecha_final}' GROUP BY e.id_empleado")->fetch();
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <div class="panel-heading" data-formato="<?= strtoupper($formato_textual); ?>" data-mascara="<?= $formato_numeral; ?>" data-gestion="<?= date_decode($gestion_base, $_institution['formato']); ?>">
     <h3 class="panel-title">
         <span class="glyphicon glyphicon-option-vertical"></span>
@@ -411,4 +411,4 @@ $Empleados=$db->query("SELECT e.id_empleado,e.nombres,e.paterno,e.materno,GROUP_
         <?php } ?>
     });
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

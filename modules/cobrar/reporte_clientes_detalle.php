@@ -50,7 +50,7 @@ $permiso_listar = in_array('listar', $permisos);
 $permiso_suprimir = in_array('suprimir', $permisos);
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 
 <style>
 @media (min-width: 768px) { 
@@ -398,4 +398,4 @@ $(function () {
 });
 </script>
 
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

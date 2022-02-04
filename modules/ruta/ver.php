@@ -45,7 +45,7 @@ $permiso_facturar = in_array('proformas_facturar', $permisos);
 $permiso_cambiar = true;
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <style>
 .table-xs tbody {
 	font-size: 12px;
@@ -229,4 +229,4 @@ console.log(porciones3);
     }
 
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

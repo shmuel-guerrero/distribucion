@@ -53,7 +53,7 @@ $permiso_ver = in_array('ver', $permisos);
 $permiso_cambiar = true;
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <style>
 .table-xs tbody {
 	font-size: 12px;
@@ -364,7 +364,7 @@ function checkk(nro){
 
 
 function guardar(){
-    // bootbox.confirm("Esta seguro de guardar los pagos?, esta acci¨®n no se puede rehacer!", function(result){ 
+    // bootbox.confirm("Esta seguro de guardar los pagos?, esta acciï¿½ï¿½n no se puede rehacer!", function(result){ 
     bootbox.confirm("&iquest;Esta seguro de guardar los cambios realizados en pagos?<br> &iexcl;Advertencia!, &eacute;sta acci&oacute;n no se puede revertir.", function(result){ 
         if (result == true) {
             $('#formulario').submit();
@@ -382,4 +382,4 @@ $(document).click(function() {
 })
 .trigger("click");
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

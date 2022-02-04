@@ -68,7 +68,7 @@ $permiso_facturar = in_array('proformas_facturar', $permisos);
 $permiso_cambiar = true;
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
     <style>
         .table-xs tbody {
             font-size: 12px;
@@ -194,7 +194,7 @@ $permiso_cambiar = true;
         function printDivv() {
             var objeto=document.getElementById('mapa2');
             //obtenemos el objeto a imprimir
-            var ventana=window.open('','_blank');  //abrimos una ventana vac¨ªa nueva
+            var ventana=window.open('','_blank');  //abrimos una ventana vacï¿½ï¿½a nueva
             ventana.document.write(objeto.innerHTML);  //imprimimos el HTML del objeto en la nueva ventana
             ventana.document.close();  //cerramos el documento
             ventana.print();  //imprimimos la ventana
@@ -219,7 +219,7 @@ $permiso_cambiar = true;
             });
             var objeto=document.getElementById('mapa2');
             //obtenemos el objeto a imprimir
-            var ventana=window.open('','_blank');  //abrimos una ventana vac¨ªa nueva
+            var ventana=window.open('','_blank');  //abrimos una ventana vacï¿½ï¿½a nueva
             ventana.document.write(objeto.innerHTML);  //imprimimos el HTML del objeto en la nueva ventana
             ventana.document.close();  //cerramos el documento
             ventana.print();  //imprimimos la ventana
@@ -340,4 +340,4 @@ $permiso_cambiar = true;
         L.Routing.errorControl(control).addTo(map);
 
     </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

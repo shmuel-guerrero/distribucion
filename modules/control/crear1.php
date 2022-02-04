@@ -38,7 +38,7 @@ $permiso_facturar = in_array('proformas_facturar', $permisos);
 $permiso_cambiar = true;
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <link rel="stylesheet" href="<?= css; ?>/leaflet.css">
 <link rel="stylesheet" href="<?= css; ?>/leaflet-routing-machine.css">
 <link rel="stylesheet" href="<?= css; ?>/site.css">
@@ -291,4 +291,4 @@ function validaForm(){
 }
 
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

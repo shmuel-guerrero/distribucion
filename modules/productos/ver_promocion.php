@@ -31,7 +31,7 @@ $permiso_suprimir = in_array('suprimir', $permisos);
 $permiso_saltar = in_array('saltar', $permisos);
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <link href="<?= css; ?>/jquery.guillotine.min.css" rel="stylesheet">
 <style>
 .table-display > .thead > .tr,
@@ -495,4 +495,4 @@ $(function () {
 	});
 });
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

@@ -49,7 +49,7 @@ $precioTotalAcumulado=0;
 $utilidadTotalAcumulado=0;
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <style>
 .table-xs tbody {
 	font-size: 12px;
@@ -604,7 +604,7 @@ function Fracciones($ultimoSaldo,$ultimoTamanio){
 
 
 
-require_once show_template('footer-advanced');
+require_once show_template('footer-configured');
 
 
 

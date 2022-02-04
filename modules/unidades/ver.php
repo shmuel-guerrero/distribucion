@@ -9,7 +9,7 @@ $unidad = $db->select('z.*')
 ->where('z.id_unidad', $id_unidad)
 ->fetch_first();
 
-//verifica si la unidad ya est¨¢ siendo usada ::BECA
+//verifica si la unidad ya estï¿½ï¿½ siendo usada ::BECA
 $existe = $db->query("SELECT id_producto
 						from inv_productos
                         where unidad_id = $id_unidad
@@ -34,7 +34,7 @@ $permiso_imprimir = in_array('imprimir', $permisos);
 $permiso_listar = in_array('listar', $permisos);
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <div class="panel-heading">
 	<h3 class="panel-title">
 		<span class="glyphicon glyphicon-option-vertical"></span>
@@ -113,4 +113,4 @@ $(function () {
 });
 </script>
 <?php } ?>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

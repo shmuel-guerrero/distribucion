@@ -8,8 +8,8 @@ $_institution = $db->from('sys_instituciones')->fetch_first();
 
 // Generamos un random para evitar el cacheado del script
 $version = rand(0, 1000000);
-
 ?>
+<!doctype html>
 <!doctype html>
 <html lang="es">
 	<head>
@@ -17,94 +17,90 @@ $version = rand(0, 1000000);
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 		<meta name="mobile-web-app-capable" content="yes">
-		<title><?= ($_institution['nombre']) ? $_institution['nombre'] : 'CheckCode'; ?></title>
-		<link rel="stylesheet" href="<?= css; ?>/bootstrap.min.css">
-		<link rel="stylesheet" href="<?= css; ?>/bootstrap-structured.min.css">
-		<link rel="stylesheet" href="<?= css; ?>/animate.min.css">
+		<title><?= $_institution['nombre']; ?></title>
+		<link rel="stylesheet" href="<?= css; ?>/bootstrapsam.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/bootstrap-gridsam.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/bootstrap-utilitiesam.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/bootstrap-iconssam.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/bootstrap-spinnersam.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/bootstrap-dashboardsam.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/animatesam.min.css">
 		<link rel="stylesheet" href="<?= themes . '/' . (($_institution['tema'] == '') ? 'bootstrap' : $_institution['tema']); ?>/style.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/bootstrap-structuredsam.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/animatesam.min.css">
+		<link rel="icon" type="image/png" href="<?= project; ?>/favicon.png">
+		<style>
+		.form-group .form-control-feedback {
+			pointer-events: initial;
+			cursor: pointer;
+		}
+		</style>
 		<!--[if lt IE 9]>
 			<script src="<?= js; ?>/html5shiv.min.js"></script>
 			<script src="<?= js; ?>/respond.min.js"></script>
 		<![endif]-->
-		<link rel="icon" type="image/png" href="<?= project; ?>/favicon.png">
-		<style>
-		body {
-			margin: 0;
-		}
-		.wrapper-login {
-			display: table;
-			left: 0;
-			position: absolute;
-			top: 0;
-			width: 100%;
-		}
-		.content-login {
-			display: table-cell;
-			vertical-align: middle;
-			padding: 15px 0;
-		}
-		.h-100 {
-			height: 100%;
-		}
-		.font-weight-normal {
-			font-weight: normal;
-		}
-		</style>
 	</head>
 	<body>
-		<div class="wrapper-login">
-			<div class="content-login">
-				<div class="container-fluid">
-					<div class="row">
-						<div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
-							<div class="panel panel-default margin-none">
-								<div class="panel-heading">
-									<h3 class="panel-title" data-header="true">Ingreso</h3>
-								</div>
-								<div class="panel-body">
-									<form method="post" action="?/<?= site; ?>/auth" class="form-horizontal margin-none">
-										<input type="hidden" name="locale" value="">
-										<div class="form-group">
-											<label for="username" class="col-sm-3 control-label font-weight-normal">Usuario:</label>
-											<div class="col-sm-9">
-												<input type="text" name="username" class="form-control" autocomplete="off" autofocus="autofocus" data-validation="required">
-											</div>
+		<div class="container-fluid h-100">
+			<div class="row h-100">
+				<div class="col-md-8 wrapper">
+					<div class="row align-items-center justify-content-center h-100">
+						<div class="col-md-11 col-xl-10 text-center text-md-left">
+							<div class="m-0 px-4 py-5">
+								<p class="lead">Bienvenido a</p>
+								<p class="h1">
+									<span>CheckCode Distribución</span>
+									<sup><small>v2.0</small></sup>
+								</p>
+								<p>CheckCode te ayuda a gestionar los procesos más complejos dentro de tu empresa.</p>
+								<p class="m-0">
+									<a href="https://www.checkcode.bo" class="btn btn-default" target="_blank">Conoce más</a>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="row align-items-center justify-content-center h-100">
+						<div class="col-md-10 col-xl-8">
+							<div class="m-0 px-4 py-5">
+								<p class="lead text-primary" data-header="true">Iniciar sesión</p>
+								<hr class="visible-xs-block">
+								<form method="post" action="?/<?= site; ?>/auth" class="m-0" autocomplete="off" data-formvalidator="true">
+									<input type="hidden" name="locale" value="">
+									<div class="form-group">
+										<input type="text" name="username" id="username" class="form-control" placeholder="Usuario" autofocus="autofocus" data-validation="required">
+									</div>
+									<div class="form-group has-feedback">
+										<input type="password" name="password" id="password" class="form-control" placeholder="Contraseña" data-validation="required">
+										<span class="glyphicon glyphicon-eye-close form-control-feedback"></span>
+									</div>
+									<div class="form-group">
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" name="remember">
+												<span>Recuérdame</span>
+											</label>
 										</div>
-										<div class="form-group">
-											<label for="password" class="col-sm-3 control-label font-weight-normal">Contraseña:</label>
-											<div class="col-sm-9">
-												<input type="password" name="password" class="form-control" autocomplete="off" data-validation="required">
-											</div>
-										</div>
-										<div class="form-group">
-											<div class="col-sm-offset-3 col-sm-9">
-												<div class="checkbox">
-													<label>
-														<input type="checkbox" name="remember">
-														<span>Recuérdame</span>
-													</label>
-												</div>
-											</div>
-										</div>
-										<div class="form-group margin-none">
-											<div class="col-sm-offset-3 col-sm-9">
-												<button type="submit" class="btn btn-primary">Ingresar</button>
-												<button type="reset" class="btn btn-default">Restablecer</button>
-											</div>
-										</div>
-									</form>
-								</div>
+									</div>
+									<div class="form-group m-0">
+										<button type="submit" class="btn btn-block btn-primary">Ingresar</button>
+									</div>
+								</form>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<script src="<?= js; ?>/jquery.min.js"></script>
-		<script src="<?= js; ?>/bootstrap.min.js"></script>
-		<script src="<?= js; ?>/jquery.form-validator.min.js"></script>
-		<script src="<?= js; ?>/jquery.form-validator.es.js"></script>
-		<script src="<?= js; ?>/bootstrap-notify.min.js"></script>
+		<script src="<?= js; ?>/jquerysam.min.js"></script>
+		<script src="<?= js; ?>/bootstrapsam.min.js"></script>
+		<script src="<?= js; ?>/bootstrap-notifysam.min.js"></script>
+		<script src="<?= js; ?>/jquery.form-validatorsam.min.js"></script>
+		<script src="<?= js; ?>/jquery.form-validatorsam.es.js"></script>
+		<script src="<?= js; ?>/animosam.min.js"></script>
+		<script src="<?= js; ?>/buzzsam.min.js"></script>
+		<script src="<?= js; ?>/functionssam.min.js"></script>
 		<script src="http://localhost:9000/<?= name_project; ?>/locale.js?v=<?= $version; ?>"></script>
 		<script>
 		$(function () {
@@ -113,6 +109,28 @@ $version = rand(0, 1000000);
 			}
 
 			$.validate();
+
+			var $wrapper = $('.wrapper'), $feedback = $('.form-control-feedback');
+
+			if ($wrapper) {
+				if (is_dark($wrapper.css('background-color'))) {
+					$wrapper.css('color', 'rgba(255, 255, 255, 0.8)');
+				} else {
+					$wrapper.css('color', 'rgba(0, 0, 0, 0.8)');
+				}
+			}
+
+			$feedback.on('click', function () {
+				if ($feedback.hasClass('glyphicon-eye-close')) {
+					$feedback.removeClass('glyphicon-eye-close');
+					$feedback.addClass('glyphicon-eye-open');
+					$feedback.prev().attr('type', 'text');
+				} else {
+					$feedback.removeClass('glyphicon-eye-open');
+					$feedback.addClass('glyphicon-eye-close');
+					$feedback.prev().attr('type', 'password');
+				}
+			});
 
 			<?php if (isset($_SESSION[temporary])) { ?>
 			<?php unset($_SESSION[temporary]); ?>

@@ -45,7 +45,7 @@ $permiso_reimprimir = false; //in_array('reimprimir', $permisos);
 $permiso_devolucion = in_array('preventas_devolucion', $permisos);
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <style>
 .table-display > .thead > .tr,
 .table-display > .tbody > .tr,
@@ -442,4 +442,4 @@ $(function () {
 	<?php } ?>
 });
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

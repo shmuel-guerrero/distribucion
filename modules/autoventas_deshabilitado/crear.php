@@ -34,7 +34,7 @@ $permisos = explode(',', permits);
 
 // Almacena los permisos en variables
 $permiso_mostrar = in_array('mostrar', $permisos);
-require_once show_template('header-advanced'); ?>
+require_once show_template('header-configured'); ?>
 <style>
 	.position-left-bottom {
 		bottom: 0;
@@ -1597,4 +1597,4 @@ require_once show_template('header-advanced'); ?>
 		$('#data-tipo-pago').val(2);
 	}
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

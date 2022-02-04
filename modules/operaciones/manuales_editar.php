@@ -40,7 +40,7 @@ $moneda = ($moneda) ? '(' . $moneda['sigla'] . ')' : '';
 
 $id_almacen = ($Egreso['id_almacen']) ? $Egreso['id_almacen']: 0;
 
-require_once show_template('header-advanced');
+require_once show_template('header-configured');
 
 if($permiso_editar){
     ?>
@@ -1068,4 +1068,4 @@ if($permiso_editar){
 	}
 </script>
 <?php
-require_once show_template('footer-advanced');
+require_once show_template('footer-configured');

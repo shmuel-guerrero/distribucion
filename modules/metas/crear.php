@@ -10,7 +10,7 @@ $Consulta = $db->query("SELECT id_empleado,nombres,paterno,materno, m.fecha_regi
                             OR m.fecha_registro IS NULL )
                             ")->fetch();
 
-require_once show_template('header-advanced');
+require_once show_template('header-configured');
 ?>
 <div class='panel-heading' data-formato='<?= strtoupper($formato_textual); ?>' data-mascara='<?= $formato_numeral; ?>' data-gestion='<?= date_decode($gestion_base, $_institution['formato']); ?>'>
     <h3 class='panel-title'>
@@ -110,4 +110,4 @@ require_once show_template('header-advanced');
         $fecha_ini.data('DateTimePicker').minDate(e.date);
     });
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

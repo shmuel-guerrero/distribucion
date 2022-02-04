@@ -19,20 +19,22 @@ $_menus = construir_sidebar($_menus);
 		<meta name="mobile-web-app-capable" content="yes">
 		<meta name="theme-color" content="#3d3d3d">
 		<title><?= $_institution['nombre']; ?></title>
-		<link rel="stylesheet" href="<?= css; ?>/bootstrap_sam.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/bootstrap.min.css">
 		<link rel="stylesheet" href="<?= css; ?>/bootstrap-grid.min.css">
-		<link rel="stylesheet" href="<?= css; ?>/bootstrap-utilitiesam.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/bootstrap-utilities.min.css">
 		<link rel="stylesheet" href="<?= css; ?>/bootstrap-icons.min.css">
 		<link rel="stylesheet" href="<?= css; ?>/bootstrap-spinner.min.css">
 		<link rel="stylesheet" href="<?= css; ?>/bootstrap-dashboard.min.css">
-<!-- 		<link rel="stylesheet" href="<?= css; ?>/bootstrap-datetimepicker.min.css">
-		<link rel="stylesheet" href="<?= css; ?>/dataTables.bootstrap.min.css">-->  
-		<link rel="stylesheet" href="<?= css; ?>/selectize.bootstrap3.min.css">     
+		<link rel="stylesheet" href="<?= css; ?>/bootstrap-datetimepicker.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/dataTables.bootstrap.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/selectize.bootstrap3.min.css">
 		<link rel="stylesheet" href="<?= css; ?>/metisMenu.min.css">
-		<link rel="stylesheet" href="<?= themes . '/' . (($_institution['tema'] == '') ? 'bootstrapsam' : 'bootstrapsam'); ?>/style.min.css">
-	<!-- 	<link rel="stylesheet" href="<?= css; ?>/bootstrap-structured.min.css">
+		<link rel="stylesheet" href="<?= themes . '/' . (($_institution['tema'] == '') ? 'bootstrap' : $_institution['tema']); ?>/style.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/bootstrap-structured.min.css">
 		<link rel="stylesheet" href="<?= css; ?>/animate.min.css">
-		<link rel="stylesheet" href="<?= fontawesome; ?>/css/all.css"> -->
+		<link rel="stylesheet" href="<?= css; ?>/bootstrap-toggle.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/bootstrap-toggle.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/jquery.treegrid.css">
 		<link rel="icon" type="image/png" href="<?= project; ?>/favicon.png">
 		<style>
 		.wrapper {
@@ -53,7 +55,7 @@ $_menus = construir_sidebar($_menus);
 			<script src="<?= js; ?>/respond.min.js"></script>
 		<![endif]-->
 		<script src="<?= js; ?>/jquery.min.js"></script>
-		<script src="<?= js; ?>/bootstrap_sam.min.js"></script>
+		<script src="<?= js; ?>/bootstrap.min.js"></script>
 		<script src="<?= js; ?>/metisMenu.min.js"></script>
 		<script src="<?= js; ?>/bootbox.min.js"></script>
 		<script src="<?= js; ?>/bootstrap-notify.min.js"></script>
@@ -65,8 +67,12 @@ $_menus = construir_sidebar($_menus);
 		<script src="<?= js; ?>/animo.min.js"></script>
 		<script src="<?= js; ?>/buzz.min.js"></script>
 		<script src="<?= js; ?>/functions.min.js"></script>
-		<!-- <script src="<?= js; ?>/docs.min.js"></script> -->
-		<script src="<?= js; ?>/docsam.min.js"></script>
+		<script src="<?= js; ?>/docs.min.js"></script>
+		<script src="<?= js; ?>/bootstrap-toggle.min.js"></script>
+
+		<link rel="stylesheet" href="<?= css; ?>/bootstrap-extended.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/colors.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/style.min.css">
 	</head>
 	<body>
 		<?php if (environment == 'production') : ?>

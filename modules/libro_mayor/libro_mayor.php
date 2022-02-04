@@ -60,7 +60,7 @@ $mone = $db->select('*')->from('con_tipo_moneda')->where('estado', 1)->fetch_fir
 <style>
 .th-table{  background-color: #eee; color: #000; border:1px solid #000;   }
 </style>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
     <div class="panel-heading">
         <h3 class="panel-title">
             <span class="glyphicon glyphicon-option-vertical"></span>
@@ -251,4 +251,4 @@ $mone = $db->select('*')->from('con_tipo_moneda')->where('estado', 1)->fetch_fir
             <?php } ?>
         });
     </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

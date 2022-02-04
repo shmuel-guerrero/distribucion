@@ -37,7 +37,7 @@ if (!$movimientos) {
 $almacen = $db->from('inv_almacenes')->where('id_almacen', $id_almacen)->fetch_first();
 // Obtiene el producto
 $producto = $db->from('inv_productos')->where('id_producto', $id_producto)->fetch_first();
-require_once show_template('header-advanced');
+require_once show_template('header-configured');
 ?>
 <div class="panel-heading">
 	<h3 class="panel-title">
@@ -246,4 +246,4 @@ require_once show_template('header-advanced');
 <script src="<?= js; ?>/jquery.dataFilters.min.js"></script>
 <script>
 </script>
-<?php require_once show_template('footer-advanced');
+<?php require_once show_template('footer-configured');

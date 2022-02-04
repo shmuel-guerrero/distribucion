@@ -55,7 +55,7 @@ $permiso_cambiar = true;
 // $permiso_crear = in_array('crear', $permisos);
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <style>
 	.table-xs tbody {
 		font-size: 12px;
@@ -442,4 +442,4 @@ $permiso_cambiar = true;
 
 	});
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

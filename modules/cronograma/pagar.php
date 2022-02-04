@@ -41,7 +41,7 @@ $estado=$ingreso['estado'];
 //$permisos = explode(',', permits);
 ?>
 
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 
 <?php //include("utilidad.php"); ?>
 
@@ -188,4 +188,4 @@ $(function () {
 
 
 
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

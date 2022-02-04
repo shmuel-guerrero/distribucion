@@ -78,7 +78,7 @@
 
     $Fecha=date('Y-m-d');
 
-    require_once show_template('header-advanced');
+    require_once show_template('header-configured');
 ?>
 <div class='row'>
     <?php
@@ -453,4 +453,4 @@
     }
 </script>
 <?php
-    require_once show_template('footer-advanced');
+    require_once show_template('footer-configured');

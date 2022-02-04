@@ -4,7 +4,7 @@
 $temas = get_directories(project . '/themes');
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <div class="panel-heading">
 	<h3 class="panel-title">
 		<span class="glyphicon glyphicon-option-vertical"></span>
@@ -37,4 +37,4 @@ $temas = get_directories(project . '/themes');
 		</div>
 	</form>
 </div>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

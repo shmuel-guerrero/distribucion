@@ -43,7 +43,7 @@ $id_almacen = ($Egreso['id_almacen']) ? $Egreso['id_almacen']: 0;
 // $tmp = $db->query("SELECT * FROM tmp_egresos WHERE id_egreso = '$IdNotaRemision' AND distribuidor_estado = 'ENTREGA' AND estado = 3 ")->fetch_first();
 
 //MAQUETACION
-require_once show_template('header-advanced');
+require_once show_template('header-configured');
 
 if($permiso_editar){//!$tmp['id_egreso']
     ?>
@@ -1124,4 +1124,4 @@ if($permiso_editar){//!$tmp['id_egreso']
 	}
 </script>
 <?php
-require_once show_template('footer-advanced');
+require_once show_template('footer-configured');

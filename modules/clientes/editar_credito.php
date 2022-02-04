@@ -31,7 +31,7 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 
 <div class="row">
     <form id="formulario" class="form-horizontal" action="?/clientes/guardar_credito" method="POST">
@@ -272,4 +272,4 @@ $(function () {
 
 
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

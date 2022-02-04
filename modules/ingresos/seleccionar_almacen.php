@@ -15,7 +15,7 @@
     	}
     </style>
     
-    <?php require_once show_template('header-advanced'); ?>
+    <?php require_once show_template('header-configured'); ?>
     
     
     <div class="row">
@@ -79,4 +79,4 @@
 	return redirect('?/ingresos/crear/' . $_user['almacen_id']);
 } ?>
 
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

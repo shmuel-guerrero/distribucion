@@ -27,7 +27,7 @@ if (!$movimientos) {
 
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
     <div class="panel-heading">
         <h3 class="panel-title">
             <span class="glyphicon glyphicon-option-vertical"></span>
@@ -37,7 +37,7 @@ if (!$movimientos) {
     <div class="panel-body">
         <div class="row">
             <div class="col-sm-8 hidden-xs">
-                <div class="text-label">Para cambiar de almac¨¦n o de producto hacer clic en el siguiente bot¨®n: </div>
+                <div class="text-label">Para cambiar de almacï¿½ï¿½n o de producto hacer clic en el siguiente botï¿½ï¿½n: </div>
             </div>
             <div class="col-xs-12 col-sm-4 text-right">
                 <a href="?/distribuidor/listar3/<?= $fecha_inicial?>/<?= $fecha_final ?>" class="btn btn-primary">
@@ -208,4 +208,4 @@ if (!$movimientos) {
          });
          });*/
     </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

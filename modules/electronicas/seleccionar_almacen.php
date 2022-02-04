@@ -16,7 +16,7 @@
     	}
     </style>
     
-    <?php require_once show_template('header-advanced'); ?>
+    <?php require_once show_template('header-configured'); ?>
     
     <div class="row">
     	<div class="col-md-12">
@@ -78,4 +78,4 @@
 <?php } else {
 	return redirect('?/electronicas/crear/' . $_user['almacen_id']);
 } ?>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

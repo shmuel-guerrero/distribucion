@@ -16,7 +16,7 @@
     }
 </style>
 
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 
 <div class="row">
 	<div class="col-md-12">
@@ -76,4 +76,4 @@
 		);
 	});
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

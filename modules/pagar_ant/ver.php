@@ -75,7 +75,7 @@ $permiso_eliminar_pago = in_array('eliminar_pago', $permisos);
 $permiso_imprimir_comprobante = in_array('imprimir_comprobante', $permisos);
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 
 <style>
 .table-responsive{ 
@@ -832,4 +832,4 @@ function DeleteCuota(){
 	});
 }
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

@@ -31,7 +31,7 @@ $moneda = ($moneda) ? '(' . $moneda['sigla'] . ')' : '';
                             WHERE p.categoria_id='{$IdCategoria}'  AND e.anulado = 0 AND e.estadoe != 0 
                             AND e.fecha_egreso BETWEEN '{$Consulta['fecha_inicio']}' AND '{$Consulta['fecha_fin']}'")->fetch_first();
     $Conseguido = ($Conseguido['total']) ? $Conseguido['total'] : 0 ;
-    require_once show_template('header-advanced');
+    require_once show_template('header-configured');
 ?>
 <div class='panel-heading'>
     <h3 class='panel-title'>
@@ -147,4 +147,4 @@ $moneda = ($moneda) ? '(' . $moneda['sigla'] . ')' : '';
 <script src='<?= js; ?>/moment.min.js'></script>
 <script src='<?= js; ?>/moment.es.js'></script>
 <script src='<?= js; ?>/bootstrap-datetimepicker.min.js'></script>
-<?php require_once show_template('footer-advanced');
+<?php require_once show_template('footer-configured');

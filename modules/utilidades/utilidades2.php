@@ -58,7 +58,7 @@ $moneda = ($moneda) ? '(' . $moneda['sigla'] . ')' : '';
 $permiso_cambiar = true;
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <style type="text/css">
 	.Table{
 			display: table;
@@ -490,5 +490,5 @@ $permiso_cambiar = true;
 	<?php } ?>
 </script>
 
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>
 

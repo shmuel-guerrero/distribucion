@@ -45,7 +45,7 @@ $query = $select . $from . $join . "";
 $ubicaciones = $db->from('inv_almacenes')->order_by('id_almacen')->fetch();
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <style>
 .table-xs tbody {
 	font-size: 12px;
@@ -252,4 +252,4 @@ $(function () {
 	
 });
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

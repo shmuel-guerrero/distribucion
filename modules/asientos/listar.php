@@ -17,7 +17,7 @@ $permiso_asignar = true;
 $permiso_capturar = true;
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <link rel="stylesheet" href="<?= css; ?>/dataTables.bootstrap.min.css">
 <link rel="stylesheet" href="<?= css; ?>/jquery.Jcrop.min.css">
 <div class="panel-heading">
@@ -317,4 +317,4 @@ $(function () {
 
 });
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

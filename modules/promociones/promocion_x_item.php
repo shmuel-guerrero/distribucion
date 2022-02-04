@@ -23,7 +23,7 @@ $formato_numeral = get_date_numeral($_institution['formato']);
 	$permiso_asignar_precio = true;
 	$unidades = $db->from('inv_unidades')->order_by('unidad')->fetch();
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <div class="panel-heading">
 	<h3 class="panel-title">
 		<span class="glyphicon glyphicon-option-vertical"></span>
@@ -468,4 +468,4 @@ $(function () {
 	});
 });
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

@@ -39,7 +39,7 @@ $egresos = $db->select("m.*, concat(e.nombres, ' ', e.paterno, ' ', e.materno) a
 $gastos = $db->select("m.*, concat(e.nombres, ' ', e.paterno, ' ', e.materno) as empleado")->from('caj_movimientos m')->join('sys_empleados e', 'm.empleado_id = e.id_empleado', 'left')->where('m.tipo', 'g')->where('m.empleado_id', $_user['persona_id'])->where('m.fecha_movimiento', $fecha)->order_by('m.fecha_movimiento desc, m.hora_movimiento desc')->fetch();
 
 ?>
-<?php require_once show_template('header-advanced'); ?>
+<?php require_once show_template('header-configured'); ?>
 <div class="panel-heading">
 	<h3 class="panel-title" data-header="true">
 		<span class="glyphicon glyphicon-option-vertical"></span>
@@ -305,4 +305,4 @@ function imprimir_diario() {
 	});
 }
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>

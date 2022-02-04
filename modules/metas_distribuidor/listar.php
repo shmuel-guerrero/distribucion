@@ -13,7 +13,7 @@ $Consulta = $db->query("SELECT m.id_meta, m.monto, m.fecha_inicio, m.fecha_fin, 
                         ORDER BY m.id_meta DESC")->fetch();
 // echo json_encode($Consulta);
 $hoy = date('Y-m-d');
-require_once show_template('header-advanced');
+require_once show_template('header-configured');
 ?>
 <div class='panel-heading'>
     <h3 class='panel-title'>
@@ -385,4 +385,4 @@ require_once show_template('header-advanced');
 
     });
 </script>
-<?php require_once show_template('footer-advanced');
+<?php require_once show_template('footer-configured');

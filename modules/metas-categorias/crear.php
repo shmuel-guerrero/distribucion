@@ -9,7 +9,7 @@ $Categorias=$db->query("SELECT id_categoria, categoria, descripcion, m.fecha_reg
                             OR m.fecha_registro IS NULL)
                             LIMIT 20")->fetch();
 
-require_once show_template('header-advanced');
+require_once show_template('header-configured');
 ?>
 <link rel="stylesheet" href="<?=css?>/select2.css">
 <div class='panel-heading' data-formato='<?= strtoupper($formato_textual); ?>' data-mascara='<?= $formato_numeral; ?>' data-gestion='<?= date_decode($gestion_base, $_institution['formato']); ?>'>
@@ -111,4 +111,4 @@ require_once show_template('header-advanced');
         $fecha_ini.data('DateTimePicker').minDate(e.date);
     });
 </script>
-<?php require_once show_template('footer-advanced'); ?>
+<?php require_once show_template('footer-configured'); ?>
