@@ -121,7 +121,7 @@ ORDER BY e.cliente_id')->fetch_first();
                 // Obtiene los detalles
                 $detalles = $db->query("select d.*, p.codigo, p.nombre, p.nombre_factura, f.nombre as nombre_promo from inv_egresos_detalles d left join inv_productos p ON d.producto_id = p.id_producto left join (SELECT c.id_promocion, e.nombre FROM inv_promociones c left join inv_productos e on c.id_promocion = e.id_producto ) AS f ON d.promocion_id = f.id_promocion where d.egreso_id = '$id_orden3' and promocion_id != 1 GROUP by d.id_detalle order by id_detalle asc")->fetch();
                 $aux2 = $aux2 + count($detalles);
-                if ($aux1 == 2) {
+                /* if ($aux1 == 2) {
                     if ($aux2 > 9) {
                         $pdf->AddPage();
                         $aux1 = 1;
@@ -136,7 +136,7 @@ ORDER BY e.cliente_id')->fetch_first();
 
                 // Asigna la orientacion de la pagina
                 $pdf->SetPageOrientation('P');
-
+ */
                 // Establece la fuente del titulo
                 $pdf->SetFont(PDF_FONT_NAME_MAIN, 'B', 16);
 
@@ -356,7 +356,7 @@ ORDER BY e.cliente_id')->fetch_first();
                 $detalles2 = $db->query("select d.*, p.codigo, p.nombre, p.nombre_factura, f.nombre as nombre_promo from inv_egresos_detalles d left join inv_productos p ON d.producto_id = p.id_producto left join (SELECT c.id_promocion, e.nombre FROM inv_promociones c left join inv_productos e on c.id_promocion = e.id_producto ) AS f ON d.promocion_id = f.id_promocion where d.egreso_id = '$id_orden3' and promocion_id != 1 GROUP by d.id_detalle order by id_detalle asc")->fetch();
                 $aux2 = $aux2 + count($detalles2);
 
-                if ($aux1 == 2) {
+                /* if ($aux1 == 2) {
                     if ($aux2 > 59) {
                         $pdf->AddPage();
                         $aux1 = 1;
@@ -398,7 +398,7 @@ ORDER BY e.cliente_id')->fetch_first();
                 }
 
                 // Asigna la orientacion de la pagina
-                $pdf->SetPageOrientation('P');
+                $pdf->SetPageOrientation('P'); */
 
                 // Establece la fuente del titulo
                 $pdf->SetFont(PDF_FONT_NAME_MAIN, 'B', 16);

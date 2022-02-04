@@ -27,7 +27,7 @@ $ventas = $db->query("select v.*, p.codigo, p.nombre, p.nombre_factura, p.catego
 						IF (e.codigo_control = '' AND e.provisionado = 'S','Nota de venta',(IF (e.fecha_limite = '0000-00-00','Venta manual',(IF (e.codigo_control != '' and e.fecha_limite != '0000-00-00','Venta con factura',''))))) as tipo
 						from inv_egresos_detalles d 
 						left join inv_egresos e on d.egreso_id = e.id_egreso 
-						where e.tipo = 'venta' and e.anulado = 0 and estadoe < 1) v 
+						where e.tipo = 'venta' and e.anulado = 0 AND (estadoe = 3 OR estadoe = 0)) v 
 						left join inv_productos p on v.producto_id = p.id_producto 
 						left join sys_empleados e on v.empleado_id = e.id_empleado
                         where v.fecha_egreso between '$fecha_inicial' and '$fecha_final'")->fetch();

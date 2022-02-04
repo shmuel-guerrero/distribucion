@@ -17,7 +17,7 @@ $moneda = ($moneda) ? '(' . $moneda['sigla'] . ')' : '';
 * Se cambió la consulta para listar los clientes
 */
 // Obtiene los clientes
-$clientes = $db->select('id_cliente, nit as nit_ci, cliente as nombre_cliente, nombre_factura as nombre_cliente_f, direccion, telefono, ubicacion, credito, dias')
+$clientes = $db->select('id_cliente, id_cliente as codigo_cliente, nit as nit_ci, cliente as nombre_cliente, nombre_factura as nombre_cliente_f, direccion, telefono, ubicacion, credito, dias')
 				->from('inv_clientes')				
 				->fetch();
 				
@@ -153,7 +153,7 @@ $empleados = $db->query("SELECT * FROM `sys_empleados` e
 								<select name="cliente" id="cliente" class="form-control text-uppercase" data-validation="letternumber" data-validation-allowing="-+./&() " data-validation-optional="true">
 									<option value="">Buscar</option>
 									<?php foreach ($clientes as $cliente) { ?>
-										<option value="<?= escape($cliente['nit_ci']) . '|' . escape($cliente['nombre_cliente']) . '|' . escape($cliente['id_cliente']) . '|' . escape($cliente['direccion']) . '|' . escape($cliente['telefono']) . '|' . escape($cliente['ubicacion']) . '|' . escape($cliente['nombre_cliente_f']) . '|' . escape($cliente['credito']) . '|' . escape($cliente['dias']); ?>"><?= escape($cliente['nit_ci']) . ' &mdash; ' . escape($cliente['nombre_cliente']); ?></option>
+										<option value="<?= escape($cliente['nit_ci']) . '|' . escape($cliente['nombre_cliente']) . '|' . escape($cliente['id_cliente']) . '|' . escape($cliente['direccion']) . '|' . escape($cliente['telefono']) . '|' . escape($cliente['ubicacion']) . '|' . escape($cliente['nombre_cliente_f']) . '|' . escape($cliente['credito']) . '|' . escape($cliente['dias']); ?>"><?= escape($cliente['codigo_cliente']) . ' &mdash; ' . escape($cliente['nombre_cliente']) . ' &mdash; ' . escape($cliente['nit_ci']); ?></option>
 									<?php } ?>
 								</select>
 							</div>
@@ -1383,16 +1383,14 @@ function calcular_total() {
 
 function guardar_proforma() {
 	var data = $('#formulario').serialize();
-
 	$('#loader').fadeIn(100);
-
 	$.ajax({
 		type: 'POST',
 		dataType: 'json',
 		url: '?/preventas/guardar',
 		data: data
 	}).done(function (proforma) {
-	    console.log(proforma);
+	    //console.log(proforma);
 		if (proforma) {
 			$.notify({
 				message: 'La preventa fue realizada satisfactoriamente.'
@@ -1402,7 +1400,7 @@ function guardar_proforma() {
             $('#formulario').trigger('reset');
 			//imprimir_proforma(proforma);
 
-			 if(proforma.guardar!=1){
+			if(proforma.guardar!=1){
             	imprimir_nota(proforma.id_egreso);
             } else {
             	imprimir_proforma(proforma);
