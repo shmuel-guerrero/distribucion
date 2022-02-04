@@ -71,7 +71,7 @@ $_menus = construir_menu($_menus);
 						<img src="<?= (escape($_institution['imagen_encabezado']) != '') ? imgs . '/logo-color.png': imgs . '/logo-color.png'; ?>" height="30" style="margin-top: -5px;">            
 					</a>
 					<a href="<?= index_private; ?>" class="navbar-brand text-decoration-none">
-						<b class="h4"><?= (escape($_institution['empresa1']) != '') ? escape($_institution['empresa1']) : 'HOME'; ?></b>
+						<b class="h5"><?= (escape($_institution['empresa1']) != '') ? escape($_institution['empresa1']) : 'HOME'; ?></b>
 					</a>
 				</div>
 
