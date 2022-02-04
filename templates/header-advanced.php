@@ -68,7 +68,7 @@ $_menus = construir_menu($_menus);
 					</button>
 					<!--<a href="<?= index_private; ?>" class="navbar-brand"><?= $_institution['nombre']; ?></a>-->
 					<a href="<?= index_private; ?>" class="navbar-brand">
-						<img src="<?= (escape($_institution['imagen_encabezado']) != '') ? imgs . '/logo-color.png': imgs . '/logo-color.png'; ?>" height="30" style="margin-top: -5px;">            
+						<img src="<?= (escape($_institution['imagen_encabezado']) != '') ? project . '/favicon.png' : imgs . '/logo-color.png'; ?>" height="30" style="margin-top: -5px;">            
 					</a>
 					<a href="<?= index_private; ?>" class="navbar-brand text-decoration-none">
 						<b class="h5"><?= (escape($_institution['empresa1']) != '') ? escape($_institution['empresa1']) : 'HOME'; ?></b>

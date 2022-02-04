@@ -314,6 +314,63 @@ function construir_menu($menus, $antecesor = 0) {
 
 /*
 +--------------------------------------------------------------------------
+| Construye el menu
++--------------------------------------------------------------------------
+*/
+
+function construir_navbar($menus, $antecesor = 0) {
+	$html = '';
+	foreach ($menus as $menu) {
+		if ($menu['antecesor_id'] != null) {
+			if ($menu['antecesor_id'] == $antecesor) {
+				if (verificar_submenu($menus, $menu['id_menu'])) {
+					if ($antecesor == 0) {
+						$html .= '<li><a href="#" data-toggle="dropdown"><span class="glyphicon glyphicon-' . escape($menu['icono']) . '"></span> <span class="hidden-sm">' . escape($menu['menu']) . '</span> <span class="glyphicon glyphicon-menu-down visible-xs-inline pull-right"></span></a>';
+						$html .= '<ul class="dropdown-menu">';
+						$html .= '<li class="dropdown-header visible-sm-block"><span>' . escape($menu['menu']) . '</span></li>';
+					} else {
+						$html .= '<li class="dropdown-submenu"><a href="#" data-toggle="dropdown"><span class="glyphicon glyphicon-' . escape($menu['icono']) . '"></span> <span>' . escape($menu['menu']) . '</span> <span class="glyphicon glyphicon-menu-down visible-xs-inline pull-right"></span></a>';
+						$html .= '<ul class="dropdown-menu">';
+					}
+					$html .= construir_navbar($menus, $menu['id_menu']);
+					$html .= '</ul></li>';
+				} else {
+					if ($antecesor == 0) {
+						$html .= '<li><a href="' . (($menu['ruta'] == '') ? '#' : $menu['ruta']) . '"><span class="glyphicon glyphicon-' . escape($menu['icono']) . '"></span> <span class="hidden-sm">' . escape($menu['menu']) . '</span></a></li>';
+					} else {
+						$html .= '<li><a href="' . (($menu['ruta'] == '') ? '#' : $menu['ruta']) . '"><span class="glyphicon glyphicon-' . escape($menu['icono']) . '"></span> <span>' . escape($menu['menu']) . '</span></a></li>';
+					}
+				}
+			}
+		} else {
+			$html = '';
+			break;
+		}
+	}
+	return $html;
+}
+
+function construir_sidebar($menus, $antecesor = 0) {
+	$html = '';
+	foreach ($menus as $menu) {
+		if ($menu['antecesor_id'] != null) {
+			if ($menu['antecesor_id'] == $antecesor) {
+				if (verificar_submenu($menus, $menu['id_menu'])) {
+					$html .= '<li><a href="#" class="text-truncate pull-right-container"><span class="glyphicon glyphicon-' . escape($menu['icono']) . '"></span> <span>' . escape($menu['menu']) . '</span> <span class="glyphicon glyphicon-menu-right pull-right"></span></a><ul class="nav sidebar-nav animated fadeIn">' . construir_sidebar($menus, $menu['id_menu']) . '</ul></li>';
+				} else {
+					$html .= '<li><a href="' . (($menu['ruta'] == '') ? '#' : $menu['ruta']) . '" class="text-truncate"><span class="glyphicon glyphicon-' . escape($menu['icono']) . '"></span> <span>' . escape($menu['menu']) . '</span></a></li>';
+				}
+			}
+		} else {
+			$html = '';
+			break;
+		}
+	}
+	return $html;
+}
+
+/*
++--------------------------------------------------------------------------
 | Devuelve el menu ordenado
 +--------------------------------------------------------------------------
 */
