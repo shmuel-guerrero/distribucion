@@ -26,10 +26,10 @@ $_menus = construir_sidebar($_menus);
 		<link rel="stylesheet" href="<?= css; ?>/bootstrap-spinner.min.css">
 		<link rel="stylesheet" href="<?= css; ?>/bootstrap-dashboard.min.css">
 <!-- 		<link rel="stylesheet" href="<?= css; ?>/bootstrap-datetimepicker.min.css">
-		<link rel="stylesheet" href="<?= css; ?>/dataTables.bootstrap.min.css">
-		<link rel="stylesheet" href="<?= css; ?>/selectize.bootstrap3.min.css"> -->      
+		<link rel="stylesheet" href="<?= css; ?>/dataTables.bootstrap.min.css">-->  
+		<link rel="stylesheet" href="<?= css; ?>/selectize.bootstrap3.min.css">     
 		<link rel="stylesheet" href="<?= css; ?>/metisMenu.min.css">
-		<link rel="stylesheet" href="<?= themes . '/' . (($_institution['tema'] == '') ? 'bootstraps' : 'bootstraps'); ?>/style.min.css">
+		<link rel="stylesheet" href="<?= themes . '/' . (($_institution['tema'] == '') ? 'bootstrapsam' : 'bootstrapsam'); ?>/style.min.css">
 	<!-- 	<link rel="stylesheet" href="<?= css; ?>/bootstrap-structured.min.css">
 		<link rel="stylesheet" href="<?= css; ?>/animate.min.css">
 		<link rel="stylesheet" href="<?= fontawesome; ?>/css/all.css"> -->
