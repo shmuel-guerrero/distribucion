@@ -18,15 +18,19 @@ CREATE TABLE IF NOT EXISTS `hist_conversiones` (
   `fecha_registro` date DEFAULT NULL,
   `hora_registro` time DEFAULT NULL,
   `id_origen` int(11) NOT NULL DEFAULT 0,
-  `origen_movimiento` enum('Proforma','NotaRemision','Reserva') NOT NULL,
-  `id_destino` enum('Proforma','NotaRemision','Reserva') NOT NULL,
-  `destino_movimiento` enum('Electronicas','NotaRemision','Manuales') NOT NULL,
+  `origen_movimiento` enum('Proforma','NotaRemision','Reserva','Preventa') NOT NULL,
+  `id_destino` int(11) NOT NULL DEFAULT 0,
+  `destino_movimiento` enum('Electronicas','NotaRemision','Manuales','Preventa') NOT NULL,
   `empleado_id` int(11) NOT NULL DEFAULT 0,
   `tipo` enum('ConversionDirecta','ConversionEdicion') NOT NULL DEFAULT 'ConversionDirecta',
   `id_backup_egreso` int(11) NOT NULL DEFAULT 0,
   `ids_backup_detalles` varchar(250) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id_conversion`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  `dispositivo` enum('Movil','Web') NOT NULL DEFAULT 'Movil',
+  PRIMARY KEY (`id_conversion`),
+  KEY `id_origen` (`id_origen`),
+  KEY `empleado_id` (`empleado_id`),
+  KEY `id_destino` (`id_destino`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 -- La exportación de datos fue deseleccionada.
 

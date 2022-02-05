@@ -12,8 +12,8 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- Volcando estructura para tabla distribuidhgc_beta.sys_procesos
-CREATE TABLE IF NOT EXISTS `sys_procesos` (
+-- Volcando estructura para tabla distribuidhgc_beta.sys_procesos_device
+CREATE TABLE IF NOT EXISTS `sys_procesos_device` (
   `id_proceso` int(11) NOT NULL AUTO_INCREMENT,
   `fecha_proceso` datetime NOT NULL,
   `hora_proceso` time NOT NULL,

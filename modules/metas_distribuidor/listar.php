@@ -135,9 +135,9 @@ require_once show_template('header-advanced');
                                         AND  a.distribuidor_fecha BETWEEN '{$Dato['fecha_inicio']}' AND '{$Dato['fecha_fin']}'")->fetch_first()['total_directas'];
                     $ventas_directas = ($ventas_directas >= 0) ? $ventas_directas : 0;
 
-                    $retorno = $db->query("SELECT IFNULL(SUM(B.monto_total), 0)total_retorno FROM (SELECT nro_factura, 
+                    $retorno = $db->query("SELECT IFNULL(SUM(B.monto_total), 0)total_retorno FROM (SELECT id_egreso, nro_factura, 
                                     IF(provisionado='S',nro_factura, nro_autorizacion) AS nro_autorizacion, cliente_id
-                                    FROM (SELECT te.monto_total, te.nro_factura, te.nro_autorizacion, te.provisionado, 
+                                    FROM (SELECT te.id_egreso, te.monto_total, te.nro_factura, te.nro_autorizacion, te.provisionado, 
                                     IF(te.cliente_id=0,te.empleado_id,te.cliente_id)AS cliente_id, 
                                     IF(te.cliente_id=0,'distribuidor_id','cliente_id') AS persona
                                     FROM tmp_egresos te
@@ -145,12 +145,12 @@ require_once show_template('header-advanced');
                                     AND te.distribuidor_id = '{$Dato['distribuidor_id']}' 
                                     AND te.distribuidor_fecha  BETWEEN '{$Dato['fecha_inicio']}' AND '{$Dato['fecha_fin']}' ) A
                                     GROUP BY A.cliente_id, A.nro_autorizacion, A.nro_factura) AB                     
-                                    LEFT JOIN (SELECT tr.nro_factura, tr.nro_autorizacion, 
+                                    LEFT JOIN (SELECT tr.id_egreso, tr.nro_factura, tr.nro_autorizacion, 
                                     IF(tr.cliente_id=0,tr.empleado_id,tr.cliente_id)AS cliente_id, 
                                     tr.monto_total 
                                     FROM tmp_reposiciones tr
                                     ) B ON  B.nro_factura = AB.nro_factura AND B.cliente_id = AB.cliente_id 
-                                    AND B.nro_autorizacion = AB.nro_autorizacion")->fetch_first()['total_retorno'];
+                                    AND B.id_egreso = AB.id_egreso")->fetch_first()['total_retorno'];
                     $retorno = ($retorno >= 0) ? $retorno : 0;
 
                     // se realiza los calculos para obtener monto total retorno
