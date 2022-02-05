@@ -138,7 +138,7 @@ if ($id_egreso == 0) {
 
 		$productos = $db->query("SELECT q.*,u.* FROM inv_asignaciones q
                                      LEFT JOIN inv_unidades u ON q.unidad_id = u.id_unidad  AND q.visible = 's'
-                                     WHERE id_asignacion='".$detalle['asignacion_id']."' AND q.visible = 's'")->fetch_first();
+                                     WHERE id_asignacion='".$detalle['asignacion_id']."' ")->fetch_first();
 		$unidad = $productos["unidad"];
 		//$nombres[$nro]=$nombres[$nro]." (".$unidad[$nro].")";
 			

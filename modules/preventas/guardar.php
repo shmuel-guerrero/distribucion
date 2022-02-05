@@ -182,7 +182,7 @@ if (is_ajax() && is_post()) {
             foreach ($productos as $nro => $elemento) {
                 $id_unidade = $db->query("select * from inv_asignaciones a 
                                             left join inv_unidades u ON a.unidad_id=u.id_unidad AND a.visible = 's' 
-                                            where u.unidad = '" . $unidad[$nro] . "' q.visible = 's'
+                                            where u.unidad = '" . $unidad[$nro] . "'
                                             AND a.producto_id = " . $productos[$nro])->fetch_first();
                 if ($id_unidade) {
                     $id_unidad = $id_unidade['id_unidad'];

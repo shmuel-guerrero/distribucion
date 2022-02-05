@@ -41,8 +41,10 @@ if (is_post()) {
             $cantidad = $_POST['cantidad'];
             $id_unidad = $_POST['unidad_id'];
             
+            $id_user_recibido = ($_POST['id_user']) ? $_POST['id_user'] : 0;
             $empleado = $db->select('persona_id')->from('sys_users')->where('id_user',$_POST['id_user'])->fetch_first();
             $id_user = $empleado['persona_id'];
+            $token = (isset($_POST['token'])) ? $_POST['token'] : '';
 
             if(!$empleado){
                 //se cierra transaccion
@@ -432,6 +434,9 @@ if (is_post()) {
                                 // Guarda la informacion
                                 $db->insert('inv_pagos_detalles', $detallePlan);
                             }
+
+                            //se guarda proceso u(update),c(create), r(read),d(delet), cr(cerrar), a(anular)
+                            save_process($db, 'u', '?/site/app-editar-detalle-distri', 'edito item de movimiento', $id_egreso, $id_user_recibido, $token);
                             
                             //se cierra transaccion
                             $db->commit();

@@ -17,13 +17,15 @@ CREATE TABLE IF NOT EXISTS `sys_procesos_device` (
   `id_proceso` int(11) NOT NULL AUTO_INCREMENT,
   `fecha_proceso` datetime NOT NULL,
   `hora_proceso` time NOT NULL,
-  `proceso` enum('c','r','u','d') CHARACTER SET latin1 NOT NULL,
+  `proceso` enum('c','r','u','d','ce','a') CHARACTER SET latin1 NOT NULL,
   `nivel` enum('l','m','h') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `direccion` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `detalle` text NOT NULL,
+  `id_movimiento` int(11) NOT NULL DEFAULT 0,
   `usuario_id` int(11) NOT NULL,
+  `imei` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_proceso`)
-) ENGINE=MyISAM AUTO_INCREMENT=22523 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 -- La exportación de datos fue deseleccionada.
 

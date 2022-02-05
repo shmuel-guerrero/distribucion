@@ -41,7 +41,7 @@ $Empleados=$db->query("SELECT e.id_empleado,e.nombres,e.paterno,e.materno,GROUP_
 <div class="panel-heading" data-formato="<?= strtoupper($formato_textual); ?>" data-mascara="<?= $formato_numeral; ?>" data-gestion="<?= date_decode($gestion_base, $_institution['formato']); ?>">
     <h3 class="panel-title">
         <span class="glyphicon glyphicon-option-vertical"></span>
-        <strong>Listar distribuidores</strong>
+        <strong>Listar Vendedores</strong>
     </h3>
 </div>
 <div class="panel-body">
@@ -359,7 +359,7 @@ $Empleados=$db->query("SELECT e.id_empleado,e.nombres,e.paterno,e.materno,GROUP_
             $('[data-eliminar]').on('click', function(e) {
                 e.preventDefault();
                 var url = $(this).attr('href');
-                bootbox.confirm('Est�� seguro que desea eliminar el empleado?', function(result) {
+                bootbox.confirm('Esta seguro que desea eliminar el empleado?', function(result) {
                     if (result) {
                         window.location = url;
                     }
@@ -402,7 +402,7 @@ $Empleados=$db->query("SELECT e.id_empleado,e.nombres,e.paterno,e.materno,GROUP_
             $('[data-activar]').on('click', function(e) {
                 e.preventDefault();
                 var url = $(this).attr('href');
-                bootbox.confirm('Est�� seguro que desea cambiar el estado del distribuidor?', function(result) {
+                bootbox.confirm('Esta seguro que desea cambiar el estado del distribuidor?', function(result) {
                     if (result) {
                         window.location = url;
                     }

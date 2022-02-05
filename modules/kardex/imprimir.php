@@ -35,7 +35,7 @@ if (!$movimientos) {
 $consulta_asignaciones = $db->query("SELECT a.id_asignacion, u.unidad, a.otro_precio
 															 FROM inv_asignaciones a
 															 LEFT JOIN inv_unidades u ON u.id_unidad = a.unidad_id AND a.visible = 's'
-															 WHERE a.producto_id = $id_producto  AND a.visible = 's'")->fetch();
+															 WHERE a.producto_id = $id_producto  ")->fetch();
 
 // Obtiene el almacen
 $almacen = $db->from('inv_almacenes')->where('id_almacen', $id_almacen)->fetch_first();
@@ -294,7 +294,7 @@ foreach ($movimientos as $nro => $movimiento) {
 				$unidad_compra = $db->query("SELECT a.id_asignacion, u.unidad, u.tamanio 
 										 FROM inv_asignaciones a  
 										 LEFT JOIN inv_unidades u ON u.id_unidad = a.unidad_id  AND a.visible = 's'
-										 WHERE a.id_asignacion = ".$asignacion_entrada."  AND a.visible = 's'")
+										 WHERE a.id_asignacion = ".$asignacion_entrada."  ")
 								->fetch_first();
 			}
 			$tamanio = number_format($unidad_compra['tamanio'], 0);
@@ -325,12 +325,12 @@ foreach ($movimientos as $nro => $movimiento) {
 	$unidad_venta = $db->query("SELECT a.id_asignacion, u.unidad, u.tamanio, a.producto_id
 										 FROM inv_asignaciones a 
 										 LEFT JOIN inv_unidades u ON u.id_unidad = a.unidad_id AND a.visible = 's'
-										 WHERE a.id_asignacion = $asignacion_entrada AND a.visible = 's'")->fetch_first();
+										 WHERE a.id_asignacion = $asignacion_entrada ")->fetch_first();
 	
 	$unidad_simple = $db->query("SELECT u.unidad
 										 FROM inv_asignaciones a 
 										 LEFT JOIN inv_unidades u ON u.id_unidad = a.unidad_id AND a.visible = 's'
-										 WHERE tamanio=1 AND a.producto_id = '".$unidad_venta['producto_id']."' AND a.visible = 's'")->fetch_first();
+										 WHERE tamanio=1 AND a.producto_id = '".$unidad_venta['producto_id']."' ")->fetch_first();
 	if(!$unidad_simple){
 		$unidad_simple['unidad']="Unidad";
 	}

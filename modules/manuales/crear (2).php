@@ -316,7 +316,7 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 					</thead>
 					<tbody>
 						<?php foreach ($productos as $nro => $producto) {
-                            $otro_precio = $db->select('*')->from('inv_asignaciones a')->join('inv_unidades b','a.unidad_id=b.id_unidad AND a.visible = "s"')->where('a.producto_id',$producto['id_producto'])->where('a.visible', 's')->fetch();
+                            $otro_precio = $db->select('*')->from('inv_asignaciones a')->join('inv_unidades b','a.unidad_id=b.id_unidad AND a.visible = "s"')->where('a.producto_id',$producto['id_producto'])->fetch();
                             ?>
 						<tr>
 							<td class="text-nowrap"><img src="<?= ($producto['imagen'] == '') ? imgs . '/image.jpg' : files . '/productos/' . $producto['imagen']; ?>" width="75" height="75"></td>

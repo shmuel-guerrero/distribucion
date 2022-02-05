@@ -39,7 +39,7 @@ $productos = $db->query("SELECT p.id_producto, p.promocion, z.id_asignacion, z.u
 					LEFT JOIN (SELECT w.producto_id, GROUP_CONCAT(w.id_asignacion SEPARATOR '|') AS id_asignacion, GROUP_CONCAT(w.unidad_id SEPARATOR '|') AS unidad_id, GROUP_CONCAT(w.cantidad_unidad,')',w.unidad,':',w.otro_precio SEPARATOR '&') AS unidade, GROUP_CONCAT(w.cantidad_unidad SEPARATOR '*') AS cantidad2
 					   FROM (SELECT *
 							FROM inv_asignaciones q
-								  LEFT JOIN inv_unidades u ON q.unidad_id = u.id_unidad  AND q.visible = 's' WHERE q.visible = 's'
+								  LEFT JOIN inv_unidades u ON q.unidad_id = u.id_unidad  AND q.visible = 's' 
 										 ORDER BY u.unidad DESC) w GROUP BY w.producto_id ) z ON p.id_producto = z.producto_id WHERE p.promocion != 'si' AND p.eliminado = 0")->fetch();
 
 // Obtiene la moneda oficial
@@ -115,7 +115,7 @@ $permiso_listar = in_array('listar', $permisos);
                                 <option value="">Seleccionar</option>
                                 <option value="Traspaso">Egreso como traspaso</option>
                                 <option value="Baja">Egreso como baja</option>
-                                <option value="Baja">Egreso como perdida</option>
+                                <option value="Perdida">Egreso como perdida</option>
                             </select>
                         </div>
 					</div>
@@ -251,7 +251,7 @@ $permiso_listar = in_array('listar', $permisos);
 							<th class="text-nowrap">Nombre</th>
 							<th class="text-nowrap">Categoría</th>
 							<th class="text-nowrap">Stock</th>
-							<th class="text-nowrap">Precio</th>
+							<th class="text-nowrap">Costo</th>
 							<th class="text-nowrap"><span class="glyphicon glyphicon-cog"></span></th>
 						</tr>
 					</thead>
@@ -264,7 +264,11 @@ $permiso_listar = in_array('listar', $permisos);
 							</td>
 							<td class="text-nowrap"><?= escape($producto['categoria']); ?></td>
 							<td class="text-nowrap text-right" data-stock="<?= $producto['id_producto']; ?>"><?= escape($producto['cantidad_ingresos'] - $producto['cantidad_egresos']); ?></td>
-							<td class="text-nowrap text-right" data-valor="<?= $producto['id_producto']; ?>"><?= escape($producto['precio_actual']); ?></td>
+							<?php 
+									$precio_r = 0;
+                                    $precio_r = $db->query("SELECT d.costo FROM inv_ingresos_detalles d LEFT JOIN inv_ingresos i on i.id_ingreso = d.ingreso_id WHERE d.producto_id=".$producto['id_producto']." ORDER BY d.id_detalle DESC")->fetch_first()['costo'];
+                                    ?>
+							<td class="text-nowrap text-right" data-valor="<?= $producto['id_producto']; ?>"><?= escape($precio_r); ?></td>
 							<td class="text-nowrap">
 								<button type="button" class="btn btn-xs btn-primary" data-egresar="<?= $producto['id_producto']; ?>" data-toggle="tooltip" data-title="Egresar"><span class="glyphicon glyphicon-share-alt"></span></button>
 								<button type="button" class="btn btn-xs btn-success" data-actualizar="<?= $producto['id_producto'] . '|' . $almacen['id_almacen']; ?>" data-toggle="tooltip" data-title="Actualizar stock y precio del producto"><span class="glyphicon glyphicon-refresh"></span></button>

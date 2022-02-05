@@ -39,10 +39,12 @@ if (is_post()) {
             $db->autocommit(false);
             $db->beginTransaction();
 
+            $id_user_recibido = ($_POST['id_user']) ? $_POST['id_user'] : 0;
             //buscamos al empleado
             $empleado = $db->select('persona_id')->from('sys_users')->where('id_user', $_POST['id_user'])->fetch_first();
             $id_user = $empleado['persona_id'];
             $id_egreso = $_POST['id_egreso'];
+            $token = (isset($_POST['token'])) ? $_POST['token'] : '';
 
             //buscamos el egreso        
             $egreso = $db->select('b.*, b.fecha_egreso as distribuidor_fecha , b.hora_egreso as distribuidor_hora, b.almacen_id as distribuidor_estado, 
@@ -142,8 +144,7 @@ if (is_post()) {
                 
                 $id_movimiento = registros_historial($db, '_anular', 'inv_egresos', 'id_egreso', $id_egreso, '', '', $id_user, 'SI', 0);
                 $movimiento = registros_historial($db, '_anular', 'inv_egresos_detalles', 'egreso_id', $id_egreso, '', '', $id_user, 'NO', $id_movimiento);
-
-                
+               
 
                 // para anular y borrar los pagos del egreso
                 if ($egreso['plan_de_pagos'] == 'si') {
@@ -163,6 +164,9 @@ if (is_post()) {
                     // $db->where('id_egreso', $egreso['id_egreso'])->update('inv_egresos', array('plan_de_pagos' => 'no'));
                     // $db->where('id_egreso', $egreso['id_egreso'])->update('tmp_egresos', array('plan_de_pagos' => 'no'));
                 }
+
+                 //se guarda proceso u(update),c(create), r(read),d(delet), cr(cerrar), a(anular)
+                 save_process($db, 'a', '?/site/app-anular-entrega', 'anulo movimiento', $id_egreso, $id_user_recibido, $token);
 
                 //se cierra transaccion
 				$db->commit();

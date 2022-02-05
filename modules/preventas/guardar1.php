@@ -178,7 +178,7 @@ if (is_ajax() && is_post()) {
 
         // Recorre los productos
         foreach ($productos as $nro => $elemento) {
-            $id_unidade = $db->select('*')->from('inv_asignaciones a')->join('inv_unidades u', 'a.unidad_id=u.id_unidad AND a.visible = "s" ')->where(array('u.unidad' => $unidad[$nro], 'a.producto_id' => $productos[$nro], 'a.visible' => 's'))->fetch_first();
+            $id_unidade = $db->select('*')->from('inv_asignaciones a')->join('inv_unidades u', 'a.unidad_id=u.id_unidad AND a.visible = "s" ')->where(array('u.unidad' => $unidad[$nro], 'a.producto_id' => $productos[$nro]))->fetch_first();
             if ($id_unidade) {
                 $id_unidad = $id_unidade['id_unidad'];
                 $cantidad = $cantidades[$nro] * $id_unidade['cantidad_unidad'];

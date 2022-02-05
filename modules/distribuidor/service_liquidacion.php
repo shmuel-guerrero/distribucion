@@ -79,7 +79,7 @@ if (($egresos_mov['id_egresos'] != '' || $egresos_mov['id_egresos'] != null) && 
                             FROM inv_egresos_detalles_editar_previo edep 
                             LEFT JOIN inv_asignaciones a ON a.producto_id = edep.producto_id AND a.unidad_id = edep.unidad_id  AND a.visible = 's'
                             LEFT JOIN inv_unidades u ON u.id_unidad = edep.unidad_id
-                            WHERE edep.empleado_id_accion = '{$distribuidor}' AND edep.producto_id IN ({$egresos_mov['id_productos']}) AND edep.egreso_id IN ({$egresos_mov['id_egresos']}) AND a.visible = 's'
+                            WHERE edep.empleado_id_accion = '{$distribuidor}' AND edep.producto_id IN ({$egresos_mov['id_productos']}) AND edep.egreso_id IN ({$egresos_mov['id_egresos']}) 
                             GROUP BY edep.producto_id, edep.egreso_id) A ON A.egreso_id = e.id_egreso AND A.producto_id = edi.producto_id
     
                             -- DEVUELTOS POSTERIORMENTE
@@ -93,7 +93,7 @@ if (($egresos_mov['id_egresos'] != '' || $egresos_mov['id_egresos'] != null) && 
                             FROM inv_egresos_detalles_editar_post edepo
                             LEFT JOIN inv_asignaciones a ON a.producto_id = edepo.producto_id AND a.unidad_id = edepo.unidad_id  AND a.visible = 's'
                             LEFT JOIN inv_unidades u ON u.id_unidad = edepo.unidad_id
-                            WHERE edepo.empleado_id_accion = '{$distribuidor}' AND edepo.producto_id IN ({$egresos_mov['id_productos']}) AND edepo.egreso_id IN ({$egresos_mov['id_egresos']}) AND a.visible = 's'
+                            WHERE edepo.empleado_id_accion = '{$distribuidor}' AND edepo.producto_id IN ({$egresos_mov['id_productos']}) AND edepo.egreso_id IN ({$egresos_mov['id_egresos']}) 
                             GROUP BY edepo.producto_id, edepo.egreso_id) B ON B.egreso_id = e.id_egreso AND B.producto_id = edi.producto_id
     
     
@@ -108,7 +108,7 @@ if (($egresos_mov['id_egresos'] != '' || $egresos_mov['id_egresos'] != null) && 
                             FROM inv_egresos_detalles_eliminar_previo elpre
                             LEFT JOIN inv_asignaciones a ON a.producto_id = elpre.producto_id AND a.unidad_id = elpre.unidad_id  AND a.visible = 's'
                             LEFT JOIN inv_unidades u ON u.id_unidad = elpre.unidad_id
-                            WHERE elpre.empleado_id_accion = '{$distribuidor}' AND elpre.producto_id IN ({$egresos_mov['id_productos']}) AND elpre.egreso_id IN ({$egresos_mov['id_egresos']}) AND a.visible = 's'
+                            WHERE elpre.empleado_id_accion = '{$distribuidor}' AND elpre.producto_id IN ({$egresos_mov['id_productos']}) AND elpre.egreso_id IN ({$egresos_mov['id_egresos']})
                             GROUP BY elpre.producto_id, elpre.egreso_id) C ON C.egreso_id = e.id_egreso AND C.producto_id = edi.producto_id
     
                             -- DEVUELTOS POSTERIORMENTE
@@ -122,7 +122,7 @@ if (($egresos_mov['id_egresos'] != '' || $egresos_mov['id_egresos'] != null) && 
                             FROM inv_egresos_detalles_eliminar_post elpost
                             LEFT JOIN inv_asignaciones a ON a.producto_id = elpost.producto_id AND a.unidad_id = elpost.unidad_id  AND a.visible = 's'
                             LEFT JOIN inv_unidades u ON u.id_unidad = elpost.unidad_id
-                            WHERE elpost.empleado_id_accion = '{$distribuidor}' AND elpost.producto_id IN ({$egresos_mov['id_productos']}) AND elpost.egreso_id IN ({$egresos_mov['id_egresos']}) AND a.visible = 's'
+                            WHERE elpost.empleado_id_accion = '{$distribuidor}' AND elpost.producto_id IN ({$egresos_mov['id_productos']}) AND elpost.egreso_id IN ({$egresos_mov['id_egresos']}) 
                             GROUP BY elpost.producto_id, elpost.egreso_id) D ON D.egreso_id = e.id_egreso AND D.producto_id = edi.producto_id
     
     
@@ -137,7 +137,7 @@ if (($egresos_mov['id_egresos'] != '' || $egresos_mov['id_egresos'] != null) && 
                             FROM inv_egresos_detalles_anular eda
                             LEFT JOIN inv_asignaciones a ON a.producto_id = eda.producto_id AND a.unidad_id = eda.unidad_id  AND a.visible = 's'
                             LEFT JOIN inv_unidades u ON u.id_unidad = eda.unidad_id
-                            WHERE eda.empleado_id_accion = '{$distribuidor}' AND eda.producto_id IN ({$egresos_mov['id_productos']}) AND eda.egreso_id IN ({$egresos_mov['id_egresos']}) AND a.visible = 's'
+                            WHERE eda.empleado_id_accion = '{$distribuidor}' AND eda.producto_id IN ({$egresos_mov['id_productos']}) AND eda.egreso_id IN ({$egresos_mov['id_egresos']}) 
                             GROUP BY eda.producto_id, eda.egreso_id)  E ON E.egreso_id = e.id_egreso AND E.producto_id = edi.producto_id
     
                             -- no entregas
@@ -151,10 +151,10 @@ if (($egresos_mov['id_egresos'] != '' || $egresos_mov['id_egresos'] != null) && 
                             FROM inv_egresos_detalles_noentregas edne
                             LEFT JOIN inv_asignaciones a ON a.producto_id = edne.producto_id AND a.unidad_id = edne.unidad_id  AND a.visible = 's'
                             LEFT JOIN inv_unidades u ON u.id_unidad = edne.unidad_id
-                            WHERE edne.empleado_id_accion = '{$distribuidor}' AND edne.producto_id IN ({$egresos_mov['id_productos']}) AND edne.egreso_id IN ({$egresos_mov['id_egresos']}) AND a.visible = 's'
+                            WHERE edne.empleado_id_accion = '{$distribuidor}' AND edne.producto_id IN ({$egresos_mov['id_productos']}) AND edne.egreso_id IN ({$egresos_mov['id_egresos']}) 
                             GROUP BY edne.producto_id, edne.egreso_id) F ON F.egreso_id = e.id_egreso AND F.producto_id = edi.producto_id
     
-                            WHERE edi.egreso_id IS NOT NULL  AND a.visible = 's'
+                            WHERE edi.egreso_id IS NOT NULL 
                             GROUP BY e.id_egreso, edi.producto_id")->fetch();
     
     
@@ -187,9 +187,8 @@ if (($egresos_mov['id_egresos'] != '' || $egresos_mov['id_egresos'] != null) && 
     
             //CALCULO DE LOS DEVUELTOS(EDICION) PREV Y POST
             $dato = ($value['total_dev_prev_uno']) ? explode('|', $value['total_dev_prev_uno']) :  array();
-            $total_entregados = (count($dato) > 0) ? $dato[0] : $value['total_inicio'];
+            $total_entregados = (count($dato) > 0) ? $dato[0] : $value['total_inicio']; 
     
-            //se calcula cantidad devuelta previa entrega
             //se calcula cantidad devuelta previa entrega
             $cant_devuelta = (count($dato) > 0) ? $value['total_inicio_uno'] - $dato[0] : (($value['total_inicio_uno']) ? $value['total_inicio_uno'] : 0);
             $cant_devuelta_previ = $cant_devuelta;
@@ -198,7 +197,9 @@ if (($egresos_mov['id_egresos'] != '' || $egresos_mov['id_egresos'] != null) && 
             $total_entregados = (count($dato) > 0) ? $dato[0] : $total_entregados;
     
             //se calcula cantidad devuelta post entrega
-            $cant_devuelta = (count($dato) > 0) ? (($cant_devuelta > 0 && $cant_devuelta != null) ? $cant_devuelta - $dato[0] : $value['total_inicio_uno'] - $dato[0]) : (($cant_devuelta) ? $cant_devuelta : 0);
+            //$cant_devuelta = (count($dato) > 0) ? (($cant_devuelta > 0 && $cant_devuelta != null) ? $cant_devuelta - $dato[0] : $value['total_inicio_uno'] - $dato[0]) : (($cant_devuelta) ? $cant_devuelta : 0);
+            $cant_devuelta = (count($dato) > 0) ? (($cant_devuelta > 0 && $cant_devuelta != null) ? $value['total_inicio_uno'] - $dato[0] : (($cant_devuelta) ? $cant_devuelta : 0)) : (($cant_devuelta) ? $cant_devuelta : 0);
+
             $cant_devuelta_post = $cant_devuelta;
     
             //CALCULO DE LOS DEVUELTOS PREcIO(EDICION) PREV Y POST
@@ -273,22 +274,11 @@ if (($egresos_mov['id_egresos'] != '' || $egresos_mov['id_egresos'] != null) && 
             $devueltos[$key]['precio'] = ($precios_devueltos && $precios_devueltos != null) ? $precios_devueltos : 0;
             $devueltos[$key]['id_producto'] = $value['producto_id'];
             $devueltos[$key]['precio_actual'] = $value['precio_actual'];
-           /*  var_dump($devueltos[$key]);
-            echo "<br>"; */
+            /*  var_dump($devueltos[$key]);
+            echo "<br>";  */
         }    
     }
-    
-    
-    /* echo "<br>";
-    echo "<br>";
-    echo "<br>";
-    echo "<br>";
-    var_dump($devueltos);
-    echo "<br>";
-    echo "<br>";
-    echo "<br>"; */
-    
-    
+
     ///Obtiene las entregas realizadas
     $prod_entregados = $db->query("SELECT 
                     GROUP_CONCAT(A.cantidad SEPARATOR '|') AS cantidades,
@@ -352,7 +342,7 @@ if (($egresos_mov['id_egresos'] != '' || $egresos_mov['id_egresos'] != null) && 
                     LEFT JOIN inv_unidades u ON u.id_unidad = edi.unidad_id
                     LEFT JOIN inv_categorias c ON c.id_categoria = p.categoria_id      
     
-                    WHERE edi.egreso_id IS NOT NULL AND a.visible = "s" AND 
+                    WHERE edi.egreso_id IS NOT NULL AND 
                     te.estado = 2 AND te.distribuidor_id = ' . $distribuidor . ' AND te.distribuidor_estado IN ("VENTA") AND edi.promocion_id != 1
                     GROUP BY edi.producto_id')->fetch(); 
     
@@ -403,16 +393,7 @@ if (($egresos_mov['id_egresos'] != '' || $egresos_mov['id_egresos'] != null) && 
         $cobros[$key]['monto3'] = number_format((($value['monto_cancelado'] >= 0) ? $value['monto_cancelado'] : 0), 2, '.', '');
     }
      
-    /* echo "<br>";
-    var_dump($devueltos);
-    echo "<br>";
-    echo "<br>";
-    echo "<br>";
-    
-    var_dump($ventas_directas);
-    exit;  */
-    
-    
+
     $productos_devueltos = array();
     $datos_resumen = '';
     $datos_cobros = '';

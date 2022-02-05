@@ -18,7 +18,7 @@ $permiso_imprimir = in_array('imprimir', $permisos);
 <div class="panel-heading">
 	<h3 class="panel-title">
 		<span class="glyphicon glyphicon-option-vertical"></span>
-		<strong>Empleados</strong>
+		<strong>Reporte de ventas por Empleados</strong>
 	</h3>
 </div>
 <div class="panel-body">

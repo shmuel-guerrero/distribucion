@@ -42,6 +42,8 @@ if (is_post()) {
         $productos = (isset($_POST['productos'])) ? $_POST['productos'] : array();
         $cantidades = (isset($_POST['cantidades'])) ? $_POST['cantidades'] : array();
         $sw = 0;
+        $token = (isset($_POST['token'])) ? $_POST['token'] : '';
+
         try {
 
             //Se abre nueva transacción.
@@ -507,6 +509,11 @@ if (is_post()) {
                             $DatosEgresoI[$i]['lote'] = $Lote;
                             $db->insert('inv_egresos_detalles', $DatosEgresoI[$i]);
                         endfor;
+
+                        $id_egreso_obtenido = ($id) ? $id : (($id2) ? $id2 : 0);
+
+                        //se guarda proceso u(update),c(create), r(read),d(delet), cr(cerrar), a(anular)
+                        save_process($db, 'c', '?/site/app-venta-guardar', 'crea preventa', $id_egreso_obtenido, $id_user, $token); 
 
                         //se cierra transaccion
                         $db->commit();

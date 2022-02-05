@@ -314,6 +314,63 @@ function construir_menu($menus, $antecesor = 0) {
 
 /*
 +--------------------------------------------------------------------------
+| Construye el menu
++--------------------------------------------------------------------------
+*/
+
+function construir_navbar($menus, $antecesor = 0) {
+	$html = '';
+	foreach ($menus as $menu) {
+		if ($menu['antecesor_id'] != null) {
+			if ($menu['antecesor_id'] == $antecesor) {
+				if (verificar_submenu($menus, $menu['id_menu'])) {
+					if ($antecesor == 0) {
+						$html .= '<li><a href="#" data-toggle="dropdown"><span class="glyphicon glyphicon-' . escape($menu['icono']) . '"></span> <span class="hidden-sm">' . escape($menu['menu']) . '</span> <span class="glyphicon glyphicon-menu-down visible-xs-inline pull-right"></span></a>';
+						$html .= '<ul class="dropdown-menu">';
+						$html .= '<li class="dropdown-header visible-sm-block"><span>' . escape($menu['menu']) . '</span></li>';
+					} else {
+						$html .= '<li class="dropdown-submenu"><a href="#" data-toggle="dropdown"><span class="glyphicon glyphicon-' . escape($menu['icono']) . '"></span> <span>' . escape($menu['menu']) . '</span> <span class="glyphicon glyphicon-menu-down visible-xs-inline pull-right"></span></a>';
+						$html .= '<ul class="dropdown-menu">';
+					}
+					$html .= construir_navbar($menus, $menu['id_menu']);
+					$html .= '</ul></li>';
+				} else {
+					if ($antecesor == 0) {
+						$html .= '<li><a href="' . (($menu['ruta'] == '') ? '#' : $menu['ruta']) . '"><span class="glyphicon glyphicon-' . escape($menu['icono']) . '"></span> <span class="hidden-sm">' . escape($menu['menu']) . '</span></a></li>';
+					} else {
+						$html .= '<li><a href="' . (($menu['ruta'] == '') ? '#' : $menu['ruta']) . '"><span class="glyphicon glyphicon-' . escape($menu['icono']) . '"></span> <span>' . escape($menu['menu']) . '</span></a></li>';
+					}
+				}
+			}
+		} else {
+			$html = '';
+			break;
+		}
+	}
+	return $html;
+}
+
+function construir_sidebar($menus, $antecesor = 0) {
+	$html = '';
+	foreach ($menus as $menu) {
+		if ($menu['antecesor_id'] != null) {
+			if ($menu['antecesor_id'] == $antecesor) {
+				if (verificar_submenu($menus, $menu['id_menu'])) {
+					$html .= '<li><a href="#" class="text-truncate pull-right-container"><span class="glyphicon glyphicon-' . escape($menu['icono']) . '"></span> <span>' . escape($menu['menu']) . '</span> <span class="glyphicon glyphicon-menu-right pull-right"></span></a><ul class="nav sidebar-nav animated fadeIn">' . construir_sidebar($menus, $menu['id_menu']) . '</ul></li>';
+				} else {
+					$html .= '<li><a href="' . (($menu['ruta'] == '') ? '#' : $menu['ruta']) . '" class="text-truncate"><span class="glyphicon glyphicon-' . escape($menu['icono']) . '"></span> <span>' . escape($menu['menu']) . '</span></a></li>';
+				}
+			}
+		} else {
+			$html = '';
+			break;
+		}
+	}
+	return $html;
+}
+
+/*
++--------------------------------------------------------------------------
 | Devuelve el menu ordenado
 +--------------------------------------------------------------------------
 */
@@ -1430,17 +1487,30 @@ function validar_stock_edicion_egreso($db, $id_productos = array(), $cantidades 
 +--------------------------------------------------------------------------
 */
 
-function save_process($db, $proceso = 'a', $direccion = '', $accion = 'accion', $id_egreso = 0, $id_user = 0){
+function save_process($db, $proceso = 'a', $direccion = '', $accion = 'accion', $id_egreso = 0, $id_user = 0, $token = ''){
+
+    if ($token) {
+        $imei = $db->query("SELECT sd.model, sd.imei, sd.user_id AS user_id_principal, sd.token AS token_principal, sdd.user_id AS user_id_secundario, sdd.token AS token_secundario 
+                        FROM sys_users_devices sd 
+                        LEFT JOIN sys_users_devices_detalles sdd ON sd.id_device = sdd.device_id
+                        WHERE (sd.token = '{$token}' || sdd.token = '{$token}') 
+                        AND (sd.user_id = '{$id_user}' || sdd.user_id = '{$id_user}')
+                        GROUP BY sd.user_id")->fetch_first()['imei'];
+    }
+
+    $imei = ($imei) ? $imei : null;
 
     // Guarda Historial
     $data = array(
-                'fecha_proceso' => date("Y-m-d"),
+                'fecha_proceso' => date("Y-m-d H:i:s"),
                 'hora_proceso' => date("H:i:s"),
                 'proceso' => $proceso,
                 'nivel' => 'l',
                 'direccion' => $direccion,
                 'detalle' => 'Se realizo ' . $accion . ' con identificador numero ' . $id_egreso,
-                'usuario_id' => $id_user
+                'id_movimiento' => ($id_egreso > 0) ? $id_egreso : 0,
+                'usuario_id' => $id_user,
+                'imei' => $imei
             );
 
     $id = $db->insert('sys_procesos_device', $data);
@@ -1544,10 +1614,8 @@ function validar_conversion($db, $id_egreso = 0, $id_destino = 0, $origen_tipo =
         AND hc.origen_movimiento = '{$origen_tipo}' AND hc.destino_movimiento = 'Electronicas'")->fetch_first()['nro_registros'];
     }
     
-    //validadmos que esl resultdo sea menor al permitido
-    if ($cantidad_notas <= 2) {
-        $respuesta = true;
-    }
+    //validamos que es el resultdo sea menor al permitido
+    $respuesta = ($cantidad_notas <= 2) ? true : false;
 
     return $respuesta;
 }

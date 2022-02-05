@@ -3,6 +3,14 @@
 // Obtiene el id_egreso
 $id_egreso = (isset($params[0])) ? $params[0] : 0;
 
+ //Habilita las funciones internas de notificación
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT );
+
+try {
+
+    //Se abre nueva transacción.
+    $db->autocommit(false);
+    $db->beginTransaction(); 
 
 if ($id_egreso == 0) {
 	// Obtiene las egresos
@@ -367,5 +375,35 @@ EOD;
 
 // Cierra y devuelve el fichero pdf
 $pdf->Output($nombre, 'I');
+
+
+
+
+//se cierra transaccion
+$db->commit();
+
+} catch (Exception $e) {
+    $status = false;
+    $error = $e->getMessage();
+
+    // Instancia la variable de notificacion
+    $_SESSION[temporary] = array(
+        'alert' => 'danger',
+        'title' => 'Problemas en el proceso de interacción con la base de datos.',
+        'message' => (environment == 'development' || ($_user['id_user'] == 1 && $_user['rol'] == 'Superusuario' )) ? $error: 'Error en el proceso; comunicarse con soporte tecnico'
+    );
+
+            //Se devuelve el error en mensaje json
+    //echo json_encode(array("estado" => 'n', 'msg'=>$error));
+
+    // Error 404
+    return redirect(back());
+    exit;
+    //se cierra transaccion
+    $db->rollback();
+}
+
+
+
 
 ?>

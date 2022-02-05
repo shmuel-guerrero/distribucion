@@ -636,6 +636,7 @@ if (is_post()) {
 
         //se valida tipo seleccionado por el usuario
         if($_POST['factura'] == 'Si'){
+            
             $titulo = ' F A C T U R A';
             $id_v = $venta['id_egreso'];
             $venta2 = $db->query("SELECT * FROM inv_egresos WHERE id_egreso = '$id_v'")->fetch_first();
@@ -652,92 +653,98 @@ if (is_post()) {
             //se verifica la existencia de dosificacion
             if($dosificacion){
 
-                //Verifica si anteriormente se habia generado numero de autorizacion y codigo de control
-                if($venta2['nro_autorizacion'] != '' || $venta2['codigo_control'] != ''){
-                    $nro_autorizacion = $dosificacion['nro_autorizacion'];
-                    
-                    $nro_factura = $venta2['nro_factura'];  
-                    
-                    $codigo_control = $venta2['codigo_control'];
-                    $fecha_limite = $dosificacion['fecha_limite'];
-                    $factura_autenticidad = '"ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAÍS. EL USO ILÍCITO DE ÉSTA SERÁ SANCIONADO DE ACUERDO A LEY"';
-                    $factura_leyenda = 'Ley Nº 453: "' . $dosificacion['leyenda'] . '".';
-                    $factura_qr = $_institution['nit'] . '|' . $nro_factura . '|' . $nro_autorizacion . '|' . date_decode($venta2['fecha_egreso'], 'd/m/Y') . '|' . $venta2T . '|0.00|' . $codigo_control . '|' . $venta2['nit_ci'] . '|0.00|0.00|0.00|0.00';
-                    // $nro_factura = 'Nro DE FACT.: ' . $venta2['nro_factura'];
-                    $nro_factura = 'Nº DE FACTURA: ' . $nro_factura;
-                    
-                    //se crea backup de registros
-                    $verifica_id = backup_registros($db, 'inv_egresos', 'id_egreso', $venta['id_egreso'], '', '', $id_user, 'SI', 0, "Editado");                    
-                    $db->where('id_egreso', $venta['id_egreso'])->update('inv_egresos', array('factura'=>'Factura'));
-                    //se crea backup de registros
-                    $verifica = backup_registros($db, 'inv_egresos_detalles', 'egreso_id', $venta['id_egreso'], '', '', $id_user, 'NO', $verifica_id, "Backup"); 
+                $documento_origen = ($venta2['nro_autorizacion'] != '' || $venta2['codigo_control'] != '') ? 'Electronicas' : 'Preventa';
 
-                    historial_conversion($db, $id_egreso, 'Electronicas', $id_egreso, 'Electronicas', $id_empleado, "ConversionDirecta", $verifica_id, 'sinDatos');
-
-                    //se guarda proceso u(update),c(create), r(read),d(delet)
-                    save_process($db, 'u', '?/site/app-imprimir-nota', 'modifico', $venta['id_egreso'], $id_user);
+                if (validar_conversion($db, $id_egreso, 0, $documento_origen)) {
+                    //Verifica si anteriormente se habia generado numero de autorizacion y codigo de control
+                    if($venta2['nro_autorizacion'] != '' || $venta2['codigo_control'] != ''){
+                        $nro_autorizacion = $dosificacion['nro_autorizacion'];
+                        
+                        $nro_factura = $venta2['nro_factura'];  
+                        
+                        $codigo_control = $venta2['codigo_control'];
+                        $fecha_limite = $dosificacion['fecha_limite'];
+                        $factura_autenticidad = '"ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAÍS. EL USO ILÍCITO DE ÉSTA SERÁ SANCIONADO DE ACUERDO A LEY"';
+                        $factura_leyenda = 'Ley Nº 453: "' . $dosificacion['leyenda'] . '".';
+                        $factura_qr = $_institution['nit'] . '|' . $nro_factura . '|' . $nro_autorizacion . '|' . date_decode($venta2['fecha_egreso'], 'd/m/Y') . '|' . $venta2T . '|0.00|' . $codigo_control . '|' . $venta2['nit_ci'] . '|0.00|0.00|0.00|0.00';
+                        // $nro_factura = 'Nro DE FACT.: ' . $venta2['nro_factura'];
+                        $nro_factura = 'Nº DE FACTURA: ' . $nro_factura;
+                        
+                        //se crea backup de registros
+                        $verifica_id = backup_registros($db, 'inv_egresos', 'id_egreso', $venta['id_egreso'], '', '', $id_user, 'SI', 0, "Editado");                    
+                        $db->where('id_egreso', $venta['id_egreso'])->update('inv_egresos', array('factura'=>'Factura'));
+                        //se crea backup de registros
+                        $verifica = backup_registros($db, 'inv_egresos_detalles', 'egreso_id', $venta['id_egreso'], '', '', $id_user, 'NO', $verifica_id, "Backup"); 
+    
+                        historial_conversion($db, $id_egreso, 'Electronicas', $id_egreso, 'Electronicas', $id_empleado, "ConversionDirecta", $verifica_id, 'sinDatos');
+                        
+                        //se crea backup de registros//////
+                        $verifica_id2 = backup_registros($db, 'tmp_egresos', 'id_egreso', $venta['id_egreso'], 'distribuidor_estado', 'ENTREGA', $id_user, 'SI', 0, "Editado");
+                        $db->where('id_egreso', $venta['id_egreso'])->where('distribuidor_estado', 'ENTREGA')->update('tmp_egresos', array('factura'=>'Factura'));
+                        
+                        //se crea backup de registros
+                        $verifica = backup_registros($db, 'tmp_egresos_detalles', 'egreso_id', $venta['id_egreso'], '', '', $id_user, 'NO', $verifica_id2, "Backup"); 
+    
+                        //se guarda proceso u(update),c(create), r(read),d(delet), cr(cerrar), a(anular)
+                        save_process($db, 'u', '?/site/app-imprimir-nota', 'modifico', $venta['id_egreso'], $id_user, $token);
+    
+                    }else{
+                        // Obtiene los datos para el codigo de control
+                        $nro_autorizacion = $dosificacion['nro_autorizacion'];
+    
+                        //se incrementa el numero de factura de la dosificacion
+                        $nro_factura = intval($dosificacion['nro_facturas']) + 1;
+    
+                        $nit_cliente = $venta['almacen_id'];
+                        $fecha = date('Ymd');
+                        $total = $venta2T;
+                        $llave_dosificacion = base64_decode($dosificacion['llave_dosificacion']);
+    
+                        // Genera el codigo de control
+                        $codigo_control = new ControlCode();
+                        $codigo_control = $codigo_control->generate($nro_autorizacion, $nro_factura, $nit_cliente, $fecha, $total, $llave_dosificacion);
+                        $datos_venta = array(
+                            'tipo' => 'Venta',
+                            'provisionado' => 'N',
+                            'descripcion' => 'Venta de productos con preventa',
+                            'nro_factura' => $nro_factura,
+                            'nro_autorizacion' => $nro_autorizacion,
+                            'codigo_control' => $codigo_control,
+                            'fecha_limite' => $dosificacion['fecha_limite'],
+                            'dosificacion_id' => $dosificacion['id_dosificacion'],
+                            'factura' => 'Factura'
+                        );
+    
+                        //se crea backup de registros//////
+                        $verifica_id = backup_registros($db, 'inv_egresos', 'id_egreso', $venta['id_egreso'], '', '', $id_user, 'SI', 0, "Editado");  
+                        $db->where('id_egreso', $venta['id_egreso'])->update('inv_egresos', $datos_venta);
+    
+                        //se crea backup de registros
+                        $verifica = backup_registros($db, 'inv_egresos_detalles', 'egreso_id', $venta['id_egreso'], '', '', $id_user, 'NO', $verifica_id, "Backup"); 
+    
+                        historial_conversion($db, $id_egreso, 'Preventa', $id_egreso, 'Electronicas', $id_empleado, "ConversionDirecta", $verifica_id, 'sinDatos');
+                        
+    
+                        //se guarda proceso u(update),c(create), r(read),d(delet), cr(cerrar), a(anular)
+                        save_process($db, 'u', '?/site/app-imprimir-nota', 'modifico', $venta['id_egreso'], $id_user, $token);
+    
+    
+                        // $db->where('id_egreso', $venta['id_egreso'])->where('distribuidor_estado', 'ENTREGA')->update('tmp_egresos', $datos_venta);
+                        $db->where('id_dosificacion', $dosificacion['id_dosificacion'])->update('inv_dosificaciones', array('nro_facturas' => $nro_factura));
+    
+                        // Gereramos el codigo de seguridad QR
+                        $factura_qr = $_institution['nit'] . '|' . $nro_factura . '|' . $nro_autorizacion . '|' . date_decode($venta['fecha_egreso'], 'd/m/Y') . '|' . $venta['monto_total'] . '|0.00|' . $codigo_control . '|' . $venta['nit_ci'] . '|0.00|0.00|0.00|0.00';
+                        $factura_autenticidad = '"ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAÍS. EL USO ILÍCITO DE ÉSTA SERÁ SANCIONADO DE ACUERDO A LEY"';
+                        $factura_leyenda = 'Ley Nº 453: "' . $dosificacion['leyenda'] . '".';
+                        $fecha_limite = $dosificacion['fecha_limite'];
+                        $nro_autorizacion = 'Nro AUTORIZACIÓN '.$nro_autorizacion;
+                        $nro_factura = 'Nº DE FACTURA: ' . $nro_factura;
+                    }
                     
-                    //se crea backup de registros//////
-                    $verifica_id2 = backup_registros($db, 'tmp_egresos', 'id_egreso', $venta['id_egreso'], 'distribuidor_estado', 'ENTREGA', $id_user, 'SI', 0, "Editado");
-                    $db->where('id_egreso', $venta['id_egreso'])->where('distribuidor_estado', 'ENTREGA')->update('tmp_egresos', array('factura'=>'Factura'));
-                    
-                    //se crea backup de registros
-                    $verifica = backup_registros($db, 'tmp_egresos_detalles', 'egreso_id', $venta['id_egreso'], '', '', $id_user, 'NO', $verifica_id2, "Backup"); 
-
-                    //se guarda proceso u(update),c(create), r(read),d(delet)
-                    save_process($db, 'u', '?/site/app-imprimir-nota', 'modifico', $venta['id_egreso'], $id_user);
-
                 }else{
-                    // Obtiene los datos para el codigo de control
-                    $nro_autorizacion = $dosificacion['nro_autorizacion'];
-
-                    //se incrementa el numero de factura de la dosificacion
-                    $nro_factura = intval($dosificacion['nro_facturas']) + 1;
-
-                    $nit_cliente = $venta['almacen_id'];
-                    $fecha = date('Ymd');
-                    $total = $venta2T;
-                    $llave_dosificacion = base64_decode($dosificacion['llave_dosificacion']);
-
-                    // Genera el codigo de control
-                    $codigo_control = new ControlCode();
-                    $codigo_control = $codigo_control->generate($nro_autorizacion, $nro_factura, $nit_cliente, $fecha, $total, $llave_dosificacion);
-                    $datos_venta = array(
-                        'tipo' => 'Venta',
-                        'provisionado' => 'N',
-                        'descripcion' => 'Venta de productos con preventa',
-                        'nro_factura' => $nro_factura,
-                        'nro_autorizacion' => $nro_autorizacion,
-                        'codigo_control' => $codigo_control,
-                        'fecha_limite' => $dosificacion['fecha_limite'],
-                        'dosificacion_id' => $dosificacion['id_dosificacion'],
-                        'factura' => 'Factura'
-                    );
-
-                    //se crea backup de registros//////
-                    $verifica_id = backup_registros($db, 'inv_egresos', 'id_egreso', $venta['id_egreso'], '', '', $id_user, 'SI', 0, "Editado");  
-                    $db->where('id_egreso', $venta['id_egreso'])->update('inv_egresos', $datos_venta);
-
-                    //se crea backup de registros
-                    $verifica = backup_registros($db, 'inv_egresos_detalles', 'egreso_id', $venta['id_egreso'], '', '', $id_user, 'NO', $verifica_id, "Backup"); 
-
-                    historial_conversion($db, $id_egreso, 'Preventa', $id_egreso, 'Electronicas', $id_empleado, "ConversionDirecta", $verifica_id, 'sinDatos');
-                    
-
-                    //se guarda proceso u(update),c(create), r(read),d(delet)
-                    save_process($db, 'u', '?/site/app-imprimir-nota', 'modifico', $venta['id_egreso'], $id_user);
-
-
-                    // $db->where('id_egreso', $venta['id_egreso'])->where('distribuidor_estado', 'ENTREGA')->update('tmp_egresos', $datos_venta);
-                    $db->where('id_dosificacion', $dosificacion['id_dosificacion'])->update('inv_dosificaciones', array('nro_facturas' => $nro_factura));
-
-                    // Gereramos el codigo de seguridad QR
-                    $factura_qr = $_institution['nit'] . '|' . $nro_factura . '|' . $nro_autorizacion . '|' . date_decode($venta['fecha_egreso'], 'd/m/Y') . '|' . $venta['monto_total'] . '|0.00|' . $codigo_control . '|' . $venta['nit_ci'] . '|0.00|0.00|0.00|0.00';
-                    $factura_autenticidad = '"ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAÍS. EL USO ILÍCITO DE ÉSTA SERÁ SANCIONADO DE ACUERDO A LEY"';
-                    $factura_leyenda = 'Ley Nº 453: "' . $dosificacion['leyenda'] . '".';
-                    $fecha_limite = $dosificacion['fecha_limite'];
-                    $nro_autorizacion = 'Nro AUTORIZACIÓN '.$nro_autorizacion;
-                    $nro_factura = 'Nº DE FACTURA: ' . $nro_factura;
+                    // Devuelve los resultados
+                    echo json_encode(array('estado' => 'n',
+                                            'msg' => 'Operación restringida; excedio el limite de conversiones a factura' ));
                 }
 
             }else{
@@ -774,8 +781,8 @@ if (is_post()) {
             //se crea backup de registros
             $verifica = backup_registros($db, 'tmp_egresos_detalles', 'egreso_id', $venta['id_egreso'], '', '', $id_user, 'NO', $verifica_id2, "Backup"); 
 
-            //se guarda proceso u(update),c(create), r(read),d(delet)
-            save_process($db, 'u', '?/site/app-imprimir-nota', 'modifico', $venta['id_egreso'], $id_user);
+            //se guarda proceso u(update),c(create), r(read),d(delet), cr(cerrar), a(anular)
+            save_process($db, 'u', '?/site/app-imprimir-nota', 'modifico', $venta['id_egreso'], $id_user, $token);
 
         }
 

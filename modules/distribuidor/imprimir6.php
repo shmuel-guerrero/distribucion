@@ -197,7 +197,7 @@ $aux2 = 0;
                     if ($pr['unidad_id'] == $detalle['unidad_id']) {
                         $unidad = $pr['unidad'];
                     } else {
-                        $pr = $db->select('*')->from('inv_asignaciones a')->join('inv_unidades b', 'a.unidad_id = b.id_unidad  AND a.visible = "s"')->where(array('a.producto_id' => $detalle['producto_id'], 'a.unidad_id' => $detalle['unidad_id'], 'a.visible' => 's'))->fetch_first();
+                        $pr = $db->select('*')->from('inv_asignaciones a')->join('inv_unidades b', 'a.unidad_id = b.id_unidad  AND a.visible = "s"')->where(array('a.producto_id' => $detalle['producto_id'], 'a.unidad_id' => $detalle['unidad_id']))->fetch_first();
                         if($pr['cantidad_unidad'])
                         {
                             $unidad = $pr['unidad'];

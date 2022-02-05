@@ -177,7 +177,7 @@ if (is_post()) {
                             LEFT JOIN inv_egresos AS e ON e.id_egreso=ed.egreso_id
                             WHERE ed.producto_id='{$producto['producto_id']}' AND e.anulado = 0 AND e.estadoe != 0
                             AND e.empleado_id='{$empleado['id_empleado']}'
-                            AND e.fecha_egreso BETWEEN'{$ini}' AND '{$fin}'  AND asi.visible = 's'")->fetch_first()['total'];
+                            AND e.fecha_egreso BETWEEN'{$ini}' AND '{$fin}' ")->fetch_first()['total'];
  
 
 
@@ -244,7 +244,7 @@ if (is_post()) {
                                     LEFT JOIN inv_productos AS p ON ed.producto_id=p.id_producto
                                     WHERE p.categoria_id='{$categoria['categoria_id']}' AND e.anulado = 0 AND e.estadoe != 0
                                     AND e.empleado_id = '{$empleado['id_empleado']}'
-                                    AND e.fecha_egreso BETWEEN '{$ini}' AND '{$fin}'  AND asi.visible = 's'")->fetch_first();
+                                    AND e.fecha_egreso BETWEEN '{$ini}' AND '{$fin}' ")->fetch_first();
 
                             /* $total=$db->query("SELECT IFNULL(SUM(monto_total),0)AS total
                                             FROM inv_egresos

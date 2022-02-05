@@ -53,6 +53,7 @@ if(is_post()) {
                 $correo = ($_POST['correo']!='')?$_POST['correo']:'';
 
                 $id_cliente = $_POST['id_cliente'];
+                $token = (isset($_POST['token'])) ? $_POST['token'] : '';
 
                 if ($id_cliente) {
 
@@ -90,6 +91,9 @@ if(is_post()) {
 
                     $db->where('id_cliente',$id_cliente)->update('inv_clientes',$datos);
                     $id = $id_cliente;
+
+                     //se guarda proceso u(update),c(create), r(read),d(delet), cr(cerrar), a(anular)
+                     save_process($db, 'u', '?/site/app-clientes-guardar', 'modifico cliente', $id, $usuario['id_user'], $token);
 
                 }else {   
                     
@@ -129,6 +133,9 @@ if(is_post()) {
                         );
                         $id = $db->insert('inv_clientes',$datos);
                         $ruta_imagen = tiendas . '/' . $n_imagen;
+
+                         //se guarda proceso u(update),c(create), r(read),d(delet), cr(cerrar), a(anular)
+                        save_process($db, 'c', '?/site/app-clientes-guardar', 'creo cliente', $id, $usuario['id_user'], $token);
                         
                         //se cierra transaccion
                         $db->commit();                    

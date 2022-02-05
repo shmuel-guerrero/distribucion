@@ -90,6 +90,9 @@ if(is_post()) {
 
                     $id = $db->insert('inv_egresos',$egreso);
 
+                    //se guarda proceso u(update),c(create), r(read),d(delet), cr(cerrar), a(anular)
+                    save_process($db, 'c', '?/site/app-noventa-guardar', 'se guarda no venta', $id, $id_user, $token); 
+
                     if($id){
                         $respuesta = array(
                             'estado' => 's',
@@ -211,7 +214,11 @@ if(is_post()) {
                                 $accion = $db->insert('tmp_egresos_detalles', $detalle);
                                 $db->delete()->from('inv_egresos_detalles')->where('id_detalle',$id_detalle)->limit(1)->execute();
                             }
+
+                            //se guarda proceso u(update),c(create), r(read),d(delet), cr(cerrar), a(anular)
+                            save_process($db, 'c', '?/site/app-noventa-guardar', 'se guarda no entrega', $egreso['id_egreso'], $id_user, $token); 
                         }
+
 
                         //se cierra transaccion
 					    $db->commit();

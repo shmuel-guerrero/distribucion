@@ -234,7 +234,7 @@ $categorias = $db->from('inv_categorias')->order_by('categoria')->fetch();
                             <tbody>
                             <?php foreach ($detalles as $nro => $detalle) {
                                 $lote = loteProducto($db, $detalle['id_producto'], $id_almacen);
-                                $otro_precio = $db->select('*')->from('inv_asignaciones a')->join('inv_unidades b','a.unidad_id=b.id_unidad AND a.visible = "s"')->where('a.producto_id',$detalle['id_producto'])->where('a.visible', 's')->fetch();
+                                $otro_precio = $db->select('*')->from('inv_asignaciones a')->join('inv_unidades b','a.unidad_id=b.id_unidad AND a.visible = "s"')->where('a.producto_id',$detalle['id_producto'])->fetch();
                                 ?>
                                 <tr>
                                     <td class="text-nowrap"><img src="<?= ($detalle['imagen'] == '') ? imgs . '/image.jpg' : files . '/productos/' . $detalle['imagen']; ?>" width="75" height="75"></td>

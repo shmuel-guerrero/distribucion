@@ -64,7 +64,7 @@ $permiso_cambiar = true;
 <div class="panel-heading" data-formato="<?= strtoupper($formato_textual); ?>" data-mascara="<?= $formato_numeral; ?>" data-gestion="<?= date_decode($gestion_base, $_institution['formato']); ?>">
 	<h3 class="panel-title">
 		<span class="glyphicon glyphicon-option-vertical"></span>
-		<strong>Reporte de ventas generales</strong>
+		<strong>Reporte de ventas notas de remisón</strong>
 	</h3>
 </div>
 <div class="panel-body">

@@ -280,7 +280,7 @@ EOD;
 			$body .= '<td class="left-right">' . escape($detalle['nombre_factura']) . ' <small class="text-success"> ' . (($detalle['marca']) ? escape($detalle['marca']) : '') . '</small>' . '</td>';
 			$body .= '<td class="left-right" align="right">' . $cantidad . ' '.nombre_unidad($db,$detalle['unidad_otra']). '</td>';
 			$body .= '<td class="left-right" align="right">' . $precio . '</td>';
-			$body .= '<td class="left-right" align="right">' . $descuento . '</td>';
+			//$body .= '<td class="left-right" align="right">' . $descuento . '</td>';
 			$body .= '<td class="left-right" align="right">' . number_format($importe, 2, '.', '') . '</td>';
 			$body .= '</tr>';
 		} else {
@@ -367,23 +367,23 @@ EOD;
 		<tr>
 			<th width="5%" class="all" align="center">#</th>
 			<th width="12%" class="all" align="center">CÓDIGO</th>
-			<th width="35%" class="all" align="center">NOMBRE</th>
+			<th width="47%" class="all" align="center">NOMBRE</th>
 			<th width="12%" class="all" align="center">CANTIDAD</th>
 			<th width="12%" class="all" align="center">PRECIO $valor_moneda</th>
-			<th width="12%" class="all" align="center">DESCUENTO $valor_moneda</th>
+
 			<th width="12%" class="all" align="center">IMPORTE $valor_moneda</th>
 		</tr>
 		$body
 		<tr>
-			<th class="all" align="right" colspan="6">SUBTOTAL: </th>
+			<th class="all" align="right" colspan="5">SUBTOTAL: </th>
 			<th class="all" align="right">$monto_total</th>
 		</tr>
 		<tr>
-			<th class="all" align="right" colspan="6">DESCUENTO $valor_descuento_porc: </th>
+			<th class="all" align="right" colspan="5">DESCUENTO $valor_descuento_porc: </th>
 			<th class="all" align="right">$valor_descuento_global</th>
 		</tr>
 		<tr>
-			<th class="all" align="right" colspan="6">IMPORTE TOTAL $valor_moneda</th>
+			<th class="all" align="right" colspan="5">IMPORTE TOTAL $valor_moneda</th>
 			<th class="all" align="right">$monto_total_descuento</th>
 		</tr>
 		$detalle_filas_deudas

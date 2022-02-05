@@ -72,7 +72,7 @@ $permiso_editar = in_array('manuales_editar', $permisos);
 <div class="panel-heading" data-formato="<?= strtoupper($formato_textual); ?>" data-mascara="<?= $formato_numeral; ?>" data-gestion="<?= date_decode($gestion_base, $_institution['formato']); ?>">
 	<h3 class="panel-title">
 		<span class="glyphicon glyphicon-option-vertical"></span>
-		<strong>Lista de todas las ventas manuales </strong>
+		<strong>Listado de ventas manuales </strong>
 	</h3>
 </div>
 <div class="panel-body">

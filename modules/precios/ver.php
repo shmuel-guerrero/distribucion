@@ -30,7 +30,6 @@ $precios = $db->select("p.*, ifnull(e.nombres, '') as nombres, ifnull(e.paterno,
 ->join('inv_asignaciones a','a.id_asignacion = p.asignacion_id AND a.visible = "s" ','left')
 ->join('inv_unidades u','a.unidad_id = u.id_unidad','left')
 ->where('p.producto_id', $id_producto)
-->where('a.visible', 's')
 ->order_by('fecha_registro asc, hora_registro asc')
 ->fetch();
 

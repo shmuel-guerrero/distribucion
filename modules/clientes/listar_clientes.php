@@ -28,6 +28,8 @@ $requestData=$_REQUEST;
     $Sentencia.=" WHERE";
     if(!empty($ValorG)):
     $Sentencia.=" (a.cliente LIKE '%{$ValorG}%' OR
+            a.nombre_factura LIKE '%{$ValorG}%' OR
+            a.id_cliente LIKE '%{$ValorG}%' OR
             a.nit LIKE '%{$ValorG}%' OR
             a.telefono LIKE '%{$ValorG}%' OR
             a.direccion LIKE '%{$ValorG}%' OR

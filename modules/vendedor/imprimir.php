@@ -17,6 +17,13 @@ if ($id_orden == 0) {
     exit;
 }
 
+// Importa la libreria para el generado del pdf
+require_once libraries . '/tcpdf/tcpdf.php';
+
+// Importa la libreria para convertir el numero a letra
+require_once libraries . '/numbertoletter-class/NumberToLetterConverter.php';
+
+
 
 //Habilita las funciones internas de notificación
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT );
@@ -46,11 +53,6 @@ $id_orden = $orden['ides1'];
 $moneda = $db->from('inv_monedas')->where('oficial', 'S')->fetch_first();
 $moneda = ($moneda) ? '(' . $moneda['sigla'] . ')' : '';
 
-// Importa la libreria para el generado del pdf
-require_once libraries . '/tcpdf/tcpdf.php';
-
-// Importa la libreria para convertir el numero a letra
-require_once libraries . '/numbertoletter-class/NumberToLetterConverter.php';
 
 // Operaciones con la imagen del header
 list($ancho_header, $alto_header) = getimagesize(imgs . '/header.jpg');
@@ -214,7 +216,7 @@ foreach ($id_ordenes as $id_orden) {
         if($pr['unidad_id'] == $detalle['unidad_id']){
             $unidad = $pr['unidad'];
         }else{
-            $pr = $db->select('*')->from('inv_asignaciones a')->join('inv_unidades b', 'a.unidad_id = b.id_unidad  AND a.visible = "s" ')->where(array('a.producto_id'=>$detalle['producto_id'],'a.unidad_id'=>$detalle['unidad_id'], 'a.visible' => 's'))->fetch_first();
+            $pr = $db->select('*')->from('inv_asignaciones a')->join('inv_unidades b', 'a.unidad_id = b.id_unidad  AND a.visible = "s" ')->where(array('a.producto_id'=>$detalle['producto_id'],'a.unidad_id'=>$detalle['unidad_id']))->fetch_first();
             $unidad = $pr['unidad'];
             $cantidad = $cantidad/$pr['cantidad_unidad'];
         }

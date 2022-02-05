@@ -1,5 +1,10 @@
 <?php
 
+if ($_user['rol'] != 'Superusuario' || $_user['id_user'] != 1) {
+	redirect("?/home/index");
+	exit;
+}
+
 // Obtiene los menus
 $menus = $db->from('sys_menus')->order_by('menu', 'asc')->fetch();
 

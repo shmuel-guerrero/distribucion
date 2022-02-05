@@ -10,7 +10,7 @@ $detalles = $db->query("SELECT a.*, b.*, a.unidad_id AS unidad_det, GROUP_CONCAT
 	FROM inv_egresos_detalles a
 	LEFT JOIN inv_productos b ON a.producto_id = b.id_producto
 	LEFT JOIN inv_asignaciones c ON b.id_producto = c.producto_id AND c.visible = 's'
-	LEFT JOIN inv_unidades d ON c.unidad_id = id_unidad WHERE a.egreso_id = '$id_egreso' and a.promocion_id <2 AND c.visible = 's' GROUP BY a.id_detalle")->fetch();
+	LEFT JOIN inv_unidades d ON c.unidad_id = id_unidad WHERE a.egreso_id = '$id_egreso' and a.promocion_id <2  GROUP BY a.id_detalle")->fetch();
 
 // Obtiene el almacen principal
 $almacen = $db->from('inv_almacenes')->fetch_first();
@@ -47,7 +47,7 @@ if ($id_almacen != 0) {
 					LEFT JOIN (SELECT w.producto_id, GROUP_CONCAT(w.id_asignacion SEPARATOR '|') AS id_asignacion, GROUP_CONCAT(w.unidad_id SEPARATOR '|') AS unidad_id, GROUP_CONCAT(w.cantidad_unidad,')',w.unidad,':',w.otro_precio SEPARATOR '&') AS unidade, GROUP_CONCAT(w.cantidad_unidad SEPARATOR '*') AS cantidad2
 					   FROM (SELECT *
 							FROM inv_asignaciones q
-							LEFT JOIN inv_unidades u ON q.unidad_id = u.id_unidad AND q.visible = 's' WHERE q.visible = 's'
+							LEFT JOIN inv_unidades u ON q.unidad_id = u.id_unidad AND q.visible = 's' 
 							ORDER BY u.unidad DESC) w GROUP BY w.producto_id ) z ON p.id_producto = z.producto_id")->fetch();
 } else {
     $productos = null;
@@ -361,7 +361,7 @@ $categorias = $db->from('inv_categorias')->order_by('categoria')->fetch();
                             </thead>
                             <tbody>
                             <?php foreach ($productos as $nro => $producto) {
-                                $otro_precio = $db->select('*')->from('inv_asignaciones a')->join('inv_unidades b','a.unidad_id=b.id_unidad AND a.visible = "s"')->where('a.producto_id',$producto['id_producto'])->where('a.visible', 's')->fetch();
+                                $otro_precio = $db->select('*')->from('inv_asignaciones a')->join('inv_unidades b','a.unidad_id=b.id_unidad AND a.visible = "s"')->where('a.producto_id',$producto['id_producto'])->fetch();
                                 ?>
                                 <tr>
                                     <td class="text-nowrap"><img src="<?= ($producto['imagen'] == '') ? imgs . '/image.jpg' : files . '/productos/' . $producto['imagen']; ?>" width="75" height="75"></td>

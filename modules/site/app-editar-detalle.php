@@ -42,7 +42,9 @@ if (is_post()) {
             $id_detalle = $_POST['id_detalle'];
             $cantidad = $_POST['cantidad'];
             $id_unidad = $_POST['unidad_id'];
+            $token = (isset($_POST['token'])) ? $_POST['token'] : '';
             
+            $id_user_recibido = ($_POST['id_user']) ? $_POST['id_user'] : 0;
             $empleado = $db->select('persona_id')->from('sys_users')->where('id_user', $_POST['id_user'])->fetch_first();
             $id_user = $empleado['persona_id'];
 
@@ -446,14 +448,18 @@ if (is_post()) {
                                             ->where('a.plan_de_pagos','si')
                                             ->where('a.cliente_id',$egreso['cliente_id'])->fetch_first();
                                 
+                                            
+                                            // $eg = $db->selet('monto_total, estadoe, plan_de_pagos as cuentas_por_cobrar')->from('tmp_egresos')->where('distribuidor_estado', 'ENTREGA')->where('id_egreso', $id_egreso)->fetch_first();
+                                            $monto_total = $db->query("select SUM(monto_total) AS monto_total, 
+                                            SUM(monto_total_descuento) AS monto_total_descuento 
+                                            FROM inv_egresos WHERE id_egreso='{$id_egreso}' and cliente_id = {$id_cli}")->fetch_first()['monto_total'];
+                                
+
+                                //se guarda proceso u(update),c(create), r(read),d(delet), cr(cerrar), a(anular)
+                                save_process($db, 'u', '?/site/app-editar-detalle', 'edito item de movimiento previa entrega', $id_egreso, $id_user_recibido, $token);                          
+
                                 //se cierra transaccion
                                 $db->commit();
-
-                                // $eg = $db->selet('monto_total, estadoe, plan_de_pagos as cuentas_por_cobrar')->from('tmp_egresos')->where('distribuidor_estado', 'ENTREGA')->where('id_egreso', $id_egreso)->fetch_first();
-                                $monto_total = $db->query("select SUM(monto_total) AS monto_total, 
-                                                SUM(monto_total_descuento) AS monto_total_descuento 
-                                                FROM inv_egresos WHERE id_egreso='{$id_egreso}' and cliente_id = {$id_cli}")->fetch_first()['monto_total'];
-            
 
                                 
                                 // $eg = $db->selet('monto_total, estadoe, plan_de_pagos as cuentas_por_cobrar')->from('tmp_egresos')->where('distribuidor_estado', 'ENTREGA')->where('id_egreso', $id_egreso)->fetch_first();
