@@ -33,8 +33,9 @@ $_menus = construir_sidebar($_menus);
 		<link rel="stylesheet" href="<?= css; ?>/bootstrap-structured.min.css">
 		<link rel="stylesheet" href="<?= css; ?>/animate.min.css">
 		<link rel="stylesheet" href="<?= css; ?>/bootstrap-toggle.min.css">
-		<link rel="stylesheet" href="<?= css; ?>/bootstrap-toggle.min.css">
 		<link rel="stylesheet" href="<?= css; ?>/jquery.treegrid.css">
+
+		
 		<link rel="icon" type="image/png" href="<?= project; ?>/favicon.png">
 		<style>
 		.wrapper {
@@ -43,10 +44,10 @@ $_menus = construir_sidebar($_menus);
 			-moz-background-size: cover;
 			background-size: cover; */
 			/* background-image: linear-gradient(to top, #1c5292, #04b3a0); */
-			/* background-image: linear-gradient(to top, #4b134f, #c94b4b); */
-			/* background-image: -webkit-linear-gradient(to top, #0a8ce8, #00d7ff);
-			background-image: -moz-linear-gradient(to top, #0a8ce8, #00d7ff);
-			background-image: linear-gradient(to top, #0a8ce8, #00d7ff); */
+			/*  background-image: linear-gradient(to top, #4b134f, #c94b4b);  */
+			 /* background-image: -webkit-linear-gradient(to top, #0a8ce8, #00d7ff); */
+			/* background-image: -moz-linear-gradient(to top, #0a8ce8, #00d7ff); */
+			/* background-image: linear-gradient(to top, #003366, #0b8bb8 ); */
 			/* background-color: #563d7c; */
 		}
 		</style>
@@ -149,8 +150,8 @@ $_menus = construir_sidebar($_menus);
 						</div>
 						<hr>
 						<div class="px-4">
-							<a href="?/venta/seleccionar_sucursal" class="btn btn-block btn-primary text-truncate mb-4">Vender</a>
-							<a href="?/ingresos/seleccionar_sucursal" class="btn btn-block btn-info text-truncate mb-4">Comprar</a>
+							<a href="?/electronicas/crear" class="btn btn-block btn-primary text-truncate mb-4">Vender</a>
+							<a href="?/ingresos/listar" class="btn btn-block btn-info text-truncate mb-4">Comprar</a>
 							<a href="?/productos/listar" class="btn btn-block btn-default text-truncate mb-4">Catálogo</a>
 							<!--a href="?/producto-variantes/listar-producto" class="btn btn-block btn-default text-truncate mb-4">Catálogo</a-->
 						</div>
@@ -159,5 +160,5 @@ $_menus = construir_sidebar($_menus);
 						
 					</div>
 				</div>
-				<div class="wrapper-main" style="background-color:#5d5d5d">
+				<div class="wrapper-main">
 					<div class="p-4">

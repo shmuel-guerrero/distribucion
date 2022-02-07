@@ -423,7 +423,7 @@ $permiso_cambiar = true;
             }).DataFilter({
                 filter: true,
                 name: ' Productos vendidos por <?= escape($emp['nombres'] . ' ' . $emp['paterno'] . ' ' . $emp['materno']); ?>',
-                reports: 'excel|word|pdf|html',
+                reports: 'xls|doc|pdf|html',
                 total: 5,
                 creacion: 'Para la fecha: ' + '<?= date('Y-m-d H:i') ?>',
                 fechas: 'El reporte fue generado desde: <?= $fecha_inicial ?> hasta: <?= ($fecha_final == ((date('Y') + 16) . date('-m-d')) ) ? date('Y-m-d') : $fecha_final ?>',

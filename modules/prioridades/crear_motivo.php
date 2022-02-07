@@ -116,7 +116,7 @@ $(function () {
 	var table = $('#table').DataFilter({
 		filter: true,
 		name: 'clientes',
-		reports: 'excel|word|pdf|html'
+		reports: 'xls|doc|pdf|html'
 	});
 
 	$('#telefono').selectize({

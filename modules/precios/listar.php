@@ -234,7 +234,7 @@ $almacenes=$db->from('inv_almacenes')->order_by('id_almacen')->fetch();
 <script src="<?= js; ?>/jquery.base64.js"></script>
 <script src="<?= js; ?>/pdfmake.min.js"></script>
 <script src="<?= js; ?>/vfs_fonts.js"></script>
-<script src="<?= js; ?>/jquery.dataFilters2.min.js"></script>
+<script src="<?= js; ?>/jquery.dataFilters.min.js"></script>
 <script src="<?= js; ?>/jquery.form-validator.min.js"></script>
 <script src="<?= js; ?>/jquery.form-validator.es.js"></script>
 <script src="<?= js; ?>/bootstrap-notify.min.js"></script>
@@ -371,7 +371,7 @@ $(function () {
         empresa: '<?= $_institution['nombre']; ?>',
         direccion: '<?= $_institution['direccion'] ?>',
         telefono: '<?= $_institution['telefono'] ?>',
-        reports: 'excel|word|pdf|html',
+        reports: 'xls|doc|pdf|html',
 		size: 8,
         values: {
             serverSide: true,

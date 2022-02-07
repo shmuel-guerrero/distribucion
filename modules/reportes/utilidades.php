@@ -572,7 +572,7 @@ $(function () {
 	}).DataFilter({	
 		filter: true,
 		name: 'reporte_diario',
-		reports: 'excel|word|pdf|html'
+		reports: 'xls|doc|pdf|html'
 	});
 	<?php } ?>
 });

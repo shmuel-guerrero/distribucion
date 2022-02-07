@@ -266,7 +266,7 @@ $Empleados=$db->query("SELECT e.id_empleado,e.nombres,e.paterno,e.materno,GROUP_
 <script src="<?= js; ?>/jquery.base64.js"></script>
 <script src="<?= js; ?>/pdfmake.min.js"></script>
 <script src="<?= js; ?>/vfs_fonts.js"></script>
-<script src="<?= js; ?>/jquery.dataFilters2.min.js"></script>
+<script src="<?= js; ?>/jquery.dataFilters.min.js"></script>
 <script src="<?= js; ?>/bootstrap-datetimepicker.min.js"></script>
 
 <script>
@@ -355,7 +355,7 @@ $Empleados=$db->query("SELECT e.id_empleado,e.nombres,e.paterno,e.materno,GROUP_
             $modal_asignar.modal('show');
         });
 
-        <?php if ($permiso_eliminar) { ?>
+        <?php //if ($permiso_eliminar) { ?>
             $('[data-eliminar]').on('click', function(e) {
                 e.preventDefault();
                 var url = $(this).attr('href');
@@ -365,9 +365,9 @@ $Empleados=$db->query("SELECT e.id_empleado,e.nombres,e.paterno,e.materno,GROUP_
                     }
                 });
             });
-        <?php } ?>
+        <?php //} ?>
 
-        <?php if ($permiso_crear) { ?>
+        <?php //if ($permiso_crear) { ?>
             $(window).bind('keydown', function(e) {
                 if (e.altKey || e.metaKey) {
                     switch (String.fromCharCode(e.which).toLowerCase()) {
@@ -378,7 +378,7 @@ $Empleados=$db->query("SELECT e.id_empleado,e.nombres,e.paterno,e.materno,GROUP_
                     }
                 }
             });
-        <?php } ?>
+        <?php //} ?>
 
         <?php if (true) {
             $url = institucion . '/' . $_institution['imagen_encabezado'];
@@ -395,10 +395,10 @@ $Empleados=$db->query("SELECT e.id_empleado,e.nombres,e.paterno,e.materno,GROUP_
                 empresa: '<?= $_institution['nombre']; ?>',
                 direccion: '<?= $_institution['direccion'] ?>',
                 telefono: '<?= $_institution['telefono'] ?>',
-                reports: 'excel|word|pdf|html'
+                reports: 'xls|doc|pdf|html'
             });
         <?php } ?>
-        <?php if ($permiso_activar) { ?>
+        <?php //if ($permiso_activar) { ?>
             $('[data-activar]').on('click', function(e) {
                 e.preventDefault();
                 var url = $(this).attr('href');
@@ -408,7 +408,7 @@ $Empleados=$db->query("SELECT e.id_empleado,e.nombres,e.paterno,e.materno,GROUP_
                     }
                 });
             });
-        <?php } ?>
+        <?php //} ?>
     });
 </script>
 <?php require_once show_template('footer-configured'); ?>

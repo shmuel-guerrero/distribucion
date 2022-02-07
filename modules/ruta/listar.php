@@ -304,7 +304,7 @@ $permiso_cambiar = true;
                filter: true,
                 name: 'Lista de rutas',
                 lengthMenu: [[10, 50, 100, 500, -1], [10, 50, 100, 500, 'Todos']],
-                reports: 'excel|word|pdf|html'
+                reports: 'xls|doc|pdf|html'
             });
 
 

@@ -139,7 +139,7 @@ $(function () {
 	var table = $('#table').DataFilter({
 		filter: true,
 		name: 'proveedores',
-		reports: 'excel|word|pdf|html'
+		reports: 'xls|doc|pdf|html'
 	});
 	<?php } ?>
 });

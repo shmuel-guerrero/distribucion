@@ -242,7 +242,7 @@ $permiso_cambiar = true;
 <script src="<?= js; ?>/jquery.base64.js"></script>
 <script src="<?= js; ?>/pdfmake.min.js"></script>
 <script src="<?= js; ?>/vfs_fonts.js"></script>
-<!-- <script src="<?= js; ?>/jquery.dataFilters.min.js"></script> -->
+<script src="<?= js; ?>/jquery.dataFilters.min.js"></script> 
 <script src="<?= js; ?>/jquery.dataFiltersCustom.min.js"></script>
 <script src="<?= js; ?>/moment.min.js"></script>
 <script src="<?= js; ?>/moment.es.js"></script>
@@ -338,7 +338,7 @@ $(function () {
 	}).DataFilter({
 		filter: true,
 		name: 'Reporte diario',
-		reports: 'excel|word|pdf|html',
+		reports: 'xls|doc|pdf|html',
 		total: 13,
 		creacion: 'Para la fecha: ' + '<?= date('Y-m-d H:i') ?>',
 		fechas: 'El reporte fue generado desde: <?= $fecha_inicial ?> hasta: <?= ($fecha_final == ((date('Y') + 16) . date('-m-d')) ) ? date('Y-m-d') : $fecha_final ?>',

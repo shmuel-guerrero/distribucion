@@ -364,7 +364,7 @@ $permiso_imprimir = in_array('imprimir', $permisos);
             var table = $('#table').DataFilter({
                 filter: false,
                 name: 'empleados',
-                reports: 'excel|word|pdf|html'
+                reports: 'xls|doc|pdf|html'
             });
             <?php } ?>
             <?php if ($permiso_activar) { ?>

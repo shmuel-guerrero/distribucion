@@ -29,6 +29,18 @@ $_menus = construir_menu($_menus);
 		<link rel="stylesheet" href="<?= css; ?>/animate.min.css">
 		<link rel="stylesheet" href="<?= themes . '/' . (($_institution['tema'] == '') ? 'bootstrap' : $_institution['tema']); ?>/style.min.css">
 		<link rel="stylesheet" href="<?= css; ?>/bootstrap-structured.min.css">
+
+
+		<link rel="stylesheet" href="<?= css; ?>/bootstrap-grid.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/bootstrap-utilities.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/bootstrap-icons.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/bootstrap-spinner.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/bootstrap-dashboard.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/bootstrap-datetimepicker.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/animate.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/bootstrap-toggle.min.css">
+
+
 		<!--[if lt IE 9]>
 			<script src="<?= js; ?>/html5shiv.min.js"></script>
 			<script src="<?= js; ?>/respond.min.js"></script>
@@ -49,6 +61,14 @@ $_menus = construir_menu($_menus);
 		<script src="<?= js; ?>/animo.min.js"></script>
 		<script src="<?= js; ?>/docs.min.js"></script>
 		<link rel="icon" type="image/png" href="<?= project; ?>/favicon.png">
+
+
+
+
+		<script src="<?= js; ?>/metisMenu.min.js"></script>
+		<script src="<?= js; ?>/functions.min.js"></script>
+		<script src="<?= js; ?>/bootstrap-toggle.min.js"></script>
+
 	</head>
 	<body>
 		<?php if (environment == 'production') : ?>

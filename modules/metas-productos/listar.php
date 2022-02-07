@@ -205,7 +205,7 @@ require_once show_template('header-configured');
     	var table = $('#table').DataFilter({
     		filter: true,
     		name: 'reporte_ventas_manuales',
-    		reports: 'excel|word|pdf|html'
+    		reports: 'xls|doc|pdf|html'
     	});
     	
     });

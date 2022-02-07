@@ -258,7 +258,7 @@ $mone = $db->select('*')->from('con_tipo_moneda')->where('estado', 1)->fetch_fir
         var table = $('#table').DataFilter({
             filter: false,
             name: 'almacenes',
-            reports: 'excel|word|pdf|html'
+            reports: 'xls|doc|pdf|html'
         });
         <?php } ?>
     });

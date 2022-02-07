@@ -364,7 +364,7 @@ $permiso_libro_compra = in_array('libro_compra', $permisos);
 			var table = $('#table').DataFilter({
 				filter: true,
 				name: 'ingresos',
-				reports: 'excel|word|pdf|html'
+				reports: 'xls|doc|pdf|html'
 			});
 
 			$('#states_0').find(':radio[value="hide"]').trigger('click');

@@ -296,7 +296,7 @@ $(function () {
 	var table = $('#table').DataFilter({
 		filter: false,
 		name: 'historial_precios',
-		reports: 'excel|word|pdf|html'
+		reports: 'xls|doc|pdf|html'
 	});
 	<?php } ?>
 });

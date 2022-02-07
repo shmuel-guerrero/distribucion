@@ -146,7 +146,7 @@ $permiso_imprimir = in_array('imprimir', $permisos);
 <script src="<?= js; ?>/jquery.base64.js"></script>
 <script src="<?= js; ?>/pdfmake.min.js"></script>
 <script src="<?= js; ?>/vfs_fonts.js"></script>
-<script src="<?= js; ?>/jquery.dataFilters2.min.js"></script>
+<script src="<?= js; ?>/jquery.dataFilters.min.js"></script>
 <script>
 $(function () {
 	<?php if ($permiso_eliminar) { ?>
@@ -188,7 +188,7 @@ $(function () {
 		empresa: '<?= $_institution['nombre']; ?>',
 		direccion: '<?= $_institution['direccion'] ?>',
 		telefono: '<?= date('m-d-Y') ?>',
-		reports: 'excel|word|pdf|html'
+		reports: 'xls|doc|pdf|html'
 	});
 	$('#states_0').find(':radio[value="hide"]').trigger('click');
 	<?php } ?>

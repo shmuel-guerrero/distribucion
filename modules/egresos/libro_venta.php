@@ -407,7 +407,7 @@ $(function () {
 		}).DataFilter({
 			filter: true,
 			name: 'Ingresos',
-			reports: 'excel|word|pdf|html'
+			reports: 'xls|doc|pdf|html'
 		});
 	
 

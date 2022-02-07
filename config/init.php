@@ -10,7 +10,7 @@ header('Pragma: no-cache');
 date_default_timezone_set('America/La_Paz');
 
 // Ambiente de trabajo production/development
-define('environment', 'production');
+define('environment', 'development');
 
 // Informacion del desarrollador
 define('name_autor', 'shmuel');

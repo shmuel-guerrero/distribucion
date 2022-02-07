@@ -111,7 +111,7 @@ $permiso_imprimir = in_array('imprimir', $permisos);
                 </tfoot>
                 <tbody>
                 <?php foreach ($rutas as $nro => $ruta) {
-                    $id_empleado = $ruta['id_empleado'];
+                    //$id_empleado = $ruta['id_empleado'];
 //                    $fecha = date('Y-m-d',$ruta['fechav']);
                     $fecha2 = date_create($ruta['fechav']);
                     $fecha = date_format($fecha2, 'Y-m-d');
@@ -401,7 +401,7 @@ $permiso_imprimir = in_array('imprimir', $permisos);
             var table = $('#table').DataFilter({
                 filter: false,
                 name: 'empleados',
-                reports: 'excel|word|pdf|html'
+                reports: 'xls|doc|pdf|html'
             });
             <?php } ?>
         });

@@ -194,13 +194,13 @@ if (!$movimientos) {
         var table = $('#table').DataFilter({
             filter: false,
             name: 'Historial vendedores',
-            reports: 'excel|word|pdf|html'
+            reports: 'xls|doc|pdf|html'
         });
         /*$(function () {
          var table = $('#table').DataFilter({
          filter: true,
          name: 'reporte_de_existencias',
-         reports: 'excel|word|pdf|html'
+         reports: 'xls|doc|pdf|html'
          });
          });*/
     </script>

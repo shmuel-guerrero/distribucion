@@ -327,12 +327,12 @@ $(function () {
 	}).DataFilter({
 		filter: true,
 		name: 'facturas',
-		reports: 'excel|word|pdf|html'
+		reports: 'xls|doc|pdf|html'
 	});
 // 	var table = $('#table').DataFilter({
 // 		filter: true,
 // 		name: 'facturas',
-// 		reports: 'excel|word|pdf|html'
+// 		reports: 'xls|doc|pdf|html'
 // 	});
 	<?php } ?>
 });

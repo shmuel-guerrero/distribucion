@@ -411,7 +411,7 @@ $permiso_cambiar = true;
 			fechas: 'Reporte desde: <?= $fecha_inicial ?> hasta el: <?= ($fecha_final == $gestion_limite) ? date('Y-m-d') : $fecha_final ?>',
             creacion: 'Generado el: <?= date('Y-m-d') ?>',
             total: 7,
-			reports: 'excel|word|pdf|html'
+			reports: 'xls|doc|pdf|html'
 		});
 	<?php } ?>
 	<?php if ($permiso_cambiar) { ?>

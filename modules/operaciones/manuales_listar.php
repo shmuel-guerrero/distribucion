@@ -342,7 +342,7 @@ $permiso_editar = in_array('manuales_editar', $permisos);
 			var table = $('#table').DataFilter({
 				filter: true,
 				name: 'reporte_ventas_manuales',
-				reports: 'excel|word|pdf|html'
+				reports: 'xls|doc|pdf|html'
 			});
 		<?php } ?>
 	});

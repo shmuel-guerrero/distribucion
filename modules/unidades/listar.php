@@ -144,7 +144,7 @@ $(function () {
 	var table = $('#table').DataFilter({
 		filter: false,
 		name: 'unidades',
-		reports: 'excel|word|pdf|html'
+		reports: 'xls|doc|pdf|html'
 	});
 	<?php } ?>
 });

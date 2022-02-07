@@ -149,7 +149,7 @@ $(function () {
 	var table = $('#table').DataFilter({
 		filter: false,
 		name: 'materiales',
-		reports: 'excel|word|pdf|html'
+		reports: 'xls|doc|pdf|html'
 	});
 	<?php } ?>
 });

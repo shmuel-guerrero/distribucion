@@ -249,7 +249,7 @@ $(function () {
 
 	$('#table').DataFilter({
 		name: 'asistencias',
-		reports: 'excel|word|pdf|html',
+		reports: 'xls|doc|pdf|html',
 		values: {
 			stateSave: true
 		}

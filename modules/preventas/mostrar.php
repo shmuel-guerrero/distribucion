@@ -304,7 +304,7 @@ $(function () {
 	var table = $('#table').DataFilter({
 		filter: true,
 		name: 'proformas_personales',
-		reports: 'excel|word|pdf|html'
+		reports: 'xls|doc|pdf|html'
 	});
 	<?php } ?>
 });

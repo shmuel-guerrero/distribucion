@@ -110,7 +110,7 @@ $moneda = ($moneda) ? '(' . $moneda['sigla'] . ')' : '';
 <script src="<?= js; ?>/jquery.base64.js"></script>
 <script src="<?= js; ?>/pdfmake.min.js"></script>
 <script src="<?= js; ?>/vfs_fonts.js"></script>
-<script src="<?= js; ?>/jquery.dataFilters2.min.js"></script>
+<script src="<?= js; ?>/jquery.dataFilters.min.js"></script>
 <script>
     $(function(){
 
@@ -168,7 +168,7 @@ $moneda = ($moneda) ? '(' . $moneda['sigla'] . ')' : '';
             empresa: '<?= $_institution['nombre']; ?>',
             direccion: '<?= $_institution['direccion'] ?>',
             telefono: '<?= $_institution['telefono'] ?>',
-            reports: 'excel|word|pdf|html',
+            reports: 'xls|doc|pdf|html',
             size: 8,
             values: {
                 serverSide: true,

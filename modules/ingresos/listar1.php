@@ -334,7 +334,7 @@ $(function () {
 	var table = $('#table').DataFilter({
 		filter: true,
 		name: 'ingresos',
-		reports: 'excel|word|pdf|html'
+		reports: 'xls|doc|pdf|html'
 	});
 
 	$('#states_0').find(':radio[value="hide"]').trigger('click');

@@ -312,7 +312,7 @@ $permiso_imprimir = in_array('imprimir', $permisos);
                 $modal_asignar.modal('show');
             });
 
-            <?php if ($permiso_eliminar) { ?>
+            <?php if (false) { ?>
             $('[data-eliminar]').on('click', function (e) {
                 e.preventDefault();
                 var url = $(this).attr('href');
@@ -324,7 +324,7 @@ $permiso_imprimir = in_array('imprimir', $permisos);
             });
             <?php } ?>
 
-            <?php if ($permiso_crear) { ?>
+            <?php if (false /* $permiso_crear */) { ?>
             $(window).bind('keydown', function (e) {
                 if (e.altKey || e.metaKey) {
                     switch (String.fromCharCode(e.which).toLowerCase()) {
@@ -341,10 +341,10 @@ $permiso_imprimir = in_array('imprimir', $permisos);
             var table = $('#table').DataFilter({
                 filter: false,
                 name: 'empleados',
-                reports: 'excel|word|pdf|html'
+                reports: 'xls|doc|pdf|html'
             });
             <?php } ?>
-            <?php if ($permiso_activar) { ?>
+            <?php if (false /* $permiso_activar */) { ?>
             $('[data-activar]').on('click', function (e) {
                 e.preventDefault();
                 var url = $(this).attr('href');

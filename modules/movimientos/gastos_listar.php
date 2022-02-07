@@ -268,7 +268,7 @@ $(function () {
 		$('#monto').text(suma.toFixed(2));
 	}).DataFilter({
 		name: 'movimientos',
-		reports: 'excel|word|pdf|html',
+		reports: 'xls|doc|pdf|html',
 		values: {
 			stateSave: true
 		}

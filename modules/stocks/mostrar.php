@@ -133,7 +133,7 @@ $(function () {
 	var table = $('#table').DataFilter({
 		filter: true,
 		name: 'detalle_movimientos_producto',
-		reports: 'excel|word|pdf|html',
+		reports: 'xls|doc|pdf|html',
 		size: 8
 	});
 	<?php } ?>

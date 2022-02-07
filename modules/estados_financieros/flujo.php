@@ -499,7 +499,7 @@ $efe2 = $db->query("SELECT c.n_plan,c.plan_cuenta,SUM(a.debe),SUM(a.haber), c.no
         var table = $('#table').DataFilter({
             filter: false,
             name: 'almacenes',
-            reports: 'excel|word|pdf|html'
+            reports: 'xls|doc|pdf|html'
         });
         <?php } ?>
     });

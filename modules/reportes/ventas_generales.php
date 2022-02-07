@@ -271,7 +271,7 @@ $(function () {
     	}).DataFilter({
 				filter: false,
 				name: 'Reporte de ventas generales',
-				reports: 'excel|word|pdf|html',
+				reports: 'xls|doc|pdf|html',
 				total: 7,
 				creacion: 'Para la fecha: ' + '<?= date('Y-m-d H:i') ?>',
 				fechas: 'El reporte fue generado desde: <?= $fecha_inicial ?> hasta: <?= ($fecha_final == ((date('Y') + 16) . date('-m-d')) ) ? date('Y-m-d') : $fecha_final ?>',

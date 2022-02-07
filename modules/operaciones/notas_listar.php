@@ -516,12 +516,12 @@ $permiso_cambiar = true;
 			}).DataFilter({
 				filter: true,
 				name: 'notas_remision',
-				reports: 'excel|word|pdf|html'
+				reports: 'xls|doc|pdf|html'
 			});
 			// 			var table = $('#table').DataFilter({
 			// 				filter: true,
 			// 				name: 'notas_remision',
-			// 				reports: 'excel|word|pdf|html'
+			// 				reports: 'xls|doc|pdf|html'
 			// 			});
 		<?php } ?>
 	});

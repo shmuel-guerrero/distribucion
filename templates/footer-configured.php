@@ -1,4 +1,4 @@
-<hr>
+						<hr>
 						<p class="m-0"><?= credits; ?></p>
 					</div>
 				</div>

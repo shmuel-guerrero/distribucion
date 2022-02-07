@@ -165,8 +165,8 @@ $permiso_activar = in_array('activar', $permisos);
                                 <?php if ($permiso_ver2) { ?>
                                     <a href="?/distribuidor/ver2/<?= $empleado['id_empleado']; ?>/<?= $fecha_inicial; ?>/<?= $fecha_final; ?>" data-toggle="tooltip" style="margin-right: 3px;" data-title="Hoja de salida"><i class="glyphicon glyphicon-list-alt"></i></a>
                                 <?php } ?>
-                                <?php if($rutae){ ?>
-                                    <a href="?/distribuidor/asignar/<?= $rutae['empleado_id']; ?>" class="underline-none" data-toggle="tooltip"  style="margin-right: 3px;" data-title="Asignar nuevo distribuidor" data-asignar="true">
+                                <?php if($empleado && false){ ?>
+                                    <a href="?/distribuidor/asignar/<?= $empleado['empleado_id']; ?>" class="underline-none" data-toggle="tooltip"  style="margin-right: 3px;" data-title="Asignar nuevo distribuidor" data-asignar="true">
                                         <i class="glyphicon glyphicon-bed"></i>
                                     </a>
                                 <?php } ?>
@@ -453,7 +453,7 @@ $permiso_activar = in_array('activar', $permisos);
             var table = $('#table').DataFilter({
                 filter: false,
                 name: 'empleados',
-                reports: 'excel|word|pdf|html'
+                reports: 'xls|doc|pdf|html'
             });
             <?php } ?>
             <?php if ($permiso_activar) { ?>

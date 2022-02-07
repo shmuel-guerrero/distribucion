@@ -18,16 +18,16 @@ $version = rand(0, 1000000);
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 		<meta name="mobile-web-app-capable" content="yes">
 		<title><?= $_institution['nombre']; ?></title>
-		<link rel="stylesheet" href="<?= css; ?>/bootstrapsam.min.css">
-		<link rel="stylesheet" href="<?= css; ?>/bootstrap-gridsam.min.css">
-		<link rel="stylesheet" href="<?= css; ?>/bootstrap-utilitiesam.min.css">
-		<link rel="stylesheet" href="<?= css; ?>/bootstrap-iconssam.min.css">
-		<link rel="stylesheet" href="<?= css; ?>/bootstrap-spinnersam.min.css">
-		<link rel="stylesheet" href="<?= css; ?>/bootstrap-dashboardsam.min.css">
-		<link rel="stylesheet" href="<?= css; ?>/animatesam.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/bootstrap.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/bootstrap-grid.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/bootstrap-utilities.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/bootstrap-icons.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/bootstrap-spinner.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/bootstrap-dashboard.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/animate.min.css">
 		<link rel="stylesheet" href="<?= themes . '/' . (($_institution['tema'] == '') ? 'bootstrap' : $_institution['tema']); ?>/style.min.css">
-		<link rel="stylesheet" href="<?= css; ?>/bootstrap-structuredsam.min.css">
-		<link rel="stylesheet" href="<?= css; ?>/animatesam.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/bootstrap-structured.min.css">
+		<link rel="stylesheet" href="<?= css; ?>/animate.min.css">
 		<link rel="icon" type="image/png" href="<?= project; ?>/favicon.png">
 		<style>
 		.form-group .form-control-feedback {
@@ -93,14 +93,14 @@ $version = rand(0, 1000000);
 				</div>
 			</div>
 		</div>
-		<script src="<?= js; ?>/jquerysam.min.js"></script>
-		<script src="<?= js; ?>/bootstrapsam.min.js"></script>
-		<script src="<?= js; ?>/bootstrap-notifysam.min.js"></script>
-		<script src="<?= js; ?>/jquery.form-validatorsam.min.js"></script>
-		<script src="<?= js; ?>/jquery.form-validatorsam.es.js"></script>
-		<script src="<?= js; ?>/animosam.min.js"></script>
-		<script src="<?= js; ?>/buzzsam.min.js"></script>
-		<script src="<?= js; ?>/functionssam.min.js"></script>
+		<script src="<?= js; ?>/jquery.min.js"></script>
+		<script src="<?= js; ?>/bootstrap.min.js"></script>
+		<script src="<?= js; ?>/bootstrap-notify.min.js"></script>
+		<script src="<?= js; ?>/jquery.form-validator.min.js"></script>
+		<script src="<?= js; ?>/jquery.form-validator.es.js"></script>
+		<script src="<?= js; ?>/animo.min.js"></script>
+		<script src="<?= js; ?>/buzz.min.js"></script>
+		<script src="<?= js; ?>/functions.min.js"></script>
 		<script src="http://localhost:9000/<?= name_project; ?>/locale.js?v=<?= $version; ?>"></script>
 		<script>
 		$(function () {

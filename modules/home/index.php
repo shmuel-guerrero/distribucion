@@ -535,7 +535,7 @@ if($verifica == true) {
     				</div>
     				<div class="col-sm-12 col-md-6 col-lg-3">
     					<div data-enlace="?/operaciones/facturas_listar" class="alert alert-success cursor-pointer">
-    						<div class="row align-items-center">
+    						<div class="row align-items-center" style='padding:10px'>
     							<div class="col-auto pr-0" style='float:left;padding:10px'>
     								<span class="h1">
     									<span class="glyphicon glyphicon-star"></span>
