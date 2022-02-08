@@ -54,6 +54,7 @@
 				</div>
 			</div>
 		</div>
+		<script src="<?= js; ?>/FileSaver.min.js"></script>
 		<script>
 		$(function () {
 			
@@ -179,6 +180,31 @@
 			setTimeout(console.log.bind(console, '%c\nConsulta https://www.checkcode.bo para obtener mas información.', 'font-family:sans-serif;font-size:20px;'));
 			<?php endif ?>
 			
+			
+			$("#icon-general").hide();
+
+			document.getElementById('menu-hamburguesa').addEventListener('click', ()=>{
+				let estado = document.getElementById("menu-general");
+				if (estado.style.display == 'block') {
+					document.getElementById("icons-general").style.display = 'block';
+					$("#icon-general").show();
+					console.log("oculto");					
+				}else{
+					console.log("visible");	
+					$("#icon-general").hide();				
+					//document.getElementById("icons-general").style.display = 'none';
+				}
+				console.log(estado.style.display);					
+				/* let estado = document.getElementsByClassName('wrapper-aside');
+				if (estado.style.display == 'none') {
+					console.log("oculato");					
+				} */
+				
+				//estado = estado.shift(0);
+
+			}); 
+
+
 		});
 		</script>
 	</body>

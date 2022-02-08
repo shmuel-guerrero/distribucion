@@ -49,8 +49,8 @@ $version = rand(0, 1000000);
 							<div class="m-0 px-4 py-5">
 								<p class="lead">Bienvenido a</p>
 								<p class="h1">
-									<span>CheckCode Distribución</span>
-									<sup><small>v2.0</small></sup>
+									<span>CheckcoDGps 2022</span>
+									<sup><small> v.3.02.1</small></sup>
 								</p>
 								<p>CheckCode te ayuda a gestionar los procesos más complejos dentro de tu empresa.</p>
 								<p class="m-0">

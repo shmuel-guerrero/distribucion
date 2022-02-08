@@ -4,8 +4,8 @@
 class pointLocation {
     var $pointOnVertex = true; // Checar si el punto se encuentra exactamente en uno de los vértices?
 
-    function pointLocation() {
-    }
+    /* function pointLocation() {
+    } */
 
     function pointInPolygon($point, $polygon, $pointOnVertex = true) {
         $this->pointOnVertex = $pointOnVertex;

@@ -17,7 +17,7 @@ define('name_autor', 'shmuel');
 define('email_autor', 'samuelguerrerofernandez777@gmail.com');
 define('site_autor', 'https://www.checkcode.bo');
 define('phone_autor', '591-74095858');
-define('credits', '&copy; 2021 www.checkcode.bo');
+define('credits', '&copy; ' . date('Y') . ' www.checkcode.bo');
 define('directivs', $_SERVER["REQUEST_URI"]);
 
 // Informacion del proyecto

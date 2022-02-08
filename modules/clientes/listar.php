@@ -126,11 +126,6 @@ $moneda = ($moneda) ? '(' . $moneda['sigla'] . ')' : '';
         });
 	<?php } ?>
 
-
-
-
-
-
 <?php
     if($permiso_imprimir){
 ?>

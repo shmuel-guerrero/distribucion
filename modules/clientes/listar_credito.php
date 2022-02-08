@@ -75,6 +75,8 @@
         $nestedData[]=$requestData['start']+$key+1;
 
         $Aux=($Dato['imagen']=='')?imgs.'/image.jpg':files.'/tiendas/'.$Dato['imagen'];
+        $Aux = file_exists($Aux) ? $Aux : imgs.'/image.jpg';
+        
         $Aux="<img src='{$Aux}' class='img-rounded cursor-pointer' data-toggle='modal' data-target='#modal_mostrar' data-modal-size='modal-md' data-modal-title='Imagen' width='75' height='75'>";
         $nestedData[]=$Aux;
 
