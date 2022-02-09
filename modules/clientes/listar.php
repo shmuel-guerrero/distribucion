@@ -27,7 +27,7 @@ $moneda = ($moneda) ? '(' . $moneda['sigla'] . ')' : '';
 	<?php if ($permiso_imprimir) { ?>
 	<div class="row">
 		<div class="col-sm-6 hidden-xs">
-			<div class="text-label">Para ver el reporte hacer clic en el siguiente botón: </div>
+			<div class="text-label">Para realizar acciones click en el siguiente botón: </div>
 		</div>
         <div class="col-xs-12 col-sm-6 text-right">
             <a href="?/clientes/imprimir" target="_blank" class="btn btn-info"><i class="glyphicon glyphicon-print"></i><span class="hidden-xs"> Imprimir</span></a>

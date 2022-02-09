@@ -53,7 +53,7 @@ $permiso_activar = in_array('activar', $permisos);
         <?php if (($permiso_crear || $permiso_imprimir) && ($permiso_crear || $empleados)) { ?>
             <div class="row">
                 <div class="col-sm-8 hidden-xs">
-                    <div class="text-label">Para agregar nuevos empleados hacer clic en el siguiente botón: </div>
+                    <div class="text-label">Para realizar acciones click en el siguiente botón: </div>
                 </div>
                 <div class="col-xs-12 col-sm-4 text-right">
                     <button class="btn btn-default" data-cambiar="true">

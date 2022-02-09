@@ -179,31 +179,39 @@
 			setTimeout(console.log.bind(console, '%c\nEsta función del navegador está pensada para desarrolladores, todas las operaciones que realices dentro de este sitio están siendo monitoreadas por los administradores.', 'font-family:sans-serif;font-size:20px;'));
 			setTimeout(console.log.bind(console, '%c\nConsulta https://www.checkcode.bo para obtener mas información.', 'font-family:sans-serif;font-size:20px;'));
 			<?php endif ?>
-			
-			
-			$("#icon-general").hide();
+							
 
+			
 			document.getElementById('menu-hamburguesa').addEventListener('click', ()=>{
-				let estado = document.getElementById("menu-general");
-				if (estado.style.display == 'block') {
-					document.getElementById("icons-general").style.display = 'block';
-					$("#icon-general").show();
-					console.log("oculto");					
-				}else{
-					console.log("visible");	
-					$("#icon-general").hide();				
-					//document.getElementById("icons-general").style.display = 'none';
-				}
-				console.log(estado.style.display);					
-				/* let estado = document.getElementsByClassName('wrapper-aside');
-				if (estado.style.display == 'none') {
-					console.log("oculato");					
-				} */
+				let estado = document.querySelector('.wrapper-aside');
+				let elemento = document.getElementById('icons-general');
 				
-				//estado = estado.shift(0);
+				if (elemento.matches('.hidden')) {
+					//se guardar dato en localStorage para controlar el despligue del menu
+					localStorage.setItem('estadoMenus', 'Expandido');
+					elemento.classList.remove('hidden');	
+				}else{
+					localStorage.setItem('estadoMenus', 'Contraido');
+					elemento.classList.add('hidden');
+				}
+			}); 				
 
-			}); 
 
+			document.querySelector('[data-cerrar-sesion]').addEventListener('click', function(){
+				localStorage.clear()
+				sessionStorage.clear()
+			});
+
+			/* $(document).ready(function(){
+				console.log('prueba carga de windows');
+				let estado_menu = localStorage.getItem('estadoMenus');
+				if (estado_menu == 'Contraido') {
+					$('.wrapper-aside:first').css('display', 'none');
+					let elemento = document.getElementById('icons-general');
+					elemento.classList.remove('hidden'); 
+					console.log(estado_menu); 					
+				}
+			}); */
 
 		});
 		</script>

@@ -49,14 +49,14 @@ $permiso_control = in_array('control', $permisos);
 <div class="panel-heading" data-formato="<?= strtoupper($formato_textual); ?>" data-mascara="<?= $formato_numeral; ?>" data-gestion="<?= date_decode($gestion_base, $_institution['formato']); ?>">
 	<h3 class="panel-title">
 		<span class="glyphicon glyphicon-option-vertical"></span>
-		<strong>Empleados</strong>
+		<strong>Preventistas</strong>
 	</h3>
 </div>
 <div class="panel-body">
 	<?php if (($permiso_crear || $permiso_imprimir) && ($permiso_crear || $empleados)) { ?>
 	<div class="row">
 		<div class="col-sm-8 hidden-xs">
-			<div class="text-label">Para agregar nuevos empleados hacer clic en el siguiente botón: </div>
+			<div class="text-label">Para realizar acciones click en el siguiente botón: </div>
 		</div>
 		<div class="col-xs-12 col-sm-4 text-right">
 			<?php if ($permiso_imprimir) { ?>
@@ -180,7 +180,7 @@ $permiso_control = in_array('control', $permisos);
 	<?php } else { ?>
 	<div class="alert alert-danger">
 		<strong>Advertencia!</strong>
-		<p>No existen empleados registrados en la base de datos, para crear nuevos empleados hacer clic en el botón nuevo o presionar las teclas <kbd>alt + n</kbd>.</p>
+		<p>No existen preventistas registrados en la base de datos, registrar un nuevo usuario de rol preventista para obtener, generar información o reportes. </p>
 	</div>
 	<?php } ?>
 </div>

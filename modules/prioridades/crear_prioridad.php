@@ -19,13 +19,13 @@ $tipos = $db->select('*')->from('inv_prioridades_ventas')->fetch();
 	</h3>
 </div>
 <div class="panel-body">
-	<?php if ($permiso_listar) { ?>
+	<?php if (true) { ?>
 	<div class="row">
 		<div class="col-sm-8 hidden-xs">
-			<div class="text-label">Para regresar al listado de prioridades hacer clic en el siguiente botón:</div>
+			<div class="text-label">Este es un formulario para generar prioridades usadas en la aplicación Android:</div>
 		</div>
 		<div class="col-xs-12 col-sm-4 text-right">
-			<a href="?/clientes/listar" class="btn btn-primary"><i class="glyphicon glyphicon-list-alt"></i><span> Listado</span></a>
+			<!-- <a href="?/clientes/listar" class="btn btn-primary"><i class="glyphicon glyphicon-list-alt"></i><span> Listado</span></a> -->
 		</div>
 	</div>
 	<hr>

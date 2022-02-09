@@ -76,6 +76,14 @@ $_menus = construir_sidebar($_menus);
 	<link rel="stylesheet" href="<?= css; ?>/bootstrap-extended.min.css">
 	<link rel="stylesheet" href="<?= css; ?>/colors.min.css">
 	<link rel="stylesheet" href="<?= css; ?>/style.min.css">
+	<style>
+	 	@media screen and (max-width: 768px){
+			#icons-general{
+				display: none;
+				opacity: 0;
+			}
+		} 
+	</style>
 </head>
 
 <body>
@@ -125,7 +133,7 @@ $_menus = construir_sidebar($_menus);
 											</a>
 										</li>
 										<li>
-											<a href="?/site/logout">
+											<a href="?/site/logout" data-cerrar-sesion>
 												<span class="glyphicon glyphicon-lock"></span>
 												<span>Cerrar sesión</span>
 											</a>
@@ -163,76 +171,60 @@ $_menus = construir_sidebar($_menus);
 				</div>
 			</div>
 
-			<div class="d-flex flex-column flex-shrink-0 bg-light" style="width: 7rem;" id="icons-general">				
+			<!-- <div class="d-flex flex-column flex-shrink-0 bg-light hidden" style="width: 7rem;" id="icons-general">	 -->			
+			<div class="flex-column flex-shrink-0 bg-light hidden" style="width: 7rem;" id="icons-general">				
 				<ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
 					<li class="nav-item">
-						<a href="#" class="nav-link active py-3 border-bottom" aria-current="page" title="Home" data-bs-toggle="tooltip" data-bs-placement="right">
+						<a href="?/vendedor/listar" class="nav-link active py-3 border-bottom" aria-current="page" title="Preventistas" data-bs-toggle="tooltip" data-bs-placement="right">
 							<span class="mdi mdi-map-marker-check-outline h1 align-middle"></span>
 						</a>
 					</li>
 					<li class="nav-item">
-						<a href="#" class="nav-link active py-3 border-bottom" aria-current="page" title="Home" data-bs-toggle="tooltip" data-bs-placement="right">
+						<a href="?/distribuidor/listar2" class="nav-link active py-3 border-bottom" aria-current="page" title="Distribuidores" data-bs-toggle="tooltip" data-bs-placement="right">
 							<span class="mdi mdi-truck-delivery h1 align-middle"></span>
 						</a>
 					</li>
 					<li class="nav-item">
-						<a href="#" class="nav-link active py-3 border-bottom" aria-current="page" title="Home" data-bs-toggle="tooltip" data-bs-placement="right">
-							<span class="mdi mdi-bitcoin h1 align-middle"></span>
+						<a href="?/cobrar/listar" class="nav-link active py-3 border-bottom" aria-current="page" title="Deudas de Clientes" data-bs-toggle="tooltip" data-bs-placement="right">
+							<span class="mdi mdi-cash-100 h1 align-middle"></span>
 						</a>
 					</li>
 					<li>
-						<a href="#" class="nav-link py-3 border-bottom" title="Dashboard" data-bs-toggle="tooltip" data-bs-placement="right">
+						<a href="?/productos/listar" class="nav-link py-3 border-bottom" title="Catalogo de productos" data-bs-toggle="tooltip" data-bs-placement="right">
 							<span class="mdi mdi-baguette h1 align-middle"></span>
 						</a>
 					</li>
 					<li>
-						<a href="#" class="nav-link py-3 border-bottom" title="Dashboard" data-bs-toggle="tooltip" data-bs-placement="right">
+						<a href="?/ingresos/crear" class="nav-link py-3 border-bottom" title="Ingresos" data-bs-toggle="tooltip" data-bs-placement="right">
 							<span class="mdi mdi-basket-fill h1 align-middle"></span>
 						</a>
 					</li>
 					<li>
-						<a href="#" class="nav-link py-3 border-bottom" title="Dashboard" data-bs-toggle="tooltip" data-bs-placement="right">
+						<a href="?/egresos/listar" class="nav-link py-3 border-bottom" title="Egresos / Bajas" data-bs-toggle="tooltip" data-bs-placement="right">
+							<span class="mdi mdi-basket-unfill h1 align-middle"></span>
+						</a>
+					</li>
+					<li>
+						<a href="?/stocks/listar" class="nav-link py-3 border-bottom" title="Stock" data-bs-toggle="tooltip" data-bs-placement="right">
 							<span class="mdi mdi-chart-bar h1 align-middle"></span>
 						</a>
 					</li>
 					<li>
-						<a href="#" class="nav-link py-3 border-bottom" title="Orders" data-bs-toggle="tooltip" data-bs-placement="right">
+						<a href="?/electronicas/crear" class="nav-link py-3 border-bottom" title="Electronicas" data-bs-toggle="tooltip" data-bs-placement="right">
 							<span class="mdi mdi-qrcode-edit h1 align-middle"></span>
 						</a>
 					</li>
 					<li>
-						<a href="#" class="nav-link py-3 border-bottom" title="Products" data-bs-toggle="tooltip" data-bs-placement="right">
+						<a href="?/notas/crear" class="nav-link py-3 border-bottom" title="Notas" data-bs-toggle="tooltip" data-bs-placement="right">
 							<span class="mdi mdi-cart h1 align-middle"></span>
 						</a>
 					</li>
 					<li>
-						<a href="#" class="nav-link py-3 border-bottom" title="Customers" data-bs-toggle="tooltip" data-bs-placement="right">
-							<span class="mdi mdi-basket-unfill h1 align-middle"></span>
+						<a href="?/reportes/diario" class="nav-link py-3 border-bottom" title="Reporte de Ventas" data-bs-toggle="tooltip" data-bs-placement="right">
+							<span class="mdi mdi-chart-line h1 align-middle"></span>
 						</a>
 					</li>
 				</ul>
-				<!-- <div class="col-auto">
-					<ul class="nav navbar-nav navbar-right"></ul>
-					<ul class="nav navbar-nav navbar-right">
-						<li class="dropup ">
-							<ul class="dropup flex-column mb-auto text-center"  aria-labelledby="dLabel">														
-								<a href="#" class="dropdown-toggle" title="Customers" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-									<span class="mdi mdi-storefront h1 align-middle"></span>
-								</a>
-								<ul class="dropdown-menu">
-									<li><a href="#">Action</a></li>
-									<li><a href="#">Another action</a></li>
-									<li><a href="#">Something else here</a></li>
-									<li role="separator" class="divider"></li>
-									<li><a href="#">Separated link</a></li>
-									<li role="separator" class="divider"></li>
-									<li><a href="#">One more separated link</a></li>
-								</ul>
-								</li>
-							</ul>
-						</li>
-					</ul>
-				</div> -->
 			</div>
 			<div class="wrapper-main">
 				<div class="p-4">
