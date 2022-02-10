@@ -18,6 +18,13 @@
 		</div>
 	</div>
 	<hr>
+	<div class="alert alert-info">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Información</strong>
+        <ul>
+            <li>Esta informacion es usada en los comprobantes físicos generados por el sistema.</li>
+        </ul>
+    </div>
 	<div class="row">
 		<div class="col-sm-4 col-md-3">
 			<img src="<?= ($_institution['imagen_encabezado'] == '') ? imgs . '/picture.jpg' : institucion . '/' . $_institution['imagen_encabezado']; ?>" class="img-responsive thumbnail cursor-pointer" data-toggle="modal" data-target="#modal_mostrar" data-modal-size="modal-lg" data-modal-title="Logotipo">

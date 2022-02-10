@@ -69,14 +69,14 @@ $permiso_cambiar = true;
     <div class="panel-heading" data-formato="<?= strtoupper($formato_textual); ?>" data-mascara="<?= $formato_numeral; ?>" data-gestion="<?= date_decode($gestion_base, $_institution['formato']); ?>">
         <h3 class="panel-title">
             <span class="glyphicon glyphicon-option-vertical"></span>
-            <b>Lista de todas las preventas</b>
+            <b>Ver las preventas de la ruta</b>
         </h3>
     </div>
     <div class="panel-body">
     <?php if ($permiso_cambiar || $permiso_imprimir) { ?>
         <div class="row">
             <div class="col-sm-8 hidden-xs">
-                <div class="text-label">Para realizar una acci贸n hacer clic en los siguientes botones: </div>
+                <div class="text-label">Para realizar acciones clic en el siguiente botón(es): </div>
             </div>
             <div class="col-xs-12 col-sm-4 text-right">
                 <input type="hidden" id="lugares1" value="<?= $lugares ?>"/>

@@ -1,6 +1,8 @@
 <?php
 $formato_textual = get_date_textual($_institution['formato']);
-$formato_numeral = get_date_numeral($_instinv_categoriasitution['formato']);
+$formato_numeral = get_date_numeral($_institution['formato']);
+
+//$formato_numeral = get_date_numeral($_instinv_categoriasitution['formato']);
 $Categorias=$db->query("SELECT id_categoria, categoria, descripcion, m.fecha_registro, m.fecha_inicio, m.fecha_fin FROM inv_categorias e 
                             LEFT JOIN (SELECT MAX(fecha_registro)AS fecha_registro, categoria_id, fecha_inicio, fecha_fin 
                             FROM  inv_meta_categoria GROUP BY categoria_id) m 

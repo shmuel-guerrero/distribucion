@@ -378,9 +378,9 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 	</div>
 	<?php } ?>
 </div>
-<h2 class="btn-success position-left-bottom display-table btn-circle margin-all display-table" data-toggle="tooltip" data-title="Esto es una proforma" data-placement="right">
+<!-- <h2 class="btn-success position-left-bottom display-table btn-circle margin-all display-table" data-toggle="tooltip" data-title="Esto es una proforma" data-placement="right">
 	<span class="glyphicon glyphicon-edit display-cell"></span>
-</h2>
+</h2> -->
 
 <!-- Plantillas filtrar inicio -->
 <div id="tabla_filtrar" class="hidden">

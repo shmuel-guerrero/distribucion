@@ -27,7 +27,7 @@ if (is_post()) {
 
     if (isset($_POST['id_user']) && isset($_POST['id_meta'])) {
         require config . '/database.php';
-        //Habilita las funciones internas de notificaci贸n
+        //Habilita las funciones internas de notificación
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
         $id_user        = $_POST['id_user'];

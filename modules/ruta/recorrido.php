@@ -76,7 +76,7 @@ $permiso_cambiar = true;
 	<div class="row">
 		<div class="col-sm-8 hidden-xs">
             <span class="text-danger"><?php if($id_ruta = 0){echo 'No se asigno empleado';} ?></span>
-			<div class="text-label">Para realizar una acción hacer clic en los siguientes botones: </div>
+			<div class="text-label">Para realizar acciones clic en el siguiente botón(es): </div>
 		</div>
         <div class="col-sm-4 col-xs-12">
 

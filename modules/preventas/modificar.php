@@ -305,8 +305,10 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 	</div>
 	<?php } ?>
 </div>
-<h2 class="btn-warning position-left-bottom display-table btn-circle margin-all display-table" data-toggle="tooltip" data-title="Esto es una proforma" data-placement="right"><i class="glyphicon glyphicon-list display-cell"></i></h2>
-<script src="<?= js; ?>/jquery.form-validator.min.js"></script>
+<!-- <h2 class="btn-warning position-left-bottom display-table btn-circle margin-all display-table" data-toggle="tooltip" data-title="Esto es una proforma" data-placement="right"><i class="glyphicon glyphicon-list display-cell"></i></h2>
+ -->
+ 
+ <script src="<?= js; ?>/jquery.form-validator.min.js"></script>
 <script src="<?= js; ?>/jquery.form-validator.es.js"></script>
 <script src="<?= js; ?>/jquery.dataTables.min.js"></script>
 <script src="<?= js; ?>/dataTables.bootstrap.min.js"></script>

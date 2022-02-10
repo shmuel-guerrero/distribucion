@@ -30,14 +30,14 @@ if (is_post()) {
 
         // Importa la configuracion para el manejo de la base de datos
         require config . '/database.php';
-  		//Habilita las funciones internas de notificaci贸n
+  		//Habilita las funciones internas de notificación
 		mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT );
 
         // Obtiene los datos
         $id_usuario = trim($_POST['id_user']);
        
 		try {
-            //Se abre nueva transacci贸n.
+            //Se abre nueva transacción.
             $db->autocommit(false);
             $db->beginTransaction();
 

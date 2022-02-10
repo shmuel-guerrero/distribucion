@@ -33,7 +33,7 @@ $unidades = $db->from('inv_unidades')->order_by('unidad')->fetch();
 <div class="panel-heading">
 	<h3 class="panel-title">
 		<span class="glyphicon glyphicon-option-vertical"></span>
-		<strong>Productos</strong>
+		<strong>Catalogo de productos</strong>
 	</strong>
 	</h3>
 </div>

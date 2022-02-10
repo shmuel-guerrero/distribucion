@@ -181,18 +181,18 @@
 			<?php endif ?>
 							
 
-			
+			//controla visivilidad de menu de iconos
 			document.getElementById('menu-hamburguesa').addEventListener('click', ()=>{
-				let estado = document.querySelector('.wrapper-aside');
 				let elemento = document.getElementById('icons-general');
-				
+				let estado_menu = localStorage.getItem('estadoMenus');
+
 				if (elemento.matches('.hidden')) {
 					//se guardar dato en localStorage para controlar el despligue del menu
 					localStorage.setItem('estadoMenus', 'Expandido');
-					elemento.classList.remove('hidden');	
+					elemento.classList.remove('hidden');						
 				}else{
 					localStorage.setItem('estadoMenus', 'Contraido');
-					elemento.classList.add('hidden');
+					elemento.classList.add('hidden');					
 				}
 			}); 				
 
@@ -201,17 +201,6 @@
 				localStorage.clear()
 				sessionStorage.clear()
 			});
-
-			/* $(document).ready(function(){
-				console.log('prueba carga de windows');
-				let estado_menu = localStorage.getItem('estadoMenus');
-				if (estado_menu == 'Contraido') {
-					$('.wrapper-aside:first').css('display', 'none');
-					let elemento = document.getElementById('icons-general');
-					elemento.classList.remove('hidden'); 
-					console.log(estado_menu); 					
-				}
-			}); */
 
 		});
 		</script>

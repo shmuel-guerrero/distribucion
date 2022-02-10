@@ -131,7 +131,7 @@ $permiso_listar = in_array('listar', $permisos);
                         <p>
                             <ul>
                                 <li>La modificación del registro y sus detalles repercutira en el sotck de inventarios y los reportes correspondientes.</li>
-                                <li>La modificación del registro y sus detalles repercutira en el plan de pagos si posee.</li>
+                                <li>La modificación del registro y sus detalles repercutira en el crédito si posee.</li>
                             </ul>                            
                         </p>
                     </div>
@@ -305,7 +305,7 @@ $permiso_listar = in_array('listar', $permisos);
                                 <div class="col-md-8">
                                     <select name="forma_pago" id="forma_pago" class="form-control" data-validation="required number" onchange="set_plan_pagos()">
                                         <option value="1" <?= ($ingreso['plan_de_pagos'] == 'no') ? 'selected' : '' ?>>Pago Completo</option>
-                                        <option value="2" <?= ($ingreso['plan_de_pagos'] == 'si') ? 'selected' : '' ?> >Plan de Pagos</option>
+                                        <option value="2" <?= ($ingreso['plan_de_pagos'] == 'si') ? 'selected' : '' ?> >crédito</option>
                                     </select>
                                 </div>
                             </div>

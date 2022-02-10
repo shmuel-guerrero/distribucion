@@ -217,7 +217,7 @@ $permiso_reimprimir = in_array('notas_obtener', $permisos);
 						<div class="form-group">
 							<label class="col-md-3 control-label">Forma de pago:</label>
 							<div class="col-md-9">
-								<p class="form-control-static"><?= ($venta['plan_de_pagos'] == 'si')?'Plan de pagos':'Pago completo' ?></p>
+								<p class="form-control-static"><?= ($venta['plan_de_pagos'] == 'si')?'crédito':'Pago completo' ?></p>
 							</div>
 						</div>
 						<!-- <div class="form-group">

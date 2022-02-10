@@ -81,14 +81,14 @@ $MontoPendiente =0;
 <div class="panel-heading" data-formato="<?= strtoupper($formato_textual); ?>" data-mascara="<?= $formato_numeral; ?>" data-gestion="<?= date_decode($gestion_base, $_institution['formato']); ?>">
 	<h3 class="panel-title">
 		<span class="glyphicon glyphicon-option-vertical"></span>
-		<strong>Lista General de Pagos y Materiales</strong>
+		<strong>Reporte General de Clientes</strong>
 	</h3>
 </div>
 <div class="panel-body">
 	<?php if ($permiso_cambiar || $permiso_crear) { ?>
 	<div class="row">
 		<div class="col-sm-8 hidden-xs">
-			<div class="text-label">Para realizar una nota de remisión hacer clic en el siguiente botón: </div>
+			<div class="text-label">Para realizar acciones clic en el siguiente botón(es):  </div>
 		</div>
 		<div class="col-xs-12 col-sm-4 text-right">
 			<?php if ($permiso_cambiar) { ?>
@@ -228,7 +228,7 @@ $MontoPendiente =0;
 	<?php } else { ?>
 	<div class="alert alert-danger">
 		<strong>Advertencia!</strong>
-		<p>No existen notas de remisión registradas en la base de datos.</p>
+		<p>No existen ventas con crédito registradas en la base de datos.</p>
 	</div>
 	<?php } ?>
 </div>
@@ -247,13 +247,13 @@ $MontoPendiente =0;
 			<span><?= escape($moneda); ?></span>
 		</p>
 	</div>
-	<div class="col-sm-4">
+	<!-- <div class="col-sm-4">
 		<p class="lead margin-none">
 			<b>Precio Materiales Total:</b>
 			<u id="preciototal"><?= number_format($precioTotalAcumulado,2,'.','') ?></u>
 			<span><?= escape($moneda); ?></span>
 		</p>
-	</div>
+	</div> -->
 	<div class="clearfix">
 	</div>
 </div>

@@ -209,7 +209,7 @@ $_terminal=true;
 								<div class="col-md-8">
 									<select name="forma_pago" id="forma_pago" class="form-control" data-validation="required number" onchange="set_plan_pagos()">
 										<option value="1">Pago Completo</option>
-										<option value="2">Plan de Pagos</option>
+										<option value="2">crédito</option>
 									</select>
 								</div>
 							</div>
@@ -386,9 +386,9 @@ $_terminal=true;
 	</div>
 	<?php } ?>
 </div>
-<h2 class="btn-info position-left-bottom display-table btn-circle margin-all display-table" data-toggle="tooltip" data-title="Esto es una venta computarizada" data-placement="right">
+<!-- <h2 class="btn-info position-left-bottom display-table btn-circle margin-all display-table" data-toggle="tooltip" data-title="Esto es una venta computarizada" data-placement="right">
 	<span class="glyphicon glyphicon-qrcode display-cell"></span>
-</h2>
+</h2> -->
 
 <!-- Plantillas filtrar inicio -->
 <div id="tabla_filtrar" class="hidden">

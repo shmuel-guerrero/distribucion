@@ -38,6 +38,9 @@ require_once show_template('header-configured');
         <strong>Información</strong>
         <ul>
             <li>Los registros listados son metas vigentes.</li>
+            <li>Los datos brindados estan en base a los movimientos generados por el usuario asignado.</li>
+            <li>Los datos brindados son estimaciones; el modulo continua en procesos de mejora.</li>
+            <li>Los datos brindados son estimaciones; el modulo continua en procesos de mejora.</li>
         </ul>
     </div>
     <?php

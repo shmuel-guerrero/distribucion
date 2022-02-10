@@ -172,7 +172,7 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 								<div class="col-md-8">
 									<select name="forma_pago" id="forma_pago" class="form-control" data-validation="required number" onchange="set_plan_pagos()">
 										<option value="1">Pago Completo</option>
-										<option value="2">Plan de Pagos</option>								
+										<option value="2">crédito</option>								
 									</select>
 								</div>
 							</div>
@@ -371,7 +371,7 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 	</div>
 	<?php } ?>
 </div>
-<h2 class="btn-primary position-left-bottom display-table btn-circle margin-all display-table" data-toggle="tooltip" data-title="Esto es una venta manual" data-placement="right"><i class="glyphicon glyphicon-edit display-cell"></i></h2>
+<!-- <h2 class="btn-primary position-left-bottom display-table btn-circle margin-all display-table" data-toggle="tooltip" data-title="Esto es una venta manual" data-placement="right"><i class="glyphicon glyphicon-edit display-cell"></i></h2> -->
 <script src="<?= js; ?>/jquery.form-validator.min.js"></script>
 <script src="<?= js; ?>/jquery.form-validator.es.js"></script>
 <script src="<?= js; ?>/jquery.dataTables.min.js"></script>

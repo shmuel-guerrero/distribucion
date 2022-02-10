@@ -395,7 +395,7 @@ if($verifica == true) {
                     <b>NOTA:</b> la no actualizacion de la Aplicacion ANDROID causara que no se listen las promociones en versiones anteriores.</p>
             </div>
 	    </div> -->
-		<div class="col-sm-4 col-md-3">
+		<div class="col-sm-12 col-md-12 col-lg-3">
 			<div class="row margin-bottom">
 				<div class="col-xs-10 col-xs-offset-1">
 
@@ -415,7 +415,7 @@ if($verifica == true) {
 					</p>
 				<?php endif ?>
 				<p>
-					<img src="<?= ($_user['avatar'] == '') ? imgs . '/avatar.jpg' : profiles . '/' . $_user['avatar']; ?>" class="img-circle" width="128" height="128" data-toggle="modal" data-target="#modal_mostrar">
+					<img src="<?= ($_user['avatar'] == '') ? imgs . '/avatar.jpg' : profiles . '/' . $_user['avatar']; ?>" class="img-circle" width="120" height="120" data-toggle="modal" data-target="#modal_mostrar">
 				</p>
 				<p class="margin-none">
 					<strong><?= escape($_user['email']); ?></strong>
@@ -493,7 +493,7 @@ if($verifica == true) {
 				</a>
 			</div>
 		</div>
-		<div class="col-sm-8 col-md-9">
+		<div class="col-sm-8 col-md-8 col-lg-9">
 		    <?php if($verifica == true) { ?>
     			<!--------------------------------------------------->
     			<div class="row">

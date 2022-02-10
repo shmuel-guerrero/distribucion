@@ -46,14 +46,14 @@ $permiso_activar = in_array('activar', $permisos);
     <div class="panel-heading" data-formato="<?= strtoupper($formato_textual); ?>" data-mascara="<?= $formato_numeral; ?>" data-gestion="<?= date_decode($gestion_base, $_institution['formato']); ?>">
         <h3 class="panel-title">
             <span class="glyphicon glyphicon-option-vertical"></span>
-            <strong>Listar distribuidores</strong>
+            <strong>Ver distribuidor</strong>
         </h3>
     </div>
     <div class="panel-body">
         <?php if (($permiso_crear || $permiso_imprimir) && ($permiso_crear || $empleados)) { ?>
             <div class="row">
                 <div class="col-sm-8 hidden-xs">
-                    <div class="text-label">Para realizar acciones click en el siguiente botón: </div>
+                    <div class="text-label">Para realizar acciones clic en el siguiente botón(es): </div>
                 </div>
                 <div class="col-xs-12 col-sm-4 text-right">
                     <button class="btn btn-default" data-cambiar="true">
@@ -160,7 +160,7 @@ $permiso_activar = in_array('activar', $permisos);
                         <?php if ($permiso_ver || $permiso_editar || $permiso_eliminar) { ?>
                             <td class="text-nowrap">
                                 <?php if ($permiso_ver) { ?>
-                                    <a href="?/distribuidor/visitas/<?= $empleado['id_empleado']; ?>/<?= $fecha_inicial; ?>/<?= $fecha_final; ?>" data-toggle="tooltip" style="margin-right: 3px;" data-title="Ver ruta"><i class="glyphicon glyphicon-search"></i></a>
+                                    <a href="?/distribuidor/visitas/<?= $empleado['id_empleado']; ?>/<?= $fecha_inicial; ?>/<?= $fecha_final; ?>" data-toggle="tooltip" style="margin-right: 3px;" data-title="Ver las preventas de la ruta"><i class="glyphicon glyphicon-search"></i></a>
                                 <?php } ?>
                                 <?php if ($permiso_ver2) { ?>
                                     <a href="?/distribuidor/ver2/<?= $empleado['id_empleado']; ?>/<?= $fecha_inicial; ?>/<?= $fecha_final; ?>" data-toggle="tooltip" style="margin-right: 3px;" data-title="Hoja de salida"><i class="glyphicon glyphicon-list-alt"></i></a>

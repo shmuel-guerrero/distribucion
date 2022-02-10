@@ -292,9 +292,9 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 		</div>
 	</div> -->
 </div>
-<h2 class="btn-info position-left-bottom display-table btn-circle margin-all display-table" data-toggle="tooltip" data-title="Esto es una venta computarizada" data-placement="right">
+<!-- <h2 class="btn-info position-left-bottom display-table btn-circle margin-all display-table" data-toggle="tooltip" data-title="Esto es una venta computarizada" data-placement="right">
 	<span class="glyphicon glyphicon-qrcode display-cell"></span>
-</h2>
+</h2> -->
 
 <!-- Plantillas filtrar inicio -->
 <div id="tabla_filtrar" class="hidden">

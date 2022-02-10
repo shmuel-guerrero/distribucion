@@ -59,7 +59,7 @@ $permiso_cambiar = true;
 	<?php if ($permiso_cambiar) { ?>
 	<div class="row">
 		<div class="col-sm-8 hidden-xs">
-			<div class="text-label">Para realizar una venta hacer clic en el siguiente botón: </div>
+			<div class="text-label">Para realizar acciones clic en el siguiente botón(es): </div>
 		</div>
 		<div class="col-xs-12 col-sm-4 text-right">
 			<button class="btn btn-primary" data-cambiar="true"><i class="glyphicon glyphicon-calendar"></i><span class="hidden-xs"> Cambiar fecha</span></button>

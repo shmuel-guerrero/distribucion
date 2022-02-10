@@ -72,7 +72,7 @@ $permiso_cambiar = true;
 	<?php if ($permiso_cambiar || $permiso_crear) { ?>
 		<div class="row">
 			<div class="col-sm-8 hidden-xs">
-				<div class="text-label">Para realizar una nota de remisión hacer clic en el siguiente botón: </div>
+				<div class="text-label">Para realizar acciones clic en el siguiente botón(es): </div>
 			</div>
 			<div class="col-xs-12 col-sm-4 text-right">
 				<?php if ($permiso_cambiar) { ?>

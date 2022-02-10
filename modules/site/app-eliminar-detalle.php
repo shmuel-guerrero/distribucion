@@ -205,7 +205,7 @@ if (is_post()) {
                     }else{
                         // Devuelve los resultados
                         echo json_encode(array('estado' => 'n',
-                                                'msg' => 'Sin plan de pagos.'));
+                                                'msg' => 'Sin crédito.'));
                         // Devuelve los resultados
                         echo json_encode($respuesta);
                     }

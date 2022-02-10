@@ -80,7 +80,7 @@ $permiso_cambiar = true;
         <?php if ($permiso_cambiar || $permiso_imprimir) { ?>
             <div class="row">
                 <div class="col-sm-8 hidden-xs">
-                    <div class="text-label">Para realizar una acción hacer clic en los siguientes botones: </div>
+                    <div class="text-label">Para realizar acciones clic en el siguiente botón(es): </div>
                 </div>
                 <form action="">
                     <input type="hidden" id="puntos" value="<?= $coordenadas ?>"/>

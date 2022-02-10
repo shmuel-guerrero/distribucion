@@ -154,7 +154,7 @@ $permiso_suprimir = in_array('suprimir', $permisos);
 							<label class="col-md-3 control-label">Tipo de Pago:</label>
 							<div class="col-md-9">
 								<?php if (escape($ingresodt['plan_de_pagos'])=="si"){ ?>
-									<p class="form-control-static">Plan de Pagos</p>
+									<p class="form-control-static">crédito</p>
 								<?php }else{ ?>
 									<p class="form-control-static">Pago Completo</p>
 								<?php } ?>

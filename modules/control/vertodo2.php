@@ -101,7 +101,7 @@ $permiso_cambiar = true;
 
 	<div class="row">
         <div class="col-sm-9 hidden-xs">
-            <div class="text-label">Para realizar una acción hacer clic en los siguientes botones: </div>
+            <div class="text-label">Para realizar acciones clic en el siguiente botón(es): </div>
         </div>
         <div class="col-xs-12 col-sm-3 text-right">
             <a href="?/control/listar" type="button" id="listar" class="btn btn-primary" >Listar</a>

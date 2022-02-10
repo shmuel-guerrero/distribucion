@@ -173,7 +173,7 @@ $permiso_reimprimir = false;
 							</div>
 							<div class="tr">
 								<div class="th">Forma de pago:</div>
-								<div class="td"><?= ($proforma['plan_de_pagos'] == 'si')?'Plan de pagos':'Pago completo' ?></div>
+								<div class="td"><?= ($proforma['plan_de_pagos'] == 'si')?'crédito':'Pago completo' ?></div>
 							</div>
 							<div class="tr">
 								<div class="th">Número de registros:</div>

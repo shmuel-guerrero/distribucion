@@ -25,7 +25,7 @@ $permiso_imprimir = in_array('imprimir', $permisos);
 	<?php if (($permiso_crear || $permiso_imprimir) && ($permiso_crear || $empleados)) { ?>
 	<div class="row">
 		<div class="col-sm-8 hidden-xs">
-			<div class="text-label">Para agregar nuevos empleados hacer clic en el siguiente botón: </div>
+			<div class="text-label">Para realizar acciones clic en el siguiente botón(es): </div>
 		</div>
 		<div class="col-xs-12 col-sm-4 text-right">
 		</div>

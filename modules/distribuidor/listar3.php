@@ -51,7 +51,7 @@ $permiso_imprimir = in_array('imprimir', $permisos);
         <?php if (($permiso_ver)) { ?>
             <div class="row">
                 <div class="col-sm-8 hidden-xs">
-                    <div class="text-label">Para agregar nuevos empleados hacer clic en el siguiente botón: </div>
+                    <div class="text-label">Para realizar acciones clic en el siguiente botón(es): </div>
                 </div>
                 <div class="col-xs-12 col-sm-4 text-right">
                     <button class="btn btn-default" data-cambiar="true">
@@ -149,7 +149,7 @@ $permiso_imprimir = in_array('imprimir', $permisos);
         <?php } else { ?>
             <div class="alert alert-danger">
                 <strong>Advertencia!</strong>
-                <p>No existen empleados registrados en la base de datos, para crear nuevos empleados hacer clic en el botón nuevo o presionar las teclas <kbd>alt + n</kbd>.</p>
+                <p>No existen registros en la base de datos.</p>
             </div>
         <?php } ?>
     </div>

@@ -93,7 +93,7 @@ $permiso_cambiar = false;
 
 	<div class="row">
 		<div class="col-sm-8 hidden-xs">
-			<div class="text-label">Para realizar una acción hacer clic en los siguientes botones: </div>
+			<div class="text-label">Para realizar acciones clic en el siguiente botón(es): </div>
 		</div>
         <div class="col-sm-4 col-xs-12">
 

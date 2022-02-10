@@ -195,7 +195,7 @@ require_once show_template('header-configured');
 			switch (String.fromCharCode(e.which).toLowerCase()) {
 				case 'n':
 					e.preventDefault();
-					window.location = '?/metas/crear';
+					window.location = '?/metas-producto/crear';
 				break;
 			}
 		}

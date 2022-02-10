@@ -81,7 +81,7 @@ $permiso_cambiar = true;
 	<?php if ($permiso_cambiar) { ?>
 	<div class="row">
 		<div class="col-sm-8 hidden-xs">
-			<div class="text-label">Para cambiar la fecha hacer clic en el siguiente bot贸n: </div>
+			<div class="text-label">Para cambiar la fecha hacer clic en el siguiente botón: </div>
 		</div>
 		<div class="col-xs-12 col-sm-4 text-right">
 			<button class="btn btn-primary" data-cambiar="true"><i class="glyphicon glyphicon-calendar"></i><span class="hidden-xs"> Cambiar fecha</span></button>
@@ -162,7 +162,7 @@ $permiso_cambiar = true;
 	<?php } else { ?>
 	<div class="alert alert-danger">
 		<strong>Advertencia!</strong>
-		<p>No existen ventas electr贸nicas registrados en la base de datos.</p>
+		<p>No existen ventas electrónicas registrados en la base de datos.</p>
 	</div>
 	<?php } ?>
 	<div class="well">

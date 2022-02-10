@@ -74,13 +74,13 @@ $permiso_cambiar = true;
 <div class="panel-heading" data-formato="<?= strtoupper($formato_textual); ?>" data-mascara="<?= $formato_numeral; ?>" data-gestion="<?= date_decode($gestion_base, $_institution['formato']); ?>">
 	<h3 class="panel-title">
 		<span class="glyphicon glyphicon-option-vertical"></span>
-		<strong>Listado de ingresos con plan de pago</strong>
+		<strong>Cuentas por pagar</strong>
 	</h3>
 </div>
 <div class="panel-body">
 	<div class="row">
 		<div class="col-sm-8 hidden-xs">
-			<div class="text-label">Para realizar un ingreso hacer clic en el siguiente botón: </div>
+			<div class="text-label">Para realizar una acción hacer clic en el siguiente botón: </div>
 		</div>
 	</div>
 	<hr>
@@ -202,7 +202,7 @@ $permiso_cambiar = true;
 	<?php } else { ?>
 	<div class="alert alert-danger">
 		<strong>&iexcl;Advertencia!</strong>
-		<p>No existen ingresos registrados en la base de datos.</p>
+		<p>No existen ingresos con crédito registrados en la base de datos.</p>
 	</div>
 	<?php } ?>
 </div>
