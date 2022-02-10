@@ -1301,7 +1301,7 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 	}
 
 	function imprimir_nota(nota) {
-		$.open('?/notas/imprimir/' + nota, true);
+		window.open('?/notas/imprimir/' + nota, true);
 		window.location.reload();
 	}
 

@@ -743,7 +743,7 @@ function guardar_nota() {
 }
 
 function imprimir_factura(venta) {
-	//$.open('?/manuales/imprimir/' + venta, true);
+	//window('?/manuales/imprimir/' + venta, true);
 	window.location.reload();
 }
 

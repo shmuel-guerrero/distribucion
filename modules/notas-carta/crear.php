@@ -696,7 +696,7 @@ function guardar_nota() {
 }
 
 function imprimir_nota(nota) {
-	$.open('?/notas/imprimir/' + nota, true);
+	window('?/notas/imprimir/' + nota, true);
 	window.location.reload();
 }
 

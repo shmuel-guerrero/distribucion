@@ -20,7 +20,7 @@ if (is_ajax() && is_post()) {
         $ubicacion = trim($_POST['ubicacion']);
         $adelanto = trim($_POST['adelanto']);
         $prioridad = trim($_POST['prioridad']);
-        $ruta = trim($_POST['ruta']);
+        $ruta = (isset($_POST['ruta'])) ? trim($_POST['ruta']) : '';
         $observacion = trim($_POST['observacion']);
         $id_empleado = ($_POST['empleado']!=0) ? trim($_POST['empleado']) : $_user['persona_id'];
         //$id_empleado = $_user['persona_id'];

@@ -1066,10 +1066,10 @@ function validar_stock($db, $id_productos = array(), $cantidades = array(), $uni
     $datos = array();
 
     //Validar que el array tenga mas de un elemento
-    if (count($id_productos) > 0) {
+    if (count($id_productos) > 0 && false) {
         
         //iterar los productos a validar el stock
-        foreach ($id_productos as $key => $value) {
+       /*  foreach ($id_productos as $key => $value) {
     
             //se obtiene el stock
             $consulta_stock = $db->query("SELECT p.id_producto, p.codigo, p.nombre_factura, 
@@ -1110,7 +1110,7 @@ function validar_stock($db, $id_productos = array(), $cantidades = array(), $uni
                     }
                 }
             }
-        }
+        } */
     }
 
     return (count($datos)> 0) ? $datos : array();

@@ -281,8 +281,8 @@ $permiso_cambiar = true;
 <script src="<?= js; ?>/jquery.dataFilters.min.js"></script>
 <script src="<?= js; ?>/moment.min.js"></script>
 <script src="<?= js; ?>/moment.es.js"></script>
-    <script src="<?= js; ?>/bootstrap-datetimepicker.min.js"></script>
-    <script src="<?= js; ?>/bundle.js"></script>
+<script src="<?= js; ?>/bootstrap-datetimepicker.min.js"></script>
+<script src="<?= js; ?>/bundle.js"></script>
 <script>
     function afterRender(result) {
         return result;

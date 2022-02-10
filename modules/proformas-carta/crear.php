@@ -717,7 +717,7 @@ function guardar_proforma() {
 }
 
 function imprimir_proforma(proforma) {
-	$.open('?/proformas/imprimir/' + proforma, true);
+	window.open('?/proformas/imprimir/' + proforma, true);
 	window.location.reload();
 }
 

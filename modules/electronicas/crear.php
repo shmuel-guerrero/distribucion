@@ -576,6 +576,9 @@ $_terminal=true;
 <script src="<?= js; ?>/bootstrap-notify.min.js"></script>
 <script src="<?= js; ?>/buzz.min.js"></script>
 <script src="<?= js; ?>/bootstrap-datetimepicker.min.js"></script>
+<script src="<?= js; ?>/moment.min.js"></script>
+<script src="<?= js; ?>/moment.es.js"></script>
+<!-- <script src="<?= js; ?>/bundle.js"></script> -->
 <script>
 $(function () {
 	var $cliente = $('#cliente');
@@ -1144,7 +1147,7 @@ function guardar_factura() {
 }
 
 function imprimir_factura(venta) {
-	$.open('?/electronicas/imprimir/' + venta, true);
+	window.open('?/electronicas/imprimir/' + venta, true);
 	window.location.reload();
 	return;
 	/*var servidor = $.trim($('[data-servidor]').attr('data-servidor'));

@@ -924,7 +924,7 @@ if($permiso_editar){
 	}
 
 	function imprimir_nota(nota) {
-		$.open('?/notas/imprimir/' + nota, true);
+		window.open('?/notas/imprimir/' + nota, true);
 		window.location.reload();
 	}
 

@@ -712,6 +712,7 @@ $empleados = $db->query("SELECT * FROM `sys_empleados` e
 <script src="<?= js; ?>/bootstrap-notify.min.js"></script>
 <script src="<?= js; ?>/buzz.min.js"></script>
 <script src="<?= js; ?>/bootstrap-datetimepicker.min.js"></script>
+<script src="<?= js; ?>/bundle.js"></script>
 <script>
 var idp;
 function cantidad(el){
@@ -1472,7 +1473,7 @@ $('#modcant').on('click', function (){
 });
 
 function imprimir_nota(nota) {
-	$.open('?/preventas/imprimir_nota/' + nota, true);
+	window.open('?/preventas/imprimir_nota/' + nota, true);
 	window.location.reload();
 }
 

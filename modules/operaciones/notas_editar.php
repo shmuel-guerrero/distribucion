@@ -974,7 +974,7 @@ if($permiso_editar){//!$tmp['id_egreso']
 	}
 
 	function imprimir_nota(nota) {
-		$.open('?/notas/imprimir/' + nota, true);
+		window('?/notas/imprimir/' + nota, true);
 		window.location.reload();
 	}
 

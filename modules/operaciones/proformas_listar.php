@@ -461,7 +461,7 @@ function convertir_venta(id_proforma){
 	});	
 }
 function imprimir_nota(id_nota) {
-	$.open('?/notas/imprimir/' + id_nota, true);
+	window('?/notas/imprimir/' + id_nota, true);
 	window.location.reload();
 }
 </script>

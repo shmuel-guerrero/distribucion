@@ -1177,7 +1177,7 @@ function guardar_proforma() {
 }
 
 function imprimir_proforma(proforma) {
-	$.open('?/proformas/imprimir/' + proforma, true);
+	window.open('?/proformas/imprimir/' + proforma, true);
 	window.location.reload();
 }
 
@@ -1186,7 +1186,7 @@ $('#modcant').on('click', function (){
 });
 
 function imprimir_nota(nota) {
-	$.open('?/proformas/imprimir_nota/' + nota, true);
+	window('?/proformas/imprimir_nota/' + nota, true);
 	window.location.reload();
 }
 

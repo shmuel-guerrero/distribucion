@@ -182,7 +182,7 @@ $permiso_cambiar = true;
 								<?php if ($permiso_ver) { ?>
 									<a href="?/operaciones/preventas_ver/<?= $proforma['id_egreso']; ?>" data-toggle="tooltip" style="margin-right: 5px" data-title="Ver detalle de la preventa"><i class="glyphicon glyphicon-list-alt"></i></a>
 								<?php } ?>
-								<?php $masUnMesdate = date("Y-m-d", strtotime($venta['fecha_egreso'] . "+ 2 month")); ?>
+								<?php $masUnMesdate = date("Y-m-d", strtotime($proforma['fecha_egreso'] . "+ 2 month")); ?>
 								<?php if ($proforma['estadoe'] == 3 && $proforma['evento'] == 'Ninguno' && validar_atributo($db, $_plansistema['plan'], module, file, 'devoluciones')) { ?>
 									<!-- cambiar 2 a 3 -->
 									<a href="?/operaciones/preventas_devolucion/<?= $proforma['id_egreso']; ?>" data-toggle="tooltip" style="margin-right: 5px" data-title="Devolución de productos." data-eliminar="true"><span class="text-info glyphicon glyphicon-sort"></span></a>

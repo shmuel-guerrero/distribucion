@@ -706,7 +706,7 @@ function guardar_factura() {
 }
 
 function imprimir_factura(venta) {
-	$.open('?/electronicas/imprimir/' + venta, true);
+	window('?/electronicas/imprimir/' + venta, true);
 	window.location.reload();
 }
 
