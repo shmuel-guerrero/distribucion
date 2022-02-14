@@ -712,7 +712,7 @@ $empleados = $db->query("SELECT * FROM `sys_empleados` e
 <script src="<?= js; ?>/bootstrap-notify.min.js"></script>
 <script src="<?= js; ?>/buzz.min.js"></script>
 <script src="<?= js; ?>/bootstrap-datetimepicker.min.js"></script>
-<script src="<?= js; ?>/bundle.js"></script>
+<!-- <script src="<?= js; ?>/bundle.js"></script> -->
 <script>
 var idp;
 function cantidad(el){

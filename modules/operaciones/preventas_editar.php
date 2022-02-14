@@ -125,6 +125,16 @@ $categorias = $db->from('inv_categorias')->order_by('categoria')->fetch();
                     </h3>
                 </div>
                 <div class="panel-body">
+                <div class="alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>&iexcl;Advertencia!</strong>
+                    <ul>
+                        <li>La moneda con la que se est&aacute; trabajando es <?= escape($moneda); ?>.</li>
+                        <li>Al editar las cantidades de un producto y/o adicionar o eliminar productos, existir&aacute;n repercuciones en stocks de inventarios.</li>
+                        <li>Al editar las cantidades de un producto y/o adicionar o eliminar productos y/o modificar precios, existir&aacute;n repercuciones en cuentas por cobrar (si el cliente tiene cuentas pendientes) y montos en reportes.</li>
+                        <li>Al presionar el bot&oacute;n guardar se pierde cualquier descuento que haya existido por producto.</li>
+                    </ul>
+                </div>
                     <?php if (isset($_SESSION[temporary])) { ?>
                         <div class="alert alert-<?= $_SESSION[temporary]['alert']; ?>">
                             <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -364,7 +374,13 @@ $categorias = $db->from('inv_categorias')->order_by('categoria')->fetch();
                                 $otro_precio = $db->select('*')->from('inv_asignaciones a')->join('inv_unidades b','a.unidad_id=b.id_unidad AND a.visible = "s"')->where('a.producto_id',$producto['id_producto'])->fetch();
                                 ?>
                                 <tr>
-                                    <td class="text-nowrap"><img src="<?= ($producto['imagen'] == '') ? imgs . '/image.jpg' : files . '/productos/' . $producto['imagen']; ?>" width="75" height="75"></td>
+                                    <td class="text-nowrap">
+                                        <?php
+                                            $url = ($producto['imagen'] == '') ? imgs . '/image.jpg' : files . '/productos/' . $producto['imagen'];
+                                            $url = file_exists($url) ? $url : imgs.'/image.jpg'; 
+                                         ?>
+                                        <img src="<?= $url ?>" width="75" height="75">
+                                    </td>
                                     <td class="text-nowrap" data-codigo="<?= $producto['id_producto']; ?>"><?= escape($producto['codigo']); ?></td>
                                     <td>
                                         <span><?= escape($producto['nombre']); ?></span>

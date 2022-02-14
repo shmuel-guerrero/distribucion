@@ -788,7 +788,11 @@ if($verifica == true) {
     							<li class="list-group-item py-2">
     								<div class="row align-items-center">
     									<div class="col-auto pr-0" style='float:left;margin:10px'>
-    										<img src="<?= ($producto['imagen'] == '') ? imgs . '/image.jpg' : files . '/productos/' . $producto['imagen']; ?>" class="img-rounded" height="64" data-toggle="lightbox" data-lightbox-size="md" data-lightbox-content="<div class='text-center'><p class='lead m-0'><?= escape($producto['nombre']); ?></p><p class='m-0'><?= escape($producto['nombre']); ?></p><p class='h1 m-0'>55 Bs.</p></div>">
+											<?php
+												$imagen = ($producto['imagen']=='')? imgs.'/image.jpg' : files . '/productos/' . $producto['imagen'];
+												$imagen = file_exists($imagen) ? $imagen : imgs.'/image.jpg'; 
+											?>
+    										<img src="<?= $imagen ?>" class="img-rounded" height="64" data-toggle="lightbox" data-lightbox-size="md" data-lightbox-content="<div class='text-center'><p class='lead m-0'><?= escape($producto['nombre']); ?></p><p class='m-0'><?= escape($producto['nombre']); ?></p><p class='h1 m-0'>55 Bs.</p></div>">
     									</div>
     									<div class="col pull-right-container">
     										<div class="text-primary"><?= escape($producto['nombre']); ?></div>

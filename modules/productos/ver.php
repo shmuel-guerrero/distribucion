@@ -126,7 +126,11 @@ $permiso_saltar = in_array('saltar', $permisos);
 	<?php } ?>
 	<div class="row">
 		<div class="col-sm-3">
-			<img src="<?= ($producto['imagen'] == '') ? imgs . '/image.jpg' : files . '/productos/' . $producto['imagen']; ?>" class="img-responsive thumbnail cursor-pointer" data-toggle="modal" data-target="#modal_mostrar" data-modal-size="modal-md" data-modal-title="Imagen">
+			<?php 
+				$url = ($producto['imagen'] == '') ? imgs . '/image.jpg' : files . '/productos/' . $producto['imagen'];
+				$url = file_exists($url) ? $url : imgs.'/image.jpg'; 
+			?>
+			<img src="<?= $url; ?>" class="img-responsive thumbnail cursor-pointer" data-toggle="modal" data-target="#modal_mostrar" data-modal-size="modal-md" data-modal-title="Imagen">
 			<?php if ($permiso_subir || $permiso_suprimir) { ?>
 			<div class="list-group">
 				<?php if ($permiso_subir) { ?>

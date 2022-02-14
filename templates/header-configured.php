@@ -83,10 +83,13 @@ $_menus = construir_sidebar($_menus);
 				opacity: 0;
 			}
 		} 
+
+
 	</style>
 </head>
 
 <body>
+
 	<?php if (environment == 'production') : ?>
 		<div class="spinner-wrapper spinner-wrapper-fixed" data-spinner="true">
 			<div class="spinner-wrapper-backdrop">
@@ -172,7 +175,7 @@ $_menus = construir_sidebar($_menus);
 			</div>
 
 		
-			<div class="flex-column flex-shrink-0 bg-light hidden" style="width: 9rem;" id="icons-general">				
+			<div class="flex-column flex-shrink-0 bg-light hidden" style="width: 8rem;" id="icons-general">				
 				<ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
 					<li class="nav-item">
 						<a href="?/vendedor/listar" class="nav-link active py-3 border-bottom" aria-current="page" title="Preventistas" data-bs-toggle="tooltip" data-bs-placement="right">
@@ -213,7 +216,7 @@ $_menus = construir_sidebar($_menus);
 					<li>
 						<a href="?/stocks/listar" class="nav-link py-3 border-bottom" title="Stock" data-bs-toggle="tooltip" data-bs-placement="right">
 							<span class="mdi mdi-chart-bar h1 align-middle"></span>
-							<small class="text-xs h6" style="font-size:7px;">STOCK</small>
+							<small class="text-xs h6" style="font-size:7px;"> STOCK </small>
 						</a>
 					</li>
 					<li>
@@ -225,7 +228,7 @@ $_menus = construir_sidebar($_menus);
 					<li>
 						<a href="?/notas/crear" class="nav-link py-3 border-bottom" title="Notas" data-bs-toggle="tooltip" data-bs-placement="right">
 							<span class="mdi mdi-cart h1 align-middle"></span>
-							<small class="text-xs h6" style="font-size:7px;">NOTAS</small>
+							<small class="text-xs h6" style="font-size:7px;"> NOTAS </small>
 						</a>
 					</li>
 					<li>

@@ -40,12 +40,13 @@ if (is_post()) {
             $db->beginTransaction();
 
             //se envia datos a validar el stock de los productos
-            $validar_stock_productos = validar_stock($db, $productos, $cantidades, $unidad, $almacen_id);
+            $validar_stock_productos = validar_stock($db, $productos, $cantidades, $unidad, $almacen_id, $id_egreso);
+
             $message = "";
 
             //validar que se e¡tiene elementos con stock por debajo de lo requerido
-            //if (count($validar_stock_productos) > 0) {
-            if (false) {
+            if (count($validar_stock_productos) > 0) {
+            //if (false) {
                 // Instancia la variable de notificacion
                 $_SESSION[temporary] = array(
                     'alert' => 'danger',
@@ -54,8 +55,13 @@ if (is_post()) {
                 );
 
                 $message = preparar_mensaje($validar_stock_productos);
-                echo json_encode(array('status' => 'invalid', 'responce' => $message));
-                redirect('?/operaciones/preventas_listar');
+                $_SESSION[temporary] = array(
+                    'alert' => 'warning',
+                    'title' => 'No se puede guardar los registro del formulario; existen observaciones.',
+                    'message' => $message
+                );
+                //echo json_encode(array('status' => 'invalid', 'responce' => $message));
+                redirect('?/operaciones/preventas_editar/'. $id_egreso);
                 exit;
             }
 

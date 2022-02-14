@@ -104,6 +104,7 @@
         $nestedData[]=$requestData['start']+$kex+1;
 
         $imagen=($Dato['imagen']=='')? imgs.'/image.jpg' : files . '/productos/' . $Dato['imagen'];
+        $imagen = file_exists($imagen) ? $imagen : imgs.'/image.jpg'; 
         $nestedData[] = "<img src='{$imagen}'  class='img-rounded cursor-pointer' data-toggle='modal' data-target='#modal_mostrar' data-modal-size='modal-md' data-modal-title='Imagen' width='75' height='75'>";
         $codigo = escape($Dato['codigo']);
         $nestedData[] = "<samp class='lead' data-codigo='{$Dato['id_producto']}'>{$codigo}</samp>";

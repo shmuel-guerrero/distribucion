@@ -90,10 +90,4 @@ define('password', '');//
 define('database', 'hgc_test_09092021');//
 define('port', '3306');
 
-/* define('host', 'distribuidorahgc.com');
-define('username', 'distribuidhgc');//
-define('password', '{be9(%1mUaO~');//
-define('database', 'distribuidhgc_test');//
-define('port', '3306'); */
-
 ?>

@@ -37,7 +37,7 @@ $permisos = explode(',', permits);
 $permiso_mostrar = in_array('mostrar', $permisos);
 
 //Agregado Recien
-$_terminal=true;
+//$_terminal=true;
 
 ?>
 <?php require_once show_template('header-configured'); ?>

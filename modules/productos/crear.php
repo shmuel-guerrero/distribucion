@@ -46,7 +46,7 @@ $permiso_listar = in_array('listar', $permisos);
 					<label for="codigo" class="col-md-3 control-label">Código:</label>
 					<div class="col-md-9">
 						<input type="hidden" value="0" name="id_producto" data-validation="required">
-					    <input type="text" value="" name="codigo" id="codigo" class="form-control" data-validation="server" data-validation-url="?/productos/validar"   data-validation-allowing="-/.#º() " data-validation-length="max50" maxlength="50">
+					    <input type="text" value="" name="codigo" id="codigo" class="form-control" data-validation="server" data-validation-url="?/productos/validar"   data-validation-allowing="-/.#º() " data-validation-length="max20" maxlength="20">
 					</div>
 				</div>
 

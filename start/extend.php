@@ -360,7 +360,7 @@ function construir_sidebar($menus, $antecesor = 0) {
 				if (verificar_submenu($menus, $menu['id_menu'])) {
 					$html .= '<li><a href="#" class="text-truncate pull-right-container"><span class="glyphicon glyphicon-' . escape($menu['icono']) . '"></span> <span>' . escape($menu['menu']) . '</span> <span class="glyphicon glyphicon-menu-right pull-right"></span></a><ul class="nav sidebar-nav animated fadeIn">' . construir_sidebar($menus, $menu['id_menu']) . '</ul></li>';
 				} else {
-					$html .= '<li><a href="' . (($menu['ruta'] == '') ? '#' : $menu['ruta']) . '" class="text-truncate"><span class="glyphicon glyphicon-' . escape($menu['icono']) . '"></span> <span>' . escape($menu['menu']) . '</span></a></li>';
+					$html .= '<li><a href="' . (($menu['ruta'] == '') ? '#' : $menu['ruta']) . '" class="text-truncate"><span class="glyphicon glyphicon-' . escape($menu['icono']) . '"></span> <small >' . escape($menu['menu']) . '</small></a></li>';
 				}
 			}
 		} else {
@@ -1056,61 +1056,93 @@ function validar_cambio_unidad($db, $tabla, $id_detalle, $cantidad, $unidad_id){
 }
 
 
+
+
 /*
 +--------------------------------------------------------------------------
 | validar si es posible el registro de una salida de inventario
 +--------------------------------------------------------------------------
 */
-function validar_stock($db, $id_productos = array(), $cantidades = array(), $unidades = array(), $id_almacen = 0){
+
+function stock_producto($id_producto = 0, $id_almacen = 0) {
+
+    global $db;
+    $stock = 0;
+
+    //se obtiene el stock
+    $consulta_stock = $db->query("SELECT p.id_producto, p.codigo, p.nombre_factura, 
+    p.cantidad_minima, p.precio_actual, IFNULL(e.cantidad_ingresos, 0) AS cantidad_ingresos, 
+    (IFNULL(s.cantidad_egresos, 0)) AS cantidad_egresos
+    FROM inv_productos p
+    LEFT JOIN (SELECT d.producto_id, SUM(d.cantidad) AS cantidad_ingresos
+    FROM inv_ingresos_detalles d
+    LEFT JOIN inv_ingresos i ON i.id_ingreso = d.ingreso_id
+    WHERE transitorio = 0 AND i.almacen_id = '{$id_almacen}' GROUP BY d.producto_id) AS e ON e.producto_id = p.id_producto
+    LEFT JOIN (SELECT d.producto_id, SUM(d.cantidad) AS cantidad_egresos
+    FROM inv_egresos_detalles d LEFT JOIN inv_egresos e ON e.id_egreso = d.egreso_id
+    WHERE e.almacen_id = '{$id_almacen}' AND e.anulado != 3 AND d.promocion_id < 2 GROUP BY d.producto_id) AS s ON s.producto_id = p.id_producto    
+    WHERE ('2021-10-04'<=p.fecha_limite OR p.fecha_limite='1000-01-01') AND eliminado = 0 
+    AND p.id_producto = '{$id_producto}' ")->fetch_first();
+
+    if (count($consulta_stock) > 0) {
+        $stock = (($consulta_stock['cantidad_ingresos'] - $consulta_stock['cantidad_egresos']) > 0) ? $consulta_stock['cantidad_ingresos'] - $consulta_stock['cantidad_egresos'] : 0;
+        $respuesta = array(
+            'id_producto' => $consulta_stock['id_producto'], 
+            'codigo' => $consulta_stock['codigo'],
+            'producto' => $consulta_stock['nombre_factura'],
+            'stock' => $stock
+                            );
+    }
+
+    return (count($respuesta)> 0) ? $respuesta : array();
+}
+
+
+
+function validar_stock($db, $id_productos = array(), $cantidades = array(), $unidades = array(), $id_almacen = 0, $id_egreso = 0){
 
     $datos = array();
 
     //Validar que el array tenga mas de un elemento
-    if (count($id_productos) > 0 && false) {
+    if (count($id_productos) > 0) {
         
         //iterar los productos a validar el stock
-       /*  foreach ($id_productos as $key => $value) {
+        foreach ($id_productos as $key => $value) {
     
-            //se obtiene el stock
-            $consulta_stock = $db->query("SELECT p.id_producto, p.codigo, p.nombre_factura, 
-                        p.cantidad_minima, p.precio_actual, IFNULL(e.cantidad_ingresos, 0) AS cantidad_ingresos, 
-                        (IFNULL(s.cantidad_egresos, 0)) AS cantidad_egresos
-                        FROM inv_productos p
-                        LEFT JOIN (SELECT d.producto_id, SUM(d.cantidad) AS cantidad_ingresos
-                        FROM inv_ingresos_detalles d
-                        LEFT JOIN inv_ingresos i ON i.id_ingreso = d.ingreso_id
-                        WHERE transitorio = 0 AND i.almacen_id = '{$id_almacen}' GROUP BY d.producto_id) AS e ON e.producto_id = p.id_producto
-                        LEFT JOIN (SELECT d.producto_id, SUM(d.cantidad) AS cantidad_egresos
-                        FROM inv_egresos_detalles d LEFT JOIN inv_egresos e ON e.id_egreso = d.egreso_id
-                        WHERE e.almacen_id = '{$id_almacen}' AND e.anulado != 3 AND d.promocion_id < 2 GROUP BY d.producto_id) AS s ON s.producto_id = p.id_producto    
-                        WHERE ('2021-10-04'<=p.fecha_limite OR p.fecha_limite='1000-01-01') AND eliminado = 0 
-                        AND p.id_producto = '{$id_productos[$key]}' ")->fetch_first();
+            $stock_recibido = stock_producto($id_productos[$key], $id_almacen);
             
-            if (count($consulta_stock) > 0) {
-                
-                //obtener id de unidad
-                $id_unidad = $db->select('id_unidad')->from('inv_unidades')->where('unidad', $unidades[$key])->fetch_first()['id_unidad'];
+            if (count($stock_recibido) > 0) {
                 
                 //obtiene stock de producto
-                $stock = (($consulta_stock['cantidad_ingresos'] - $consulta_stock['cantidad_egresos']) > 0) ? $consulta_stock['cantidad_ingresos'] - $consulta_stock['cantidad_egresos'] : 0;
+                $stock = ($stock_recibido['stock'] > 0) ? $stock_recibido['stock'] : 0;
+                
+                //obtener id de unidad
+                $id_unidad = $db->select('id_unidad')->from('inv_unidades')->where('unidad', $unidades[$key])->fetch_first()['id_unidad'];                
                 
                  if (count($id_unidad) > 0) {
                     
                     //obtiene stock en unidad(1)
-                    $cantidad_egresar = $cantidades[$key] / cantidad_unidad($db, $id_productos[$key], $id_unidad);
+                    $cantidad_egresar = $cantidades[$key] * cantidad_unidad($db, $id_productos[$key], $id_unidad);
+
+                    //obtener regisreo en base de datos
+                    $item = $db->from('inv_egresos_detalles')->where(array('egreso_id' => $id_egreso, 'producto_id' =>  $id_productos[$key]))->fetch_first();
                     
                     // se valida que el stock es o menor a la cantidad solicitada
-                    if (($stock < $cantidad_egresar) || !$stock || !$cantidad_egresar || $stock <= 0 || $cantidad_egresar <= 0 ) {
-                        //se prepara respuesta 
-                        $datos[] = array('id_producto' => $consulta_stock['id_producto'], 
-                                            'codigo' => $consulta_stock['id_producto'],
-                                            'producto' => $consulta_stock['nombre_factura'],
-                                            'stock' => $stock,
-                                            'stock_solicitado' => $cantidad_egresar);
+                    if (($cantidad_egresar > $item['cantidad']) ) {
+
+                        if ($cantidad_egresar > ($item['cantidad'] + $stock)) {
+                       
+                            //se prepara respuesta 
+                            $datos[] = array('id_producto' => $stock_recibido['id_producto'], 
+                                                'codigo' => $stock_recibido['codigo'],
+                                                'producto' => $stock_recibido['nombre_factura'],
+                                                'stock' => $item['cantidad'] + $stock,
+                                                'stock_solicitado' => $cantidad_egresar);
+                        }
                     }
                 }
             }
-        } */
+        } 
     }
 
     return (count($datos)> 0) ? $datos : array();
@@ -1134,7 +1166,7 @@ function preparar_mensaje($productos = array()){
         $menssage .= "<br><ol>";
         //iteramos los productos observados
         foreach ($productos as $key => $value) {
-            $menssage .= "<li>Codigo: " . $value['codigo'] . " | Producto: " . $value['producto'] . " | Stock: " . $value['stock'] . " | Stock solicitado: " . $value['stock_solicitado'] ." </li>";
+            $menssage .= "<li>Codigo: " . $value['codigo'] . " | Producto: " . $value['producto'] . " | Stock disponible: " . $value['stock'] . " | Stock solicitado: " . $value['stock_solicitado'] ." </li>";
         }
         $menssage .= "<ol>";
         $menssage .= "<br> <b class='text-uppercase'>Favor actualizar y/o modificar el stock de los productos observados. disculpe las molestias.</b>";            
