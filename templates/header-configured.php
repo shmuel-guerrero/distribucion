@@ -88,11 +88,11 @@ $_menus = construir_sidebar($_menus);
 
 <body>
 	<?php if (environment == 'production') : ?>
-		<!-- <div class="spinner-wrapper spinner-wrapper-fixed" data-spinner="true">
+		<div class="spinner-wrapper spinner-wrapper-fixed" data-spinner="true">
 			<div class="spinner-wrapper-backdrop">
 				<span class="spinner"></span>
 			</div>
-		</div> -->
+		</div> 
 	<?php endif ?>
 	<div class="wrapper wrapper-light">
 		<nav class="navbar navbar-static-top m-0">

@@ -78,6 +78,45 @@ ALTER TABLE `sys_instituciones`
 
 
 
+/*
+*	SE AÑADIIOO NUEVOS CAMPOS A BACKUP
+*/
+
+/* AGREGAR CAMPOS EN LAS TABLAS DE backup_tmp_egresos*/
+ALTER TABLE `backup_tmp_egresos`
+	ADD COLUMN `accion_backup` ENUM('Editado','Eliminado','Backup') NOT NULL DEFAULT 'Backup' AFTER `delet_empleado_id`;
+
+
+
+ALTER TABLE `backup_tmp_egresos_detalles`
+ADD COLUMN `accion_id_backup` INT(11) NOT NULL DEFAULT '0' AFTER `delet_empleado_id`,
+	ADD COLUMN `accion_backup` ENUM('Editado','Eliminado','Backup') NOT NULL DEFAULT 'Backup' AFTER `accion_id_backup`;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -91,7 +130,7 @@ ALTER TABLE `sys_instituciones`
 
 
 -- se AGREGA el campo tipo
-
+/* 
 ALTER TABLE backup_inv_egresos ADD COLUMN tipo_venta ENUM('Preventa','Nota','Manual','Electronica','otros')  NOT NULL DEFAULT 'otros' AFTER 'tipo';
 ALTER TABLE backup_tmp_egresos ADD COLUMN tipo_venta ENUM('Preventa','Nota','Manual','Electronica','otros')  NOT NULL DEFAULT 'otros' AFTER 'tipo';
 ALTER TABLE inv_egresos ADD COLUMN tipo_venta ENUM('Preventa','Nota','Manual','Electronica','otros')  NOT NULL DEFAULT 'otros' AFTER 'tipo';
@@ -108,3 +147,4 @@ ALTER TABLE inv_egresos_ventas_editadas ADD COLUMN tipo_venta ENUM('Preventa','N
 ALTER TABLE tmp_egresos ADD COLUMN tipo_venta ENUM('Preventa','Nota','Manual','Electronica','otros')  NOT NULL DEFAULT 'otros' AFTER 'tipo';
 ALTER TABLE tmp_reposiciones ADD COLUMN tipo_venta ENUM('Preventa','Nota','Manual','Electronica','otros')  NOT NULL DEFAULT 'otros' AFTER 'tipo';
 
+ */
