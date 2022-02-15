@@ -531,9 +531,15 @@ if (is_post()) {
             }
             $empleado = $db->select("CONCAT(paterno, ' ', nombres) as empleado")->from('sys_empleados')->where('id_empleado', $venta['empleado_id'])->fetch_first();
             $empleado = ($empleado['empleado']) ? $empleado['empleado'] : '';
-            $productos = $db->select('a.descuento, a.producto_id, a.promocion_id, b.nombre_factura, b.codigo, if(c.cantidad_unidad is null, a.cantidad, a.cantidad/c.cantidad_unidad) as cantidad, a.precio, if(c.cantidad_unidad is null, a.precio*a.cantidad, a.precio*(a.cantidad/c.cantidad_unidad)) as subtotal, d.unidad')->from('inv_egresos_detalles a')->join('inv_productos b', 'a.producto_id = b.id_producto')->join('inv_asignaciones c', 'a.producto_id = c.producto_id AND a.unidad_id = c.unidad_id  AND c.visible = "s"')->join('inv_unidades d', 'a.unidad_id = d.id_unidad')->where('a.egreso_id', $venta['id_egreso'])->where('c.visible', 's')->where('a.promocion_id !=', '1')->fetch();
+            $productos = $db->select('a.descuento, a.producto_id, a.promocion_id, b.nombre_factura, b.codigo, 
+                                        if(c.cantidad_unidad is null, a.cantidad, a.cantidad/c.cantidad_unidad) as cantidad, 
+                                        a.precio, if(c.cantidad_unidad is null, a.precio*a.cantidad, 
+                                        a.precio*(a.cantidad/c.cantidad_unidad)) as subtotal, d.unidad')
+                        ->from('inv_egresos_detalles a')->join('inv_productos b', 'a.producto_id = b.id_producto')
+                        ->join('inv_asignaciones c', 'a.producto_id = c.producto_id AND a.unidad_id = c.unidad_id  AND c.visible = "s"')
+                        ->join('inv_unidades d', 'a.unidad_id = d.id_unidad')->where('a.egreso_id', $venta['id_egreso'])->where('a.promocion_id !=', '1')->fetch();
 
-            // echo json_encode($productos); die();
+            //echo json_encode($productos); exit;
             // $precios = $db->select('if(b.cantidad_unidad is null, a.precio*a.cantidad, a.precio*(a.cantidad/b.cantidad_unidad)) as precio')->from('inv_egresos_detalles a')->join('inv_asignaciones b','a.producto_id = b.producto_id and a.unidad_id = b.unidad_id')->join('inv_unidades c','a.unidad_id = c.id_unidad')->where('a.egreso_id',$venta['id_egreso'])->fetch();
             $producto = array();
             $codes = array();
@@ -666,6 +672,7 @@ if (is_post()) {
 
                     $documento_origen = ($venta2['nro_autorizacion'] != '' || $venta2['codigo_control'] != '') ? 'Electronicas' : 'Preventa';
 
+                    //if (validar_conversion($db, $id_egreso, 0, $documento_origen)) {
                     if (validar_conversion($db, $id_egreso, 0, $documento_origen)) {
                         //Verifica si anteriormente se habia generado numero de autorizacion y codigo de control
                         if ($venta2['nro_autorizacion'] != '' || $venta2['codigo_control'] != '') {
@@ -734,7 +741,6 @@ if (is_post()) {
 
                             historial_conversion($db, $id_egreso, 'Preventa', $id_egreso, 'Electronicas', $id_empleado, "ConversionDirecta", $verifica_id, 'sinDatos');
 
-
                             //se guarda proceso u(update),c(create), r(read),d(delet), cr(cerrar), a(anular)
                             save_process($db, 'u', '?/site/app-imprimir-nota', 'modifico', $venta['id_egreso'], $id_user, $token);
 
@@ -754,6 +760,8 @@ if (is_post()) {
                         // Devuelve los resultados
                         echo json_encode(array(
                             'estado' => 'n',
+                            'factura' => '',
+                            'restringido' => 'limitado',
                             'msg' => 'Operación restringida; excedio el limite de conversiones a factura'
                         ));
                     }
@@ -865,20 +873,26 @@ if (is_post()) {
                     //se cierra transaccion
 				    $db->commit();
 
+                    if (true) {
+                        
+                        // Instancia el objeto
+                        $respuesta = array(
+                            'estado' => 's',
+                            'factura' => $_POST['factura'],
+                            'restringido' => '',
+                            'zpl' => ($zpl)
+                        );
+                        // Devuelve los resultados
+                        echo json_encode($respuesta);
+                    }else{
+                        //Se devuelve el error en mensaje json
+                        echo json_encode(array("estado" => 'n', 'factura' => '', 'restringido' => '', 'msg' => ''));
+                    }
 
-                    // Instancia el objeto
-                    $respuesta = array(
-                        'estado' => 's',
-                        'factura' => $_POST['factura'],
-                        'zpl' => ($zpl)
-                    );
-
-                    // Devuelve los resultados
-                    echo json_encode($respuesta);
                 } else {
 
-                //se cierra transaccion
-				$db->commit();
+                    //se cierra transaccion
+                    $db->commit();
                     // Devuelve los resultados
                     echo json_encode(array('estado' => 'No se encuentra la venta'));
                 }
@@ -892,7 +906,7 @@ if (is_post()) {
             $error = $e->getMessage();
 
             //Se devuelve el error en mensaje json
-            echo json_encode(array("estado" => 'n', 'estado_device' => '', 'msg' => $error));
+            echo json_encode(array("estado" => 'n', 'factura' => '', 'restringido' => '', 'msg' => $error));
 
             //se cierra transaccion
             $db->rollback();

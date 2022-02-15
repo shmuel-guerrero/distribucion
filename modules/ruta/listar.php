@@ -218,8 +218,8 @@ $permiso_cambiar = true;
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="unidad_id_asignar" class="control-label">Día:</label>
-                        <select name="unidad_id" id="unidad_id_asignar" class="form-control" data-validation="required">
+                        <label for="unidad_id_asignarr" class="control-label">Día:</label>
+                        <select name="unidad_id" id="unidad_id_asignarr" class="form-control" data-validation="required">
                             <option value="" selected="selected">Seleccionar</option>
                             <option value="1">Lunes</option>
                             <option value="2">Martes</option>
@@ -334,14 +334,14 @@ $permiso_cambiar = true;
                 modules: 'basic'
             });
 
-            var $unidad_id_asignar = $('#unidad_id_asignar'), $unidad_id_asignar2 = $('#unidad_id_asignar2');
-            $unidad_id_asignar.selectize({
+            var $unidad_id_asignar = $('#unidad_id_asignar'), $unidad_id_asignar2 = $('#unidad_id_asignarr');
+            $('#unidad_id_asignar').selectize({
                 persist: true,
                 createOnBlur: false,
                 create: false,
                 maxOptions: 7,
                 onInitialize: function () {
-                    $unidad_id_asignar.show().addClass('selectize-translate');
+                    $unidad_id_asignar.show().addClass('translate');
                 },
                 onChange: function () {
                     $unidad_id_asignar.trigger('blur');
@@ -349,7 +349,7 @@ $permiso_cambiar = true;
                 onBlur: function () {
                     $unidad_id_asignar.trigger('blur');
                 }
-            });
+            }); 
 
             $unidad_id_asignar2.selectize({
                 persist: false,
@@ -357,7 +357,7 @@ $permiso_cambiar = true;
                 create: false,
                 maxOptions: 7,
                 onInitialize: function () {
-                    $unidad_id_asignar2.show().addClass('selectize-translate');
+                    $unidad_id_asignar2.show().addClass('translate');
                 },
                 onChange: function () {
                     $unidad_id_asignar2.trigger('blur');
@@ -365,7 +365,8 @@ $permiso_cambiar = true;
                 onBlur: function () {
                     $unidad_id_asignar2.trigger('blur');
                 }
-            });
+            }); 
+
 
             <?php if ($permiso_crear) { ?>
             $(window).bind('keydown', function (e) {

@@ -47,12 +47,6 @@ if (is_post()) {
             //validar que se e¡tiene elementos con stock por debajo de lo requerido
             if (count($validar_stock_productos) > 0) {
             //if (false) {
-                // Instancia la variable de notificacion
-                $_SESSION[temporary] = array(
-                    'alert' => 'danger',
-                    'title' => 'Accion erronea!',
-                    'message' => 'No se guardo registro.'
-                );
 
                 $message = preparar_mensaje($validar_stock_productos);
                 $_SESSION[temporary] = array(
@@ -406,7 +400,7 @@ if (is_post()) {
             }
             $_SESSION[temporary] = array(
                 'alert' => 'success',
-                'title' => 'Se creo el nuevo cliente!',
+                'title' => 'Se edito el movimiento!',
                 'message' => 'El registro se realizó correctamente.'
             );
             redirect('?/operaciones/preventas_listar');

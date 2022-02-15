@@ -59,15 +59,6 @@ if($permiso_editar){
         </div>
         <?php unset($_SESSION[temporary]); ?>
 	<?php } ?>
-	<div class="alert alert-danger">
-		<button type="button" class="close" data-dismiss="alert">&times;</button>
-		<strong>&iexcl;Advertencia!</strong>
-		<ul>
-			<li>La moneda con la que se est&aacute; trabajando es <?= escape($moneda); ?>.</li>
-			<li>Al editar las cantidades de un producto y/o adicionar o eliminar productos, existir&aacute;n repercuciones en stocks de inventarios.</li>
-			<li>Al editar las cantidades de un producto y/o adicionar o eliminar productos y/o modificar precios, existir&aacute;n repercuciones en cuentas por cobrar (si el cliente tiene cuentas pendientes) y montos en reportes.</li>			
-		</ul>
-	</div>
     
 </div>
 <div class='row'>
@@ -80,6 +71,23 @@ if($permiso_editar){
                 </h3>
             </div>
             <div class='panel-body'>
+				<div class="alert alert-danger">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<strong>&iexcl;Advertencia!</strong>
+					<ul>
+						<li>La moneda con la que se est&aacute; trabajando es <?= escape($moneda); ?>.</li>
+						<li>Al editar las cantidades de un producto y/o adicionar o eliminar productos, existir&aacute;n repercuciones en stocks de inventarios.</li>
+						<li>Al editar las cantidades de un producto y/o adicionar o eliminar productos y/o modificar precios, existir&aacute;n repercuciones en cuentas por cobrar (si el cliente tiene cuentas pendientes) y montos en reportes.</li>			
+					</ul>
+				</div>
+				<?php if (isset($_SESSION[temporary])) { ?>
+					<div class="alert alert-<?= $_SESSION[temporary]['alert']; ?>">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						<strong><?= $_SESSION[temporary]['title']; ?></strong>
+						<p><?= $_SESSION[temporary]['message']; ?></p>
+					</div>
+					<?php unset($_SESSION[temporary]); ?>
+				<?php } ?>
                 <form id='formulario' class='form-horizontal' method='post' action='?/operaciones/manuales_actualizar'>
                     <!-- Se escondió la busqueda de clientes pues si desean cambiar de cliente deberían hacer otra venta, pues es otro cliente ::BECA -->
                     
@@ -157,7 +165,7 @@ if($permiso_editar){
                                         <td class="text-nowrap"><input type="text" value="<?= $detalle['producto_id'] ?>" name="productos[]" id="producto" class="translate" tabindex="-1" data-validation="required number" data-validation-error-msg="Debe ser número"><?= $detalle['codigo'] ?></td>
                                         <td><input type="text" value="<?= $detalle['nombre']?>" name="nombres[]" class="translate" tabindex="-1" data-validation="required"><?= $detalle['nombre'] ?></td>
                                         <td>
-                                        	<input type="text" value="<?= $detalle['cantidad']/cantidad_unidad($db,$detalle['producto_id'],$detalle['unidad_det']) ?>" name="cantidades[]" class="form-control input-xs text-right" maxlength="7" autocomplete="off" data-cantidad="" data-validation="required number" data-validation-allowing="range[1;<?= $resta_stock; ?>]" data-validation-error-msg="Debe ingresar un número positivo entre 1 y <?= $resta_stock; ?>" onkeyup="calcular_importe(<?= $detalle['producto_id'] ?>)" >
+                                        	<input type="text" value="<?= $detalle['cantidad']/cantidad_unidad($db,$detalle['producto_id'],$detalle['unidad_det']) ?>" name="cantidades[]" class="form-control input-xs text-right" maxlength="7" autocomplete="off" data-cantidad="" data-validation="required number" data-validation-allowing="range[1;<?= ($resta_stock + $detalle['cantidad']); ?>]" data-validation-error-msg="Debe ingresar un número positivo entre 1 y <?= ($resta_stock + $detalle['cantidad']); ?>" onkeyup="calcular_importe(<?= $detalle['producto_id'] ?>)" >
                                         </td>
                                         <?php if(false){
 //                                        if($detalle['prec']){?>

@@ -339,7 +339,7 @@ $permiso_cambiar = true;
                 create: false,
                 maxOptions: 7,
                 onInitialize: function () {
-                    $unidad_id_asignar.show().addClass('selectize-translate');
+                    $unidad_id_asignar.show().addClass('translate');
                 },
                 onChange: function () {
                     $unidad_id_asignar.trigger('blur');
@@ -355,7 +355,7 @@ $permiso_cambiar = true;
                 create: false,
                 maxOptions: 7,
                 onInitialize: function () {
-                    $unidad_id_asignar2.show().addClass('selectize-translate');
+                    $unidad_id_asignar2.show().addClass('translate');
                 },
                 onChange: function () {
                     $unidad_id_asignar2.trigger('blur');

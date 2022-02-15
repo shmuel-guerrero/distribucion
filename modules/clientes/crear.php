@@ -99,8 +99,10 @@ $permiso_cambiar = true;
         <div class="col-sm-9 hidden-xs">
 
         </div>
+        
         <div class="col-xs-12 col-sm-3 text-right">
-            <a href="?/clientes/listar" type="button" id="listar" class="btn btn-primary">Listar</a>
+            <a href="?/preventas/crear" type="button" id="crear_prevent" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span><span class="hidden-xs"> Nueva Preventa</span></a>
+            <a href="?/clientes/listar" type="button" id="listar" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span><span class="hidden-xs"> Listar</span></a>
         </div>
     </div>
     <hr />

@@ -51,15 +51,14 @@ if(is_post()) {
 
         //validar que se e¡tiene elementos con stock por debajo de lo requerido
 		if (count($validar_stock_productos) > 0) {			
-			// Instancia la variable de notificacion
-			$_SESSION[temporary] = array(
-				'alert' => 'danger',
-				'title' => 'Accion erronea!',
-				'message' => 'No se guardo registro.'
-			);
 
             $message = preparar_mensaje($validar_stock_productos);
-			echo json_encode(array('status' => 'invalid', 'responce' => $message));
+            $_SESSION[temporary] = array(
+                'alert' => 'warning',
+                'title' => 'No se puede guardar los registro del formulario; existen observaciones.',
+                'message' => $message
+            );
+            redirect('?/operaciones/manuales_editar/'. $id_egreso);
 			exit;			
 		}
 

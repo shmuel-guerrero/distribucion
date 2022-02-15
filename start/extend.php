@@ -1070,7 +1070,7 @@ function stock_producto($id_producto = 0, $id_almacen = 0) {
     $stock = 0;
 
     //se obtiene el stock
-    $consulta_stock = $db->query("SELECT p.id_producto, p.codigo, p.nombre_factura, 
+    $consulta_stock = $db->query("SELECT p.id_producto, p.codigo, p.nombre_factura, p.nombre,
     p.cantidad_minima, p.precio_actual, IFNULL(e.cantidad_ingresos, 0) AS cantidad_ingresos, 
     (IFNULL(s.cantidad_egresos, 0)) AS cantidad_egresos
     FROM inv_productos p
@@ -1089,7 +1089,7 @@ function stock_producto($id_producto = 0, $id_almacen = 0) {
         $respuesta = array(
             'id_producto' => $consulta_stock['id_producto'], 
             'codigo' => $consulta_stock['codigo'],
-            'producto' => $consulta_stock['nombre_factura'],
+            'producto' => ($consulta_stock['nombre_factura']) ? $consulta_stock['nombre_factura'] : (($consulta_stock['nombre']) ? $consulta_stock['nombre'] : 'producto sin nombre definido'),
             'stock' => $stock
                             );
     }
@@ -1135,7 +1135,7 @@ function validar_stock($db, $id_productos = array(), $cantidades = array(), $uni
                             //se prepara respuesta 
                             $datos[] = array('id_producto' => $stock_recibido['id_producto'], 
                                                 'codigo' => $stock_recibido['codigo'],
-                                                'producto' => $stock_recibido['nombre_factura'],
+                                                'producto' => $stock_recibido['producto'],
                                                 'stock' => $item['cantidad'] + $stock,
                                                 'stock_solicitado' => $cantidad_egresar);
                         }

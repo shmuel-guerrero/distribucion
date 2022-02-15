@@ -149,15 +149,18 @@ $empleados = $db->query("SELECT * FROM `sys_empleados` e
 					<div style="zoom: 1;">
 						<div class="form-group">
 							<label for="cliente" class="col-sm-4 control-label">Buscar:</label>
-							<div class="col-sm-8">
-								<select name="cliente" id="cliente" class="form-control text-uppercase" data-validation="letternumber" data-validation-allowing="-+./&() " data-validation-optional="true">
-									<option value="">Buscar</option>
-									<?php foreach ($clientes as $cliente) { ?>
-										<option value="<?= escape($cliente['nit_ci']) . '|' . escape($cliente['nombre_cliente']) . '|' . escape($cliente['id_cliente']) . '|' . escape($cliente['direccion']) . '|' . escape($cliente['telefono']) . '|' . escape($cliente['ubicacion']) . '|' . escape($cliente['nombre_cliente_f']) . '|' . escape($cliente['credito']) . '|' . escape($cliente['dias']); ?>"><?= escape($cliente['codigo_cliente']) . ' &mdash; ' . escape($cliente['nombre_cliente']) . ' &mdash; ' . escape($cliente['nit_ci']); ?></option>
-									<?php } ?>
-								</select>
-							</div>
-						</div>						
+    						<div class="col-sm-6">
+    							<select name="cliente" id="cliente" class="form-control text-uppercase" data-validation="letternumber" data-validation-allowing="-+./&() " data-validation-optional="true">
+    								<option value="">Buscar</option>
+    								<?php foreach ($clientes as $cliente) { ?>
+    									<option value="<?= escape($cliente['nit_ci']) . '|' . escape($cliente['nombre_cliente']) . '|' . escape($cliente['id_cliente']) . '|' . escape($cliente['direccion']) . '|' . escape($cliente['telefono']) . '|' . escape($cliente['ubicacion']) . '|' . escape($cliente['nombre_cliente_f']) . '|' . escape($cliente['credito']) . '|' . escape($cliente['dias']); ?>"><?= escape($cliente['codigo_cliente']) . ' &mdash; ' . escape($cliente['nombre_cliente']) . ' &mdash; ' . escape($cliente['nit_ci']); ?></option>
+    								<?php } ?>
+    							</select>
+    						</div>
+                            <span class="col-sm-12 col-sm-5 col-lg-1">
+                                <a href="?/clientes/crear" class="btn btn-primary"><i class="mdi mdi-account-plus"></i></a>
+                            </span>
+						</div>					
 						<div class="form-group">
 							<label for="nombre_cliente" class="col-sm-4 control-label">Señor(es):</label>
 							<div class="col-sm-8">
@@ -795,8 +798,8 @@ $(function () {
 
     $cliente.selectize({
         persist: false,
-        createOnBlur: true,
-        create: true,
+        createOnBlur: false,
+        create: false,
         onInitialize: function () {
             $cliente.css({
                 display: 'block',
