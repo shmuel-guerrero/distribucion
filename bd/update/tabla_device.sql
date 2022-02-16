@@ -33,10 +33,8 @@ CREATE TABLE IF NOT EXISTS `sys_users_devices_detalles` (
   `id_detalle` int(11) NOT NULL AUTO_INCREMENT,
   `fecha_registro` date DEFAULT NULL,
   `hora_registro` time DEFAULT NULL,
-  `model` varchar(500) COLLATE utf8_spanish_ci NOT NULL,
   `user_id` int(11) NOT NULL DEFAULT 0,
   `token` varchar(50) COLLATE utf8_spanish_ci NOT NULL DEFAULT '',
-  `imei` varchar(100) COLLATE utf8_spanish_ci NOT NULL DEFAULT '',
   `device_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_detalle`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;

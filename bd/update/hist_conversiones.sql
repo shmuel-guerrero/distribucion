@@ -1,7 +1,7 @@
 -- --------------------------------------------------------
--- Host:                         95.216.181.83
--- Versión del servidor:         10.3.32-MariaDB-cll-lve - MariaDB Server
--- SO del servidor:              Linux
+-- Host:                         127.0.0.1
+-- Versión del servidor:         10.3.16-MariaDB - mariadb.org binary distribution
+-- SO del servidor:              Win64
 -- HeidiSQL Versión:             11.3.0.6295
 -- --------------------------------------------------------
 
@@ -12,19 +12,20 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- Volcando estructura para tabla distribuidhgc_beta.hist_conversiones
+-- Volcando estructura para tabla hgc_test_09092021.hist_conversiones
 CREATE TABLE IF NOT EXISTS `hist_conversiones` (
   `id_conversion` int(11) NOT NULL AUTO_INCREMENT,
   `fecha_registro` date DEFAULT NULL,
   `hora_registro` time DEFAULT NULL,
   `id_origen` int(11) NOT NULL DEFAULT 0,
-  `origen_movimiento` enum('Proforma','NotaRemision','Reserva') NOT NULL,
-  `id_destino` enum('Proforma','NotaRemision','Reserva') NOT NULL,
-  `destino_movimiento` enum('Electronicas','NotaRemision','Manuales') NOT NULL,
+  `origen_movimiento` enum('Electronicas','Proforma','NotaRemision','Reserva','Preventa') NOT NULL,
+  `id_destino` int(11) NOT NULL DEFAULT 0,
+  `destino_movimiento` enum('Electronicas','NotaRemision','Manuales','Preventa') NOT NULL,
   `empleado_id` int(11) NOT NULL DEFAULT 0,
   `tipo` enum('ConversionDirecta','ConversionEdicion') NOT NULL DEFAULT 'ConversionDirecta',
   `id_backup_egreso` int(11) NOT NULL DEFAULT 0,
   `ids_backup_detalles` varchar(250) NOT NULL DEFAULT '',
+  `dispositivo` enum('Movil','Web') NOT NULL DEFAULT 'Movil',
   PRIMARY KEY (`id_conversion`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 

@@ -85,12 +85,15 @@ ALTER TABLE `sys_instituciones`
 /* AGREGAR CAMPOS EN LAS TABLAS DE backup_tmp_egresos*/
 ALTER TABLE `backup_tmp_egresos`
 	ADD COLUMN `accion_backup` ENUM('Editado','Eliminado','Backup') NOT NULL DEFAULT 'Backup' AFTER `delet_empleado_id`;
+--- actualizar  tabla _backup_tmp_egresos campo accion enum ('Entrega','Venta','VentaDevuelto','Noentrega','Anulado','Devuelto','Eliminado','VentaEliminado')
 
 
 
 ALTER TABLE `backup_tmp_egresos_detalles`
 ADD COLUMN `accion_id_backup` INT(11) NOT NULL DEFAULT '0' AFTER `delet_empleado_id`,
 	ADD COLUMN `accion_backup` ENUM('Editado','Eliminado','Backup') NOT NULL DEFAULT 'Backup' AFTER `accion_id_backup`;
+
+
 
 
 

@@ -675,10 +675,11 @@ if (is_post()) {
                     //if (validar_conversion($db, $id_egreso, 0, $documento_origen)) {
                     if (validar_conversion($db, $id_egreso, 0, $documento_origen)) {
                         //Verifica si anteriormente se habia generado numero de autorizacion y codigo de control
-                        if ($venta2['nro_autorizacion'] != '' || $venta2['codigo_control'] != '') {
+                        if (($venta2['nro_autorizacion'] != '0' && $venta2['nro_autorizacion'] != '') || $venta2['codigo_control'] != '') {
                             $nro_autorizacion = $dosificacion['nro_autorizacion'];
 
                             $nro_factura = $venta2['nro_factura'];
+                            $valor_option = "TIENE NRO AUTORIZACION";
 
                             $codigo_control = $venta2['codigo_control'];
                             $fecha_limite = $dosificacion['fecha_limite'];
@@ -708,6 +709,8 @@ if (is_post()) {
                         } else {
                             // Obtiene los datos para el codigo de control
                             $nro_autorizacion = $dosificacion['nro_autorizacion'];
+
+                            $valor_option = "no tiene el NRO AUTORIZACION";
 
                             //se incrementa el numero de factura de la dosificacion
                             $nro_factura = intval($dosificacion['nro_facturas']) + 1;
@@ -739,7 +742,7 @@ if (is_post()) {
                             //se crea backup de registros
                             $verifica = backup_registros($db, 'inv_egresos_detalles', 'egreso_id', $venta['id_egreso'], '', '', $id_user, 'NO', $verifica_id, "Backup");
 
-                            historial_conversion($db, $id_egreso, 'Preventa', $id_egreso, 'Electronicas', $id_empleado, "ConversionDirecta", $verifica_id, 'sinDatos');
+                            historial_conversion($db, $id_egreso, 'Preventa', $id_egreso, 'Electronicas', $id_empleado['persona_id'], "ConversionDirecta", $verifica_id, 'sinDatos');
 
                             //se guarda proceso u(update),c(create), r(read),d(delet), cr(cerrar), a(anular)
                             save_process($db, 'u', '?/site/app-imprimir-nota', 'modifico', $venta['id_egreso'], $id_user, $token);
@@ -781,7 +784,6 @@ if (is_post()) {
                 $factura_autenticidad = '';
                 $factura_leyenda = '';
                 $factura_qr = '';
-
                 //se crea backup de registros//////
                 $verifica_id = backup_registros($db, 'inv_egresos', 'id_egreso', $venta['id_egreso'], '', '', $id_user, 'SI', 0, "Editado");
                 $db->where('id_egreso', $venta['id_egreso'])->update('inv_egresos', array('factura' => 'Nota'));
@@ -800,7 +802,10 @@ if (is_post()) {
 
                 //se guarda proceso u(update),c(create), r(read),d(delet), cr(cerrar), a(anular)
                 save_process($db, 'u', '?/site/app-imprimir-nota', 'modifico', $venta['id_egreso'], $id_user, $token);
-            }
+            } 
+
+
+
 
             // Verifica la existencia del usuario
             if (true) {
@@ -840,7 +845,7 @@ if (is_post()) {
                         'venta_total_numeral' => $venta_t,
                         'venta_total_numeral1' => $descuento_t,
                         'venta_total_numeral2' => $venta_tt,
-                        'venta_total_literal' => 'SON: ' . mb_strtoupper($monto_literal . ' BOLIVIANOS ' . $monto_decimal . '/100 CENT.' . $moneda, 'UTF-8'),
+                        'venta_total_literal' => 'SON: ' . strtoupper($monto_literal . ' BOLIVIANOS ' . $monto_decimal . '/100 CENT.' . $moneda),
 
                         'venta_titulosm' => array('DETALLE', 'CANT.'),
                         'venta_pendientem' => $pendientem,
@@ -851,7 +856,7 @@ if (is_post()) {
                         'venta_subtotalesm' => $subtotalm,
                         'venta_total_titulom' => 'TOTAL BOLIVIANOS',
                         'venta_total_numeralm' => $totalm,
-                        'venta_total_literalm' => 'SON: ' . mb_strtoupper($monto_literalm . ' ' . $monto_decimalm . '/100 ' . $moneda, 'UTF-8'),
+                        'venta_total_literalm' => 'SON: ' . strtoupper($monto_literalm . ' ' . $monto_decimalm . '/100 ' . $moneda),
 
                         'venta_titulosp' => array('CUOTA', 'MONTO', 'T. PAGO'),
                         'nro_cuotap' => $nro_cuotap,
@@ -859,12 +864,13 @@ if (is_post()) {
                         'tipo_pagop' => $tipo_pagop,
                         'venta_total_titulop' => 'TOTAL BOLIVIANOS',
                         'venta_total_numeralp' => $totalp,
-                        'venta_total_literalp' => 'SON: ' . mb_strtoupper($monto_literalp . ' ' . $monto_decimalp . '/100 ' . $moneda, 'UTF-8'),
+                        'venta_total_literalp' => 'SON: ' . strtoupper($monto_literalp . ' ' . $monto_decimalp . '/100 ' . $moneda),
 
                         'factura_qr' => $factura_qr,
-                        'factura_vendedor' => 'VENDEDOR: ' . mb_strtoupper($empleado, 'UTF-8'),
+                        'factura_vendedor' => 'VENDEDOR: ' . strtoupper($empleado),
                         'factura_agradecimiento' => 'GRACIAS POR SU COMPRA'
                     );
+
                     //print_r($datos);
 
                     // Genera el zpl
@@ -899,7 +905,7 @@ if (is_post()) {
             } else {
                 
                 // Devuelve los resultados
-                echo json_encode(array('estado' => 'n'));
+                echo json_encode(array('estado' => 'n', 'msg' => $valor_option . "|" . $nro_autorizacion));
             }
         } catch (Exception $e) {
             $status = false;
@@ -913,9 +919,9 @@ if (is_post()) {
         }
     } else {
         // Devuelve los resultados
-        echo json_encode(array('estado' => 'n'));
+        echo json_encode(array('estado' => 'n', 'msg' => 'Datos no definidos'));
     }
 } else {
     // Devuelve los resultados
-    echo json_encode(array('estado' => 'n'));
+    echo json_encode(array('estado' => 'n', 'msg' => 'Metodo denegado'));
 }
