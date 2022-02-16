@@ -11,14 +11,14 @@ $permiso_listar = in_array('listar', $permisos);
 <div class="panel-heading">
 	<h3 class="panel-title">
 		<span class="glyphicon glyphicon-option-vertical"></span>
-		<b>Crear tipo</b>
+		<b>Crear categoria</b>
 	</h3>
 </div>
 <div class="panel-body">
 	<?php if ($permiso_listar) { ?>
 	<div class="row">
 		<div class="col-sm-8 hidden-xs">
-			<div class="text-label">Para regresar al listado de tipo de productos hacer clic en el siguiente botón:</div>
+			<div class="text-label">Para regresar al listado de categorias hacer clic en el siguiente botón:</div>
 		</div>
 		<div class="col-xs-12 col-sm-4 text-right">
 			<a href="?/tipo/listar" class="btn btn-primary">
@@ -33,7 +33,7 @@ $permiso_listar = in_array('listar', $permisos);
 		<div class="col-sm-8 col-sm-offset-2">
 			<form method="post" action="?/tipo/guardar" class="form-horizontal">
 				<div class="form-group">
-					<label for="categoria" class="col-md-3 control-label">Tipo:</label>
+					<label for="categoria" class="col-md-3 control-label">Categoria:</label>
 					<div class="col-md-9">
 						<input type="hidden" value="0" name="id_categoria" data-validation="required">
 						<input type="text" value="" name="categoria" id="categoria" class="form-control" autocomplete="off" data-validation="required letternumber" data-validation-allowing="+-/#() " maxlength="100">

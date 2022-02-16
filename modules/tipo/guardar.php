@@ -36,7 +36,7 @@ if (is_post()) {
 				'proceso' => 'u',
 				'nivel' => 'l',
 				'direccion' => '?/tipo/guardar',
-				'detalle' => 'Se actualizo tipo con identificador numero ' . $id_categoria ,
+				'detalle' => 'Se actualizo categoria con identificador numero ' . $id_categoria ,
 				'usuario_id' => $_SESSION[user]['id_user']			
 			);			
 			$db->insert('sys_procesos', $data) ;
@@ -58,7 +58,7 @@ if (is_post()) {
 				'proceso' => 'c',
 				'nivel' => 'l',
 				'direccion' => '?/tipo/guardar',
-				'detalle' => 'Se inserto tipo con identificador numero ' . $id ,
+				'detalle' => 'Se inserto categoria con identificador numero ' . $id ,
 				'usuario_id' => $_SESSION[user]['id_user']			
 			);			
 			$db->insert('sys_procesos', $data) ; 

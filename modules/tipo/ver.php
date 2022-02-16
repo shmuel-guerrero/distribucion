@@ -93,7 +93,7 @@ $permiso_listar = in_array('listar', $permisos);
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-3 control-label">Tipo:</label>
+					<label class="col-md-3 control-label">Categoria:</label>
 					<div class="col-md-9">
 						<p class="form-control-static"><?= escape($categoria['categoria']); ?></p>
 					</div>
@@ -114,7 +114,7 @@ $(function () {
 	$('[data-eliminar]').on('click', function (e) {
 		e.preventDefault();
 		var url = $(this).attr('href');
-		bootbox.confirm('Está seguro que desea eliminar este tipo de producto?', function (result) {
+		bootbox.confirm('Está seguro que desea eliminar este categoria de producto?', function (result) {
 			if(result){
 				window.location = url;
 			}

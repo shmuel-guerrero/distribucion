@@ -208,7 +208,7 @@ EOD;
 	$pdf->writeHTML($tabla, true, false, false, false, '');
 	
 	// Genera el nombre del archivo
-	$nombre = 'tipo_' . $id_categoria . '_' . date('Y-m-d_H-i-s') . '.pdf';
+	$nombre = 'categoria_' . $id_categoria . '_' . date('Y-m-d_H-i-s') . '.pdf';
 }
 
 // ------------------------------------------------------------

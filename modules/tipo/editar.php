@@ -77,7 +77,7 @@ $permiso_listar = in_array('listar', $permisos);
 		<div class="col-sm-8 col-sm-offset-2">
 			<form method="post" action="?/tipo/guardar" class="form-horizontal">
 				<div class="form-group">
-					<label for="categoria" class="col-md-3 control-label">Tipo:</label>
+					<label for="categoria" class="col-md-3 control-label">Categoría:</label>
 					<div class="col-md-9">
 						<input type="hidden" value="<?= $categoria['id_categoria']; ?>" name="id_categoria" data-validation="required">
 						<input type="text" value="<?= $categoria['categoria']; ?>" name="categoria" id="categoria" class="form-control" autocomplete="off" data-validation="required letternumber" data-validation-allowing="+-/#() " maxlength="100">

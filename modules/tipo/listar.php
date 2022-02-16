@@ -18,14 +18,14 @@ $permiso_imprimir = in_array('imprimir', $permisos);
 <div class="panel-heading">
 	<h3 class="panel-title">
 		<span class="glyphicon glyphicon-option-vertical"></span>
-		<b>Tipo</b>
+		<b>Categorias</b>
 	</h3>
 </div>
 <div class="panel-body">
 	<?php if (($permiso_crear || $permiso_imprimir) && ($permiso_crear || $categorias)) { ?>
 	<div class="row">
 		<div class="col-sm-8 hidden-xs">
-			<div class="text-label">Para agregar nuevos tipos de productos, hacer clic en el siguiente botón: </div>
+			<div class="text-label">Para agregar nuevas categorias, hacer clic en el siguiente botón: </div>
 		</div>
 		<div class="col-xs-12 col-sm-4 text-right">
 			<?php if ($permiso_imprimir) { ?>
@@ -35,7 +35,7 @@ $permiso_imprimir = in_array('imprimir', $permisos);
 			</a>
 			<?php } ?>
 			<?php if ($permiso_crear) { ?>
-			<a href="?/tipo/crear" class="btn btn-primary"data-toggle="tooltip" data-placement="top" title="Nuevo Tipo (Alt+N)">
+			<a href="?/tipo/crear" class="btn btn-primary"data-toggle="tooltip" data-placement="top" title="Nuevo Categoria (Alt+N)">
 				<span class="glyphicon glyphicon-plus"></span>
 				<span>Nuevo</span>
 			</a>
@@ -49,7 +49,7 @@ $permiso_imprimir = in_array('imprimir', $permisos);
 		<thead>
 			<tr class="active">
 				<th class="text-nowrap">#</th>
-				<th class="text-nowrap">Tipo</th>
+				<th class="text-nowrap">Cateroria</th>
 				<th class="text-nowrap">Descripción</th>
 				<?php if ($permiso_ver || $permiso_editar || $permiso_eliminar) { ?>
 				<th class="text-nowrap">Opciones</th>
@@ -59,7 +59,7 @@ $permiso_imprimir = in_array('imprimir', $permisos);
 		<tfoot>
 			<tr class="active">
 				<th class="text-nowrap text-middle" data-datafilter-filter="false">#</th>
-				<th class="text-nowrap text-middle" data-datafilter-filter="true">Tipo</th>
+				<th class="text-nowrap text-middle" data-datafilter-filter="true">Categoria</th>
 				<th class="text-nowrap text-middle" data-datafilter-filter="true">Descripción</th>
 				<?php if ($permiso_ver || $permiso_editar || $permiso_eliminar) { ?>
 				<th class="text-nowrap text-middle" data-datafilter-filter="false">Opciones</th>
@@ -80,7 +80,7 @@ $permiso_imprimir = in_array('imprimir', $permisos);
 					</a>
 					<?php } ?>
 					<?php if ($permiso_editar) { ?>
-					<a href="?/tipo/editar/<?= $categoria['id_categoria']; ?>" data-toggle="tooltip" data-title="Modificar tipo"><span class="glyphicon glyphicon-edit"></span></a>
+					<a href="?/tipo/editar/<?= $categoria['id_categoria']; ?>" data-toggle="tooltip" data-title="Modificar categoria"><span class="glyphicon glyphicon-edit"></span></a>
 					<?php } ?>
 					<?php 
 					$existe = $db->query("SELECT id_producto
@@ -90,7 +90,7 @@ $permiso_imprimir = in_array('imprimir', $permisos);
                     $existe = count($existe);
 					?>
 					<?php if ($permiso_eliminar && $existe == 0) { ?>
-					<a href="?/tipo/eliminar/<?= $categoria['id_categoria']; ?>" data-toggle="tooltip" data-title="Eliminar tipo" data-eliminar="true"><span class="glyphicon glyphicon-trash"></span></a>
+					<a href="?/tipo/eliminar/<?= $categoria['id_categoria']; ?>" data-toggle="tooltip" data-title="Eliminar categoria" data-eliminar="true"><span class="glyphicon glyphicon-trash"></span></a>
 					<?php } ?>
 				</td>
 				<?php } ?>

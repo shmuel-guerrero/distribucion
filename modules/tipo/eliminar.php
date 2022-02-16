@@ -24,7 +24,7 @@ if ($categoria) {
 		'proceso' => 'd',
 		'nivel' => 'l',
 		'direccion' => '?/tipo/eliminar',
-		'detalle' => 'Se elimino tipo con identificador numero ' . $id_categoria ,
+		'detalle' => 'Se elimino categoria con identificador numero ' . $id_categoria ,
 		'usuario_id' => $_SESSION[user]['id_user']			
 	);			
 	$db->insert('sys_procesos', $data) ; 
