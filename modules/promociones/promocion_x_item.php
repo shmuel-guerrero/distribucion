@@ -257,7 +257,7 @@ $(function () {
         maxOptions: 7,
         persist: false,
         onInitialize: function () {
-            $unidad_id_asignar_precio.show().addClass('selectize-translate');
+            $unidad_id_asignar_precio.show().addClass('translate');
         },
         onChange: function () {
             $unidad_id_asignar_precio.trigger('blur');

@@ -746,7 +746,7 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 			maxOptions: 7,
 			persist: false,
 			onInitialize: function() {
-				$unidad_id_asignar.show().addClass('selectize-translate');
+				$unidad_id_asignar.show().addClass('translate');
 			},
 			onChange: function() {
 				$unidad_id_asignar.trigger('blur');
