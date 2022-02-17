@@ -252,16 +252,16 @@ if (($egresos_mov['id_egresos'] != '' || $egresos_mov['id_egresos'] != null) && 
             }
             if ($value['total_elim_prev'] && $value['total_elim_prev'] != null) {
                 $cant_devueltos = $value['total_inicio_uno'];
-                $precios_devueltos = $value['precio_actual'];
+                $precios_devueltos = (($cant_devueltos && $cant_devueltos != null) ? $cant_devueltos : 0) * $value['precio_actual'];
             }elseif ($value['total_elim_post'] && $value['total_elim_post'] != null) {
                 $cant_devueltos = $value['total_inicio_uno'];
-                $precios_devueltos = $value['precio_actual'];
+                $precios_devueltos = (($cant_devueltos && $cant_devueltos != null) ? $cant_devueltos : 0) * $value['precio_actual'];
             }elseif ($value['total_noentrega'] && $value['total_noentrega'] != null) {
                 $cant_devueltos = $value['total_inicio_uno'];
-                $precios_devueltos = $value['precio_actual'];
+                $precios_devueltos = (($cant_devueltos && $cant_devueltos != null) ? $cant_devueltos : 0) * $value['precio_actual'];
             }elseif ($value['total_anulados'] && $value['total_anulados'] != null) {
                 $cant_devueltos = $value['total_inicio_uno'];
-                $precios_devueltos = $value['precio_actual'];
+                $precios_devueltos = (($cant_devueltos && $cant_devueltos != null) ? $cant_devueltos : 0) * $value['precio_actual'];
             }       
             
             //array preparado para crear la tabla devoluciones sin descontar ventas directas
@@ -274,8 +274,6 @@ if (($egresos_mov['id_egresos'] != '' || $egresos_mov['id_egresos'] != null) && 
             $devueltos[$key]['precio'] = ($precios_devueltos && $precios_devueltos != null) ? $precios_devueltos : 0;
             $devueltos[$key]['id_producto'] = $value['producto_id'];
             $devueltos[$key]['precio_actual'] = $value['precio_actual'];
-            /*  var_dump($devueltos[$key]);
-            echo "<br>";  */
         }    
     }
 

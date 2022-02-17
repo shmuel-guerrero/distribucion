@@ -149,7 +149,7 @@ if (is_ajax() && is_post()) {
 					'descuento_porcentaje' => $descuento_porc,
 					'descuento_bs' => $descuento_bs,
 					'monto_total_descuento' => $total_importe_descuento,
-					
+					'factura'=>'Factura',
 					'cliente_id' => $id_cliente,
 					'nit_ci' => $nit_ci,
 					'nombre_cliente' => mb_strtoupper($nombre_cliente, 'UTF-8'),

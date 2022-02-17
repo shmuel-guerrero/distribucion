@@ -79,7 +79,7 @@ $permiso_activar = in_array('activar', $permisos);
                     <th class="text-nowrap">#</th>
                     <th class="text-nowrap">Nombres</th>
                     <th class="text-nowrap">Rutas</th>
-<!--                     <th class="text-nowrap">Apellido materno</th> -->
+                    <!--<th class="text-nowrap">Apellido materno</th> -->
                     <th class="text-nowrap">Total</th>
                     <th class="text-nowrap">Registros</th>
                     <?php if ($permiso_ver || $permiso_editar || $permiso_eliminar) { ?>
@@ -92,7 +92,7 @@ $permiso_activar = in_array('activar', $permisos);
                     <th class="text-nowrap text-middle" data-datafilter-filter="false">#</th>
                     <th class="text-nowrap text-middle" data-datafilter-filter="true">Nombres</th>
                     <th class="text-nowrap text-middle" data-datafilter-filter="true">Rutas</th>
-<!--                     <th class="text-nowrap text-middle" data-datafilter-filter="true">Apellido materno</th> -->
+                    <!--<th class="text-nowrap text-middle" data-datafilter-filter="true">Apellido materno</th> -->
                     <th class="text-nowrap text-middle" data-datafilter-filter="true">Total</th>
                     <th class="text-nowrap text-middle" data-datafilter-filter="true">Registros</th>
                     <?php if ($permiso_ver || $permiso_editar || $permiso_eliminar) { ?>
@@ -108,12 +108,12 @@ $permiso_activar = in_array('activar', $permisos);
                             <small data-usuario="<?= $empleado['id_empleado']; ?>" class="text-success">usuario: <?= escape($empleado['username']) ?></small>
                         </td>
                         <td class="text-nowrap text-uppercase"><?= ($empleado['ruta']) ? escape($empleado['ruta']) : 'ruta no asignada'; ?><br>
-                            <small class="text-success"><?php switch($empleado['dia']){case 0: echo "Domingo "; break; case 1: echo "Lunes"; break; case 2: echo "Martes"; break; case 3: echo "Miercoles"; break; case 4: echo "Jueves"; break; case 5: echo "Viernes"; break; case 6: echo "Sábado"; break; default: echo "DIA NO ASIGNADO";} ?></small>
+                            <!-- <small class="text-success"><?php //switch($empleado['dia']){case 0: echo "Domingo "; break; case 1: echo "Lunes"; break; case 2: echo "Martes"; break; case 3: echo "Miercoles"; break; case 4: echo "Jueves"; break; case 5: echo "Viernes"; break; case 6: echo "Sábado"; break; default: echo "DIA NO ASIGNADO";} ?></small> -->
                         </td>                      
                         <td class="text-nowrap"><?php
                             $emp = explode('&',$empleado['emp']);
                             $emp2 = explode('&',$empleado['emp2']);
-//                             var_dump($emp);
+                            //var_dump($emp);
                             $c = 0 ;
                             $total = 0;
                             $registros = 0;
@@ -126,7 +126,7 @@ $permiso_activar = in_array('activar', $permisos);
                                     // var_dump($emp);
                                     if($emp[$c] != 0){
                                         $ruta = $db->select('*')->from('gps_rutas')->where('id_ruta',$emp[$c])->fetch_first();
-//                                        var_dump($ruta);
+                                        //var_dump($ruta);
                                         $fecha = $db->select('fecha')->from('sys_empleados')->where('id_empleado',$ruta['empleado_id'])->fetch_first();
                                         
                                         if($fecha['fecha'] >= date("Y-m-d")){
@@ -135,9 +135,9 @@ $permiso_activar = in_array('activar', $permisos);
                                             $fecha = date("Y-m-d",strtotime(date('Y-m-d')."- 1 days"));
                                         }
                                         $egresos = $db->select(' SUM(b.monto_total) as total, count(b.id_egreso) as registros')->from('sys_empleados a')->join('inv_egresos b','a.id_empleado = b.empleado_id')->where('b.estadoe',2)->where('b.grupo','')->where('b.fecha_egreso<=',$fecha)->where('b.ruta_id',$emp[$c])->fetch_first();
-//                                        echo $db->last_query();
-//                                        var_dump($egresos);
-//                                        var_dump($emp[$c]);
+                                        //echo $db->last_query();
+                                        //var_dump($egresos);
+                                        //var_dump($emp[$c]);
                                         $total = $total+$egresos['total'];
                                         $registros = $registros + $egresos['registros'];
                                     }

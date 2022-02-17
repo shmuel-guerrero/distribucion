@@ -109,8 +109,8 @@ $_menus = construir_sidebar($_menus);
 								<span class="icon-bar"></span>
 							</button>
 							<a href="<?= index_private; ?>" class="navbar-brand">
-								<small><span><?= $_institution['nombre']; ?></span></small>
-								<sup><small>v.3.02.1</small></sup>
+								<small><span class="hidden-xs hidden-sm"><?= $_institution['nombre']; ?></span></small>
+								<sup><small class="h5">CheckcoDGps</small><small class="hidden-xs hidden-sm"> <?= date('Y') ?> </small><small> v.3.02.1</small></sup>
 							</a>
 						</div>
 						<div class="col-auto">
