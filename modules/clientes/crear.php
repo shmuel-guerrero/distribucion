@@ -336,6 +336,15 @@ $permiso_cambiar = true;
     //var wayt = lat + ',' + lng;
 
 
+    $("#map").on('click', function(){
+        $("#atencion").val('');
+        if ($("#atencion").val() == '') {
+            var lat = measure.markerBaseTool.measureLayer._latlng.lat;
+            var lng = measure.markerBaseTool.measureLayer._latlng.lng;
+            let coordenadas_obtenidas = lat + ',' + lng;
+            $("#atencion").val(coordenadas_obtenidas);
+        }
+    })
 
     //measure.circleBaseTool.startMeasure()
     function afterRender(result) {
