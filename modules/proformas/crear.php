@@ -18,7 +18,7 @@ $moneda = ($moneda) ? '(' . $moneda['sigla'] . ')' : '';
 //$clientes = $db->query("select * from ((select nombre_cliente, nit_ci from inv_egresos) union (select nombre_cliente, nit_ci from inv_proformas)) c group by c.nombre_cliente, c.nit_ci order by c.nombre_cliente asc, c.nit_ci asc")->fetch();
 //$clientes = $db->query("select * FROM inv_clientes ORDER BY cliente asc, nit asc")->fetch();
 // $clientes = $db->query("select * from ((select nombre_cliente, nit_ci from inv_egresos) union (select nombre_cliente, nit_ci from inv_proformas)) c group by c.nombre_cliente, c.nit_ci order by c.nombre_cliente asc, c.nit_ci asc")->fetch();
-$clientes = $db->select('id_cliente, nit as nit_ci, cliente as nombre_cliente, direccion, telefono, ubicacion, credito, dias')
+$clientes = $db->select('id_cliente, id_cliente as codigo_cliente,  nit as nit_ci, cliente as nombre_cliente, direccion, telefono, ubicacion, credito, dias')
 			   ->from('inv_clientes')
 			   ->fetch();
 
@@ -151,7 +151,7 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 							<select name="cliente" id="cliente" class="form-control text-uppercase" data-validation="letternumber" data-validation-allowing="-+./&() " data-validation-optional="true">
 								<option value="">Buscar</option>
 								<?php foreach ($clientes as $cliente) { ?>
-									<option value="<?= escape($cliente['nit_ci']) . '|' . escape($cliente['nombre_cliente']) . '|' . escape($cliente['id_cliente']) . '|' . escape($cliente['direccion']) . '|' . escape($cliente['telefono']) . '|' . escape($cliente['ubicacion']) . '|' . escape($cliente['credito']) . '|' . escape($cliente['dias']); ?>"><?= escape($cliente['nit_ci']) . ' &mdash; ' . escape($cliente['nombre_cliente']); ?></option>
+									<option value="<?= escape($cliente['nit_ci']) . '|' . escape($cliente['nombre_cliente']) . '|' . escape($cliente['id_cliente']) . '|' . escape($cliente['direccion']) . '|' . escape($cliente['telefono']) . '|' . escape($cliente['ubicacion']) . '|' . escape($cliente['credito']) . '|' . escape($cliente['dias']); ?>"><?= escape($cliente['codigo_cliente']) . ' &mdash; ' . escape($cliente['nombre_cliente']) . ' &mdash; ' . escape($cliente['nit_ci']); ?></option>
 								<?php } ?>
 							</select>
 						</div>
