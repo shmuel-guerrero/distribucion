@@ -161,7 +161,7 @@ $permiso_cambiar = true;
 							}
 					?>
 				</td> -->
-				<td class="text-nowrap"><?php $categoria = $db->select('categoria')->from('inv_categorias')->where('id_categoria',$venta['categoria_id'])->fetch_first(); echo upper($categoria['categoria']); ?></td>
+				<td class="text-nowrap"><?php $categoria = $db->select('categoria')->from('inv_categorias')->where('id_categoria',$venta['categoria_id'])->fetch_first(); echo strtoupper($categoria['categoria']); ?></td>
 				<td class="text-nowrap text-right"><?= $cantidad; ?></td>
 				<td class="text-nowrap text-right"><?= nombre_unidad($db,$venta['unidad_otra']); ?></td>
 				<td class="text-nowrap text-right"><?= $precio; ?></td>
