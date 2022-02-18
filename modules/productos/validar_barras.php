@@ -18,10 +18,10 @@ if (is_ajax()) {
 		$codigo_barras = 'CB' . $codigo_barras;
 
 		// Obtiene los productos con el valor buscado
-		$producto = $db->select('id_producto, codigo_barras')->from('inv_productos')->where('codigo_barras', $codigo_barras)->fetch_first();
+		$producto = $db->select('id_producto, codigo_barras, COUNT(*)AS nro_registros')->from('inv_productos')->where('codigo_barras', $codigo_barras)->fetch_first();
 
 		// Verifica si existe coincidencias
-		if ($producto) {
+		if ($producto && $producto['nro_registros'] > 1) {
 			$response = array('valid' => false, 'message' => 'El código de barras "' . substr($producto['codigo_barras'], 2) . '" ya fue registrado');
 		} else {
 			$response = array('valid' => true);
