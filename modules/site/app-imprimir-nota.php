@@ -714,50 +714,68 @@ if (is_post()) {
 
                             //se incrementa el numero de factura de la dosificacion
                             $nro_factura = intval($dosificacion['nro_facturas']) + 1;
+                            $conteo = $nro_factura;
 
-                            $nit_cliente = $venta['almacen_id'];
-                            $fecha = date('Ymd');
-                            $total = $venta2T;
-                            $llave_dosificacion = base64_decode($dosificacion['llave_dosificacion']);
+                            $nro_factura = intval(nro_factura($nro_factura));
+                            $nro_validado = $nro_factura;
 
-                            // Genera el codigo de control
-                            $codigo_control = new ControlCode();
-                            $codigo_control = $codigo_control->generate($nro_autorizacion, $nro_factura, $nit_cliente, $fecha, $total, $llave_dosificacion);
-                            $datos_venta = array(
-                                'tipo' => 'Venta',
-                                'provisionado' => 'N',
-                                'descripcion' => 'Venta de productos con preventa',
-                                'nro_factura' => $nro_factura,
-                                'nro_autorizacion' => $nro_autorizacion,
-                                'codigo_control' => $codigo_control,
-                                'fecha_limite' => $dosificacion['fecha_limite'],
-                                'dosificacion_id' => $dosificacion['id_dosificacion'],
-                                'factura' => 'Factura'
-                            );
+                            if ($nro_factura > 0) {
+                                
+                                $nit_cliente = $venta['almacen_id'];
+                                $fecha = date('Ymd');
+                                $total = $venta2T;
+                                $llave_dosificacion = base64_decode($dosificacion['llave_dosificacion']);
+    
+                                // Genera el codigo de control
+                                $codigo_control = new ControlCode();
+                                $codigo_control = $codigo_control->generate($nro_autorizacion, $nro_factura, $nit_cliente, $fecha, $total, $llave_dosificacion);
+                                $datos_venta = array(
+                                    'tipo' => 'Venta',
+                                    'provisionado' => 'N',
+                                    'descripcion' => 'Venta de productos con preventa',
+                                    'nro_factura' => $nro_factura,
+                                    'nro_autorizacion' => $nro_autorizacion,
+                                    'codigo_control' => $codigo_control,
+                                    'fecha_limite' => $dosificacion['fecha_limite'],
+                                    'dosificacion_id' => $dosificacion['id_dosificacion'],
+                                    'factura' => 'Factura'
+                                );
+    
+                                //se crea backup de registros//////
+                                $verifica_id = backup_registros($db, 'inv_egresos', 'id_egreso', $venta['id_egreso'], '', '', $id_user, 'SI', 0, "Editado");
+                                $db->where('id_egreso', $venta['id_egreso'])->update('inv_egresos', $datos_venta);
+    
+                                //se crea backup de registros
+                                $verifica = backup_registros($db, 'inv_egresos_detalles', 'egreso_id', $venta['id_egreso'], '', '', $id_user, 'NO', $verifica_id, "Backup");
+    
+                                historial_conversion($db, $id_egreso, 'Preventa', $id_egreso, 'Electronicas', $id_empleado['persona_id'], "ConversionDirecta", $verifica_id, 'sinDatos');
+    
+                                //se guarda proceso u(update),c(create), r(read),d(delet), cr(cerrar), a(anular)
+                                save_process($db, 'u', '?/site/app-imprimir-nota', 'modifico', $venta['id_egreso'], $id_user, $token);
+    
+                                $nro_factura = $conteo;
+                                // $db->where('id_egreso', $venta['id_egreso'])->where('distribuidor_estado', 'ENTREGA')->update('tmp_egresos', $datos_venta);
+                                $db->where('id_dosificacion', $dosificacion['id_dosificacion'])->update('inv_dosificaciones', array('nro_facturas' => $nro_factura));
+    
+                                $nro_factura = $nro_validado;
+                                // Gereramos el codigo de seguridad QR
+                                $factura_qr = $_institution['nit'] . '|' . $nro_factura . '|' . $nro_autorizacion . '|' . date_decode($venta['fecha_egreso'], 'd/m/Y') . '|' . $venta['monto_total'] . '|0.00|' . $codigo_control . '|' . $venta['nit_ci'] . '|0.00|0.00|0.00|0.00';
+                                $factura_autenticidad = '"ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAÍS. EL USO ILÍCITO DE ÉSTA SERÁ SANCIONADO DE ACUERDO A LEY"';
+                                $factura_leyenda = 'Ley Nº 453: "' . $dosificacion['leyenda'] . '".';
+                                $fecha_limite = $dosificacion['fecha_limite'];
+                                $nro_autorizacion = 'Nro AUTORIZACIÓN ' . $nro_autorizacion;
+                                $nro_factura = 'Nº DE FACTURA: ' . $nro_factura;
+                            }else{
+                                // Devuelve los resultados
+                                echo json_encode(array(
+                                    'estado' => 'n',
+                                    'factura' => '',
+                                    'restringido' => 'limitado',
+                                    'msg' => 'Existe un percance al generar el numero de la factura.'
+                                ));
+                                exit;
+                            }
 
-                            //se crea backup de registros//////
-                            $verifica_id = backup_registros($db, 'inv_egresos', 'id_egreso', $venta['id_egreso'], '', '', $id_user, 'SI', 0, "Editado");
-                            $db->where('id_egreso', $venta['id_egreso'])->update('inv_egresos', $datos_venta);
-
-                            //se crea backup de registros
-                            $verifica = backup_registros($db, 'inv_egresos_detalles', 'egreso_id', $venta['id_egreso'], '', '', $id_user, 'NO', $verifica_id, "Backup");
-
-                            historial_conversion($db, $id_egreso, 'Preventa', $id_egreso, 'Electronicas', $id_empleado['persona_id'], "ConversionDirecta", $verifica_id, 'sinDatos');
-
-                            //se guarda proceso u(update),c(create), r(read),d(delet), cr(cerrar), a(anular)
-                            save_process($db, 'u', '?/site/app-imprimir-nota', 'modifico', $venta['id_egreso'], $id_user, $token);
-
-
-                            // $db->where('id_egreso', $venta['id_egreso'])->where('distribuidor_estado', 'ENTREGA')->update('tmp_egresos', $datos_venta);
-                            $db->where('id_dosificacion', $dosificacion['id_dosificacion'])->update('inv_dosificaciones', array('nro_facturas' => $nro_factura));
-
-                            // Gereramos el codigo de seguridad QR
-                            $factura_qr = $_institution['nit'] . '|' . $nro_factura . '|' . $nro_autorizacion . '|' . date_decode($venta['fecha_egreso'], 'd/m/Y') . '|' . $venta['monto_total'] . '|0.00|' . $codigo_control . '|' . $venta['nit_ci'] . '|0.00|0.00|0.00|0.00';
-                            $factura_autenticidad = '"ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAÍS. EL USO ILÍCITO DE ÉSTA SERÁ SANCIONADO DE ACUERDO A LEY"';
-                            $factura_leyenda = 'Ley Nº 453: "' . $dosificacion['leyenda'] . '".';
-                            $fecha_limite = $dosificacion['fecha_limite'];
-                            $nro_autorizacion = 'Nro AUTORIZACIÓN ' . $nro_autorizacion;
-                            $nro_factura = 'Nº DE FACTURA: ' . $nro_factura;
                         }
                     } else {
                         // Devuelve los resultados
@@ -767,6 +785,7 @@ if (is_post()) {
                             'restringido' => 'limitado',
                             'msg' => 'Operación restringida; excedio el limite de conversiones a factura'
                         ));
+                        exit;
                     }
                 } else {
                     $nro_factura = 'Nº DE VENTA: ' . $venta['nro_factura'];

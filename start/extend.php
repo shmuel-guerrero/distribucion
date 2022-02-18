@@ -509,7 +509,7 @@ function lower($text) {
 */
 
 function capitalize($text) {
-	$text = upper(mb_substr($text, 0, 1, 'UTF-8')) . lower(mb_substr($text, 1, mb_strlen($text), 'UTF-8'));
+	$text =strtoupper(mb_substr($text, 0, 1, 'UTF-8')) . lower(mb_substr($text, 1, mb_strlen($text), 'UTF-8'));
 	return $text;
 }
 
@@ -1645,13 +1645,64 @@ function validar_conversion($db, $id_egreso = 0, $id_destino = 0, $origen_tipo =
         $cantidad_notas = $db->query("
         SELECT count(*)nro_registros FROM hist_conversiones hc 
         WHERE hc.id_origen = '{$id_egreso}'
-        AND hc.origen_movimiento = '{$origen_tipo}' AND hc.destino_movimiento = 'Electronicas'")->fetch_first()['nro_registros'];
+        AND hc.destino_movimiento = 'Electronicas'")->fetch_first()['nro_registros'];
+        // hc.origen_movimiento = '{$origen_tipo}' AND
     }
     
     //validamos que es el resultdo sea menor al permitido
     $respuesta = ($cantidad_notas <= 2) ? true : false;
 
     return $respuesta;
+}
+
+
+/*
++--------------------------------------------------------------------------
+| VALIDAR NRO DE FACTURA UNICA
++--------------------------------------------------------------------------
+*/
+
+function nro_factura($nro_factura = 0){
+    
+    Global $db;
+
+    $respuesta = 0;
+    $bandera = true;
+    $estado = 'Reprobado';
+    $cont = 0;
+
+    do {
+        $validar = $db->query("SELECT *  FROM  inv_egresos e WHERE e.tipo='Venta' AND e.codigo_control!=''
+        AND e.fecha_limite != '0000-00-00' AND e.nro_factura = '{$nro_factura}' ")->fetch_first();
+        
+        if ($validar) {
+            if ($bandera) {
+                $respuesta = $db->query("SELECT (IFNULL(MAX(CAST(nro_factura AS UNSIGNED)), 0) + 1)AS nro_factura FROM inv_egresos e 
+                                    WHERE e.nro_autorizacion != '' AND e.tipo='Venta' AND e.codigo_control!='' AND e.fecha_limite != '0000-00-00'")->fetch_first()['nro_factura'];
+            }
+
+            $validar_aux = $db->query("SELECT *  FROM  inv_egresos e WHERE e.tipo='Venta'
+                                    AND e.codigo_control!='' AND e.fecha_limite != '0000-00-00'
+                                    AND e.nro_factura = '{$respuesta}'")->fetch_first();
+            $estado = (!$validar_aux) ? 'Aprobado' : 'Reprobado'; 
+            
+            if ($estado == 'Reprobado') {
+                $bandera = false;
+                $respuesta++;
+                $nro_factura = $respuesta;
+            }else{
+                $nro_factura = $respuesta;
+            }
+            $cont ++;
+        }else{
+            $estado = (!$validar) ? 'Aprobado' : 'Reprobado'; 
+            $cont ++;
+        }
+        
+    } while ($estado == 'Reprobado' && $cont <= 10);
+
+
+    return ($nro_factura > 0) ? $nro_factura : 0;
 }
 
 
