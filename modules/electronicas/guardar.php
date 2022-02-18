@@ -391,7 +391,7 @@ if (is_ajax() && is_post()) {
 					'empresa_ciudad' => 'EL ALTO - BOLIVIA',
 					'empresa_actividad' => $_institution['razon_social'],
 					'empresa_nit' => $_institution['nit'],
-					'empresa_empleado' => ($_user['persona_id'] == 0) ? upper($_user['username']) : upper(trim($_user['nombres'] . ' ' . $_user['paterno'] . ' ' . $_user['materno'])),
+					'empresa_empleado' => ($_user['persona_id'] == 0) ?strtoupper($_user['username']) :strtoupper(trim($_user['nombres'] . ' ' . $_user['paterno'] . ' ' . $_user['materno'])),
 					'empresa_agradecimiento' => '¡Gracias por tu compra!',
 					'factura_titulo' => 'F  A  C  T  U  R  A',
 					'factura_numero' => $venta['nro_factura'],

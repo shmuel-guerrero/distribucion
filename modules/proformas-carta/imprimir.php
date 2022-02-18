@@ -48,9 +48,9 @@ $total = 0;
 
 // Datos del vendedor
 $nombre_empleado = trim($proforma['nombres'] . ' ' . $proforma['paterno'] . ' ' . $proforma['materno']);
-$nombre_empleado = ($nombre_empleado != '') ? $nombre_empleado : upper('ninguno');
+$nombre_empleado = ($nombre_empleado != '') ? $nombre_empleado :strtoupper('ninguno');
 $telefono_empleado = trim(str_replace(',', ' / ', escape($proforma['telefono'])));
-$telefono_empleado = ($telefono_empleado != '') ? $telefono_empleado : upper('ninguno');
+$telefono_empleado = ($telefono_empleado != '') ? $telefono_empleado :strtoupper('ninguno');
 
 // Importa la libreria para generar el reporte
 require_once libraries . '/tcpdf/tcpdf.php';
