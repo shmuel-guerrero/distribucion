@@ -62,6 +62,7 @@ $proformas = $db->select('i.*, a.almacen, a.principal, e.nombres, e.paterno, e.m
                 ->where('i.estadoe>',0)
                 ->where('i.empleado_id',$empleado)
                 ->order_by('i.fecha_egreso desc, i.hora_egreso desc')->fetch();
+
 $noventas = $db->select('*')->from('gps_no_venta')->join('gps_noventa_motivos','motivo_id = id_motivo')->where('empleado_id',$empleado)->fetch();
 
 // Obtiene la moneda oficial
@@ -304,7 +305,7 @@ $permiso_cambiar = true;
     <script src="<?= js; ?>/jquery.base64.js"></script>
     <script src="<?= js; ?>/pdfmake.min.js"></script>
     <script src="<?= js; ?>/vfs_fonts.js"></script>
-    <script src="<?= js; ?>/jquery.dataFiltersCustom.min.js"></script>
+    <script src="<?= js; ?>/jquery.dataFilters.min.js"></script>
     <script src="<?= js; ?>/moment.min.js"></script>
     <script src="<?= js; ?>/moment.es.js"></script>
     <script src="<?= js; ?>/bootstrap-datetimepicker.min.js"></script>
@@ -403,7 +404,7 @@ $permiso_cambiar = true;
             });
             <?php } ?>
 
-            <?php if ($proformas) { ?>
+            <?php if (true) { ?>
 
             var table = $('#table').on('draw.dt', function () {
                 var suma = 0;

@@ -368,11 +368,11 @@ $permiso_cambiar = true;
 <?php } ?>
 <!-- Fin modal fecha -->
 <script src="<?= js; ?>/jquery.dataTables.min.js"></script>
+<script src="<?= js; ?>/jquery.dataFilters.min.js"></script>
 <script src="<?= js; ?>/dataTables.bootstrap.min.js"></script>
 <script src="<?= js; ?>/jquery.base64.js"></script>
 <script src="<?= js; ?>/pdfmake.min.js"></script>
 <script src="<?= js; ?>/vfs_fonts.js"></script>
-<script src="<?= js; ?>/jquery.dataFiltersCustom.min.js"></script>
 <script src="<?= js; ?>/moment.min.js"></script>
 <script src="<?= js; ?>/moment.es.js"></script>
 <script src="<?= js; ?>/bootstrap-datetimepicker.min.js"></script>
