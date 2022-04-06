@@ -171,7 +171,7 @@ $permiso_cambiar = true;
         <?php } else { ?>
             <div class="alert alert-danger">
                 <strong>Advertencia!</strong>
-                <p>No existen proformas registrados en la base de datos.</p>
+                <p>No existen rutas registradas en la base de datos.</p>
             </div>
         <?php } ?>
     </div>

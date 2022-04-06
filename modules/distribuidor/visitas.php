@@ -104,7 +104,7 @@ $permiso_cambiar = true;
                 <tr class="active">
                     <th class="text-nowrap">#</th>
                     <th class="text-nowrap">Fecha</th>
-                    <th class="">Id cliente</th>
+                    <th class="">Codigo</th>
                     <th class="text-nowrap">Cliente</th>
                     <!-- <th class="text-nowrap">NIT/CI</th> -->
                     <th class="text-nowrap">Preventa</th>
@@ -120,7 +120,7 @@ $permiso_cambiar = true;
                 <tr class="active">
                     <th class="text-nowrap text-middle" data-datafilter-filter="false">#</th>
                     <th class="text-nowrap text-middle" data-datafilter-filter="true">Fecha</th>
-                    <th class="text-middle" data-datafilter-filter="true">Id cliente</th>
+                    <th class="text-middle" data-datafilter-filter="true">Codigo</th>
                     <th class="text-nowrap text-middle" data-datafilter-filter="true">Cliente</th>
                     <!-- <th class="text-nowrap text-middle" data-datafilter-filter="true">NIT/CI</th> -->
                     <th class="text-nowrap text-middle" data-datafilter-filter="true">Preventa</th>
