@@ -237,6 +237,9 @@ $permiso_cambiar = true;
                                     <?php if ($permiso_imprimir) {
                                         if($proforma['estadoe']==2){?>
                                             <a href="?/distribuidor/imprimir4/<?= $proforma['id_egreso']; ?>" data-toggle="tooltip" data-title="Imprimir" target="_blank"><span class="glyphicon glyphicon-print" style="color:blue"></span></a>
+                                            <a  data-toggle="tooltip" data-title="Entregar" onclick="cambiar_estado(<?php echo $usuario3; ?>,<?= escape('["'.$proforma['id_egreso'].'"]'); ?>)"><span class="glyphicon glyphicon-upload" style="color:green"></span></a>
+                                            <a  data-toggle="tooltip" data-title="No entregar" onclick="cambiar_estadn(<?php echo $usuario3; ?>,<?= escape($proforma['cliente_id']); ?>,12,<?= escape($proforma['id_egreso']); ?>)"><span class="glyphicon glyphicon-download" style="color:red"></span></a>
+
                                         <?php } if($proforma['estadoe']==1){?>
                                             <a href="?/distribuidor/imprimir4/<?= $proforma['id_egreso']; ?>" data-toggle="tooltip" data-title="Imprimir" target="_blank"><span class="glyphicon glyphicon-print" style="color:red"></span></a>
                                         <?php }if($proforma['estadoe']==3){ ?>
@@ -381,6 +384,36 @@ $permiso_cambiar = true;
     <script src="<?= js; ?>/Leaflet.Icon.Glyph.js"></script>
 
     <script>
+        
+        function cambiar_estado(a, b){
+            var b1 = '["' + b + '"]';
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                url: '?/site/app-entrega-distribuidor',
+                data: {
+                    id_user: a,
+                    id_egreso: b1
+                }
+            }).done(function (respuesta) {
+                if (respuesta.estado === 's') {
+                    $.notify({
+                        message: 'La operación fue ejecutada con éxito, se encontraron los productos.'
+                    }, {
+                        type: 'success'
+                    });
+                    setTimeout("location.reload(true);", 5000);
+                }
+            }).fail(function () {
+                $contenido_filtrar.html($mensaje_filtrar.html());
+                $.notify({
+                    message: 'La operación fue interrumpida por un fallo.'
+                }, {
+                    type: 'danger'
+                });
+                blup.stop().play();
+            });
+        }
         $(function () {
 
 
