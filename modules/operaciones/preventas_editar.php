@@ -13,7 +13,8 @@ $detalles = $db->query("SELECT a.*, b.*, a.unidad_id AS unidad_det, GROUP_CONCAT
 	LEFT JOIN inv_unidades d ON c.unidad_id = id_unidad WHERE a.egreso_id = '$id_egreso' and a.promocion_id <2  GROUP BY a.id_detalle")->fetch();
 
 // Obtiene el almacen principal
-$almacen = $db->from('inv_almacenes')->fetch_first();
+$almacen_obtenido = ($egreso['almacen_id']) ? $egreso['almacen_id'] : 0;
+$almacen = $db->from('inv_almacenes')->where('id_almacen', $almacen_obtenido)->fetch_first();
 //echo json_encode($almacen);
 //exit();
 $id_almacen = ($almacen) ? $egreso['almacen_id'] : 0;
@@ -135,14 +136,7 @@ $categorias = $db->from('inv_categorias')->order_by('categoria')->fetch();
                             <li>Al presionar el bot&oacute;n guardar se pierde cualquier descuento que haya existido por producto.</li>
                         </ul>
                     </div>
-                    <?php if (isset($_SESSION[temporary])) { ?>
-                        <div class="alert alert-<?= $_SESSION[temporary]['alert']; ?>">
-                            <button type="button" class="close" data-dismiss="alert">&times;</button>
-                            <strong><?= $_SESSION[temporary]['title']; ?></strong>
-                            <p><?= $_SESSION[temporary]['message']; ?></p>
-                        </div>
-                        <?php unset($_SESSION[temporary]); ?>
-                    <?php } ?>
+                    
                     <form method="post" action="?/operaciones/guardar" class="form-horizontal">
                         <div class="form-group">
                             <label for="cliente" class="col-sm-4 control-label">Buscar:</label>
@@ -213,6 +207,14 @@ $categorias = $db->from('inv_categorias')->order_by('categoria')->fetch();
                                 </select>
                             </div>
                         </div>
+                        <?php if (isset($_SESSION[temporary])) { ?>
+                            <div class="alert alert-<?= $_SESSION[temporary]['alert']; ?>">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <strong><?= $_SESSION[temporary]['title']; ?></strong>
+                                <p><?= $_SESSION[temporary]['message']; ?></p>
+                            </div>
+                            <?php unset($_SESSION[temporary]); ?>
+                        <?php } ?>
                         <div class="table-responsive margin-none">
                             <table id="ventas" class="table table-bordered table-condensed table-striped table-hover table-xs margin-none">
                                 <thead>
@@ -386,7 +388,7 @@ $categorias = $db->from('inv_categorias')->order_by('categoria')->fetch();
                                         <span><?= escape($producto['nombre']); ?></span>
                                         <span class="hidden" data-nombre="<?= $producto['id_producto']; ?>"><?= escape($producto['nombre_factura']); ?></span>
                                     </td>
-                                    <td class="text-nowrap"><?= escape($producto['descripcion']); ?></td>
+                                    <td class="text-middle"><?= escape($producto['descripcion']); ?></td>
                                     <td class="text-nowrap"><?= escape($producto['categoria']); ?></td>
                                     <td class="text-nowrap text-right" data-stock="<?= $producto['id_producto']; ?>"><?= escape($producto['cantidad_ingresos'] - $producto['cantidad_egresos']); ?></td>
                                     <td class="text-nowrap text-right" data-valor="<?= $producto['id_producto']; ?>">
