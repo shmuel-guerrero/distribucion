@@ -73,6 +73,10 @@ $_menus = construir_sidebar($_menus);
 	<script src="<?= js; ?>/docs.min.js"></script>
 	<script src="<?= js; ?>/bootstrap-toggle.min.js"></script>
 
+
+	<script src="<?= js; ?>/axios.min.js"></script>
+	<script src="<?= js; ?>/app.js"></script>
+
 	<link rel="stylesheet" href="<?= css; ?>/bootstrap-extended.min.css">
 	<link rel="stylesheet" href="<?= css; ?>/colors.min.css">
 	<link rel="stylesheet" href="<?= css; ?>/style.min.css">

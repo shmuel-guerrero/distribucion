@@ -6,23 +6,19 @@
  * @package  SimplePHP
  * @author   Wilfredo Nina <wilnicho@hotmail.com>
  */
+
 // Verifica si es una peticion post
-if (is_ajax() || is_post()) { //&& is_post()
+if (is_post()) {
 	// Verifica la existencia de los datos enviados
-	if (isset($_POST['id_sucursal']) && isset($_POST['id_movimiento']) && isset($_POST['fecha_movimiento']) && isset($_POST['hora_movimiento']) && isset($_POST['nro_comprobante']) && isset($_POST['concepto']) && isset($_POST['monto'])) {
-// var_dump('lleg锟斤拷 a guardar'); die();
-		
+	if (isset($_POST['id_movimiento']) && isset($_POST['fecha_movimiento']) && isset($_POST['hora_movimiento']) && isset($_POST['nro_comprobante']) && isset($_POST['concepto']) && isset($_POST['monto']) && isset($_POST['observacion'])) {
 		// Obtiene las datos del egreso
 		$id_movimiento = trim($_POST['id_movimiento']);
 		$fecha_movimiento = trim($_POST['fecha_movimiento']);
 		$hora_movimiento = trim($_POST['hora_movimiento']);
 		$nro_comprobante = trim($_POST['nro_comprobante']);
 		$concepto = trim($_POST['concepto']);
-		$id_empleado_a = trim($_POST['id_empleado_a']);
-		$id_empleado_r = trim($_POST['id_empleado_r']);
 		$monto = trim($_POST['monto']);
 		$observacion = trim($_POST['observacion']);
-		$id_sucursal = trim($_POST['id_sucursal']);
 		
 		// Instancia el egreso
 		$egreso = array(
@@ -32,10 +28,7 @@ if (is_ajax() || is_post()) { //&& is_post()
 			'tipo' => 'e',
 			'concepto' => $concepto,
 			'monto' => $monto,
-			'observacion' => $observacion,
-			'empleado_id' => $id_empleado_a,
-			'recibido_por' => $id_empleado_r,
-			'sucursal_id' => $id_sucursal
+			'observacion' => $observacion
 		);
 		
 		// Verifica si es creacion o modificacion
@@ -46,31 +39,53 @@ if (is_ajax() || is_post()) { //&& is_post()
 			// Actualiza la informacion
 			$db->where($condicion)->update('caj_movimientos', $egreso);
 			
+			// Guarda Historial
+			$data = array(
+				'fecha_proceso' => date("Y-m-d"),
+				'hora_proceso' => date("H:i:s"), 
+				'proceso' => 'u',
+				'nivel' => 'l',
+				'direccion' => '?/movimientos/egresos_guardar',
+				'detalle' => 'Se actualizo movimiento con identificador numero ' . $id_movimiento ,
+				'usuario_id' => $_SESSION[user]['id_user']			
+			);			
+			$db->insert('sys_procesos', $data) ;
+
 			// Instancia la variable de notificacion
 			$_SESSION[temporary] = array(
 				'alert' => 'success',
-				'title' => 'Actualizaci贸n satisfactoria!',
+				'title' => 'Actualización satisfactoria!',
 				'message' => 'El registro se actualiz贸 correctamente.'
 			);
-			redirect('?/movimientos/egresos_listar');
-// 			echo json_encode($id_movimiento);
 		} else {
-			
+			// Inserta campo
+			$egreso['empleado_id'] = $_user['persona_id'];
+
 			// Guarda la informacion
-			$movimiento_id = $db->insert('caj_movimientos', $egreso);
-// 			var_dump($movimiento_id);die();
+			$id = $db->insert('caj_movimientos', $egreso);
+			// Guarda en historial
+			$data = array(
+				'fecha_proceso' => date("Y-m-d"),
+				'hora_proceso' => date("H:i:s"), 
+				'proceso' => 'c',
+				'nivel' => 'l',
+				'direccion' => '?/movimientos/egresos_guardar',
+				'detalle' => 'Se creo movimiento con identificador numero ' . $id ,
+				'usuario_id' => $_SESSION[user]['id_user']			
+			);
+			
+			$db->insert('sys_procesos', $data) ; 
+
 			// Instancia la variable de notificacion
 			$_SESSION[temporary] = array(
 				'alert' => 'success',
-				'title' => 'Adici贸n satisfactoria!',
-				'message' => 'El registro se guard贸 correctamente.'
+				'title' => 'Adición satisfactoria!',
+				'message' => 'El registro se guardó correctamente.'
 			);
-            echo json_encode($movimiento_id);
 		}
 		
 		// Redirecciona a la pagina principal
-// 		redirect('?/movimientos/egresos_listar');
-        
+		redirect('?/movimientos/egresos_listar');
 	} else {
 		// Error 401
 		require_once bad_request();

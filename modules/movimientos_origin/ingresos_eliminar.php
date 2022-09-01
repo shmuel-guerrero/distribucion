@@ -15,9 +15,23 @@ $ingreso = $db->from('caj_movimientos')->where('id_movimiento', $id_movimiento)-
 
 // Verifica si el ingreso existe
 if ($ingreso) {
+    
 	// Elimina el ingreso
 	$db->delete()->from('caj_movimientos')->where('id_movimiento', $id_movimiento)->limit(1)->execute();
 
+	//Guarda Historial
+	$data = array(
+		'fecha_proceso' => date("Y-m-d"),
+		'hora_proceso' => date("H:i:s"), 
+		'proceso' => 'd',
+		'nivel' => 'l',
+		'direccion' => '?/movimientos/ingresos_eliminar',
+		'detalle' => 'Se elimino movimiento con identificador numero ' . $id_movimiento ,
+		'usuario_id' => $_SESSION[user]['id_user']			
+	);			
+	$db->insert('sys_procesos', $data) ;
+	
+	
 	// Verifica si fue el ingreso eliminado
 	if ($db->affected_rows) {
 		// Instancia variable de notificacion

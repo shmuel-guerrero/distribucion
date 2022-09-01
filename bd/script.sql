@@ -40,6 +40,21 @@ ALTER TABLE `backup_inv_pagos_detalles`
 
 -----------------------<
 
+
+/* AGREGAR CAMPOS EN LAS TABLAS  DE caj_movimientos*/
+ALTER TABLE `caj_movimientos`
+	ADD COLUMN `recibido_por` INT(11) NOT NULL DEFAULT '0' AFTER `empleado_id`,
+	ADD COLUMN `sucursal_id` INT(11) NOT NULL DEFAULT '0' AFTER `recibido_por`;
+
+
+
+
+
+
+
+
+
+
 ------------------------->>>>>>>>>>>>>>>>>10012022
 
 /* AGREGAR CAMPOS EN LAS TABLAS DE BACKUP_PAGOS_DETALLES*/

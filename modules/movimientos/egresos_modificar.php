@@ -1,14 +1,26 @@
 <?php
 
+// Obtiene la moneda oficial
+$moneda = $db->from('inv_monedas')->where('oficial', 'S')->fetch_first();
+$moneda = ($moneda) ? '(' . $moneda['sigla'] . ')' : '';
+
 // Obtiene el id_egreso
-$id_egreso = (sizeof($params) > 0) ? $params[0] : 0;
+$id_movimiento = (sizeof($params) > 0) ? $params[0] : 0;
 
 // Obtiene los formatos
 $formato_textual = get_date_textual($_institution['formato']);
 $formato_numeral = get_date_numeral($_institution['formato']);
 
 // Obtiene el egreso
-$egreso = $db->from('caj_movimientos')->where('id_movimiento', $id_egreso)->fetch_first();
+// $egreso = $db->from('caj_movimientos')->where('id_movimiento', $id_egreso)->fetch_first();
+$movimiento = $db->query("SELECT m.*, upper(IFNULL(i.nombre, 'sucursal no registrado')) AS sucursal, ifnull(concat( e.nombres, ' ', e.paterno, ' ', e.materno ), '-') as nombre_autorizado_por, ifnull(concat( er.nombres, ' ', er.paterno, ' ', er.materno ), '-') as nombre_recibido_por
+                        FROM caj_movimientos as m
+                        LEFT JOIN sys_empleados as e ON m.empleado_id = e.id_empleado
+                        LEFT JOIN sys_empleados as er ON m.recibido_por = er.id_empleado
+						LEFT JOIN sys_instituciones as i ON i.id_institucion = m.sucursal_id
+                        WHERE id_movimiento = $id_movimiento")->fetch_first();
+                        
+$empleados = $db->query("select * from sys_empleados")->fetch();
 
 // Obtiene los permisos
 $permisos = explode(',', permits);
@@ -16,16 +28,12 @@ $permisos = explode(',', permits);
 // Almacena los permisos en variables
 $permiso_listar = in_array('egresos_listar', $permisos);
 
-// Obtiene la moneda oficial
-$moneda = $db->from('inv_monedas')->where('oficial', 'S')->fetch_first();
-$moneda = ($moneda) ? '(' . $moneda['sigla'] . ')' : '';
-
 ?>
 <?php require_once show_template('header-configured'); ?>
 <div class="panel-heading">
 	<h3 class="panel-title">
 		<span class="glyphicon glyphicon-option-vertical"></span>
-		<strong>Modificar egreso egreso</strong>
+		<strong>Modificar egreso</strong>
 	</h3>
 </div>
 <div class="panel-body">
@@ -44,40 +52,57 @@ $moneda = ($moneda) ? '(' . $moneda['sigla'] . ')' : '';
 		<div class="col-sm-8 col-sm-offset-2">
 			<form method="post" action="?/movimientos/egresos_guardar" class="form-horizontal">
 				<div class="form-group">
-					<label for="fecha_movimiento" class="col-md-3 control-label">Fecha:</label>
+					<label for="nro_comprobante" class="col-md-3 control-label">Sucursal:</label>
 					<div class="col-md-9">
-						<input type="text" value="<?= date_decode($egreso['fecha_movimiento'], $_institution['formato']); ?>" name="fecha_movimiento" id="fecha_movimiento" class="form-control" autocomplete="off" data-validation="required date" data-validation-format="<?= $formato_textual; ?>">
+						<input type="text" value="<?= $movimiento['sucursal']; ?>" readonly name="sucursal" id="sucursal" class="form-control" data-validation="required">
+						<input type="hidden" value="<?= $movimiento['sucursal_id'] ?>" name="id_sucursal" data-validation="required">
 					</div>
-				</div>
-				<div class="form-group">
-					<label for="hora_movimiento" class="col-md-3 control-label">Hora:</label>
-					<div class="col-md-9">
-						<input type="text" value="<?= $egreso['hora_movimiento']; ?>" name="hora_movimiento" id="hora_movimiento" class="form-control" autocomplete="off" data-validation="required alphanumeric length" data-validation-allowing=":" data-validation-length="8">
-					</div>
-				</div>
+				</div>	
 				<div class="form-group">
 					<label for="nro_comprobante" class="col-md-3 control-label">Número de comprobante:</label>
 					<div class="col-md-9">
-						<input type="hidden" value="<?= $egreso['id_movimiento']; ?>" name="id_movimiento" data-validation="required">
-						<input type="text" value="<?= $egreso['nro_comprobante']; ?>" name="nro_comprobante" id="nro_comprobante" class="form-control" autocomplete="off" data-validation="required letternumber" data-validation-allowing="+-/#() ">
+						<input type="text" value="<?= $movimiento['nro_comprobante']; ?>" readonly name="nro_comprobante" id="nro_comprobante" class="form-control" data-validation="required number">
+						<input type="hidden" value="<?= $movimiento['id_movimiento'] ?>" name="id_movimiento" data-validation="required">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="monto" class="col-md-3 control-label">Fecha y Hora:</label>
+					<div class="col-md-9">
+						<input type="text" value="<?= date_decode($movimiento['fecha_movimiento'], $_institution['formato']).' - '.$movimiento['hora_movimiento']; ?>" name="monto" id="monto" class="form-control"  readonly>
+						<input type="hidden" value="<?= date_decode($movimiento['fecha_movimiento'], $_institution['formato']); ?>" name="fecha_movimiento" id="fecha_movimiento" class="form-control" autocomplete="off" data-validation="required date" data-validation-format="<?= $formato_textual; ?>">
+						<input type="hidden" value="<?= $movimiento['hora_movimiento']; ?>" name="hora_movimiento" id="hora_movimiento" class="form-control" autocomplete="off" data-validation="required alphanumeric length" data-validation-allowing=":" data-validation-length="8">
+					</div>
+				</div>
+			    <div class="form-group">
+					<label for="monto" class="col-md-3 control-label">Monto <?= $moneda; ?>:</label>
+					<div class="col-md-9">
+						<input type="text" value="<?= _toFixed($movimiento['monto']); ?>" name="monto" id="monto" maxlength="10" class="form-control" data-validation="required number" data-validation-allowing="float" readonly>
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="concepto" class="col-md-3 control-label">Por concepto de:</label>
 					<div class="col-md-9">
-						<textarea name="concepto" id="concepto" class="form-control" autocomplete="off" data-validation="required letternumber" data-validation-allowing="+-/.,:;#()\n "><?= $egreso['concepto']; ?></textarea>
+						<textarea type="text" name="concepto" id="concepto" value="" maxlength="65" class="form-control" data-validation="required letternumber" data-validation-allowing="+-/.,:;#()\n " ><?= $movimiento['concepto']; ?></textarea>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="monto" class="col-md-3 control-label">Monto <?= $moneda; ?>:</label>
+					<label for="autorizado" class="col-md-3 control-label">Autorizado por:</label>
 					<div class="col-md-9">
-						<input type="text" value="<?= $egreso['monto']; ?>" name="monto" id="monto" class="form-control" autocomplete="off" data-validation="required number" data-validation-allowing="float">
+						<input type="text" value= "<?= upper($movimiento['nombre_autorizado_por']); ?>" class="form-control" readonly></input>
+						<input type="hidden"name="id_empleado_a" id="id_empleado_a" value= "<?= $movimiento['empleado_id']; ?>" class="form-control" ></input>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="observacion" class="col-md-3 control-label">Observacion:</label>
+					<label for="recibido" class="col-md-3 control-label">Recibido por:</label>
 					<div class="col-md-9">
-						<textarea name="observacion" id="observacion" class="form-control" autocomplete="off" data-validation="letternumber" data-validation-allowing="+-/.,:;#()\n " data-validation-optional="true"><?= $egreso['observacion']; ?></textarea>
+						<input type="text" value= "<?= upper($movimiento['nombre_recibido_por']); ?>" class="form-control" readonly></input>
+						<input type="hidden"name="id_empleado_r" id="id_empleado_r" value= "<?= $movimiento['recibido_por']; ?>" class="form-control" ></input>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="observacion" class="col-md-3 control-label">Observación:</label>
+					<div class="col-md-9">
+						<textarea name="observacion" id="observacion" value="" maxlength="65" class="form-control" data-validation="letternumber" data-validation-allowing="+-/.,:;#()\n " data-validation-optional="true"><?= $movimiento['observacion']; ?></textarea>
 					</div>
 				</div>
 				<div class="form-group">
@@ -100,16 +125,28 @@ $moneda = ($moneda) ? '(' . $moneda['sigla'] . ')' : '';
 <script src="<?= js; ?>/jquery.form-validator.es.js"></script>
 <script src="<?= js; ?>/bootstrap-datetimepicker.min.js"></script>
 <script>
-$(function () {
-	var $fecha_movimiento = $('#fecha_movimiento');
+	$(function () {
+		var $fecha_movimiento = $('#fecha_movimiento');
 
-	$.validate({
-		modules: 'basic'
-	});
+		$.validate({
+			modules: 'basic'
+		});
 
-	$fecha_movimiento.datetimepicker({
-		format: '<?= strtoupper($formato_textual); ?>'
+		$fecha_movimiento.datetimepicker({
+			format: '<?= strtoupper($formato_textual); ?>'
+		});
 	});
-});
+</script>
+
+<script>
+	//@etysoft validamos el input peso y retornamos un decimal de configuración
+	function isDecimal(e) {
+		let decimal = e.value;
+		if (decimal !== '') {
+			e.value = (isNaN(decimal) || decimal <= 0) ? _toFixed(parseFloat(0)) : _toFixed(parseFloat(e.value));
+		} else {
+			e.value = 0;
+		}
+	}
 </script>
 <?php require_once show_template('footer-configured'); ?>

@@ -17,17 +17,6 @@ $gasto = $db->from('caj_movimientos')->where('id_movimiento', $id_movimiento)->f
 if ($gasto) {
 	// Elimina el gasto
 	$db->delete()->from('caj_movimientos')->where('id_movimiento', $id_movimiento)->limit(1)->execute();
-	//Guarda Historial
-	$data = array(
-		'fecha_proceso' => date("Y-m-d"),
-		'hora_proceso' => date("H:i:s"), 
-		'proceso' => 'd',
-		'nivel' => 'l',
-		'direccion' => '?/movimientos/gastos_eliminar',
-		'detalle' => 'Se elimino movimiento con identificador numero ' . $id_movimiento ,
-		'usuario_id' => $_SESSION[user]['id_user']			
-	);			
-	$db->insert('sys_procesos', $data) ;
 
 	// Verifica si fue el gasto eliminado
 	if ($db->affected_rows) {

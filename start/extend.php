@@ -1705,6 +1705,23 @@ function nro_factura($nro_factura = 0){
     return ($nro_factura > 0) ? $nro_factura : 0;
 }
 
+function _toFixed($value, $cantidad_decimal = null, $operador = null)
+{		
+	global $db;
+	global $_redondeo_activo;
+	$value = floatval($value);
+	$nro_decimal_real = ($cantidad_decimal) ? $cantidad_decimal : 2;
+    $cantidad_decimal = (isset($cantidad_decimal) && intval($cantidad_decimal) > 0) ? intval($cantidad_decimal) : ((isset($_redondeo_activo)) ? intval($_redondeo_activo['cantidad_decimal']) : $nro_decimal_real);
+    $operador = (isset($operador)) ? $operador : ((isset($_redondeo_activo)) ? $_redondeo_activo['operador'] : '>');
+	
+/* 	$cantidad_decimal = $db->select('cantidad_decimal')
+							->from('sys_redondeo')
+							->where('estado', 'A')
+							->fetch_first()['cantidad_decimal']; */
+							
+    return (number_format($value, 2, '.', ''));
+}
+
 
 ?>
 

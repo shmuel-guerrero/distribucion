@@ -1,6 +1,11 @@
 <?php
 
-
+/**
+ * SimplePHP - Simple Framework PHP
+ * 
+ * @package  SimplePHP
+ * @author   Wilfredo Nina <wilnicho@hotmail.com>
+ */
 
 // Verifica si es una peticion ajax y post
 if (is_ajax() && is_post()) {

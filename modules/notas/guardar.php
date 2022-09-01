@@ -39,17 +39,29 @@ if (is_ajax() && is_post()) {
 
 			// Agrega nuevo cliente
 			if($id_cliente == 0){
-				$cliente = array(
-					'id_cliente' => $id_cliente,
-					'nombre_factura' => $nombre_cliente,
-					'cliente' => $nombre_cliente,
-					'nit' => $nit_ci,
-					'telefono' => $telefono,
-					'direccion' => $direccion,
-					
-					'cuentas_por_cobrar' => 'no'
-				);
-				$id_cliente = $db->insert('inv_clientes', $cliente);			
+
+				$cliente_id_buscado = $db->query("SELECT * FROM inv_clientes c WHERE 
+											(nombre_factura ='{$nombre_cliente}' OR 
+											cliente = '{$nombre_cliente}') AND
+											(nit = '{$nit_ci}') ")->fetch_first()['id_cliente'];
+
+				if ($cliente_id_buscado && $cliente_id_buscado > 0) {
+					$id_cliente = $cliente_id_buscado;
+				}else{
+					$cliente = array(
+						'id_cliente' => $id_cliente,						
+						'fecha_registro' => date('Y-m-d'),
+						'hora_registro' => date('H:i:s'),
+						'nombre_factura' => $nombre_cliente,
+						'cliente' => $nombre_cliente,
+						'nit' => $nit_ci,
+						'telefono' => $telefono,
+						'direccion' => $direccion,
+						'ubicacion' => '-16.50699104268714, -68.1630445139506',
+						'cuentas_por_cobrar' => 'no'
+					);
+					$id_cliente = $db->insert('inv_clientes', $cliente);
+				}			
 			}
 
 			//se envia datos a validar el stock de los productos
