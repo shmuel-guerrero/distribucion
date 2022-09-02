@@ -122,7 +122,8 @@ $_menus = construir_sidebar($_menus);
 							<ul class="nav navbar-nav navbar-right">
 								<li class="dropdown">
 									<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-										<img src="<?= ($_user['avatar'] == '') ? imgs . '/avatar-default.jpg' : profiles . '/' . $_user['avatar']; ?>" class="rounded-circle" width="32" height="32" style="margin: -15px 0;">
+										<img src="<?= $imagen = ($_user['avatar'] == '') ? imgs . '/avatar-default.jpg' : ((file_exists(profiles . '/' . $_user['avatar'])) ? profiles . '/' . $_user['avatar'] :  imgs . '/avatar-default.jpg');?>" 
+										class="rounded-circle" width="32" height="32" style="margin: -15px 0;">
 										<span class="text-capitalize hidden-xs"><?= ($_user['persona_id'] == 0) ? escape($_user['username']) : escape($_user['nombres']); ?></span>
 									</a>
 									<ul class="dropdown-menu">

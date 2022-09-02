@@ -181,7 +181,9 @@ $ubicaciones = $db->from('inv_almacenes')->order_by('id_almacen')->fetch();
 <script>
 $(function () {
     <?php
-		$url=institucion.'/'.$_institution['imagen_encabezado'];
+
+		$url = (institucion.'/'.$_institution['imagen_encabezado'] != '') ? institucion.'/'.$_institution['imagen_encabezado'] : institucion.'/logo_institution.jpg';
+		$url = file_exists($url) ? $url : institucion.'/logo_institution.jpg'; 
         $image=file_get_contents($url);
         if($image!==false):
             $imag='data:image/jpg;base64,'.base64_encode($image);
@@ -217,11 +219,11 @@ $(function () {
 					$('#total').text(suma.toFixed(3));
 					$('#total2').text(suma2.toFixed(3));
 					$loader_mostrar.show();
-				}
-				/*beforeSend:function(){
+				},
+				beforeSend:function(){
                     $loader_mostrar.show();
                 },
-                error: function () {},*/
+                error: function () {},
             },
             drawCallback: function(settings) {
                 $loader_mostrar.hide();

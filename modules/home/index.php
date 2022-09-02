@@ -10,8 +10,8 @@ if($_user['rol'] == 'Superusuario' || $_user['rol'] == 'superusuario' || $_user[
 if($verifica == true) {
     function dif_Hour($h1, $h2)
     {
-    	$v1 = explode(":", $h1);
-    	$v2 = explode(":", $h2);
+    	$v1 = ($h1) ? explode(":", $h1) : array();
+    	$v2 = ($h2) ? explode(":", $h2) : array();
     
     	if (count($v1) > 2 && count($v2) > 2) {
     		$minuto = $v2[1] - $v1[1];
@@ -415,7 +415,7 @@ if($verifica == true) {
 					</p>
 				<?php endif ?>
 				<p>
-					<img src="<?= ($_user['avatar'] == '') ? imgs . '/avatar.jpg' : profiles . '/' . $_user['avatar']; ?>" class="img-circle" width="120" height="120" data-toggle="modal" data-target="#modal_mostrar">
+					<img src="<?= ($_user['avatar'] == '') ? imgs . '/avatar.jpg' : ((file_exists(profiles . '/' . $_user['avatar'])) ? profiles . '/' . $_user['avatar'] : imgs . '/avatar.jpg'); ?>" class="img-circle" width="120" height="120" data-toggle="modal" data-target="#modal_mostrar">
 				</p>
 				<p class="margin-none">
 					<strong><?= escape($_user['email']); ?></strong>

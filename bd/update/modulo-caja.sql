@@ -78,6 +78,12 @@ CREATE TABLE IF NOT EXISTS `sys_desc_tipos` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
+-- se agraga columnas
+ALTER TABLE caj_movimientos ADD recibido_por INT(11) AFTER empleado_id;
+
+ALTER TABLE caj_movimientos ADD sucursal_id INT(11) AFTER recibido_por;
+
+
 
 /*!40000 ALTER TABLE `inv_tipo_calculo` DISABLE KEYS */;
 INSERT INTO `inv_tipo_calculo` (`id`, `tipo`, `sigla`) VALUES
@@ -99,3 +105,4 @@ INSERT INTO `inv_tipo_movimientos` (`id_tipo_movimiento`, `tipo_movimiento`) VAL
 INSERT INTO `sys_desc_tipos` (`id_tipo`, `tipo`, `sigla`) VALUES
 	(1, 'porcentaje', '%'),
 	(2, 'efectivo', '$');
+

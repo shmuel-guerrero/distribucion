@@ -455,7 +455,9 @@ $(function () {
 	<?php if ($productos) : ?>
 	$loader_mostrar = $('#loader_mostrar')
 	<?php
-		$url=institucion.'/'.$_institution['imagen_encabezado'];
+		$url = (institucion.'/'.$_institution['imagen_encabezado'] != '') ? institucion.'/'.$_institution['imagen_encabezado'] : institucion.'/logo_institution.jpg';
+        $url = file_exists($url) ? $url : institucion.'/logo_institution.jpg'; 
+
         $image=file_get_contents($url);
         if($image!==false):
             $imag='data:image/jpg;base64,'.base64_encode($image);
@@ -479,12 +481,14 @@ $(function () {
                 beforeSend:function(){
                     $loader_mostrar.show();
                 },
-                error: function () {}
+                error: function (e) {
+					console.log(e);
+				}
             },
             drawCallback: function(settings) {
                 $loader_mostrar.hide();
             },
-            createdRow:function(nRow, aData, iDisplayIndex){
+            createdRow:function(nRow, aData, iDisplayIndex){				
                 $(nRow).attr('data-producto',aData[0]);
                 $('td', nRow).eq(0).addClass('text-nowrap text-middle text-right');
 				$('td', nRow).eq(1).addClass('text-nowrap text-middle text-center');

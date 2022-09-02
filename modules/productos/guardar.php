@@ -4,13 +4,17 @@
 // Verifica si es una peticion post
 if (is_post()) {
 	// Verifica la existencia de los datos enviados
-	if (isset($_POST['id_producto']) && isset($_POST['codigo']) && isset($_POST['codigo_barras']) && isset($_POST['nombre']) && isset($_POST['nombre_factura']) && isset($_POST['cantidad_minima']) && isset($_POST['precio_actual']) && isset($_POST['unidad_id']) && isset($_POST['categoria_id']) && isset($_POST['descripcion'])) {
+	if (isset($_POST['id_producto']) && isset($_POST['codigo']) && isset($_POST['codigo_barras']) && 
+	isset($_POST['nombre']) && isset($_POST['nombre_factura']) && isset($_POST['cantidad_minima']) && 
+	isset($_POST['precio_actual']) && isset($_POST['unidad_id']) && isset($_POST['categoria_id']) && 
+	isset($_POST['descripcion'])) {
+
 		// Obtiene los datos del producto
 		$id_producto = trim($_POST['id_producto']);
 		$codigo = trim($_POST['codigo']);
 		$codigo_barras = trim($_POST['codigo_barras']);
 		$nombre = trim($_POST['nombre']);
-		$color = trim($_POST['color']);
+		$color = (isset($_POST['color'])) ? trim($_POST['color']) : '';
 		// $fecha_ven = trim($_POST['ven_fecha']);
 		$nombre_factura = trim($_POST['nombre_factura']);
 		$cantidad_minima = trim($_POST['cantidad_minima']);
@@ -21,7 +25,8 @@ if (is_post()) {
 		$unidad_id = trim($_POST['unidad_id']);
 		$categoria_id = trim($_POST['categoria_id']);
 		$marca_id = trim($_POST['marca_id']);
-		$ubicacion = trim($_POST['ubicacion']);
+		
+		$ubicacion = ($_POST['ubicacion']) ? trim($_POST['ubicacion']) : '';
 		$descripcion = trim($_POST['descripcion']);
 		// $contenedor = trim($_POST['contenedor']);
 		// $dui = trim($_POST['dui']);

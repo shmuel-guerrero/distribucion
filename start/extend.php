@@ -20,8 +20,8 @@ function redirect($url) {
 */
 
 function escape($text) {
-	$text = htmlspecialchars($text, ENT_QUOTES);
-	$text = addslashes($text);
+	$text = htmlentities($text, ENT_QUOTES);
+	$text = addslashes($text); 
 	return $text;
 }
 
@@ -537,11 +537,11 @@ function random_string($length = 6) {
 +--------------------------------------------------------------------------
 */
 
-function cantidad_unidad($db, $id, $unidad){
+function cantidad_unidad($db, $id = 0, $unidad = 0){
     $producto = $db->select('unidad_id')->from('inv_productos')->where('id_producto',$id)->fetch_first();
     if($producto['unidad_id']!=$unidad){
         $otra_unidad = $db->select('cantidad_unidad')->from('inv_asignaciones')->where(array('unidad_id' => $unidad, 'producto_id' => $id, 'visible' => 's'))->fetch_first();
-        return $otra_unidad['cantidad_unidad'];
+        return ($otra_unidad['cantidad_unidad']) ? $otra_unidad['cantidad_unidad']:0;
     }else{
         return 1;
     }
@@ -1297,6 +1297,8 @@ function validar_atributo($db, $plan = '', $modulo = '', $archivo = '', $atribut
                             WHERE sp.plan = '{$plan}' AND sp.estado = 'Activo' AND spg.modulo = '{$modulo}' 
                             AND spcd.archivo = '{$archivo}' AND spa.atributo = '{$atributo}'
                             AND spa.estado = 'Visible'")->fetch_first();
+
+        $registros = ($registros) ? $registros : array('atributo' => '');
         
         // selavlida que el atributo obtenido sea igual al recibido
         $respuesta = ($registros['atributo'] == $atributo) ? true: false;

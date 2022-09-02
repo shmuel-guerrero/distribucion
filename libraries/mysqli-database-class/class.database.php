@@ -607,8 +607,8 @@ class Database
      */
     public function escape($string)
     {
-        if (get_magic_quotes_runtime())
-            $string = stripslashes($string);
+        /* if (get_magic_quotes_runtime())
+            $string = stripslashes($string); */
 
         return @$this->_mysqli->real_escape_string($string);
     }
@@ -732,7 +732,7 @@ class Database
      * @return object Returns the current instance
      */
 
-    protected function _like($title, $match, $place = 'both', $type)
+    protected function _like($title, $match, $type, $place = 'both')
     {
         // If $title is an array, we need to process it
 
@@ -1243,7 +1243,7 @@ class Database
     */
     public function beginTransaction()
     {
-        @$this->_mysqli->begin_transaction(MYSQLI_TRANS_STAR_READ_ONLY);
+        @$this->_mysqli->begin_transaction(MYSQLI_TRANS_START_READ_WRITE);                         
     }
 
     public function rollback() {

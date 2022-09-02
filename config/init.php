@@ -10,7 +10,7 @@ header('Pragma: no-cache');
 date_default_timezone_set('America/La_Paz');
 
 // Ambiente de trabajo production/development
-define('environment', 'production');
+define('environment', 'development');
 
 // Informacion del desarrollador
 define('name_autor', 'shmuel');
@@ -87,7 +87,7 @@ define('semilla','92458d6c2160324fc1163cf6ce062a80');
 define('host', 'localhost');
 define('username', 'root');//
 define('password', '');//
-define('database', 'hgc_test_09092021');//
+define('database', 'distribucion');//
 define('port', '3306');
 
 ?>

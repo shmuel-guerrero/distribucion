@@ -7,7 +7,7 @@ if (is_post()) {
     if (isset($_POST['tipo'])) {
 
         // Importa la libreria para subir la imagen
-        require_once libraries . '/upload-class/class.upload.php';
+        //require_once libraries . '/upload-class/class.upload.php';
 
         // Obtiene los datos del cliente
         $tipo = trim($_POST['tipo']);

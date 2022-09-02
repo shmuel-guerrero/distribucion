@@ -112,7 +112,8 @@
         $nestedData[] = escape($Dato['categoria']) . ' <small class="text-success"> ' . (($Dato['marca']) ? escape($Dato['marca']) : '') . '</small>';
         $nestedData[] = escape($Dato['descripcion']);
         $nestedData[] = escape($Dato['unidad']);
-        $nestedData[] = cantidad_unidad($db,$Dato['id_producto'],9)?cantidad_unidad($db,$Dato['id_producto'],9).' '.nombre_unidad($db,$Dato['unidad_id']):'1 '.nombre_unidad($db,$Dato['unidad_id']);
+        $unidad_id = $db->select('unidad_id')->from('inv_productos')->where('id_producto',$Dato['id_producto'])->fetch_first()['unidad_id'];
+        $nestedData[] = cantidad_unidad($db,$Dato['id_producto'], $unidad_id)?cantidad_unidad($db,$Dato['id_producto'],$unidad_id).' '.nombre_unidad($db,$Dato['unidad_id']):'1 '.nombre_unidad($db,$Dato['unidad_id']);
         $nestedData[] = escape($Dato['cantidad_minima']);
 
         $ids_asignaciones=$db->select('*')

@@ -89,15 +89,18 @@ $permiso_capturar = in_array('capturar', $permisos);
 			<?php foreach ($users as $nro => $user) { ?>
 			<tr>
 				<th class="text-nowrap"><?= $nro + 1; ?></th>
-				<td class="text-nowrap"><img src="<?= ($user['avatar'] == '') ? imgs . '/avatar.jpg' : profiles . '/' . $user['avatar']; ?>" class="img-circle" data-toggle="lightbox" data-lightbox-image="<?= ($user['avatar'] == '') ? imgs . '/avatar.jpg' : profiles . '/' . $user['avatar']; ?>" width="30" height="30"></td>
+				<td class="text-nowrap"><img src="<?= ($user['avatar'] == '') ? imgs . '/avatar.jpg' :((file_exists(profiles . '/' . $user['avatar'])) ? profiles . '/' . $user['avatar'] : imgs . '/avatar.jpg'); ?>" class="img-circle" data-toggle="lightbox" data-lightbox-image="<?= ($user['avatar'] == '') ? imgs . '/avatar.jpg' : profiles . '/' . $user['avatar']; ?>" width="30" height="30"></td>
 				<td class="text-nowrap"><?= escape($user['username']); ?></td>
 				<td class="text-nowrap"><?= escape($user['email']); ?></td>
 				<td class="text-nowrap"><?= escape($user['rol']); ?></td>
 				<td class="text-nowrap"><?= escape($user['paterno'] . ' ' . $user['materno'] . ' ' . $user['nombres']); ?></td>
 				<td class="text-nowrap">
 					<?php 
-						$almacen = $db->select('almacen')->from('inv_almacenes')->where('id_almacen=',$user['almacen_id'])->fetch_first();
-						echo $almacen['almacen'];
+						if ($user['almacen_id']) {							
+							$almacen = $db->from('inv_almacenes')->where( array('id_almacen'=> $user['almacen_id']))->fetch_first();
+							$almacen = ($almacen) ? $almacen['almacen'] : '';
+							echo $almacen;
+						}
 					?>
 				</td>
 

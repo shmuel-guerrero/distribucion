@@ -133,11 +133,11 @@ $(function () {
 		$('#telefono')[0].selectize.clear();
 	});
 	
-	$('#fecha_nacimiento').mask('<?= $formato_numeral; ?>').datetimepicker({
+	/* $('#fecha_nacimiento').mask('<?= $formato_numeral; ?>').datetimepicker({
 		format: '<?= strtoupper($formato_textual); ?>'
 	}).on('dp.change', function () {
 		$(this).trigger('blur');
-	});
+	}); */
 	
 	$('.form-control:first').select();
 });

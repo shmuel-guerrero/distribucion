@@ -175,7 +175,9 @@ $(function () {
 	<?php } ?>
 	
     <?php if ($almacenes) { 
-			$url = institucion . '/' . $_institution['imagen_encabezado'];
+			$url = (institucion.'/'.$_institution['imagen_encabezado'] != '') ? institucion.'/'.$_institution['imagen_encabezado'] : institucion.'/logo_institution.jpg';
+			$url = file_exists($url) ? $url : institucion.'/logo_institution.jpg'; 
+				
 			$image = file_get_contents($url);
 			if ($image !== false){
 				$imag = 'data:image/jpg;base64,'.base64_encode($image);

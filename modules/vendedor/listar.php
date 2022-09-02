@@ -132,15 +132,15 @@ $permiso_control = in_array('control', $permisos);
 				<td class="text-nowrap text-uppercase"><?= escape($empleado['nombres']); ?> <?= escape($empleado['paterno']); ?> <?= escape($empleado['materno']); ?> - 
                     <small class="text-success"> <?= ($empleado['username']) ? "USUARIO: " . escape($empleado['username']): "USUARIO NO ASIGNADO"; ?> </small>
                 </td>
-				<td class="text-nowrap text-uppercase  <?= ($ruta_empleado['nombre']) ? '':'text-warning' ?> "><?= ($ruta_empleado['nombre']) ? $ruta_empleado['nombre'] : "RUTA NO ASIGNADA" ?> - 
+				<td class="text-nowrap text-uppercase  <?= (isset($ruta_empleado['nombre'])) ? '':'text-warning' ?> "><?= (isset($ruta_empleado['nombre'])) ? $ruta_empleado['nombre'] : "RUTA NO ASIGNADA" ?> - 
                     <small class="text-success">
-                        <?php switch($ruta_empleado['dia']){case 0: echo "Domingo "; break; case 1: echo "Lunes"; break; case 2: echo "Martes"; break; case 3: echo "Miercoles"; break; case 4: echo "Jueves"; break; case 5: echo "Viernes"; break; case 6: echo "Sábado"; break; default: echo "<b class='text-danger'>DIA NO ASIGNADO</b>";} ?>
+                        <?php switch(isset($ruta_empleado['dia'])){case 0: echo "Domingo "; break; case 1: echo "Lunes"; break; case 2: echo "Martes"; break; case 3: echo "Miercoles"; break; case 4: echo "Jueves"; break; case 5: echo "Viernes"; break; case 6: echo "Sábado"; break; default: echo "<b class='text-danger'>DIA NO ASIGNADO</b>";} ?>
                     </small>
                 </td>
 		        <!-- 		<td class="text-nowrap"></td> -->
                 <td class="text-nowrap"><?php if($empleado['cargo']==1){echo $_institution['empresa1'];}else{echo $_institution['empresa2'];}; ?></td>
                 <td class="text-nowrap"><?php if(!$det){echo '0'.' %';}else{if($det2){$efect = ($det['reg']*100)/($det['reg']+$det2['reg']); echo round($efect,2).' %';}else{echo '100 %';}} ?></td>
-                <td class="text-nowrap"><?= escape($det['total']); ?></td>
+                <td class="text-nowrap"><?= escape((isset($det['total'])) ? $det['total'] : ''); ?></td>
 
 				<?php if ($permiso_ver || $permiso_editar || $permiso_eliminar) { ?>
 				<td class="text-nowrap">                    
