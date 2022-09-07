@@ -5,14 +5,16 @@ if (is_post()) {
 
     // Verifica la existencia de los datos enviados
     if (isset($_POST['nombre']) && isset($_POST['telefono']) && isset($_POST['descripcion'])) {
-
+        
         // Importa la libreria para subir la imagen
         require_once libraries . '/upload-class/class.upload.php';
 
         // Define la ruta
         $ruta = files . '/tiendas/';
+        //var_dump($_POST['data']);
 
-        $data = get_object_vars(json_decode($_POST['data']));
+        //$data = ($_POST['data'])? $_POST['data']:array();
+        //$data = get_object_vars(json_decode($data));
         // Obtiene los datos del cliente
         $nombres = trim($_POST['nombre']);
         $nombres_factura = trim($_POST['nombre_factura']);
@@ -34,16 +36,16 @@ if (is_post()) {
             //Se abre nueva transacción.
             $db->autocommit(false);
             $db->beginTransaction();
-            if ($_POST['id_cliente'] != 0) {
-                $id = $_POST['id_cliente'];
+            $id = (isset($_POST['id_cliente'])) ? $_POST['id_cliente'] : 0;
+            if ($id != 0) {
 
                 if (isset($_FILES['imagen'])) {
                     $imagen = $_FILES['imagen'];
 
-                    list($ancho, $alto) = getimagesize($imagen['tmp_name']);
+                    /* list($ancho, $alto) = getimagesize($imagen['tmp_name']);
 
                     $ancho = $ancho * $data['scale'];
-                    $alto = $alto * $data['scale'];
+                    $alto = $alto * $data['scale']; */
 
                     // Define la extension de la imagen
                     $extension = 'jpg';
@@ -51,7 +53,7 @@ if (is_post()) {
                     $imagen_final = md5(secret . random_string() . $nombres);
 
                     // Instancia la imagen
-                    $imagen = new upload($imagen);
+                    $imagen = new \Verot\Upload\Upload($imagen);
 
                     if ($imagen->uploaded) {
                         // Define los parametros de salida
@@ -149,10 +151,10 @@ if (is_post()) {
                         if (isset($_FILES['imagen'])) {
                             $imagen = $_FILES['imagen'];
 
-                            list($ancho, $alto) = getimagesize($imagen['tmp_name']);
+                            /* list($ancho, $alto) = getimagesize($imagen['tmp_name']);
 
                             $ancho = $ancho * $data['scale'];
-                            $alto = $alto * $data['scale'];
+                            $alto = $alto * $data['scale']; */
 
                             // Define la extension de la imagen
                             $extension = 'jpg';
@@ -160,7 +162,7 @@ if (is_post()) {
                             $imagen_final = md5(secret . random_string() . $nombres);
 
                             // Instancia la imagen
-                            $imagen = new upload($imagen);
+                            $imagen = new \Verot\Upload\Upload($imagen);
 
                             if ($imagen->uploaded) {
                                 // Define los parametros de salida

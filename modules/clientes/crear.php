@@ -21,27 +21,30 @@ $fecha_final = (isset($params[1])) ? $params[1] : $gestion_limite;
 $fecha_final = (is_date($fecha_final)) ? $fecha_final : $gestion_limite;
 $fecha_final = date_encode($fecha_final);
 
-$clientes = '';
+$clientes = array();
 $t_clientes = '';
 $n_clientes = '';
 $empresa = '';
-foreach ($clientes as $cliente) {
-    $t_clientes = $t_clientes . '*' . $cliente['ubicacion'];
-    $n_clientes = $n_clientes . '*' . $cliente['cliente'];
 
-    $aux = explode('|', $cliente['empresa']);
-
-    $cliente['empresa'];
-    if (count($aux) == 1) {
-        if ($aux[0] == 2) {
-            $empresa = $empresa . '*' . '1';
-        } elseif ($aux[0] == 1) {
-            $empresa = $empresa . '*' . '2';
+if ($clientes) {    
+    foreach ($clientes as $cliente) {
+        $t_clientes = $t_clientes . '*' . $cliente['ubicacion'];
+        $n_clientes = $n_clientes . '*' . $cliente['cliente'];
+    
+        $aux = explode('|', $cliente['empresa']);
+    
+        $cliente['empresa'];
+        if (count($aux) == 1) {
+            if ($aux[0] == 2) {
+                $empresa = $empresa . '*' . '1';
+            } elseif ($aux[0] == 1) {
+                $empresa = $empresa . '*' . '2';
+            } else {
+                $empresa = $empresa . '*' . '0';
+            }
         } else {
-            $empresa = $empresa . '*' . '0';
+            $empresa = $empresa . '*' . '3';
         }
-    } else {
-        $empresa = $empresa . '*' . '3';
     }
 }
 $rutas = $db->select('*')->from('gps_rutas')->where('estado', 1)->fetch();
@@ -125,7 +128,7 @@ $permiso_cambiar = true;
                     <label for="nombres" class="col-md-3 control-label">Cliente:</label>
                     <div class="col-md-9">
                         <input type="hidden" value="0" name="id_empleado" data-validation="required number">
-                        <input type="text" value="" name="nombres" id="nombres" class="form-control" autocomplete="off" data-validation="required letternumber length" data-validation-allowing=" -.," data-validation-length="max100">
+                        <input type="text" value="" name="nombres" id="nombres" class="form-control" autocomplete="off" data-validation="required letternumber length" data-validation-allowing=" -.," data-validation-length="max100" autofocus="autofocus">
                     </div>
                 </div>
                 <div class="form-group">
@@ -143,7 +146,7 @@ $permiso_cambiar = true;
                 <div class="form-group">
                     <label for="direccion" class="col-md-3 control-label">Dirección:</label>
                     <div class="col-md-9">
-                        <input type="text" value="" name="direccion" id="direccion" class="form-control" autocomplete="off" data-validation="letternumber length" data-validation-allowing=" ,./-#" data-validation-allowing=" " data-validation-length="max100">
+                        <input type="text" value="" name="direccion" id="direccion" class="form-control" autocomplete="off" data-validation="letternumber length" data-validation-allowing=" " data-validation-length="max100">
                     </div>
                 </div>
                 <div class="form-group">
@@ -304,6 +307,7 @@ $permiso_cambiar = true;
             glyphAnchor: [0, -7]
         }
     });
+
     var lime1Icon = new LeafIcon({
             iconUrl: '<?= files . '/puntero/lime1.png' ?>'
         }),
@@ -316,6 +320,7 @@ $permiso_cambiar = true;
         blueIcon = new LeafIcon({
             iconUrl: '<?= files . '/puntero/blue.png' ?>'
         });
+
 
     window.LRM = {
         apiToken: 'pk.eyJ1IjoibGllZG1hbiIsImEiOiJjamR3dW5zODgwNXN3MndqcmFiODdraTlvIn0.g_YeCZxrdh3vkzrsNN-Diw'
@@ -354,6 +359,8 @@ $permiso_cambiar = true;
     function afterExport(result) {
         return result;
     }
+
+    
     $(function() {
         $.validate({
             modules: 'basic,date,file'
@@ -446,7 +453,8 @@ $permiso_cambiar = true;
                                 });
                                 break;
                         }
-                    }).fail(function() {                        
+                    }).fail(function(e) {    
+                        console.log(e);                    
                         $('#loader').fadeOut(100);
                         $.notify({
                             message: 'Ocurrió un problema en el proceso, no se puedo guardar los datos, verifique si la se guardó parcialmente.'

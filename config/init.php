@@ -82,6 +82,7 @@ define('remember', 'remember-sistema');
 define('prefix', '@w1N');
 //Semilla
 define('semilla','92458d6c2160324fc1163cf6ce062a80');
+define('secret','9245824fc1163cf6ce062a80d6c21603');
 
 // Variables de base de datos
 define('host', 'localhost');
