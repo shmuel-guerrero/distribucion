@@ -42,12 +42,25 @@ $permiso_listar = in_array('listar', $permisos);
 						<input type="text" value="" name="sigla" id="sigla" class="form-control" autocomplete="off" data-validation="required letternumber" data-validation-allowing="-.">
 					</div>
 				</div>
+
+				<?php					
+				if (validar_atributo($db, $_plansistema['plan'], 'productos', 'crear', 'categoria_cliente')) {?>
+					<div class="form-group">
+						<label class="col-md-3 control-label">Categorizar unidad </label>
+						<div class="col-md-3">
+							<input type="checkbox" id="categoria_unidad" value="S" name="categoria_unidad">
+						</div>	
+					</div>
+				<?php }?>
+
 				<div class="form-group">
 					<label for="descripcion" class="col-md-3 control-label">Descripción:</label>
 					<div class="col-md-9">
 						<textarea name="descripcion" id="descripcion" class="form-control" autocomplete="off" data-validation="letternumber" data-validation-allowing="+-/.,:;#()\n " data-validation-optional="true"></textarea>
 					</div>
 				</div>
+
+
 				<div class="form-group">
 					<div class="col-md-9 col-md-offset-3">
 						<button type="submit" class="btn btn-primary">

@@ -95,7 +95,7 @@ define('TELEFONO', escape(str_replace(',', ', ', 'Telefono: '.$_institution['tel
 class MYPDF extends TCPDF {
 	public function Header() {
 		$this->Ln(5);
-		$this->SetFont(PDF_FONT_NAME_HEAD, 'I', PDF_FONT_SIZE_HEAD);
+		//$this->SetFont(PDF_FONT_NAME_HEAD, 'I', PDF_FONT_SIZE_HEAD);
 		$this->Cell(0, 5, DIRECCION, 0, true, 'R', false, '', 0, false, 'T', 'M');
 		$this->Cell(0, 5, ATENCION, 0, true, 'R', false, '', 0, false, 'T', 'M');
 		$this->Cell(0, 5, TELEFONO, 0, true, 'R', false, '', 0, false, 'T', 'M');
@@ -105,7 +105,7 @@ class MYPDF extends TCPDF {
 	
 	public function Footer() {
 		$this->SetY(-10);
-		$this->SetFont(PDF_FONT_NAME_HEAD, 'I', PDF_FONT_SIZE_HEAD);
+		//$this->SetFont(PDF_FONT_NAME_HEAD, 'I', PDF_FONT_SIZE_HEAD);
 		$length = ($this->getPageWidth() - PDF_MARGIN_LEFT - PDF_MARGIN_RIGHT) / 2;
 		$number = $this->getAliasNumPage() . ' / ' . $this->getAliasNbPages();
 		$this->Cell($length, 5, $number, 'T', false, 'L', false, '', 0, false, 'T', 'M');
@@ -147,65 +147,8 @@ if ($id_egreso == 0) {
 	
 	// Establece la fuente del contenido
 	$pdf->SetFont(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA);
+*/
 
-	// Define variables
-	$valor_moneda = $moneda;
-
-	// Estructura la tabla
-	$body = '';
-	foreach ($egresos as $nro => $egreso) {
-		$body .= '<tr>';
-		$body .= '<td>' . ($nro + 1) . '</td>';
-		$body .= '<td>' . escape(date_decode($egreso['fecha_egreso'], $_institution['formato']) . ' ' . $egreso['hora_egreso']) . '</td>';
-		$body .= '<td>' . escape($egreso['nombre_cliente']) . '</td>';
-		$body .= '<td>' . escape($egreso['nit_ci']) . '</td>';
-		$body .= '<td align="right">' . escape($egreso['nro_egreso']) . '</td>';
-		$body .= '<td align="right">' . escape($egreso['monto_total']) . '</td>';
-		$body .= '<td align="right">' . escape($egreso['nro_registros']) . '</td>';
-		$body .= '<td>' . escape($egreso['almacen']) . '</td>';
-		$body .= '<td>' . escape($egreso['nombres'] . ' ' . $egreso['paterno'] . ' ' . $egreso['materno']) . '</td>';
-		$body .= '</tr>';
-	}
-	
-	$body = ($body == '') ? '<tr><td colspan="9" align="center">No existen egresos registrados en la base de datos</td></tr>' : $body;
-	
-	// Formateamos la tabla
-	$tabla = <<<EOD
-	<style>
-	th {
-		background-color: #eee;
-		border: 1px solid #444;
-		font-weight: bold;
-	}
-	td {
-		border-left: 1px solid #444;
-		border-right: 1px solid #444;
-	}
-	table {
-		border-bottom: 1px solid #444;
-	}
-	</style>
-	<table cellpadding="5">
-		<tr>
-			<th width="6%">#</th>
-			<th width="8%">Fecha</th>
-			<th width="16%">Cliente</th>
-			<th width="10%">NIT/CI</th>
-			<th width="10%">Proforma</th>
-			<th width="10%">Monto $valor_moneda</th>
-			<th width="8%">Registros</th>
-			<th width="12%">Almacén</th>
-			<th width="20%">Empleado</th>
-		</tr>
-		$body
-	</table>
-EOD;
-	
-	// Imprime la tabla
-	$pdf->writeHTML($tabla, true, false, false, false, '');
-	
-	// Genera el nombre del archivo
-	$nombre = 'egresos_' . date('Y-m-d_H-i-s') . '.pdf';*/
 } else {
 	// Documento individual --------------------------------------------------
 	
@@ -231,7 +174,7 @@ EOD;
 	$valor_fecha = escape(date_decode($egreso['fecha_egreso'], $_institution['formato']) . ' ' . $egreso['hora_egreso']);
 	$valor_nombre_cliente = escape($egreso['nombre_cliente']);
 	$valor_nit_ci = escape($egreso['nit_ci']);
-	$valor_nro_egreso = escape($egreso['nro_egreso']);
+	//$valor_nro_egreso = escape($egreso['nro_egreso']);
 	$valor_monto_total = escape($egreso['monto_total']);
 	$valor_nro_registros = escape($egreso['nro_factura']);
 	$valor_almacen = escape($egreso['almacen']);
@@ -245,14 +188,14 @@ EOD;
 	$monto_total_descuento = number_format($egreso['monto_total_descuento'], 2, '.', '');
 
 	$valor_descuento_porc = ($egreso['descuento_porcentaje'] != 0 ? ' ('.escape($egreso['descuento_porcentaje']).'%)' : '');
-		
+	$credito = '';	
 	// para creditos HGC
 	if ($egreso['plan_de_pagos'] == 'si') {
 	    $dias = $egreso['dias'];
 	   // $credito = '<span><br><center><b>CRÉDITO</b></center></span>';
 	    $credito = '<br> <div style="border-width: 1px; border-style: dashed; "> <span style="text-align: center;"><br><center>GRACIAS POR SU PREFERENCIA</center></span> <br> Modalidad de Venta: <b>CRÉDITO</b>  <br> Días plazo: <b>'.$dias.'</b>  </div>';
 	} else {
-	    $creditto = '';
+	    $credito = '';
 	}
 	
 	// Establece la fuente del contenido
@@ -387,8 +330,8 @@ EOD;
 			<th class="all" align="right">$monto_total_descuento</th>
 		</tr>
 		$detalle_filas_deudas
+		<tr><td width="100%" align="left">$credito</td></tr>
 	</table>
-	<td width="100%" align="left">$credito</td>
 EOD;
 	
 	// Imprime la tabla

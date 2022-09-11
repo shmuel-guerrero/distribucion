@@ -1,5 +1,5 @@
 <?php
-// TCPDF FONT file DESCRIPTION
+// TCPDF FONT FILE DESCRIPTION
 $type='core';
 $name='Courier-Oblique';
 $up=-100;

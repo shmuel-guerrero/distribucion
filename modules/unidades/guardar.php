@@ -16,9 +16,10 @@ if (is_post()) {
 		$unidad = trim($_POST['unidad']);
 		$sigla = trim($_POST['sigla']);
 		$descripcion = trim($_POST['descripcion']);
+		$categoria_unidad = (isset($_POST['categoria_unidad']) && $_POST['categoria_unidad'] == 'S') ? $_POST['categoria_unidad']: 'No';		
 		
 		// Instancia la unidad
-		$unidad = array(
+		$datos = array(
 			'unidad' => $unidad,
 			'sigla' => $sigla,
 			'descripcion' => $descripcion
@@ -30,7 +31,7 @@ if (is_post()) {
 			$condicion = array('id_unidad' => $id_unidad);
 			
 			// Actualiza la informacion
-			$db->where($condicion)->update('inv_unidades', $unidad);
+			$db->where($condicion)->update('inv_unidades', $datos);
 			// Guarda Historial
 			$data = array(
 				'fecha_proceso' => date("Y-m-d"),
@@ -50,8 +51,22 @@ if (is_post()) {
 				'message' => 'El registro se actualizó correctamente.'
 			);
 		} else {
-			// Guarda la informacion
-			$id = $db->insert('inv_unidades', $unidad);
+			if (validar_atributo($db, $_plansistema['plan'], 'productos', 'crear', 'categoria_cliente')){
+				if ($categoria_unidad == 'S') {
+					//mi libreria de validadicon de token
+					require_once(__DIR__.'/funciones/api-unidades.php');
+					$acciones_productos = new unidades();
+					$acciones_productos->registroVariasUnidades($unidad);
+				}else {
+					// Guarda la informacion
+					$id = $db->insert('inv_unidades', $datos);
+				}
+			}else {
+				// Guarda la informacion
+				$id = $db->insert('inv_unidades', $datos);
+			}
+
+
 			// Guarda en el historial
 			$data = array(
 				'fecha_proceso' => date("Y-m-d"),
@@ -63,6 +78,7 @@ if (is_post()) {
 				'usuario_id' => $_SESSION[user]['id_user']			
 			);			
 			$db->insert('sys_procesos', $data) ;
+
 			
 			// Instancia la variable de notificacion
 			$_SESSION[temporary] = array(

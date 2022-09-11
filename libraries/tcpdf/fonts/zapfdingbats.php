@@ -1,5 +1,5 @@
 <?php
-// TCPDF FONT file DESCRIPTION
+// TCPDF FONT FILE DESCRIPTION
 $type='core';
 $name='ZapfDingbats';
 $up=-100;

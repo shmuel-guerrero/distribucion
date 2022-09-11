@@ -21,7 +21,7 @@ $moneda = $db->from('inv_monedas')->where('oficial', 'S')->fetch_first();
 $moneda = ($moneda) ? '(' . $moneda['sigla'] . ')' : '';
 
 // Obtiene los clientes
-$clientes = $db->select('id_cliente, id_cliente as codigo_cliente,  nit as nit_ci, cliente as nombre_cliente, direccion, telefono, ubicacion, credito, dias')
+$clientes = $db->select('id_cliente, id_cliente as codigo_cliente,  nit as nit_ci, cliente as nombre_cliente, direccion, telefono, ubicacion, credito, dias, tipo')
 			   ->from('inv_clientes')
 			   ->fetch();
 
@@ -161,7 +161,7 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 								<select name="cliente" id="cliente" class="form-control text-uppercase" data-validation="letternumber" data-validation-allowing="-+./&() " data-validation-optional="true">
 									<option value="">Buscar</option>
 									<?php foreach ($clientes as $cliente) { ?>
-										<option value="<?= escape($cliente['nit_ci']) . '|' . escape($cliente['nombre_cliente']) . '|' . escape($cliente['id_cliente']) . '|' . escape($cliente['direccion']) . '|' . escape($cliente['telefono']) . '|' . escape($cliente['ubicacion']) . '|' . escape($cliente['credito']) . '|' . escape($cliente['dias']); ?>"><?= escape($cliente['codigo_cliente']) . ' &mdash; ' . escape($cliente['nombre_cliente']) . ' &mdash; ' . escape($cliente['nit_ci']); ?></option>
+										<option value="<?= escape($cliente['nit_ci']) . '|' . escape($cliente['nombre_cliente']) . '|' . escape($cliente['id_cliente']) . '|' . escape($cliente['direccion']) . '|' . escape($cliente['telefono']) . '|' . escape($cliente['ubicacion']) . '|' . escape($cliente['credito']) . '|' . escape($cliente['dias']) . '|' . escape($cliente['tipo']); ?>"><?= escape($cliente['codigo_cliente']) . ' &mdash; ' . escape($cliente['nombre_cliente']) . ' &mdash; ' . escape($cliente['nit_ci']); ?></option>
 									<?php } ?>
 								</select>
 							</div>
@@ -192,6 +192,9 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 								<input type="text" value="" name="direccion" id="direccion" class="form-control text-uppercase" autocomplete="off" data-validation-allowing="-+./&() " maxlength="65">
 							</div>
 						</div>
+
+						<!-- COMPONENTE DE TIPO DE PRECIO BASDO EN TIPO DE CLIENTE -->
+						<?= (validar_atributo($db, $_plansistema['plan'], 'productos', 'crear', 'categoria_cliente')) ? categoria_precio_cliente(): '' ?>
 
 						<div class="form-group" style="display:none">
 							<label for="ubicacion" class="col-sm-4 control-label">Ubicación:</label>
@@ -658,7 +661,27 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 		adicionar_producto(vender);
 	}
 
+	
+	
+	/* SE DEFINE NUEVO REQUERIMIENTO SI SE TIENE LOSPERMISOS CONFIGURADOS */
+	var permisoAgregado = false;
+	permisoAgregado = "<?= validar_atributo($db, $_plansistema['plan'], 'productos', 'crear', 'categoria_cliente'); ?>";
+	permisoAgregado = (permisoAgregado) ? true: false;
+
+	if (permisoAgregado) {		
+		window.addEventListener('load', ()=>{
+			let tipo_precio = document.getElementById('tipo_precio_label');
+			tipo_precio.classList.remove('col-md-3');
+			tipo_precio.classList.add('col-sm-4');
+			
+			let divContenedor = document.getElementById('tipo_precio').parentNode;
+			divContenedor.classList.remove('col-md-9');
+			divContenedor.classList.add('col-sm-8')
+		}); 
+	}
+
 	$(function() {
+
 		var $cliente = $('#cliente');
 		var $id_cliente = $('#id_cliente');
 		var $nombre_cliente = $('#nombre_cliente');
@@ -670,29 +693,7 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 
 		var $formulario = $('#formulario');
 		let almacen = <?= $id_almacen; ?>;
-		// SE COMEBNTÓ ESTA FUNCIÓN DEBÍDO A QUE YA NO ERA NECESARIO, PUES YA NO ES UN SECTEC EL PROCENTAJE ::BECA
-		// $('#descuento_porc').selectize({
-		// 	persist: false,
-		// 	createOnBlur: true,
-		// 	create: true,
-		// 	onInitialize: function() {
-		// 		$('#descuento_porc').css({
-		// 			display: 'block',
-		// 			left: '-10000px',
-		// 			opacity: '0',
-		// 			position: 'absolute',
-		// 			top: '-10000px'
-		// 		});
-		// 	},
-		// 	onChange: function() {
-		// 		$('#descuento_porc').trigger('blur');
-		// 		//calcular_descuento_total();
-		// 	},
-		// 	onBlur: function() {
-		// 		$('#descuento_porc').trigger('blur');
-		// 		//calcular_descuento_total();
-		// 	}
-		// });
+
 		$cliente.selectize({
 			persist: false,
 			createOnBlur: true,
@@ -713,8 +714,10 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 				$cliente.trigger('blur');
 			}
 		}).on('change', function(e) {
+			
 			var valor = $(this).val();
 			valor = valor.split('|');
+
 			$(this)[0].selectize.clear();
 			if (valor.length != 1) {
 				$nit_ci.prop('readonly', true);
@@ -729,11 +732,10 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 				$telefono.val(valor[4]);
 				$ubicacion.val(valor[5]);
 				$id_cliente.val(valor[2]);
-				
 				$credito.val(valor[6]);
+				
                 $('#borrar').remove('#borrar')
                 if(valor[6] == true || valor[6] == 1 || valor[6] == '1') {
-                    // $('#cred').text('Las ventas a este cliente son a credito de: ' + valor[8] + ' dias.');
                     $('#cred').prepend(' <div class="alert alert-info" id="borrar"> <b>Forma de pago: </b> El cliente tiene un contrato de créditos de: '+ valor[7] + ' días.  </div> ');
                 } else {
                     $('#cred').prepend(' <div class="alert alert-success" id="borrar"> <b>Forma de pago: </b> El cliente no tiene contrato de créditos. </div> ');
@@ -759,7 +761,7 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 					$telefono.val(valor[4]);
 					$ubicacion.val(valor[5]);
 					$nombre_cliente.val('').focus();
-										
+					
 					//agrega 0 en telefono para los clientes nuevos					
 					$telefono.val(0);
 
@@ -769,12 +771,50 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 					$telefono.val(valor[4]);
 					$ubicacion.val(valor[5]);
 					$nit_ci.val('').focus();
-					
 					//agrega 0 en nit y telefono para los clientes nuevos
 					$nit_ci.val(0);
 					$telefono.val(0);
 				}
 			}
+
+			/* SE DEFINE NUEVO REQUERIMIENTO SI SE TIENE LOSPERMISOS CONFIGURADOS */
+			if (permisoAgregado) {
+				const tableVentas = document.querySelectorAll("#ventas tbody tr .unid-categoria select[name='unidad[]']");
+				let categoria_cliente = (valor[8]) ? valor[8].toUpperCase() : '';
+				const opcioni = tableVentas.forEach((val, key)=>{
+				
+					const $options = Array.from(val.options);
+					const optionToSelect = $options.find((item) =>{ 
+						let texto =  item.text;
+						texto = texto.split('|');
+						
+						let categoria = (texto[1]) ? texto[1].toUpperCase() : '';
+						if (categoria === categoria_cliente) {
+							return val;					
+						}					
+					});
+					if (optionToSelect) {
+						optionToSelect.selected = true;
+						let precioObtenido = optionToSelect.dataset.yyy;
+						const elemtPrecio = val.parentElement.parentElement;
+						let IdProductoObtenido = elemtPrecio.dataset.producto;
+						const InputPrecio = elemtPrecio.querySelector('input[data-precio]');
+						InputPrecio.value = precioObtenido;
+						InputPrecio.dataset.precio = precioObtenido;
+	
+						calcular_importe(IdProductoObtenido);
+						calcular_descuento_total();
+					}
+				});		
+				
+				const $select = document.querySelector('#tipo_precio');
+				const $options = Array.from($select.options);
+				const optionToSelect = $options.find(item => item.text.toUpperCase() === categoria_cliente);
+				if (optionToSelect) {
+					optionToSelect.selected = true;						
+				}			
+			}
+
 		});
 
 		$.validate({
@@ -969,22 +1009,52 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 				'<td class="text-middle">'+nombre+'<input type="hidden" value=\'' + nombre + '\' name="nombres[]" class="form-control" data-validation="required"></td>' +
 				'<td class="text-middle"><input type="text" value="1" name="cantidades[]"  class="form-control text-right" style="width: 60px;" maxlength="10" autocomplete="off" data-cantidad="" data-validation="required number" data-validation-allowing="range[1;' + stock + ']" data-validation-error-msg="Debe ingresar un número positivo entre 1 y ' + stock + '" onkeyup="calcular_importe(' + id_producto + ')"></td>';
 			if (porciones.length > 2) {
-				plantilla = plantilla + '<td><select name="unidad[]" id="unidad[]" data-xxx="true" class="form-control"  >';
-				aparte = porciones[1].split(':');
-				for (var ic = 1; ic < porciones.length; ic++) {
-					parte = porciones[ic].split(':');
-					oparte = parte[0].split(')');
 
-					//                console.log(parte);
-					plantilla = plantilla + '<option value="' + oparte[1] + '" data-xyyz="' + stock + '" data-yyy="' + parte[1] + '" data-yyz="' + porci2[ic - 1] + '" >' + oparte[1] + '</option>';
+				let elementPrecio = document.querySelector('#tipo_precio');
+				let optionSeleccionado = elementPrecio.options[elementPrecio.selectedIndex].text;
+
+				if (permisoAgregado && optionSeleccionado) {
+
+
+					plantilla = plantilla + '<td class="unid-categoria"><select name="unidad[]" id="unidad[]" data-xxx="true" class="form-control"  >';
+					aparte = porciones[1].split(':');
+					for (var ic = 1; ic < porciones.length; ic++) {
+						parte = porciones[ic].split(':');
+						oparte = parte[0].split(')');
+
+						//se obtiene la categoria unida a la unidad
+						let unidadSelect = oparte[1].split('|');
+						let unidadDesmenbrada = unidadSelect[1];
+						if (optionSeleccionado = unidadDesmenbrada) {							
+							plantilla = plantilla + '<option selected value="' + oparte[1] + '" data-xyyz="' + stock + '" data-yyy="' + parte[1] + '" data-yyz="' + porci2[ic - 1] + '" >' + oparte[1] + '</option>';
+						}else{
+							plantilla = plantilla + '<option value="' + oparte[1] + '" data-xyyz="' + stock + '" data-yyy="' + parte[1] + '" data-yyz="' + porci2[ic - 1] + '" >' + oparte[1] + '</option>';
+						}
+						var precioSeleccionado = parte[1];
+					}
+
+					aparte[1] = precioSeleccionado.trimEnd();
+					plantilla = plantilla + '</select></td>' +
+						'<td><input type="text" value="' + $.trim(aparte[1]) + '" name="precios[]" class="form-control  text-right" autocomplete="off" data-precio="' + $.trim(aparte[1]) + '"  data-validation="required number" data-validation-allowing="range[0.1;10000000.00],float"   data-validation-error-msg="Debe ser un número decimal positivo" onkeyup="calcular_importe(' + id_producto + ')"></td>';					
+
+				}else{
+					plantilla = plantilla + '<td class="unid-categoria"><select name="unidad[]" id="unidad[]" data-xxx="true" class="form-control"  >';
+					aparte = porciones[1].split(':');
+					for (var ic = 1; ic < porciones.length; ic++) {
+						parte = porciones[ic].split(':');
+						oparte = parte[0].split(')');
+						plantilla = plantilla + '<option value="' + oparte[1] + '" data-xyyz="' + stock + '" data-yyy="' + parte[1] + '" data-yyz="' + porci2[ic - 1] + '" >' + oparte[1] + '</option>';
+					}
+					aparte[1] = aparte[1].trimEnd();
+					plantilla = plantilla + '</select></td>' +
+						'<td><input type="text" value="' + $.trim(aparte[1]) + '" name="precios[]" class="form-control  text-right" autocomplete="off" data-precio="' + $.trim(aparte[1]) + '"  data-validation="required number" data-validation-allowing="range[0.1;10000000.00],float"   data-validation-error-msg="Debe ser un número decimal positivo" onkeyup="calcular_importe(' + id_producto + ')"></td>';					
+
 				}
-				aparte[1] = aparte[1].trimEnd();
-				plantilla = plantilla + '</select></td>' +
-					'<td><input type="text" value="' + $.trim(aparte[1]) + '" name="precios[]" class="form-control  text-right" autocomplete="off" data-precio="' + $.trim(aparte[1]) + '"  data-validation="required number" data-validation-allowing="range[0.1;10000000.00],float"   data-validation-error-msg="Debe ser un número decimal positivo" onkeyup="calcular_importe(' + id_producto + ')"></td>';
+									
 			} else {
 				sincant = porciones[1].split(')');
 				parte = sincant[1].split(':');
-				plantilla = plantilla + '<td><input type="text" value="' + parte[0] + '" data-xyyz="' + stock + '" name="unidad[]" class="form-control text-lefth" autocomplete="off" data-unidad="' + parte[0] + '" readonly data-validation-error-msg="Debe ser un número decimal positivo"></td>' +
+				plantilla = plantilla + '<td class="unid-categoria"><input type="text" value="' + parte[0] + '" data-xyyz="' + stock + '" name="unidad[]" class="form-control text-lefth" autocomplete="off" data-unidad="' + parte[0] + '" readonly data-validation-error-msg="Debe ser un número decimal positivo"></td>' +
 					'<td data-xyyz="' + stock + '" ><input type="text" value="' + $.trim(parte[1]) + '" name="precios[]" class="form-control text-right" autocomplete="off"  data-precio="' + parte[1] + '" data-cant2="1" data-validation="required number" data-validation-allowing="range[0.1;10000000.00],float" data-validation-error-msg="Debe ingresar un número decimal positivo mayor que 0 y menor que 10000000" onkeyup="calcular_importe(' + id_producto + ')"></td>';
 			}
 			//'<td class="text-middle"><input type="text" value="' + valor + '" name="precios[]" class="form-control text-right" style="width: 100px;" autocomplete="off" data-precio="' + valor + '" data-validation="required number" data-validation-allowing="range[0.01;10000000.00],float" data-validation-error-msg="Debe ser un número decimal positivo" onkeyup="calcular_importe(' + id_producto + ')"></td>' +
@@ -1016,10 +1086,6 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 				$.trim($('[data-stock=' + id_producto + ']').text(ze));
 				$(this).parent().parent().find('[data-cantidad]').attr('data-validation-allowing', 'range[1;' + zt + ']');
 				$(this).parent().parent().find('[data-cantidad]').attr('data-validation-error-msg', 'Debe ingresar un número positivo entre 1 y ' + zt);
-				//console.log($(this).parent().parent().find('[data-cantidad]').attr('data-validation-allowing'));
-				
-
-				//Convierte en 0 el descuento por producto si se cambia de unidad ::BECA
 				$(this).parent().parent().find('[data-descuento]').val(0);				
 
 				calcular_importe(id_producto);
@@ -1130,7 +1196,7 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 			DescuentoPorcentaje=0,
 			PromocionesF=document.getElementById('PromocionesF').value,
 			totalA=total;
-			console.log(PromocionesF);
+			//console.log(PromocionesF);
 		if(PromocionesF!=''){
 			let ExtrasF=document.getElementById('ExtrasF');
 			ExtrasF.innerHTML='';
@@ -1290,7 +1356,8 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 						});
 						break;
 			}
-		}).fail(function() {
+		}).fail(function(e) {
+			console.log(e);
 			$('#loader').fadeOut(100);
 			$.notify({
 				message: 'Ocurrió un problema en el proceso, no se puedo guardar los datos de la nota de remisión, verifique si la se guardó parcialmente.'

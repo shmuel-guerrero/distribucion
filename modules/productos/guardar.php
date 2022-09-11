@@ -1,6 +1,5 @@
 <?php
 
-
 // Verifica si es una peticion post
 if (is_post()) {
 	// Verifica la existencia de los datos enviados
@@ -8,6 +7,10 @@ if (is_post()) {
 	isset($_POST['nombre']) && isset($_POST['nombre_factura']) && isset($_POST['cantidad_minima']) && 
 	isset($_POST['precio_actual']) && isset($_POST['unidad_id']) && isset($_POST['categoria_id']) && 
 	isset($_POST['descripcion'])) {
+
+		//mi libreria de validadicon de token
+		require_once(__DIR__.'/funciones/api-productos.php');
+		$acciones_productos = new productos();
 
 		// Obtiene los datos del producto
 		$id_producto = trim($_POST['id_producto']);
@@ -26,8 +29,10 @@ if (is_post()) {
 		$categoria_id = trim($_POST['categoria_id']);
 		$marca_id = trim($_POST['marca_id']);
 		
-		$ubicacion = ($_POST['ubicacion']) ? trim($_POST['ubicacion']) : '';
+		$ubicacion = (isset($_POST['ubicacion'])) ? trim($_POST['ubicacion']) : '';
 		$descripcion = trim($_POST['descripcion']);
+		$tipo_precio = (isset($_POST['tipo_precio']))? $_POST['tipo_precio']:0;
+
 		// $contenedor = trim($_POST['contenedor']);
 		// $dui = trim($_POST['dui']);
 
@@ -94,7 +99,7 @@ if (is_post()) {
 				$registros = $db->query("SELECT count(*)as nro_registros FROM inv_productos")->fetch_first()['nro_registros'];
 
 				//Valida que los registros sean menor o igual al limite del plan
-				if ($registros <= $limite) {
+				if ($registros <= $limite) {					
 
 					// adiciona la fecha y hora de creacion
 					$producto['fecha_registro'] = date('Y-m-d');
@@ -103,6 +108,11 @@ if (is_post()) {
 
 					// Guarda la informacion
 					$id_producto = $db->insert('inv_productos', $producto);
+
+					if ($tipo_precio > 0) {
+						//se registra el tipo de precio para la unidad base
+						$acciones_productos->registroTipoPrecio($id_producto, $tipo_precio);
+					}
 
 					// Guarda en el historial
 					$data = array(
@@ -122,6 +132,7 @@ if (is_post()) {
 						'title' => 'Adición satisfactoria!',
 						'message' => 'El registro se guardó correctamente.'
 					);
+
 				} else {
 					
 					//se cierra transaccion
@@ -174,3 +185,5 @@ if (is_post()) {
 	require_once not_found();
 	exit;
 }
+
+

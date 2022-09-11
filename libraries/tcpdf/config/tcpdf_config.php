@@ -89,17 +89,7 @@ define ('K_BLANK_IMAGE', '_blank.png');
 /**
  * Page format.
  */
-define ('PDF_PAGE_FORMAT', 'Letter');
-
-/**
- * Page format width.
- */
-define ('PDF_PAGE_FORMAT_WIDTH', 215.9);
-
-/**
- * Page format height.
- */
-define ('PDF_PAGE_FORMAT_HEIGHT', 279.4);
+define ('PDF_PAGE_FORMAT', 'A4');
 
 /**
  * Page orientation (P=portrait, L=landscape).
@@ -134,42 +124,32 @@ define ('PDF_UNIT', 'mm');
 /**
  * Header margin.
  */
-define ('PDF_MARGIN_HEADER', 0);
+define ('PDF_MARGIN_HEADER', 5);
 
 /**
  * Footer margin.
  */
-define ('PDF_MARGIN_FOOTER', 0);
+define ('PDF_MARGIN_FOOTER', 10);
 
 /**
  * Top margin.
  */
-define ('PDF_MARGIN_TOP', 25);
+define ('PDF_MARGIN_TOP', 27);
 
 /**
  * Bottom margin.
  */
-define ('PDF_MARGIN_BOTTOM', 15);
+define ('PDF_MARGIN_BOTTOM', 25);
 
 /**
  * Left margin.
  */
-define ('PDF_MARGIN_LEFT', 10);
+define ('PDF_MARGIN_LEFT', 15);
 
 /**
  * Right margin.
  */
-define ('PDF_MARGIN_RIGHT', 10);
-
-/**
- * Default head font name.
- */
-define ('PDF_FONT_NAME_HEAD', 'helvetica');
-
-/**
- * Default head font size.
- */
-define ('PDF_FONT_SIZE_HEAD', 8);
+define ('PDF_MARGIN_RIGHT', 15);
 
 /**
  * Default main font name.
@@ -179,7 +159,7 @@ define ('PDF_FONT_NAME_MAIN', 'helvetica');
 /**
  * Default main font size.
  */
-define ('PDF_FONT_SIZE_MAIN', 11);
+define ('PDF_FONT_SIZE_MAIN', 10);
 
 /**
  * Default data font name.
@@ -189,7 +169,7 @@ define ('PDF_FONT_NAME_DATA', 'helvetica');
 /**
  * Default data font size.
  */
-define ('PDF_FONT_SIZE_DATA', 9);
+define ('PDF_FONT_SIZE_DATA', 8);
 
 /**
  * Default monospaced font name.
@@ -199,22 +179,22 @@ define ('PDF_FONT_MONOSPACED', 'courier');
 /**
  * Ratio used to adjust the conversion of pixels to user units.
  */
-define ('PDF_IMAGE_SCALE_RATIO', 1);
+define ('PDF_IMAGE_SCALE_RATIO', 1.25);
 
 /**
  * Magnification factor for titles.
  */
-define('HEAD_MAGNIFICATION', 1);
+define('HEAD_MAGNIFICATION', 1.1);
 
 /**
  * Height of cell respect font height.
  */
-define('K_CELL_HEIGHT_RATIO', 1);
+define('K_CELL_HEIGHT_RATIO', 1.25);
 
 /**
  * Title magnification respect main font size.
  */
-define('K_TITLE_MAGNIFICATION', 1);
+define('K_TITLE_MAGNIFICATION', 1.3);
 
 /**
  * Reduction factor for small font.
@@ -243,5 +223,5 @@ define('K_TCPDF_THROW_EXCEPTION_ERROR', false);
 define('K_TIMEZONE', 'UTC');
 
 //============================================================+
-// END OF file
+// END OF FILE
 //============================================================+

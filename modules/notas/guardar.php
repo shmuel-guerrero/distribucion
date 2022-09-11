@@ -64,6 +64,8 @@ if (is_ajax() && is_post()) {
 				}			
 			}
 
+			//var_dump($unidad);
+			
 			//se envia datos a validar el stock de los productos
 			$validar_stock_productos = validar_stock($db, $productos, $cantidades, $unidad, $almacen_id);
 			$message = "";
@@ -118,12 +120,12 @@ if (is_ajax() && is_post()) {
 			$moneda = ($moneda) ? $moneda['moneda'] : '';
 
 			// Obtiene los datos del monto total
-			$conversor = new NumberToLetterConverter();
+			/* $conversor = new NumberToLetterConverter();
 			$monto_textual = explode('.', $monto_total);
 			$monto_numeral = $monto_textual[0];
 			$monto_decimal = $monto_textual[1];
 			$monto_literal = ucfirst(strtolower(trim($conversor->to_word($monto_numeral))));
-
+ */
 			// Instancia la nota
 			$nota = array(
 				'fecha_egreso' => date('Y-m-d'),

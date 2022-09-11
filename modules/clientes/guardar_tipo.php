@@ -20,7 +20,7 @@ if (is_post()) {
             $db->autocommit(false);
             $db->beginTransaction(); 
 
-            $id = $db->insert('inv_tipos_clientes', array('tipo_cliente' => $tipo));
+            $id = $db->insert('inv_tipos_clientes', array('tipo_cliente' => strtoupper($tipo)));
             // Guardar Historial
             $data = array(
                 'fecha_proceso' => date("Y-m-d"),

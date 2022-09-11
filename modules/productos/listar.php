@@ -227,6 +227,8 @@ $unidades = $db->from('inv_unidades')->order_by('unidad')->fetch();
                         </label>
                         <input type="text" value="" name="precio" id="producto_precio" class="form-control" autocomplete="off" data-validation="required number" data-validation-allowing="range[0.01;10000.00],float" maxlength="5">
                     </div>
+					<?= (validar_atributo($db, $_plansistema['plan'], module, 'crear', 'categoria_cliente')) ? categoria_precio_cliente(): '' ?>
+
                     <div class="form-group">
                         <label for="tamano" class="control-label">
                             <span>Cantidad de unidades:</span>
@@ -383,6 +385,12 @@ $(function () {
     }).on('shown.bs.modal', function () {
         $loader_asignar_precio.hide();
         $precio_asignar_precio.trigger('focus');
+		
+		let tipo_precio = document.getElementById('tipo_precio_label');
+		tipo_precio.classList.remove('col-md-3');
+		let divContenedor = document.getElementById('tipo_precio').parentNode;
+		divContenedor.classList.remove('col-md-9');
+		
     });
     <?php endif ?>
 

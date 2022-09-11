@@ -441,7 +441,8 @@ $permiso_cambiar = true;
                                 type: 'danger'
                             });
                         }
-                    }).fail(function () {
+                    }).fail(function (e) {
+                        console.log(e);
                         $('#loader').fadeOut(100);
                         $.notify({
                             message: 'Ocurrió un problema en el proceso, no se puedo guardar los datos, verifique si la se guardó parcialmente.'

@@ -320,11 +320,20 @@ $permiso_listar = in_array('listar', $permisos);
                                     <td class="text-nowrap text-right"><?= escape($producto['cantidad_ingresos'] - $producto['cantidad_egresos']); ?></td>
 
                                     <?php 
-                                    $precio_r = $db->query("SELECT d.costo FROM inv_ingresos_detalles d LEFT JOIN inv_ingresos i on i.id_ingreso = d.ingreso_id WHERE d.producto_id=".$producto['id_producto']." ORDER BY d.id_detalle DESC")->fetch_first();
+                                    $precio_r = 0;
+                                    $precio_r = $db->query("SELECT IFNULL(d.costo, 0)AS costo FROM inv_ingresos_detalles d 
+                                                        LEFT JOIN inv_ingresos i on i.id_ingreso = d.ingreso_id 
+                                                        WHERE d.producto_id=".$producto['id_producto']." ORDER BY d.id_detalle DESC")->fetch_first();
+                                    $precio_r = (isset($precio_r['costo'])) ? $precio_r['costo']: 0;
+                                    
 
                                     ?>
                                     <td class="text-nowrap text-right">
-                                    <span style="display: none;" data-precio="<?= $producto['id_producto']; ?>"><?=$precio_r['costo'];?></span><?= escape($precio_r['costo']); ?></td>
+                                        <span style="display: none;" data-precio="<?= $producto['id_producto']; ?>">
+                                                <?=($precio_r) ? $precio_r: 0;?>
+                                        </span> 
+                                        <?=($precio_r) ? $precio_r: 0;?>
+                                    </td>
                                     <td class="text-nowrap">
                                         <button type="button" class="btn btn-xs btn-primary" data-comprar="<?= $producto['id_producto']; ?>" data-toggle="tooltip" data-title="Comprar"><span class="glyphicon glyphicon-share-alt"></span></button>
                                     </td>

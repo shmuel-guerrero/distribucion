@@ -1116,16 +1116,20 @@ function validar_stock($db, $id_productos = array(), $cantidades = array(), $uni
                 //obtiene stock de producto
                 $stock = ($stock_recibido['stock'] > 0) ? $stock_recibido['stock'] : 0;
                 
-                //obtener id de unidad
-                $id_unidad = $db->select('id_unidad')->from('inv_unidades')->where('unidad', $unidades[$key])->fetch_first()['id_unidad'];                
                 
-                 if (count($id_unidad) > 0) {
+                //obtener id de unidad
+                //$id_unidad = $db->select('id_unidad')->from('inv_unidades')->where('unidad', '{$unidades[$key]}')->fetch_first()['id_unidad'];                
+                $id_unidad = $db->query("select id_unidad FROM inv_unidades where unidad = '{$unidades[$key]}'")->fetch_first()['id_unidad'];                
+                
+                 if ($id_unidad) {
                     
                     //obtiene stock en unidad(1)
                     $cantidad_egresar = $cantidades[$key] * cantidad_unidad($db, $id_productos[$key], $id_unidad);
 
                     //obtener regisreo en base de datos
                     $item = $db->from('inv_egresos_detalles')->where(array('egreso_id' => $id_egreso, 'producto_id' =>  $id_productos[$key]))->fetch_first();
+                    
+                    $item['cantidad'] = (isset($item['cantidad'])) ? $item['cantidad'] : 0;
                     
                     // se valida que el stock es o menor a la cantidad solicitada
                     if (($cantidad_egresar > $item['cantidad']) ) {
@@ -1707,6 +1711,12 @@ function nro_factura($nro_factura = 0){
     return ($nro_factura > 0) ? $nro_factura : 0;
 }
 
+/*
++--------------------------------------------------------------------------
+| SE DEFINE LOS DECIMALES DE MANEJO EN EL SISTEMA
++--------------------------------------------------------------------------
+*/
+
 function _toFixed($value, $cantidad_decimal = null, $operador = null)
 {		
 	global $db;
@@ -1723,7 +1733,6 @@ function _toFixed($value, $cantidad_decimal = null, $operador = null)
 							
     return (number_format($value, 2, '.', ''));
 }
-
 
 ?>
 

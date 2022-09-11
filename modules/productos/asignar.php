@@ -4,7 +4,7 @@
  * FunctionPHP - Framework Functional PHP
  * 
  * @package  FunctionPHP
- * @author   Wilfredo Nina <wilnicho@hotmail.com>
+ * @author   
  */
 // Verifica la peticion post
 //var_dump($_POST); die();
@@ -29,6 +29,7 @@ if (is_post()) {
                 $precio = (is_numeric($precio)) ? $precio : 0;
                 $estado_asignacion = false;
                 $estado_precio = false;
+				$tipo_precio = (isset($_POST['tipo_precio'])) ? $_POST['tipo_precio']: 0;				
 
                 //busqueda de existencia
                 $ex = $db->select('*')
@@ -48,7 +49,7 @@ if (is_post()) {
 				if($asignado) {
 					// Crea la notificacion
 					$_SESSION[temporary] = array(
-						'alert' => 'danger',
+						'alert' => 'warning',
 						'title' => 'Asignación fallida!',
 						'message' => 'Esta unidad ya fue asignada al producto.'
 					);
@@ -65,6 +66,8 @@ if (is_post()) {
 				// 	);
 				// 	redirect('?/productos/listar');
 				// }
+
+
 
                 if($ex){
 
@@ -109,6 +112,15 @@ if (is_post()) {
                     // Cambia el precio
 					//$db->where(array('asignacion_id' => $ex['id_asignacion']))->update('inv_precios', $precio);
 					$id_precio = $db->insert('inv_precios', $precio);
+
+
+					if ($tipo_precio != 0) {
+						$datos = array(
+							'cliente_tipo_id' => $tipo_precio
+						);						
+						$db->where(array('producto_id' => $producto_id, 'asignacion_id' => $id_asignacion))->update('inv_asignacion_tipo_precio', $datos);
+					}
+
                      // Guarda Historial
         			$data = array(
         				'fecha_proceso' => date("Y-m-d"),
@@ -156,6 +168,18 @@ if (is_post()) {
 
                     // Crea el precio
                     $id_precio = $db->insert('inv_precios', $precio);
+
+
+					if ($tipo_precio != 0) {
+						$datos = array(
+							'asignacion_id' => $id_asignacion, 
+							'producto_id' => $producto_id, 
+							'cliente_tipo_id' => $tipo_precio, 
+							'nivel' => 'Secundario', 
+						);
+						$db->insert('inv_asignacion_tipo_precio', $datos);
+					}
+
                     // Guarda Historial
         			$data = array(
         				'fecha_proceso' => date("Y-m-d"),

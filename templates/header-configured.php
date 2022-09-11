@@ -9,6 +9,10 @@ $_menus = $db->select('m.*, p.archivos')->from('sys_permisos p')->join('sys_menu
 // Construye la barra de menus
 $_menus = construir_sidebar($_menus);
 
+// Importa la componente de categoria de precio
+require_once modules . '/00-components/index.php';
+
+
 ?>
 <!doctype html>
 <html lang="es">

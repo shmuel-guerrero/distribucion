@@ -1,4 +1,4 @@
-#!/usr/bin/php -q
+#!/usr/bin/env php
 <?php
 //============================================================+
 // File name   : tcpdf_addfont.php
@@ -46,7 +46,7 @@ if (php_sapi_name() != 'cli') {
   exit(1);
 }
 
-$tcpdf_include_dirs = array(realpath(dirname(__file__).'/../tcpdf.php'), '/usr/share/php/tcpdf/tcpdf.php', '/usr/share/tcpdf/tcpdf.php', '/usr/share/php-tcpdf/tcpdf.php', '/var/www/tcpdf/tcpdf.php', '/var/www/html/tcpdf/tcpdf.php', '/usr/local/apache2/htdocs/tcpdf/tcpdf.php');
+$tcpdf_include_dirs = array(realpath(dirname(__FILE__).'/../tcpdf.php'), '/usr/share/php/tcpdf/tcpdf.php', '/usr/share/tcpdf/tcpdf.php', '/usr/share/php-tcpdf/tcpdf.php', '/var/www/tcpdf/tcpdf.php', '/var/www/html/tcpdf/tcpdf.php', '/usr/local/apache2/htdocs/tcpdf/tcpdf.php');
 foreach ($tcpdf_include_dirs as $tcpdf_include_path) {
 	if (@file_exists($tcpdf_include_path)) {
 		require_once($tcpdf_include_path);
@@ -265,5 +265,5 @@ echo ">>> Process successfully completed!\n\n";
 exit(0);
 
 //============================================================+
-// END OF file
+// END OF FILE
 //============================================================+

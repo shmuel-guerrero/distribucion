@@ -19,6 +19,7 @@ $permisos = explode(',', permits);
 // Almacena los permisos en variables
 $permiso_listar = in_array('listar', $permisos);
 
+
 ?>
 <?php require_once show_template('header-configured'); ?>
 <div class="panel-heading" data-formato="<?= strtoupper($formato_textual); ?>">
@@ -133,6 +134,10 @@ $permiso_listar = in_array('listar', $permisos);
 				<!--		<textarea name="ubicacion" id="ubicacion" class="form-control" rows="3" data-validation="letternumber" data-validation-allowing='-+/.,:;@#&"()_\n ' data-validation-optional="true"></textarea>-->
 				<!--	</div>-->
 				<!--</div>-->
+
+				<!-- COMPONENTE DE TIPO DE PRECIO BASDO EN TIPO DE CLIENTE -->
+				<?= (validar_atributo($db, $_plansistema['plan'], module, file, 'categoria_cliente')) ? categoria_precio_cliente(): '' ?>
+				
 				<div class="form-group">
 					<label for="descripcion" class="col-md-3 control-label">Descripción:</label>
 					<div class="col-md-9">
@@ -210,5 +215,29 @@ $generar_crear.on('click', function () {
         $codigo_crear.trigger('blur');
     });
 });
+
+const selectUnidades = document.querySelector('#unidad_id');
+
+	selectUnidades.addEventListener('change', (event) => {
+		const index = event.target.options.selectedIndex;
+		const dato = event.target.options[index].text;
+		const tipo_cliente = dato.split('|');
+		let cliente_select = (tipo_cliente.length > 1) ? tipo_cliente[1].toString(): '';
+		const $select = document.querySelector('#tipo_precio');
+		const $options = Array.from($select.options);
+		if (Array.isArray(tipo_cliente) && tipo_cliente.length > 1) {
+			const optionToSelect = $options.find(item => item.text.toUpperCase() ===cliente_select.toUpperCase());
+			if (optionToSelect) {
+				optionToSelect.selected = true;
+				//$select.setAttribute('disabled', 'true');
+			}			
+		}else{
+			const optionToSelect = $options[0];
+			optionToSelect.selected = true;
+			//$select.removeAttribute('disabled', 'false');
+		}
+	});
+
+
 </script>
 <?php require_once show_template('footer-configured'); ?>
