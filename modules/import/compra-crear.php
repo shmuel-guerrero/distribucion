@@ -6,6 +6,10 @@ $permisos = explode(',', permits);
 // Almacena los permisos en variables
 $permiso_listar = in_array('subir-compra', $permisos);
 
+// Obtiene la moneda oficial
+$moneda = $db->from('inv_monedas')->where('oficial', 'S')->fetch_first();
+$moneda = ($moneda) ? '(' . $moneda['sigla'] . ')' : '';
+
 
 ?>
 <?php require_once show_template('header-configured'); ?>
@@ -29,7 +33,7 @@ $permiso_listar = in_array('subir-compra', $permisos);
         <?php } ?>
         
         <hr>
-        <div class="col-md-3">
+        <div class="col-md-3  col-sm-12">
             <div class="panel panel-default">
                 <div class="panel-heading">Importacion de Excel - Compras</div>
                 <div class="panel-body">
@@ -62,134 +66,110 @@ $permiso_listar = in_array('subir-compra', $permisos);
                 </div>
             </div>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-9 col-sm-12">
             <div class="panel panel-default">
                 <div class="panel-heading">Datos de compras - Información subida</div>
                 <div class="panel-body">
-                    <div class="col-sm-12 col-md-12">
-                    <div class="form-horizontal">
-						<div class="form-group">
-							<label class="col-md-3 control-label">Fecha y hora:</label>
-							<div class="col-md-9">
-								<p class="form-control-static"><?= escape(date_decode($ingreso['fecha_ingreso'], $_institution['formato'])); ?> <small class="text-success"><?= escape($ingreso['hora_ingreso']); ?></small></p>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-3 control-label">Proveedor:</label>
-							<div class="col-md-9">
-								<p class="form-control-static"><?= escape($ingreso['nombre_proveedor']); ?></p>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-3 control-label">Tipo de ingreso:</label>
-							<div class="col-md-9">
-								<p class="form-control-static"><?= escape($ingreso['tipo']); ?></p>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-3 control-label">Descripción:</label>
-							<div class="col-md-9">
-								<p class="form-control-static"><?= escape($ingreso['descripcion']); ?></p>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-3 control-label">Monto total:</label>
-							<div class="col-md-9">
-								<p class="form-control-static"><?= escape($ingreso['monto_total']); ?></p>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-3 control-label">Descuento:</label>
-							<div class="col-md-9">
-								<p class="form-control-static"><?= escape($ingreso['descuento']); ?> %</p>
-							</div>
-						</div>
-						<?php if ($ingreso['monto_total_descuento']>0) {  
-							$descuento= $ingreso['monto_total_descuento'];
-						} else {
-                            $descuento= $ingreso['monto_total'];
-						}?>
-						<div class="form-group">
-							<label class="col-md-3 control-label">Monto total con Descuento:</label>
-							<div class="col-md-9">
-								<p class="form-control-static"><?= escape($descuento); ?></p>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-3 control-label">Número de registros:</label>
-							<div class="col-md-9">
-								<p class="form-control-static"><?= escape($ingreso['nro_registros']); ?></p>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-3 control-label">Almacén:</label>
-							<div class="col-md-9">
-								<p class="form-control-static"><?= escape($ingreso['almacen']); ?></p>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-3 control-label">Empleado:</label>
-							<div class="col-md-9">
-								<p class="form-control-static"><?= escape($ingreso['nombres'] . ' ' . $ingreso['paterno'] . ' ' . $ingreso['materno']); ?></p>
-							</div>
-						</div>
-					</div>
+                <div class="col-sm-12 col-md-12">
+                        <div class="form-horizontal" id="section_action" hidden>
+                            <div class="col-sm-6 col-md-6 text-right">
+                                <form action="?/import/confirm-importacion" method="post" id="confirmar-form">
+                                    <input type="hidden" name="id_import_ingreso">
+                                    <button type="submit" class="btn btn-primary">
+                                        <span class="glyphicon glyphicon-ok"></span>
+                                        <span>Confirmar</span>
+                                    </button>                                  
+                                </form>
+                            </div>
+                            <div class="col-sm-6 col-md-6 text-left">
+                                <form action="?/import/eliminar-importacion" method="post" id="eliminar-form">                                
+                                    <input type="hidden" name="id_import_ingreso">
+                                    <button type="submit" class="btn btn-danger">
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                        <span>Eliminar</span>
+                                    </button>                                  
+                                </form>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="col-sm-12 col-md-12">
-                        <div class="table-responsive">
+                        <div class="form-horizontal" id="dats_compra">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Fecha y hora:</label>
+                                    <div class="col-md-9">
+                                        <p class="form-control-static" id="fecha_compra"></p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Proveedor:</label>
+                                    <div class="col-md-9">
+                                        <p class="form-control-static" id="proveedor_compra"></p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Tipo de ingreso:</label>
+                                    <div class="col-md-9">
+                                        <p class="form-control-static">Compra</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Descripción:</label>
+                                    <div class="col-md-9">
+                                        <p class="form-control-static" id="descrip_compra"></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Monto total:</label>
+                                    <div class="col-md-9">
+                                        <p class="form-control-static" id="total_compra"></p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Almacén:</label>
+                                    <div class="col-md-9">
+                                        <p class="form-control-static" id="almacen_compra"></p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Empleado:</label>
+                                    <div class="col-md-9">
+                                        <p class="form-control-static" id="emple_compra"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="ms_clear" hidden>
+                            <div class="alert alert-danger">
+                                <strong>Advertencia!</strong>
+                                <p>No existen ingresos importados.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-md-12">
+                        <div class="table-responsive" id="section_table">
                             <table id="table" class="table table-bordered table-condensed table-restructured table-striped table-hover">
                                 <thead>
                                     <tr class="active">
                                         <th class="text-nowrap">#</th>
                                         <th class="text-nowrap">Código</th>
                                         <th class="text-nowrap">Nombre</th>
-                                        <th class="text-nowrap">Cantidad</th>
-                                        <!-- <th class="text-nowrap">F. elaboración</th>
-                                        <th class="text-nowrap">F. vencimiento</th>
-                                        <th class="text-nowrap">Nro Lote</th>
-                                        <th class="text-nowrap">Nro DUI</th>
-                                        <th class="text-nowrap">Contenedor</th> -->
-                                        <th class="text-nowrap">Costo <?= escape($moneda); ?></th>
-                                        <th class="text-nowrap">Importe <?= escape($moneda); ?></th>
-                                        <?php if ($permiso_suprimir) { ?>
-                                        <!--<th class="text-nowrap">Opciones</th>-->
-                                        <?php } ?>
+                                        <th class="text-nowrap text-right">Cantidad</th>
+                                        <th class="text-nowrap text-right">Costo <?= escape($moneda); ?></th>
+                                        <th class="text-nowrap text-right">Importe <?= escape($moneda); ?></th>                
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $total = 0; ?>
-                                    <?php foreach ($detalles as $nro => $detalle) { ?>
-                                    <tr>
-                                        <?php $cantidad = escape($detalle['cantidad']); ?>
-                                        <?php $costo = escape($detalle['costo']); ?>
-                                        <?php $importe = $cantidad * $costo; ?>
-                                        <?php $total = $total + $importe; ?>
-                                        <th class="text-nowrap"><?= $nro + 1; ?></th>
-                                        <td class="text-nowrap"><?= escape($detalle['codigo']); ?></td>
-                                        <td class="text-nowrap"><?= escape($detalle['nombre']); ?></td>
-                                        <td class="text-nowrap text-right"><?= $cantidad; ?></td>
-                                        <!-- <td class="text-nowrap text-right"><?= $detalle['elaboracion']; ?></td>
-                                        <td class="text-nowrap text-right"><?= $detalle['vencimiento']; ?></td>
-                                        <td class="text-nowrap text-right"><?= $detalle['lote2']; ?></td>
-                                        <td class="text-nowrap text-right"><?= $detalle['dui']; ?></td>
-                                        <td class="text-nowrap text-right"><?= $detalle['contenedor']; ?></td> -->
-                                        <td class="text-nowrap text-right"><?= $costo; ?></td>
-                                        <td class="text-nowrap text-right"><?= number_format($importe, 2, '.', ''); ?></td>
-                                        <?php if ($permiso_suprimir) { ?>
-                                        <!--<td class="text-nowrap">-->
-                                        <!--	<a href="?/ingresos/suprimir/<?= $ingreso['id_ingreso']; ?>/<?= $detalle['id_detalle']; ?>" data-toggle="tooltip" data-title="Eliminar detalle del ingreso" data-suprimir="true"><span class="glyphicon glyphicon-trash"></span></a>-->
-                                        <!--</td>-->
-                                        <?php } ?>
-                                    </tr>
-                                    <?php } ?>
+                                   
                                 </tbody>
                                 <tfoot>
                                     <tr class="active">
                                         <th class="text-nowrap text-right" colspan="5">Importe total <?= escape($moneda); ?></th>
-                                        <th class="text-nowrap text-right"><?= number_format($total, 2, '.', ''); ?></th>
-                                        <?php if ($permiso_suprimir) { ?>
-                                        <!--<th class="text-nowrap">Opciones</th>-->
-                                        <?php } ?>
+                                        <th class="text-nowrap text-right"  data-importe></th>                                        
                                     </tr>
                                 </tfoot>
                             </table>
@@ -200,9 +180,11 @@ $permiso_listar = in_array('subir-compra', $permisos);
         </div>
 </div>
 
+
 <script src="<?= js; ?>/jquery.form-validator.min.js"></script>
 <script src="<?= js; ?>/jquery.form-validator.es.js"></script>
 <script src="<?= js; ?>/sweetalert2.all.min.js"></script>
+
 <!-- <script src="<?= js; ?>/bootstrap-dropzone.min.js"></script> -->
 
 <script>
@@ -211,10 +193,91 @@ $(function () {
 		modules: 'basic,file'
 	});
 
-/* 	$('#archivo').dropzone({
-		boxClass: 'alert text-center',
-		childTemplate: '<div class="col"></div>'
-	}); */
+    let $loader_mostrar = $('.spinner-load-personal');
+
+    window.addEventListener('load', ()=>{
+        
+        $.ajax({
+            url: '?/import/ultima-importacion-ingreso',
+            type: 'POST',
+            success: function(resp){
+                let id_importacion = resp;
+
+                if (id_importacion > 0) {
+                    $.ajax({
+                        url: '?/import/compra-excel',
+                        type: 'POST',
+                        data: { id_iimport: id_importacion },
+                        success:function(dats){
+                            let respuesta = JSON.parse(dats);
+                            let compra = respuesta.compra;
+                            let detalles = respuesta.detalles;
+
+                            document.querySelector("#fecha_compra").innerHTML = `${compra.fecha_ingreso} <small id="hora_compra">${compra.hora_ingreso} </small>`;
+                            document.querySelector("#proveedor_compra").innerHTML = `${compra.nombre_proveedor}`;
+                            document.querySelector("#descrip_compra").innerHTML = `${compra.descripcion}`;
+                            document.querySelector("#total_compra").innerHTML = `${compra.monto_total}`;
+                            document.querySelector("#almacen_compra").innerHTML = `${compra.almacen}`;
+                            document.querySelector("#emple_compra").innerHTML = `${compra.empleado}`;    
+
+                                    
+                            let tabla = document.querySelector("#table tbody");
+                            let cantFilas = detalles.length;
+                            let fila = ``;
+                            let import_total = 0;
+                            detalles.forEach((element, id )=> {
+                                import_total = import_total + (element.cantidad)*(element.costo);
+                                fila = `<td>${id+1}</td><td>${element.codigo}</td>
+                                        <td>${element.nombre}</td>
+                                        <td class="text-right ${validarinfo(element.cantidad)}">${element.cantidad}</td>
+                                        <td class="text-right ${validarinfo(element.costo)}">${element.costo}</td>
+                                        <td class="text-right ${validarinfo((element.cantidad)*(element.costo))}">${((element.cantidad)*(element.costo)).toFixed(2)}</td>`;
+                                tabla.insertAdjacentHTML('beforeend', fila);
+                                
+                            });
+
+                            document.querySelector("#table tfoot [data-importe]").innerHTML = '';                                
+                            document.querySelector("#table tfoot [data-importe]").insertAdjacentHTML('beforeend', (import_total).toFixed(2)); 
+                            
+                            document.querySelector("#dats_compra").removeAttribute('hidden');
+                            document.querySelector("#section_action").removeAttribute('hidden');
+                            document.querySelector("#section_table").removeAttribute('hidden');
+                            document.querySelector("#ms_clear").setAttribute('hidden', true);
+                            document.querySelectorAll("input[name=id_import_ingreso]")[0].value = id_importacion;
+                            document.querySelectorAll("input[name=id_import_ingreso]")[1].value = id_importacion;
+                        },
+                        error:function(){
+                            $loader_mostrar.hide();
+                        }
+                    });
+                }else{
+                    let dats_compra = document.getElementById("dats_compra");        
+                    document.querySelector("#fecha_compra").innerHTML = `fecha <small id="hora_compra">hora</small>`;
+                    document.querySelector("#proveedor_compra").innerHTML = `proveedor`;
+                    document.querySelector("#descrip_compra").innerHTML = `descrip`;
+                    document.querySelector("#total_compra").innerHTML = `total`;
+                    document.querySelector("#almacen_compra").innerHTML = `almacen`;
+                    document.querySelector("#emple_compra").innerHTML = `emple`;     
+                    
+                    document.querySelector("#table tfoot [data-importe]").insertAdjacentHTML('beforeend', (0).toFixed(2));
+                    let proveedor = document.querySelector("#proveedor_compra").textContent;
+                    if (proveedor == 'proveedor') {
+                        document.querySelector("#dats_compra").setAttribute('hidden', true);
+                        document.querySelector("#section_action").setAttribute('hidden', true);
+                        document.querySelector("#section_table").setAttribute('hidden', true);
+                        document.querySelector("#ms_clear").removeAttribute('hidden');
+                    }
+                }
+            }
+        });
+
+        
+
+
+
+
+    });
+
 
 
     document.getElementById("archivo").addEventListener("change", ()=>{
@@ -224,8 +287,33 @@ $(function () {
         if (extFile == "xlsx" || extFile == "xlsb" ) {
             
         }else{
-            Swal.fire(`MENSAJE DE ADVERTENCIA EXTEION NO PERMITIDA ${extFile}`, "warning");
+            Swal.fire({
+                icon: 'warning',
+                title: 'Advertencia',
+                text: `MENSAJE DE ADVERTENCIA EXTENSION NO PERMITIDA ${extFile}`
+                });
         }
+    });
+
+    document.getElementById("confirmar-form").addEventListener("submit",(event)=>{
+        event.preventDefault();
+
+        let formularioConfirm = document.getElementById("confirmar-form");
+        let actionForm = formularioConfirm.getAttribute("action") ;
+        let idIngresoImport = formularioConfirm.querySelector("input[name=id_import_ingreso]").value;
+        action_ingreso_importadp(actionForm, idIngresoImport, accion='Confirmar');
+    });
+
+
+
+    document.getElementById("eliminar-form").addEventListener("submit", (event)=>{
+        event.preventDefault();
+
+        let formularioConfirm = document.getElementById("eliminar-form");
+        let actionForm = formularioConfirm.getAttribute("action") ;
+        let idIngresoImport = formularioConfirm.querySelector("input[name=id_import_ingreso]").value;
+        action_ingreso_importadp(actionForm, idIngresoImport, accion='Eliminar');
+
     });
 
 
@@ -233,8 +321,14 @@ $(function () {
         e.preventDefault();
         let archivo = document.getElementById("archivo").value;
         if (archivo.length == 0) {
-            return Swal.fire(`DEBE CARGAR UN ARCHIVO`, "warning");
+            return Swal.fire({
+                icon: 'warning',
+                title: 'Advertencia',
+                text: `Debe adjuntar un archivo excel.`
+                });
         }
+
+
 
         var formulario = $("#formulario")[0];
         let formData = new FormData(formulario);
@@ -247,24 +341,190 @@ $(function () {
             data: formData,
             contentType: false,
             processData: false,
+            beforeSend:function(){
+                $loader_mostrar.show();
+            },
+            drawCallback: function(settings) {
+                $loader_mostrar.hide();
+            },
             success:function (resp) {
                 console.log(resp);
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: `Se subio archivo correctamente ${resp}`,
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                
+                let resps = JSON.parse(resp);
+
+                $loader_mostrar.hide();
+                switch (resps.estado) {
+                    case 'success':
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: `Se subio archivo correctamente.`,
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        let datos = resps.responce;
+                        document.getElementById("formulario").reset();
+                        
+                        $.ajax({
+                            url: '?/import/compra-excel',
+                            type: 'POST',
+                            data: { id_iimport: datos },
+                            success:function(dats){
+                                let respuesta = JSON.parse(dats);
+                                let compra = respuesta.compra;
+                                let detalles = respuesta.detalles;
+        
+                                document.querySelector("#fecha_compra").innerHTML = `${compra.fecha_ingreso} <small id="hora_compra">${compra.hora_ingreso} </small>`;
+                                document.querySelector("#proveedor_compra").innerHTML = `${compra.nombre_proveedor}`;
+                                document.querySelector("#descrip_compra").innerHTML = `${compra.descripcion}`;
+                                document.querySelector("#total_compra").innerHTML = `${compra.monto_total}`;
+                                document.querySelector("#almacen_compra").innerHTML = `${compra.almacen}`;
+                                document.querySelector("#emple_compra").innerHTML = `${compra.empleado}`;    
+
+                                       
+                                let tabla = document.querySelector("#table tbody");
+                                let cantFilas = detalles.length;
+                                let fila = ``;
+                                let import_total = 0;
+                                detalles.forEach((element, id )=> {
+                                    import_total = import_total + (element.cantidad)*(element.costo);
+                                    fila = `<td>${id+1}</td><td>${element.codigo}</td>
+                                            <td>${element.nombre}</td>
+                                            <td class="text-right ${validarinfo(element.cantidad)}">${element.cantidad}</td>
+                                            <td class="text-right ${validarinfo(element.costo)}">${element.costo}</td>
+                                            <td class="text-right ${validarinfo((element.cantidad)*(element.costo))}">${((element.cantidad)*(element.costo)).toFixed(2)}</td>`;
+                                    tabla.insertAdjacentHTML('beforeend', fila);
+                                    
+                                });
+                                document.querySelector("#table tfoot [data-importe]").innerHTML = '';                                
+                                document.querySelector("#table tfoot [data-importe]").insertAdjacentHTML('beforeend', (import_total).toFixed(2)); 
+                                
+                                document.querySelector("#dats_compra").removeAttribute('hidden');
+                                document.querySelector("#section_action").removeAttribute('hidden');
+                                document.querySelector("#section_table").removeAttribute('hidden');
+                                document.querySelector("#ms_clear").setAttribute('hidden', true);
+                                document.querySelectorAll("input[name=id_import_ingreso]")[0].value = `${compra.id_ingreso}`;
+                                document.querySelectorAll("input[name=id_import_ingreso]")[1].value = `${compra.id_ingreso}`;
+
+                            },
+                            error:function(){
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'error',
+                                    title: `ERROR: CONEXION A BASE DE DATOS.`,
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                            }
+                        });
+
+
+                        break;
+                    case 'warning':
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'warning',
+                            title: `OBSERVACION: ${resps.responce}`,
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        break;			
+                    case 'error':
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: `ERROR: ${resps.responce}`,
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        break;			
+                    default:
+                        console.log(resps);
+                        Swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: `ERROR EN EL FORMULARIO <br> <h1 class="text-danger">${resps.msg} </h1>`,
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            break;
+			    }    
             },
             error:function(e){
+                $loader_mostrar.hide();
                 console.log(e);
+                Swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: `ERROR: CONEXION A BASE DE DATOS.`,
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
             }
         })
 
     });
 
 });
+
+
+function action_ingreso_importadp(actionForm = '', idIngresoImport = 0, accion='') {
+    let titulo = (accion == 'Confirmar') ? 'Ingreso Registrado!': 'Ingreso Eliminado';
+    let descrip = (accion == 'Confirmar') ? 'El ingreso y sus detalles se registraron el la base de datos.': 'El ingreso y sus detalles importados se eliminaron.';
+    let tipo = (accion == 'Confirmar') ? 'success': 'error';
+
+    let tituloConfirm = (accion == 'Confirmar') ? '<h2 class="text-success">Esta seguro de guardar el ingreso en la base de datos?</h2>': '<h2 class="text-danger"> Esta seguro de eliminar el ingreso importado?</h2>';
+    let descripconfirm = (accion == 'Confirmar') ? 'Esta accion es irreversible, ya que afectara el inventario real del sistema!': 'Esta accion no repercute en el inventario.';
+
+    Swal.fire({
+        title: tituloConfirm,
+        width: 800,
+        text: descripconfirm,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, estoy seguro!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                    titulo,
+                    descrip,
+                    tipo
+                )
+
+                $.ajax({
+                    url: actionForm,
+                    type: 'POST',
+                    data: { idIngresoImport : idIngresoImport},
+                    success:function (resp){
+                        //console.log("se guarda en base de datos");
+                        Swal.fire({
+                                position: 'top-end',
+                                icon: tipo,
+                                title: titulo,                                
+                                showConfirmButton: false,
+                                timer: 2500
+                            });    
+                        setInterval(location.reload(), 5000);
+                    },
+                    error:function(e){
+                        Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'error',
+                                    title: `ERROR: CONEXION A BASE DE DATOS.`,
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                    }
+                }); 
+            }
+        })
+}
+
+
+function validarinfo(dato) {
+    //dato = +dato;
+    return (dato != '' && dato > 0 && (Number.isInteger(dato) || !isNaN(dato) || parseInt(dato) || parseFloat(dato))) ? '': 'text-danger';    
+}
 </script>
 <?php require_once show_template('footer-configured'); ?>

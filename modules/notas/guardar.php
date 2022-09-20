@@ -125,7 +125,7 @@ if (is_ajax() && is_post()) {
 			$monto_numeral = $monto_textual[0];
 			$monto_decimal = $monto_textual[1];
 			$monto_literal = ucfirst(strtolower(trim($conversor->to_word($monto_numeral))));
- */
+ 			*/
 			// Instancia la nota
 			$nota = array(
 				'fecha_egreso' => date('Y-m-d'),

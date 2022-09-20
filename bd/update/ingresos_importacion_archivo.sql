@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `inv_ingresos_detalles_import` (
   KEY `ingreso_id` (`ingreso_id`),
   KEY `almacen_id` (`almacen_id`),
   KEY `asignacion_id` (`asignacion_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=133 DEFAULT CHARSET=utf8;
 
 -- La exportación de datos fue deseleccionada.
 
@@ -57,6 +57,7 @@ CREATE TABLE IF NOT EXISTS `inv_ingresos_import` (
   `des_transitorio` varchar(150) NOT NULL DEFAULT '0',
   `plan_de_pagos` enum('si','no') NOT NULL DEFAULT 'no',
   `proveedor_id` int(3) NOT NULL DEFAULT 0,
+  `estado_import` enum('Import','Confirmado') NOT NULL DEFAULT 'Import',
   PRIMARY KEY (`id_ingreso`),
   KEY `almacen_id` (`almacen_id`),
   KEY `empleado_id` (`empleado_id`),
@@ -64,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `inv_ingresos_import` (
   KEY `proveedor_id` (`proveedor_id`),
   KEY `plan_de_pagos` (`plan_de_pagos`),
   FULLTEXT KEY `nombre_proveedor` (`nombre_proveedor`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
 
 -- La exportación de datos fue deseleccionada.
 

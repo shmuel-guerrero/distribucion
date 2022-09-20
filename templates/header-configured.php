@@ -99,7 +99,7 @@ require_once modules . '/00-components/index.php';
 <body>
 
 	<?php if (environment == 'production') : ?>
-		<div class="spinner-wrapper spinner-wrapper-fixed" data-spinner="true">
+		<div class="spinner-wrapper spinner-wrapper-fixed spinner-load-personal" data-spinner="true">
 			<div class="spinner-wrapper-backdrop">
 				<span class="spinner"></span>
 			</div>
