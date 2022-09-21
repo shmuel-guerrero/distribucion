@@ -47,7 +47,7 @@
                             <div class="col-sm-12 col-md-7">
                                 <div class="container">
                                     <div class="row">
-                                        <input type="text" value="0" name="importe_total"  id="importeTotalModal" class="form-control" readonly autocomplete="off" data-validation="required number" data-validation-allowing="range[0.01;10000.00],float" maxlength="5">
+                                        <input type="text" value="0" name="importeTotalModal"  id="importeTotalModal" class="form-control" readonly autocomplete="off" data-validation="required number" data-validation-allowing="range[0.01;10000.00],float" maxlength="5">
                                     </div>
                                 </div>
                             </div>
@@ -77,7 +77,7 @@
                                 <span class="text-primary"><?= $moneda; ?></span>
                             </label>
                             <div class="col-sm-12 col-md-7">
-                                <input type="text" value="0" name="pagoEfectivo" id="pagoEfectivoModal" class="form-control" autocomplete="off" data-validation="required number" data-validation-allowing="range[0.01;10000.00],float" maxlength="5">
+                                <input type="text" value="0" name="pagoEfectivoModal" id="pagoEfectivoModal" class="form-control" autocomplete="off" data-validation="required number" data-validation-allowing="range[0.01;10000.00],float" maxlength="5">
                             </div>
                         </div>
                         <div class="form-group">
@@ -86,7 +86,7 @@
                                 <span class="text-primary"><?= $moneda; ?></span>
                             </label>
                             <div class="col-sm-12 col-md-7">
-                                <input type="text" value="0" name="cambio" id="cambioModal" class="form-control" autocomplete="off" data-validation="required number" data-validation-allowing="range[1;10000],float" maxlength="5">
+                                <input type="text" value="0" name="cambioModal" id="cambioModal" class="form-control" autocomplete="off" data-validation="required number" data-validation-allowing="range[1;10000],float" maxlength="5">
                             </div>
                         </div>
                     

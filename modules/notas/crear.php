@@ -1139,11 +1139,15 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 
 						$.validate({
 							form: '#modal_efect_cambio',
-							modules: 'basic'
+							modules: 'basic',
+							onSuccess: function() {
+								let formCambio = $('#modal_efect_cambio');
+
+								guardar_nota(formCambio);
+							}
 						});
 					}
 
-					//guardar_nota();
 				}
 			});
 		}
@@ -1293,12 +1297,16 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 	}
 
 
-	function guardar_nota() {
-		var data = $('#formulario').serialize();
+	function guardar_nota(formModal = '') {
+		var data = $('#formulario, #modal_efect_cambio').serialize();
+		
+		/* console.log(data);
+		console.log(formModal);
+		debugger; */
 
 		$('#loader').fadeIn(100);
 
-		$.ajax({
+		 $.ajax({
 			type: 'post',
 			dataType: 'json',
 			url: '?/notas/guardar',
@@ -1339,7 +1347,7 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 			}, {
 				type: 'danger'
 			});
-		});
+		}); 
 	} 
 
 	function imprimir_nota(nota) {

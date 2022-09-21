@@ -23,6 +23,9 @@ if (is_ajax() && is_post()) {
 		$monto_total = trim($_POST['monto_total']);
 		$des_reserva = isset($_POST['des_reserva']) ? trim($_POST['des_reserva']) : '';
 		$almacen_id = trim($_POST['almacen_id']);
+		$importeTotalModal = (isset($_POST['importeTotalModal'])) ? $_POST['importeTotalModal'] : 0;
+		$pagoEfectivoModal = (isset($_POST['pagoEfectivoModal'])) ? $_POST['pagoEfectivoModal'] : 0;
+		$cambioModal = (isset($_POST['cambioModal'])) ? $_POST['cambioModal'] : 0;
 		
 		//Cuentas
 		$tipo_pago = (isset($_POST['tipo_pago'])) ? trim($_POST['tipo_pago']) : 'Efectivo';
@@ -156,6 +159,16 @@ if (is_ajax() && is_post()) {
 
 			// Guarda la informacion
 			$egreso_id = $db->insert('inv_egresos', $nota);
+
+			$datoEfectivo = array(
+				'movimiento_id' => $egreso_id, 
+				'importe_total' => $importeTotalModal, 
+				'pago_efectivo' => $pagoEfectivoModal, 
+				'cambio_efectivo' => $cambioModal, 
+				'tipo_movimiento' => 'Egreso' 
+			);
+
+			$id_efectivo = $db->insert('inv_egresos_efectivo', $datoEfectivo);
 			
 			// Guarda en el historial
 			$data = array(
