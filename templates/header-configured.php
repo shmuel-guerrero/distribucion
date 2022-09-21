@@ -9,6 +9,11 @@ $_menus = $db->select('m.*, p.archivos')->from('sys_permisos p')->join('sys_menu
 // Construye la barra de menus
 $_menus = construir_sidebar($_menus);
 
+// Obtiene la moneda oficial
+$moneda = $db->from('inv_monedas')->where('oficial', 'S')->fetch_first();
+$moneda = ($moneda) ? '(' . $moneda['sigla'] . ')' : '';
+
+
 // Importa la componente de categoria de precio
 require_once modules . '/00-components/index.php';
 

@@ -208,7 +208,14 @@ $(function () {
                         url: '?/import/compra-excel',
                         type: 'POST',
                         data: { id_iimport: id_importacion },
+                        beforeSend:function(){
+                            $loader_mostrar.show();
+                        },
+                        drawCallback: function(settings) {
+                            $loader_mostrar.hide();
+                        },
                         success:function(dats){
+                            $loader_mostrar.hide();
                             let respuesta = JSON.parse(dats);
                             let compra = respuesta.compra;
                             let detalles = respuesta.detalles;
@@ -297,7 +304,7 @@ $(function () {
 
     document.getElementById("confirmar-form").addEventListener("submit",(event)=>{
         event.preventDefault();
-
+        
         let formularioConfirm = document.getElementById("confirmar-form");
         let actionForm = formularioConfirm.getAttribute("action") ;
         let idIngresoImport = formularioConfirm.querySelector("input[name=id_import_ingreso]").value;
@@ -308,7 +315,6 @@ $(function () {
 
     document.getElementById("eliminar-form").addEventListener("submit", (event)=>{
         event.preventDefault();
-
         let formularioConfirm = document.getElementById("eliminar-form");
         let actionForm = formularioConfirm.getAttribute("action") ;
         let idIngresoImport = formularioConfirm.querySelector("input[name=id_import_ingreso]").value;
@@ -348,7 +354,7 @@ $(function () {
                 $loader_mostrar.hide();
             },
             success:function (resp) {
-                console.log(resp);
+                //console.log(resp);
                 let resps = JSON.parse(resp);
 
                 $loader_mostrar.hide();
@@ -368,7 +374,14 @@ $(function () {
                             url: '?/import/compra-excel',
                             type: 'POST',
                             data: { id_iimport: datos },
+                            beforeSend:function(){
+                                $loader_mostrar.show();
+                            },
+                            drawCallback: function(settings) {
+                                $loader_mostrar.hide();
+                            },
                             success:function(dats){
+                                $loader_mostrar.hide();
                                 let respuesta = JSON.parse(dats);
                                 let compra = respuesta.compra;
                                 let detalles = respuesta.detalles;
@@ -407,6 +420,7 @@ $(function () {
 
                             },
                             error:function(){
+                                $loader_mostrar.hide();
                                 Swal.fire({
                                     position: 'top-end',
                                     icon: 'error',
@@ -468,6 +482,9 @@ $(function () {
 
 
 function action_ingreso_importadp(actionForm = '', idIngresoImport = 0, accion='') {
+
+    let $loader_mostrar = $('.spinner-load-personal');
+
     let titulo = (accion == 'Confirmar') ? 'Ingreso Registrado!': 'Ingreso Eliminado';
     let descrip = (accion == 'Confirmar') ? 'El ingreso y sus detalles se registraron el la base de datos.': 'El ingreso y sus detalles importados se eliminaron.';
     let tipo = (accion == 'Confirmar') ? 'success': 'error';
@@ -496,7 +513,14 @@ function action_ingreso_importadp(actionForm = '', idIngresoImport = 0, accion='
                     url: actionForm,
                     type: 'POST',
                     data: { idIngresoImport : idIngresoImport},
+                    beforeSend:function(){
+                        $loader_mostrar.show();
+                    },
+                    drawCallback: function(settings) {
+                        $loader_mostrar.hide();
+                    },
                     success:function (resp){
+                        $loader_mostrar.hide();
                         //console.log("se guarda en base de datos");
                         Swal.fire({
                                 position: 'top-end',
@@ -508,6 +532,7 @@ function action_ingreso_importadp(actionForm = '', idIngresoImport = 0, accion='
                         setInterval(location.reload(), 5000);
                     },
                     error:function(e){
+                        $loader_mostrar.hide();
                         Swal.fire({
                                     position: 'top-end',
                                     icon: 'error',

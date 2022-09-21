@@ -9,6 +9,8 @@ function categoria_precio_cliente()
     return "";
 }
 
+
+
 function categoria_precio_id_producto($id_producto = 1){
 
     // Importa la libreria para subir la imagen

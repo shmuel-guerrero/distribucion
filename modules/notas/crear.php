@@ -614,6 +614,12 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 		</div>
 	</div>
 </div>
+
+
+<!-- COMPONENTE DE MODAL DE CAMBIO DE EFECTIVO -->
+<?= (validar_atributo($db, $_plansistema['plan'], 'productos', 'crear', 'categoria_cliente')) ? modal_efectivo_cambio(): '' ?>
+
+
 <?php
 	$Fecha=date('Y-m-d');
 	$Promociones=$db->query("SELECT id_promocion,nombre,tipo,min_promo,descuento_promo,monto_promo,item_promo FROM inv_promociones_monto WHERE '{$Fecha}'>=fecha_ini AND '{$Fecha}'<=fecha_fin")->fetch();
@@ -676,9 +682,14 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 			
 			let divContenedor = document.getElementById('tipo_precio').parentNode;
 			divContenedor.classList.remove('col-md-9');
-			divContenedor.classList.add('col-sm-8')
+			divContenedor.classList.add('col-sm-8');
+			let elementSelect = document.getElementById('tipo_precio');
+			elementSelect.disabled = true;
+
 		}); 
 	}
+
+
 
 	$(function() {
 
@@ -693,6 +704,9 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 
 		var $formulario = $('#formulario');
 		let almacen = <?= $id_almacen; ?>;
+
+		let $tipo_precio = $('#tipo_precio');
+
 
 		$cliente.selectize({
 			persist: false,
@@ -799,8 +813,8 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 						const elemtPrecio = val.parentElement.parentElement;
 						let IdProductoObtenido = elemtPrecio.dataset.producto;
 						const InputPrecio = elemtPrecio.querySelector('input[data-precio]');
-						InputPrecio.value = precioObtenido;
-						InputPrecio.dataset.precio = precioObtenido;
+						InputPrecio.value = precioObtenido.trim();
+						InputPrecio.dataset.precio = precioObtenido.trim();
 	
 						calcular_importe(IdProductoObtenido);
 						calcular_descuento_total();
@@ -821,8 +835,15 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 			form: '#formulario',
 			modules: 'basic',
 			onSuccess: function() {
-				guardar_nota();
+				console.log(permisoAgregado);
+				//guardar_nota();
 			}
+		});
+
+		var $modal_efectivo_cambio = $('#modal_efectivo_cambio');
+		$modal_efectivo_cambio.on('hidden.bs.modal', function () {
+			console.log("ocultar");
+			document.getElementById("modal_efect_cambio").reset();
 		});
 
 		$formulario.on('submit', function(e) {
@@ -1003,20 +1024,19 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 			cantidad = (cantidad < 9999999) ? cantidad + 1 : cantidad;
 			$cantidad.val(cantidad).trigger('blur');
 		} else {
-			plantilla = '<tr class="active" data-producto="' + id_producto + '">' +
-				'<td class="text-nowrap text-middle"><b>' + numero + '</b></td>' +
-				'<td class="text-nowrap text-middle"><input type="text" value="' + id_producto + '" name="productos[]" class="translate" tabindex="-1" data-validation="required number" data-validation-error-msg="Debe ser número">' + codigo + '</td>' +
-				'<td class="text-middle">'+nombre+'<input type="hidden" value=\'' + nombre + '\' name="nombres[]" class="form-control" data-validation="required"></td>' +
-				'<td class="text-middle"><input type="text" value="1" name="cantidades[]"  class="form-control text-right" style="width: 60px;" maxlength="10" autocomplete="off" data-cantidad="" data-validation="required number" data-validation-allowing="range[1;' + stock + ']" data-validation-error-msg="Debe ingresar un número positivo entre 1 y ' + stock + '" onkeyup="calcular_importe(' + id_producto + ')"></td>';
+			plantilla = `<tr class="active" data-producto="${id_producto}">
+					<td class="text-nowrap text-middle"><b>${numero}</b></td>
+					<td class="text-nowrap text-middle"><input type="text" value="${id_producto}" name="productos[]" class="translate" tabindex="-1" data-validation="required number" data-validation-error-msg="Debe ser número">${codigo}</td>
+					<td class="text-middle">${nombre}<input type="hidden" value="${nombre}" name="nombres[]" class="form-control" data-validation="required"></td>
+					<td class="text-middle"><input type="text" value="1" name="cantidades[]"  class="form-control text-right" style="width: 60px;" maxlength="10" autocomplete="off" data-cantidad="" data-validation="required number" data-validation-allowing="range[1;${stock}]" data-validation-error-msg="Debe ingresar un número positivo entre 1 y ${stock}" onkeyup="calcular_importe(${id_producto})"></td>`;
 			if (porciones.length > 2) {
 
 				let elementPrecio = document.querySelector('#tipo_precio');
 				let optionSeleccionado = elementPrecio.options[elementPrecio.selectedIndex].text;
-
+			
 				if (permisoAgregado && optionSeleccionado) {
 
-
-					plantilla = plantilla + '<td class="unid-categoria"><select name="unidad[]" id="unidad[]" data-xxx="true" class="form-control"  >';
+					plantilla += `<td class="unid-categoria"><select name="unidad[]" id="unidad[]" data-xxx="true" class="form-control">`;
 					aparte = porciones[1].split(':');
 					for (var ic = 1; ic < porciones.length; ic++) {
 						parte = porciones[ic].split(':');
@@ -1025,37 +1045,36 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 						//se obtiene la categoria unida a la unidad
 						let unidadSelect = oparte[1].split('|');
 						let unidadDesmenbrada = unidadSelect[1];
-						if (optionSeleccionado = unidadDesmenbrada) {							
-							plantilla = plantilla + '<option selected value="' + oparte[1] + '" data-xyyz="' + stock + '" data-yyy="' + parte[1] + '" data-yyz="' + porci2[ic - 1] + '" >' + oparte[1] + '</option>';
+						
+						//console.log(optionSeleccionado, unidadDesmenbrada);
+
+						if (optionSeleccionado.toUpperCase() == unidadDesmenbrada.toUpperCase()) {							
+							plantilla += `<option selected value="${$.trim(oparte[1])}" data-xyyz="${stock}" data-yyy="${parte[1]}" data-yyz="${porci2[ic - 1]}" >${oparte[1]}</option>`;
 						}else{
-							plantilla = plantilla + '<option value="' + oparte[1] + '" data-xyyz="' + stock + '" data-yyy="' + parte[1] + '" data-yyz="' + porci2[ic - 1] + '" >' + oparte[1] + '</option>';
+							plantilla += `<option value="${$.trim(oparte[1])}" data-xyyz="${stock}" data-yyy="${parte[1]}" data-yyz="${porci2[ic - 1]}" >${oparte[1]}</option>`;
 						}
 						var precioSeleccionado = parte[1];
 					}
 
 					aparte[1] = precioSeleccionado.trimEnd();
-					plantilla = plantilla + '</select></td>' +
-						'<td><input type="text" value="' + $.trim(aparte[1]) + '" name="precios[]" class="form-control  text-right" autocomplete="off" data-precio="' + $.trim(aparte[1]) + '"  data-validation="required number" data-validation-allowing="range[0.1;10000000.00],float"   data-validation-error-msg="Debe ser un número decimal positivo" onkeyup="calcular_importe(' + id_producto + ')"></td>';					
-
+					plantilla += `</select></td><td><input type="text" value="${ $.trim(aparte[1])}" name="precios[]" class="form-control  text-right" autocomplete="off" data-precio="${$.trim(aparte[1])}"  data-validation="required number" data-validation-allowing="range[0.1;10000000.00],float"   data-validation-error-msg="Debe ser un número decimal positivo" onkeyup="calcular_importe(${id_producto})"></td>`;					
 				}else{
-					plantilla = plantilla + '<td class="unid-categoria"><select name="unidad[]" id="unidad[]" data-xxx="true" class="form-control"  >';
+					plantilla += `<td class="unid-categoria"><select name="unidad[]" id="unidad[]" data-xxx="true" class="form-control">`;
 					aparte = porciones[1].split(':');
 					for (var ic = 1; ic < porciones.length; ic++) {
 						parte = porciones[ic].split(':');
 						oparte = parte[0].split(')');
-						plantilla = plantilla + '<option value="' + oparte[1] + '" data-xyyz="' + stock + '" data-yyy="' + parte[1] + '" data-yyz="' + porci2[ic - 1] + '" >' + oparte[1] + '</option>';
+						plantilla += `<option value="${oparte[1]}" data-xyyz="${$.trim(stock)}" data-yyy="${$.trim(parte[1])}" data-yyz="${$.trim(porci2[ic - 1])}" >${oparte[1]}</option>`;
 					}
 					aparte[1] = aparte[1].trimEnd();
-					plantilla = plantilla + '</select></td>' +
-						'<td><input type="text" value="' + $.trim(aparte[1]) + '" name="precios[]" class="form-control  text-right" autocomplete="off" data-precio="' + $.trim(aparte[1]) + '"  data-validation="required number" data-validation-allowing="range[0.1;10000000.00],float"   data-validation-error-msg="Debe ser un número decimal positivo" onkeyup="calcular_importe(' + id_producto + ')"></td>';					
-
+					plantilla += `</select></td><td><input type="text" value="${$.trim(aparte[1])}" name="precios[]" class="form-control  text-right" autocomplete="off" data-precio="${$.trim(aparte[1])}"  data-validation="required number" data-validation-allowing="range[0.1;10000000.00],float" data-validation-error-msg="Debe ser un número decimal positivo" onkeyup="calcular_importe(${id_producto})"></td>`;
 				}
 									
 			} else {
 				sincant = porciones[1].split(')');
 				parte = sincant[1].split(':');
 				plantilla = plantilla + '<td class="unid-categoria"><input type="text" value="' + parte[0] + '" data-xyyz="' + stock + '" name="unidad[]" class="form-control text-lefth" autocomplete="off" data-unidad="' + parte[0] + '" readonly data-validation-error-msg="Debe ser un número decimal positivo"></td>' +
-					'<td data-xyyz="' + stock + '" ><input type="text" value="' + $.trim(parte[1]) + '" name="precios[]" class="form-control text-right" autocomplete="off"  data-precio="' + parte[1] + '" data-cant2="1" data-validation="required number" data-validation-allowing="range[0.1;10000000.00],float" data-validation-error-msg="Debe ingresar un número decimal positivo mayor que 0 y menor que 10000000" onkeyup="calcular_importe(' + id_producto + ')"></td>';
+					'<td data-xyyz="' + stock + '" ><input type="text" value="' + $.trim(parte[1]) + '" name="precios[]" class="form-control text-right" autocomplete="off"  data-precio="' + $.trim(parte[1]) + '" data-cant2="1" data-validation="required number" data-validation-allowing="range[0.1;10000000.00],float" data-validation-error-msg="Debe ingresar un número decimal positivo mayor que 0 y menor que 10000000" onkeyup="calcular_importe(' + id_producto + ')"></td>';
 			}
 			//'<td class="text-middle"><input type="text" value="' + valor + '" name="precios[]" class="form-control text-right" style="width: 100px;" autocomplete="off" data-precio="' + valor + '" data-validation="required number" data-validation-allowing="range[0.01;10000000.00],float" data-validation-error-msg="Debe ser un número decimal positivo" onkeyup="calcular_importe(' + id_producto + ')"></td>' +
 			plantilla = plantilla + '<td class = " hidden"><input type="text" value="0" name="descuentos[]" class="form-control text-right" style="width: 100px;" maxlength="10" autocomplete="off" data-descuento="0" data-validation="required number" data-validation-allowing="float,range[0.00;100.00],float" data-validation-error-msg="Debe ingresar un número entre 0% y 100%" onkeyup="descontar_precio(' + id_producto + ')">' +
@@ -1101,7 +1120,30 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 				form: '#formulario',
 				modules: 'basic',
 				onSuccess: function() {
-					guardar_nota();
+
+					if (permisoAgregado) {		
+						var $modal_efectivo_cambio = $('#modal_efectivo_cambio');
+						$modal_efectivo_cambio.modal('show');
+						let importe_desc = document.getElementById("total_importe_descuento").value;
+						document.getElementById("importeTotalModal").value = importe_desc;
+						document.getElementById("modal_efect_cambio").reset;
+
+						document.getElementById("pagoEfectivoModal").addEventListener("keyup", ()=>{
+							let pagoEfectivo = document.getElementById("pagoEfectivoModal").value;
+							let cambioCalculado = importe_desc - pagoEfectivo;
+							cambioCalculado = ((cambioCalculado)*(-1)).toFixed(1);
+							document.getElementById("cambioModal").value = `${cambioCalculado}0`;
+
+						});
+
+
+						$.validate({
+							form: '#modal_efect_cambio',
+							modules: 'basic'
+						});
+					}
+
+					//guardar_nota();
 				}
 			});
 		}
@@ -1129,18 +1171,6 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 	}
 
 	function descontar_precio(id_producto) {
-		// var $producto = $('[data-producto=' + id_producto + ']');
-		// var $precio = $producto.find('[data-precio]');
-		// var $descuento = $producto.find('[data-descuento]');
-		// var precio, descuento;
-
-		// precio = $.trim($precio.attr('data-precio'));
-		// precio = ($.isNumeric(precio)) ? parseFloat(precio) : 0;
-		// descuento = $.trim($descuento.val());
-		// descuento = ($.isNumeric(descuento)) ? parseFloat(descuento) : 0;
-		// // precio = precio - (precio * descuento / 100);
-		// $precio.val(precio.toFixed(2));
-
 		calcular_importe(id_producto);
 	}
 
@@ -1262,61 +1292,6 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 		calcular_descuento_total();
 	}
 
-// 	function calcular_descuento() {
-// 		var $ventas = $('#ventas tbody');
-// 		var $total = $('[data-subtotal]:first');
-// 		var $importes = $ventas.find('[data-importe]');
-
-// 		var descuento = $('#descuento_porc').val();
-
-// 		var importe, total = 0;
-
-// 		$importes.each(function(i) {
-// 			importe = $.trim($(this).text());
-// 			importe = parseFloat(importe);
-// 			total = total + importe;
-// 		});
-// 		$total.text(total.toFixed(2));
-// 		var importe_total = total.toFixed(2);
-// 		//console.log(importe_total);
-
-// 		var total_descuento = 0,
-// 			formula = 0,
-// 			total_importe_descuento = 0;
-// 		console.log(descuento + 'jhfhgdghd');
-
-// 		if (descuento == null) {
-// 			var descuento_bs = $('#descuento_bs').val();
-// 			console.log(descuento_bs + 'vacio0000');
-// 			total_importe_descuento = parseFloat(importe_total) - parseFloat(descuento_bs);
-
-// 			$('#importe_total_descuento').html(total_importe_descuento.toFixed(2));
-// 			$('#total_importe_descuento').val(total_importe_descuento.toFixed(2));
-
-// 		} else if (descuento == 0) {
-// 			var descuento_bs = $('#descuento_bs').val();
-// 			console.log(descuento_bs + 'vacio0000');
-// 			total_importe_descuento = parseFloat(importe_total) - parseFloat(descuento_bs);
-
-// 			$('#importe_total_descuento').html(total_importe_descuento.toFixed(2));
-// 			$('#total_importe_descuento').val(total_importe_descuento.toFixed(2));
-
-// 		} else if (descuento != "") {
-// 			//console.log(descuento+'dif vacio');
-// 			//var total_descuento=0, formula=0, total_importe_descuento=0;
-// 			//total_descuento=descuento*100;
-// 			//formula=(descuento/importe_total)*100;
-// 			formula = (descuento / 100) * importe_total;
-
-// 			total_importe_descuento = parseFloat(importe_total) - parseFloat(formula);
-
-// 			$('#descuento_bs').val(formula.toFixed(2));
-// 			$('#importe_total_descuento').html(total_importe_descuento.toFixed(2));
-// 			$('#total_importe_descuento').val(total_importe_descuento.toFixed(2));
-// 		}
-		
-// 		calcular_descuento_total();
-// 	}
 
 	function guardar_nota() {
 		var data = $('#formulario').serialize();
@@ -1365,7 +1340,7 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 				type: 'danger'
 			});
 		});
-	}
+	} 
 
 	function imprimir_nota(nota) {
 		window.open('?/notas/imprimir/' + nota, true);
