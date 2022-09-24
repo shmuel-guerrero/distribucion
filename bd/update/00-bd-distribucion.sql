@@ -12,11 +12,6 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-
--- Volcando estructura de base de datos para distribucion
-CREATE DATABASE IF NOT EXISTS `distribucion` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `distribucion`;
-
 -- Volcando estructura para tabla distribucion.backup_inv_asignaciones
 CREATE TABLE IF NOT EXISTS `backup_inv_asignaciones` (
   `backup_id_asignacion` int(11) NOT NULL AUTO_INCREMENT,
@@ -31,10 +26,13 @@ CREATE TABLE IF NOT EXISTS `backup_inv_asignaciones` (
   `delet_empleado_id` int(11) DEFAULT NULL,
   `accion_backup` enum('Editado','Eliminado','Backup') DEFAULT 'Backup',
   PRIMARY KEY (`backup_id_asignacion`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla distribucion.backup_inv_asignaciones: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla distribucion.backup_inv_asignaciones: ~2 rows (aproximadamente)
 /*!40000 ALTER TABLE `backup_inv_asignaciones` DISABLE KEYS */;
+INSERT INTO `backup_inv_asignaciones` (`backup_id_asignacion`, `id_asignacion`, `producto_id`, `unidad_id`, `cantidad_unidad`, `otro_precio`, `visible`, `delet_fecha_egreso`, `delet_hora_egreso`, `delet_empleado_id`, `accion_backup`) VALUES
+	(1, 34, 1, 4, 4, 33.00, 's', '2022-09-07', '14:08:40', 1, 'Eliminado'),
+	(2, 33, 1, 3, 15, 570.00, 's', '2022-09-07', '14:09:25', 1, 'Eliminado');
 /*!40000 ALTER TABLE `backup_inv_asignaciones` ENABLE KEYS */;
 
 -- Volcando estructura para tabla distribucion.backup_inv_egresos
@@ -166,10 +164,12 @@ CREATE TABLE IF NOT EXISTS `backup_inv_ingresos` (
   KEY `proveedor_id` (`proveedor_id`),
   KEY `plan_de_pagos` (`plan_de_pagos`),
   FULLTEXT KEY `nombre_proveedor` (`nombre_proveedor`)
-) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla distribucion.backup_inv_ingresos: 0 rows
+-- Volcando datos para la tabla distribucion.backup_inv_ingresos: 1 rows
 /*!40000 ALTER TABLE `backup_inv_ingresos` DISABLE KEYS */;
+INSERT INTO `backup_inv_ingresos` (`backup_id_ingreso`, `id_ingreso`, `fecha_ingreso`, `hora_ingreso`, `tipo`, `descripcion`, `monto_total`, `descuento`, `monto_total_descuento`, `nombre_proveedor`, `nro_registros`, `almacen_id`, `empleado_id`, `transitorio`, `des_transitorio`, `plan_de_pagos`, `proveedor_id`, `delet_fecha_egreso`, `delet_hora_egreso`, `delet_empleado_id`, `accion_backup`) VALUES
+	(18, 39, '2022-09-19', '19:52:13', 'Compra', 'ES UNA COMPRA DE PRUEBA', 96789.00, 0, 0, 'CHECKCODE', 0, 22, 1, 0, '0', 'no', 377, '2022-09-19', '20:50:56', 1, 'Eliminado');
 /*!40000 ALTER TABLE `backup_inv_ingresos` ENABLE KEYS */;
 
 -- Volcando estructura para tabla distribucion.backup_inv_ingresos_detalles
@@ -201,10 +201,15 @@ CREATE TABLE IF NOT EXISTS `backup_inv_ingresos_detalles` (
   KEY `ingreso_id` (`ingreso_id`),
   KEY `almacen_id` (`almacen_id`),
   KEY `asignacion_id` (`asignacion_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=75 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla distribucion.backup_inv_ingresos_detalles: 0 rows
+-- Volcando datos para la tabla distribucion.backup_inv_ingresos_detalles: 4 rows
 /*!40000 ALTER TABLE `backup_inv_ingresos_detalles` DISABLE KEYS */;
+INSERT INTO `backup_inv_ingresos_detalles` (`backup_id_detalle`, `id_detalle`, `cantidad`, `costo`, `lote`, `lote_cantidad`, `lote2`, `producto_id`, `ingreso_id`, `elaboracion`, `vencimiento`, `nro_autorizacion`, `contenedor`, `factura`, `almacen_id`, `asignacion_id`, `nro_control`, `delet_fecha_egreso`, `delet_hora_egreso`, `delet_empleado_id`, `accion_id_backup`, `accion_backup`) VALUES
+	(71, 5, 314, 78.00, 'lt315', 314, '', 20, 39, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, '', '2022-09-19', '20:50:56', 1, 18, 'Eliminado'),
+	(72, 6, 355, 22.00, 'lt356', 355, '', 19, 39, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, '', '2022-09-19', '20:50:56', 1, 18, 'Eliminado'),
+	(73, 7, 397, 27.00, 'lt398', 397, '', 18, 39, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, '', '2022-09-19', '20:50:56', 1, 18, 'Eliminado'),
+	(74, 8, 315, 36.00, 'lt316', 315, '', 5, 39, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, '', '2022-09-19', '20:50:56', 1, 18, 'Eliminado');
 /*!40000 ALTER TABLE `backup_inv_ingresos_detalles` ENABLE KEYS */;
 
 -- Volcando estructura para tabla distribucion.backup_inv_pagos
@@ -639,10 +644,12 @@ CREATE TABLE IF NOT EXISTS `gps_asigna_distribucion` (
   `estado` int(11) NOT NULL,
   PRIMARY KEY (`id_asignacion`),
   KEY `distribuidor_id` (`distribuidor_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 -- Volcando datos para la tabla distribucion.gps_asigna_distribucion: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `gps_asigna_distribucion` DISABLE KEYS */;
+INSERT INTO `gps_asigna_distribucion` (`id_asignacion`, `ruta_id`, `grupo_id`, `distribuidor_id`, `fecha_ini`, `fecha_fin`, `estado`) VALUES
+	(14, 179, '', 128, '2022-09-11', NULL, 1);
 /*!40000 ALTER TABLE `gps_asigna_distribucion` ENABLE KEYS */;
 
 -- Volcando estructura para tabla distribucion.gps_historial_asinacion
@@ -715,10 +722,12 @@ CREATE TABLE IF NOT EXISTS `gps_rutas` (
   `color` varchar(50) NOT NULL DEFAULT '',
   PRIMARY KEY (`id_ruta`),
   KEY `empleado_id` (`empleado_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=179 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=180 DEFAULT CHARSET=utf8;
 
 -- Volcando datos para la tabla distribucion.gps_rutas: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `gps_rutas` DISABLE KEYS */;
+INSERT INTO `gps_rutas` (`id_ruta`, `nombre`, `coordenadas`, `fecha`, `estado`, `dia`, `empleado_id`, `color`) VALUES
+	(179, 'ruta prueba', '*-16.502918636308184,-68.16256999969484*-16.50944524676416,-68.15184116363527*-16.519652774502507,-68.156476020813*-16.516442400514954,-68.16737651824953', '2022-09-11', 1, 0, 1, '');
 /*!40000 ALTER TABLE `gps_rutas` ENABLE KEYS */;
 
 -- Volcando estructura para tabla distribucion.gps_seguimientos
@@ -783,12 +792,17 @@ CREATE TABLE IF NOT EXISTS `inv_asignaciones` (
   `otro_precio` decimal(20,2) NOT NULL,
   `visible` enum('s','n') NOT NULL DEFAULT 's',
   PRIMARY KEY (`id_asignacion`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla distribucion.inv_asignaciones: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla distribucion.inv_asignaciones: ~6 rows (aproximadamente)
 /*!40000 ALTER TABLE `inv_asignaciones` DISABLE KEYS */;
 INSERT INTO `inv_asignaciones` (`id_asignacion`, `producto_id`, `unidad_id`, `cantidad_unidad`, `otro_precio`, `visible`) VALUES
-	(33, 1, 3, 15, 570.00, 's');
+	(35, 18, 38, 25, 34.00, 's'),
+	(36, 18, 37, 1, 456.00, 's'),
+	(37, 19, 39, 1, 4.00, 's'),
+	(38, 19, 37, 1, 4.50, 's'),
+	(39, 20, 38, 9, 55.00, 's'),
+	(40, 20, 37, 1, 4.00, 's');
 /*!40000 ALTER TABLE `inv_asignaciones` ENABLE KEYS */;
 
 -- Volcando estructura para tabla distribucion.inv_asignaciones_almacenes
@@ -804,6 +818,45 @@ CREATE TABLE IF NOT EXISTS `inv_asignaciones_almacenes` (
 -- Volcando datos para la tabla distribucion.inv_asignaciones_almacenes: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `inv_asignaciones_almacenes` DISABLE KEYS */;
 /*!40000 ALTER TABLE `inv_asignaciones_almacenes` ENABLE KEYS */;
+
+-- Volcando estructura para tabla distribucion.inv_asignacion_tipo_precio
+CREATE TABLE IF NOT EXISTS `inv_asignacion_tipo_precio` (
+  `id_asignacion_tipo` int(11) NOT NULL AUTO_INCREMENT,
+  `asignacion_id` int(11) NOT NULL DEFAULT 0,
+  `producto_id` int(11) NOT NULL DEFAULT 0,
+  `cliente_tipo_id` int(11) NOT NULL DEFAULT 0,
+  `nivel` enum('Principal','Secundario') NOT NULL DEFAULT 'Secundario',
+  PRIMARY KEY (`id_asignacion_tipo`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+
+-- Volcando datos para la tabla distribucion.inv_asignacion_tipo_precio: ~22 rows (aproximadamente)
+/*!40000 ALTER TABLE `inv_asignacion_tipo_precio` DISABLE KEYS */;
+INSERT INTO `inv_asignacion_tipo_precio` (`id_asignacion_tipo`, `asignacion_id`, `producto_id`, `cliente_tipo_id`, `nivel`) VALUES
+	(1, 0, 2, 17, 'Principal'),
+	(2, 0, 3, 20, 'Principal'),
+	(3, 0, 4, 18, 'Principal'),
+	(4, 0, 13, 17, 'Principal'),
+	(5, 0, 13, 18, 'Secundario'),
+	(6, 0, 13, 20, 'Secundario'),
+	(7, 0, 14, 17, 'Principal'),
+	(8, 0, 14, 18, 'Secundario'),
+	(9, 0, 14, 20, 'Secundario'),
+	(10, 0, 15, 17, 'Principal'),
+	(11, 0, 15, 18, 'Secundario'),
+	(12, 0, 15, 20, 'Secundario'),
+	(13, 0, 16, 17, 'Principal'),
+	(14, 0, 16, 18, 'Secundario'),
+	(15, 0, 16, 20, 'Secundario'),
+	(16, 0, 17, 17, 'Principal'),
+	(17, 0, 18, 20, 'Principal'),
+	(18, 36, 18, 17, 'Secundario'),
+	(19, 0, 19, 18, 'Principal'),
+	(20, 37, 19, 20, 'Secundario'),
+	(21, 38, 19, 17, 'Secundario'),
+	(22, 0, 20, 20, 'Principal'),
+	(23, 39, 20, 18, 'Secundario'),
+	(24, 40, 20, 17, 'Secundario');
+/*!40000 ALTER TABLE `inv_asignacion_tipo_precio` ENABLE KEYS */;
 
 -- Volcando estructura para tabla distribucion.inv_caja
 CREATE TABLE IF NOT EXISTS `inv_caja` (
@@ -867,10 +920,14 @@ CREATE TABLE IF NOT EXISTS `inv_clientes` (
   FULLTEXT KEY `nombre_factura` (`nombre_factura`),
   FULLTEXT KEY `nit` (`nit`),
   FULLTEXT KEY `cliente` (`cliente`)
-) ENGINE=MyISAM AUTO_INCREMENT=4994 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=4997 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla distribucion.inv_clientes: 0 rows
+-- Volcando datos para la tabla distribucion.inv_clientes: 3 rows
 /*!40000 ALTER TABLE `inv_clientes` DISABLE KEYS */;
+INSERT INTO `inv_clientes` (`id_cliente`, `fecha_registro`, `hora_registro`, `cliente`, `nombre_factura`, `nit`, `email`, `clave`, `estado`, `cuentas_por_cobrar`, `telefono`, `direccion`, `descripcion`, `ubicacion`, `imagen`, `categoria`, `tipo`, `token`, `cliente_grupo_id`, `credito`, `dias`, `fecha_modificacion`) VALUES
+	(4994, NULL, '00:00:00', 'prueba de cliente', 'prueba de cliente', '5464564', 'prueba@gmail.com', 'e6362735b250352f1a0a78533a10da8ee5e7a239', 'si', 'no', '34534534', 'sdfd', 'prueba de cliente', '-16.50727565121458,-68.16283014468377', '58444fc76502c10c862d4ca4d5fcbb22.jpg', 0, 'Publico en general', '', 0, 0, 0, NULL),
+	(4995, NULL, '00:00:00', 'cliente de prueba 2', 'cliente de prueba 2', '5938459374', 'prueba@gmail.com', '6b23f3c78c7c5f912033c401d71a3f8556d8a849', 'si', 'no', '987874569', 'cliente de prueba 2', 'cliente de prueba 2', '-16.50750420720031,-68.16258041844893', '8b5e1a4d823932778d1e95ed2bd925de.jpg', 0, 'Mayorista o minorista', '', 0, 0, 0, NULL),
+	(4996, NULL, '00:00:00', 'mary', 'mary', '98798734', 'mar@gmail.com', '66cc06d99998ae168e7545ec863788caf1b7962f', 'si', 'no', '9887878', 'ceja', 'mary', '-16.507874525185894,-68.16265583038331', '25dec91941276dcf7d579b3bbe5668c5.jpg', 0, 'Talleres', '', 0, 0, 0, NULL);
 /*!40000 ALTER TABLE `inv_clientes` ENABLE KEYS */;
 
 -- Volcando estructura para tabla distribucion.inv_clientes_grupos
@@ -1016,10 +1073,17 @@ CREATE TABLE IF NOT EXISTS `inv_egresos` (
   KEY `evento` (`evento`),
   FULLTEXT KEY `nombre_cliente` (`nombre_cliente`),
   FULLTEXT KEY `nit_ci` (`nit_ci`)
-) ENGINE=MyISAM AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla distribucion.inv_egresos: 0 rows
+-- Volcando datos para la tabla distribucion.inv_egresos: 6 rows
 /*!40000 ALTER TABLE `inv_egresos` DISABLE KEYS */;
+INSERT INTO `inv_egresos` (`id_egreso`, `fecha_egreso`, `hora_egreso`, `tipo`, `provisionado`, `descripcion`, `nro_factura`, `nro_autorizacion`, `codigo_control`, `fecha_limite`, `monto_total`, `descuento_porcentaje`, `descuento_bs`, `monto_total_descuento`, `cliente_id`, `nombre_cliente`, `nit_ci`, `nro_registros`, `coordenadas`, `observacion`, `dosificacion_id`, `almacen_id`, `empleado_id`, `motivo_id`, `motivo`, `duracion`, `cobrar`, `grupo`, `descripcion_venta`, `estadoe`, `ruta_id`, `estado`, `plan_de_pagos`, `ordenes_salidas_id`, `anulado`, `factura`, `evento`) VALUES
+	(41, '2022-09-09', '12:26:21', 'Venta', 'S', 'Venta de productos con nota de remisión', '1', '', '', '0000-00-00', 460.00, 0, 0.00, 460.00, 4996, 'MARY', '98798734', 2, NULL, '', 0, 22, 1, 0, NULL, '00:00:00', 'no', '', '', 0, 0, 1, 'no', 0, 0, 'Ninguno', 'Ninguno'),
+	(42, '2022-09-09', '12:30:05', 'Venta', 'S', 'Venta de productos con nota de remisión', '2', '', '', '0000-00-00', 460.00, 0, 0.00, 460.00, 4996, 'MARY', '98798734', 2, NULL, '', 0, 22, 1, 0, NULL, '00:00:00', 'no', '', '', 0, 0, 1, 'no', 0, 0, 'Ninguno', 'Ninguno'),
+	(43, '2022-09-09', '12:35:11', 'Venta', 'S', 'Venta de productos con nota de remisión', '3', '', '', '0000-00-00', 460.00, 0, 0.00, 460.00, 4996, 'MARY', '98798734', 2, NULL, '', 0, 22, 1, 0, NULL, '00:00:00', 'no', '', '', 0, 0, 1, 'no', 0, 0, 'Ninguno', 'Ninguno'),
+	(44, '2022-09-20', '09:51:58', 'Venta', 'S', 'Venta de productos con nota de remisión', '4', '', '', '0000-00-00', 485.00, 0, 0.00, 485.00, 4995, 'CLIENTE DE PRUEBA 2', '5938459374', 3, NULL, '', 0, 22, 1, 0, NULL, '00:00:00', 'no', '', '', 0, 0, 1, 'no', 0, 0, 'Ninguno', 'Ninguno'),
+	(45, '2022-09-20', '15:06:34', 'Venta', 'S', 'Venta de productos con nota de remisión', '5', '', '', '0000-00-00', 55.00, 0, 0.00, 55.00, 4995, 'CLIENTE DE PRUEBA 2', '5938459374', 1, NULL, '', 0, 22, 1, 0, NULL, '00:00:00', 'no', '', '', 0, 0, 1, 'no', 0, 0, 'Ninguno', 'Ninguno'),
+	(46, '2022-09-20', '23:09:26', 'Venta', 'S', 'Venta de productos con nota de remisión', '6', '', '', '0000-00-00', 460.00, 0, 0.00, 460.00, 4995, 'CLIENTE DE PRUEBA 2', '5938459374', 2, NULL, '', 0, 22, 1, 0, NULL, '00:00:00', 'no', '', '', 0, 0, 1, 'no', 0, 0, 'Ninguno', 'Ninguno');
 /*!40000 ALTER TABLE `inv_egresos` ENABLE KEYS */;
 
 -- Volcando estructura para tabla distribucion.inv_egresos_anular
@@ -1123,10 +1187,23 @@ CREATE TABLE IF NOT EXISTS `inv_egresos_detalles` (
   KEY `promocion_id` (`promocion_id`),
   KEY `unidad_id` (`unidad_id`),
   FULLTEXT KEY `lote` (`lote`)
-) ENGINE=MyISAM AUTO_INCREMENT=148 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=160 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla distribucion.inv_egresos_detalles: 0 rows
+-- Volcando datos para la tabla distribucion.inv_egresos_detalles: 12 rows
 /*!40000 ALTER TABLE `inv_egresos_detalles` DISABLE KEYS */;
+INSERT INTO `inv_egresos_detalles` (`id_detalle`, `precio`, `unidad_id`, `cantidad`, `descuento`, `producto_id`, `egreso_id`, `promocion_id`, `asignacion_id`, `lote`) VALUES
+	(148, 456.00, 37, 1, 0, 18, 41, 0, 0, 'lt1-1'),
+	(149, 4.00, 37, 1, 0, 20, 41, 0, 0, 'lt1-1'),
+	(150, 456.00, 37, 1, 0, 18, 42, 0, 0, 'lt1-1'),
+	(151, 4.00, 37, 1, 0, 20, 42, 0, 0, 'lt1-1'),
+	(152, 456.00, 37, 1, 0, 18, 43, 0, 0, 'lt1-1'),
+	(153, 4.00, 37, 1, 0, 20, 43, 0, 0, 'lt1-1'),
+	(154, 456.00, 39, 1, 0, 18, 44, 0, 0, 'lt1-1'),
+	(155, 4.00, 39, 1, 0, 20, 44, 0, 0, 'lt1-1'),
+	(156, 25.00, 1, 1, 0, 1, 44, 0, 0, 'lt1-1'),
+	(157, 55.00, 39, 1, 0, 18, 45, 0, 0, 'lt1-1'),
+	(158, 456.00, 39, 1, 0, 18, 46, 0, 0, 'lt1-1'),
+	(159, 4.00, 39, 1, 0, 20, 46, 0, 0, 'lt1-1');
 /*!40000 ALTER TABLE `inv_egresos_detalles` ENABLE KEYS */;
 
 -- Volcando estructura para tabla distribucion.inv_egresos_detalles_anular
@@ -1562,6 +1639,23 @@ CREATE TABLE IF NOT EXISTS `inv_egresos_editar_previo` (
 -- Volcando datos para la tabla distribucion.inv_egresos_editar_previo: 0 rows
 /*!40000 ALTER TABLE `inv_egresos_editar_previo` DISABLE KEYS */;
 /*!40000 ALTER TABLE `inv_egresos_editar_previo` ENABLE KEYS */;
+
+-- Volcando estructura para tabla distribucion.inv_egresos_efectivo
+CREATE TABLE IF NOT EXISTS `inv_egresos_efectivo` (
+  `id_efectivo` int(11) NOT NULL AUTO_INCREMENT,
+  `movimiento_id` int(11) NOT NULL DEFAULT 0,
+  `importe_total` decimal(10,3) NOT NULL DEFAULT 0.000,
+  `pago_efectivo` decimal(10,3) NOT NULL DEFAULT 0.000,
+  `cambio_efectivo` decimal(10,3) NOT NULL DEFAULT 0.000,
+  `tipo_movimiento` enum('Egreso','Ingreso') NOT NULL DEFAULT 'Egreso',
+  PRIMARY KEY (`id_efectivo`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- Volcando datos para la tabla distribucion.inv_egresos_efectivo: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `inv_egresos_efectivo` DISABLE KEYS */;
+INSERT INTO `inv_egresos_efectivo` (`id_efectivo`, `movimiento_id`, `importe_total`, `pago_efectivo`, `cambio_efectivo`, `tipo_movimiento`) VALUES
+	(1, 46, 460.000, 500.000, 40.000, 'Egreso');
+/*!40000 ALTER TABLE `inv_egresos_efectivo` ENABLE KEYS */;
 
 -- Volcando estructura para tabla distribucion.inv_egresos_eliminar_post
 CREATE TABLE IF NOT EXISTS `inv_egresos_eliminar_post` (
@@ -2052,10 +2146,19 @@ CREATE TABLE IF NOT EXISTS `inv_ingresos` (
   KEY `proveedor_id` (`proveedor_id`),
   KEY `plan_de_pagos` (`plan_de_pagos`),
   FULLTEXT KEY `nombre_proveedor` (`nombre_proveedor`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla distribucion.inv_ingresos: 0 rows
+-- Volcando datos para la tabla distribucion.inv_ingresos: 8 rows
 /*!40000 ALTER TABLE `inv_ingresos` DISABLE KEYS */;
+INSERT INTO `inv_ingresos` (`id_ingreso`, `fecha_ingreso`, `hora_ingreso`, `tipo`, `descripcion`, `monto_total`, `descuento`, `monto_total_descuento`, `nombre_proveedor`, `nro_registros`, `almacen_id`, `empleado_id`, `transitorio`, `des_transitorio`, `plan_de_pagos`, `proveedor_id`) VALUES
+	(10, '2022-09-08', '20:34:50', 'Compra', 'prueba', 32500.00, 0, 0, 'PROVEEEDOR DE PRUEBA', 3, 22, 1, 0, '', 'no', 376),
+	(11, '2022-09-08', '21:44:31', 'Compra', '', 1500.00, 0, 0, 'PROVEEEDOR DE PRUEBA', 1, 22, 1, 0, '', 'no', 376),
+	(12, '2022-09-09', '11:56:34', 'Compra', '', 15000.00, 0, 0, 'PROVEEEDOR DE PRUEBA', 1, 22, 1, 0, '', 'no', 376),
+	(53, '2022-09-20', '08:17:34', 'Compra', 'ES UNA COMPRA DE PRUEBA', 54361.00, 0, 0, 'CHECKCODE', 4, 22, 1, 0, '0', 'no', 377),
+	(52, '2022-09-19', '23:04:06', 'Compra', 'ES UNA COMPRA DE PRUEBA', 54361.00, 0, 0, 'CHECKCODE', 4, 22, 1, 0, '0', 'no', 377),
+	(51, '2022-09-19', '23:01:43', 'Compra', 'ES UNA COMPRA DE PRUEBA', 54361.00, 0, 0, 'CHECKCODE', 6001, 22, 1, 0, '0', 'no', 377),
+	(50, '2022-09-19', '22:51:10', 'Compra', 'ES UNA COMPRA DE PRUEBA', 96789.00, 0, 0, 'CHECKCODE', 0, 22, 1, 0, '0', 'no', 377),
+	(49, '2022-09-19', '20:52:12', 'Compra', 'ES UNA COMPRA DE PRUEBA', 96789.00, 0, 0, 'CHECKCODE', 0, 22, 1, 0, '0', 'no', 377);
 /*!40000 ALTER TABLE `inv_ingresos` ENABLE KEYS */;
 
 -- Volcando estructura para tabla distribucion.inv_ingresos_detalles
@@ -2081,11 +2184,175 @@ CREATE TABLE IF NOT EXISTS `inv_ingresos_detalles` (
   KEY `ingreso_id` (`ingreso_id`),
   KEY `almacen_id` (`almacen_id`),
   KEY `asignacion_id` (`asignacion_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=72100 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla distribucion.inv_ingresos_detalles: 0 rows
+-- Volcando datos para la tabla distribucion.inv_ingresos_detalles: 25 rows
 /*!40000 ALTER TABLE `inv_ingresos_detalles` DISABLE KEYS */;
+INSERT INTO `inv_ingresos_detalles` (`id_detalle`, `cantidad`, `costo`, `lote`, `lote_cantidad`, `lote2`, `producto_id`, `ingreso_id`, `elaboracion`, `vencimiento`, `nro_autorizacion`, `contenedor`, `factura`, `almacen_id`, `asignacion_id`, `nro_control`) VALUES
+	(32, 1500, 5.00, 'lt1', 1494, '', 18, 10, '2022-09-08', '2022-09-08', '', '0', '', 0, 0, ''),
+	(33, 1500, 6.00, 'lt1', 1499, '', 1, 10, '2022-09-08', '2022-09-08', '', '0', '', 0, 0, ''),
+	(34, 2000, 8.00, 'lt1', 2000, '', 5, 10, '2022-09-08', '2022-09-08', '', '0', '', 0, 0, ''),
+	(35, 500, 3.00, 'lt1', 500, '', 19, 11, '2022-09-08', '2022-09-08', '', '0', '', 0, 0, ''),
+	(36, 5000, 3.00, 'lt1', 4995, '', 20, 12, '2022-09-09', '2022-09-09', '', '0', '', 0, 0, ''),
+	(72096, 314, 78.00, 'lt315', 314, '', 20, 53, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(72097, 355, 22.00, 'lt356', 355, '', 19, 53, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(72098, 397, 27.00, 'lt398', 397, '', 18, 53, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(72099, 315, 36.00, 'lt316', 315, '', 5, 53, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(72088, 314, 78.00, 'lt315', 314, '', 20, 52, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(72089, 355, 22.00, 'lt356', 355, '', 19, 52, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(72090, 397, 27.00, 'lt398', 397, '', 18, 52, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(72091, 315, 36.00, 'lt316', 315, '', 5, 52, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(72084, 314, 78.00, 'lt315', 314, '', 20, 51, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(72085, 355, 22.00, 'lt356', 355, '', 19, 51, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(72086, 397, 27.00, 'lt398', 397, '', 18, 51, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(72087, 315, 36.00, 'lt316', 315, '', 5, 51, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(72080, 314, 78.00, 'lt315', 314, '', 20, 50, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(72081, 355, 22.00, 'lt356', 355, '', 19, 50, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(72082, 397, 27.00, 'lt398', 397, '', 18, 50, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(72083, 315, 36.00, 'lt316', 315, '', 5, 50, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(64, 315, 36.00, 'lt316', 315, '', 5, 49, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(63, 397, 27.00, 'lt398', 397, '', 18, 49, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(62, 355, 22.00, 'lt356', 355, '', 19, 49, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(61, 314, 78.00, 'lt315', 314, '', 20, 49, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, '');
 /*!40000 ALTER TABLE `inv_ingresos_detalles` ENABLE KEYS */;
+
+-- Volcando estructura para tabla distribucion.inv_ingresos_detalles_import
+CREATE TABLE IF NOT EXISTS `inv_ingresos_detalles_import` (
+  `id_detalle` int(11) NOT NULL AUTO_INCREMENT,
+  `cantidad` int(11) NOT NULL,
+  `costo` decimal(10,2) NOT NULL,
+  `lote` varchar(30) NOT NULL DEFAULT ' ',
+  `lote_cantidad` int(11) DEFAULT NULL,
+  `lote2` varchar(25) NOT NULL DEFAULT '',
+  `producto_id` int(11) NOT NULL,
+  `ingreso_id` int(11) NOT NULL,
+  `elaboracion` date DEFAULT NULL,
+  `vencimiento` date NOT NULL,
+  `nro_autorizacion` varchar(25) DEFAULT '',
+  `contenedor` varchar(50) NOT NULL DEFAULT '',
+  `factura` varchar(20) NOT NULL DEFAULT '',
+  `almacen_id` int(11) DEFAULT 0,
+  `asignacion_id` int(11) DEFAULT 0,
+  `nro_control` varchar(25) DEFAULT '',
+  PRIMARY KEY (`id_detalle`),
+  KEY `producto_id` (`producto_id`),
+  KEY `ingreso_id` (`ingreso_id`),
+  KEY `almacen_id` (`almacen_id`),
+  KEY `asignacion_id` (`asignacion_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=90086 DEFAULT CHARSET=utf8;
+
+-- Volcando datos para la tabla distribucion.inv_ingresos_detalles_import: 60 rows
+/*!40000 ALTER TABLE `inv_ingresos_detalles_import` DISABLE KEYS */;
+INSERT INTO `inv_ingresos_detalles_import` (`id_detalle`, `cantidad`, `costo`, `lote`, `lote_cantidad`, `lote2`, `producto_id`, `ingreso_id`, `elaboracion`, `vencimiento`, `nro_autorizacion`, `contenedor`, `factura`, `almacen_id`, `asignacion_id`, `nro_control`) VALUES
+	(1, 314, 78.00, 'lt315', 314, '', 20, 1, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(2, 355, 22.00, 'lt356', 355, '', 19, 1, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(3, 397, 27.00, 'lt398', 397, '', 18, 1, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(4, 315, 36.00, 'lt316', 315, '', 5, 1, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(5, 314, 78.00, 'lt315', 314, '', 20, 2, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(6, 355, 22.00, 'lt356', 355, '', 19, 2, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(7, 397, 27.00, 'lt398', 397, '', 18, 2, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(8, 315, 36.00, 'lt316', 315, '', 5, 2, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(9, 314, 78.00, 'lt315', 314, '', 20, 3, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(10, 355, 22.00, 'lt356', 355, '', 19, 3, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(11, 397, 27.00, 'lt398', 397, '', 18, 3, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(12, 315, 36.00, 'lt316', 315, '', 5, 3, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(13, 314, 78.00, 'lt315', 314, '', 20, 4, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(14, 355, 22.00, 'lt356', 355, '', 19, 4, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(15, 397, 27.00, 'lt398', 397, '', 18, 4, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(16, 315, 36.00, 'lt316', 315, '', 5, 4, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(17, 314, 78.00, 'lt315', 314, '', 20, 5, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(18, 355, 22.00, 'lt356', 355, '', 19, 5, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(19, 397, 27.00, 'lt398', 397, '', 18, 5, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(20, 315, 36.00, 'lt316', 315, '', 5, 5, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(21, 314, 78.00, 'lt315', 314, '', 20, 6, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(22, 355, 22.00, 'lt356', 355, '', 19, 6, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(23, 397, 27.00, 'lt398', 397, '', 18, 6, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(24, 315, 36.00, 'lt316', 315, '', 5, 6, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(25, 314, 78.00, 'lt315', 314, '', 20, 7, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(26, 355, 22.00, 'lt356', 355, '', 19, 7, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(27, 397, 27.00, 'lt398', 397, '', 18, 7, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(28, 315, 36.00, 'lt316', 315, '', 5, 7, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(29, 314, 78.00, 'lt315', 314, '', 20, 8, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(30, 355, 22.00, 'lt356', 355, '', 19, 8, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(31, 397, 27.00, 'lt398', 397, '', 18, 8, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(32, 315, 36.00, 'lt316', 315, '', 5, 8, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(52, 315, 36.00, 'lt316', 315, '', 5, 13, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(51, 397, 27.00, 'lt398', 397, '', 18, 13, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(50, 355, 22.00, 'lt356', 355, '', 19, 13, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(49, 314, 78.00, 'lt315', 314, '', 20, 13, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(60, 315, 36.00, 'lt316', 315, '', 5, 15, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(59, 397, 27.00, 'lt398', 397, '', 18, 15, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(58, 355, 22.00, 'lt356', 355, '', 19, 15, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(57, 314, 78.00, 'lt315', 314, '', 20, 15, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(61, 314, 78.00, 'lt315', 314, '', 20, 16, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(62, 355, 22.00, 'lt356', 355, '', 19, 16, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(63, 397, 27.00, 'lt398', 397, '', 18, 16, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(64, 315, 36.00, 'lt316', 315, '', 5, 16, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(72099, 315, 36.00, 'lt316', 315, '', 5, 44, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(72098, 397, 27.00, 'lt398', 397, '', 18, 44, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(72097, 355, 22.00, 'lt356', 355, '', 19, 44, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(72096, 314, 78.00, 'lt315', 314, '', 20, 44, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(72091, 315, 36.00, 'lt316', 315, '', 5, 42, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(72090, 397, 27.00, 'lt398', 397, '', 18, 42, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(72089, 355, 22.00, 'lt356', 355, '', 19, 42, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(72088, 314, 78.00, 'lt315', 314, '', 20, 42, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(72087, 315, 36.00, 'lt316', 315, '', 5, 41, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(72086, 397, 27.00, 'lt398', 397, '', 18, 41, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(72085, 355, 22.00, 'lt356', 355, '', 19, 41, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(72084, 314, 78.00, 'lt315', 314, '', 20, 41, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(72083, 315, 36.00, 'lt316', 315, '', 5, 40, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(72082, 397, 27.00, 'lt398', 397, '', 18, 40, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(72081, 355, 22.00, 'lt356', 355, '', 19, 40, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, ''),
+	(72080, 314, 78.00, 'lt315', 314, '', 20, 40, '0000-00-00', '0000-00-00', '', '0', '0', 0, 0, '');
+/*!40000 ALTER TABLE `inv_ingresos_detalles_import` ENABLE KEYS */;
+
+-- Volcando estructura para tabla distribucion.inv_ingresos_import
+CREATE TABLE IF NOT EXISTS `inv_ingresos_import` (
+  `id_ingreso` int(11) NOT NULL AUTO_INCREMENT,
+  `fecha_ingreso` date DEFAULT NULL,
+  `hora_ingreso` time DEFAULT NULL,
+  `tipo` enum('Compra','Traspaso') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `descripcion` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `monto_total` decimal(10,2) DEFAULT 0.00,
+  `descuento` int(11) NOT NULL DEFAULT 0,
+  `monto_total_descuento` decimal(20,0) NOT NULL DEFAULT 0,
+  `nombre_proveedor` varchar(200) NOT NULL,
+  `nro_registros` int(11) DEFAULT 0,
+  `almacen_id` int(11) NOT NULL,
+  `empleado_id` int(11) NOT NULL DEFAULT 0,
+  `transitorio` int(11) NOT NULL DEFAULT 0,
+  `des_transitorio` varchar(150) NOT NULL DEFAULT '0',
+  `plan_de_pagos` enum('si','no') NOT NULL DEFAULT 'no',
+  `proveedor_id` int(3) NOT NULL DEFAULT 0,
+  `estado_import` enum('Import','Confirmado') NOT NULL DEFAULT 'Import',
+  PRIMARY KEY (`id_ingreso`),
+  KEY `almacen_id` (`almacen_id`),
+  KEY `empleado_id` (`empleado_id`),
+  KEY `tipo` (`tipo`),
+  KEY `proveedor_id` (`proveedor_id`),
+  KEY `plan_de_pagos` (`plan_de_pagos`),
+  FULLTEXT KEY `nombre_proveedor` (`nombre_proveedor`)
+) ENGINE=MyISAM AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
+
+-- Volcando datos para la tabla distribucion.inv_ingresos_import: 15 rows
+/*!40000 ALTER TABLE `inv_ingresos_import` DISABLE KEYS */;
+INSERT INTO `inv_ingresos_import` (`id_ingreso`, `fecha_ingreso`, `hora_ingreso`, `tipo`, `descripcion`, `monto_total`, `descuento`, `monto_total_descuento`, `nombre_proveedor`, `nro_registros`, `almacen_id`, `empleado_id`, `transitorio`, `des_transitorio`, `plan_de_pagos`, `proveedor_id`, `estado_import`) VALUES
+	(1, '2022-09-19', '19:43:39', 'Compra', 'ES UNA COMPRA DE PRUEBA', 96789.00, 0, 0, 'CHECKCODE', 0, 22, 1, 0, '0', 'no', 377, 'Confirmado'),
+	(2, '2022-09-19', '19:50:11', 'Compra', 'ES UNA COMPRA DE PRUEBA', 96789.00, 0, 0, 'CHECKCODE', 0, 22, 1, 0, '0', 'no', 377, 'Confirmado'),
+	(3, '2022-09-19', '19:52:23', 'Compra', 'ES UNA COMPRA DE PRUEBA', 96789.00, 0, 0, 'CHECKCODE', 0, 22, 1, 0, '0', 'no', 377, 'Confirmado'),
+	(4, '2022-09-19', '19:54:50', 'Compra', 'ES UNA COMPRA DE PRUEBA', 96789.00, 0, 0, 'CHECKCODE', 0, 22, 1, 0, '0', 'no', 377, 'Confirmado'),
+	(5, '2022-09-19', '20:00:30', 'Compra', 'ES UNA COMPRA DE PRUEBA', 96789.00, 0, 0, 'CHECKCODE', 0, 22, 1, 0, '0', 'no', 377, 'Confirmado'),
+	(6, '2022-09-19', '20:01:34', 'Compra', 'ES UNA COMPRA DE PRUEBA', 96789.00, 0, 0, 'CHECKCODE', 0, 22, 1, 0, '0', 'no', 377, 'Confirmado'),
+	(7, '2022-09-19', '20:12:29', 'Compra', 'ES UNA COMPRA DE PRUEBA', 96789.00, 0, 0, 'CHECKCODE', 0, 22, 1, 0, '0', 'no', 377, 'Confirmado'),
+	(8, '2022-09-19', '20:17:08', 'Compra', 'ES UNA COMPRA DE PRUEBA', 96789.00, 0, 0, 'CHECKCODE', 0, 22, 1, 0, '0', 'no', 377, 'Confirmado'),
+	(13, '2022-09-19', '20:44:22', 'Compra', 'ES UNA COMPRA DE PRUEBA', 96789.00, 0, 0, 'CHECKCODE', 0, 22, 1, 0, '0', 'no', 377, 'Confirmado'),
+	(15, '2022-09-19', '20:48:59', 'Compra', 'ES UNA COMPRA DE PRUEBA', 96789.00, 0, 0, 'CHECKCODE', 0, 22, 1, 0, '0', 'no', 377, 'Confirmado'),
+	(16, '2022-09-19', '20:52:08', 'Compra', 'ES UNA COMPRA DE PRUEBA', 96789.00, 0, 0, 'CHECKCODE', 0, 22, 1, 0, '0', 'no', 377, 'Confirmado'),
+	(40, '2022-09-19', '22:32:45', 'Compra', 'ES UNA COMPRA DE PRUEBA', 96789.00, 0, 0, 'CHECKCODE', 0, 22, 1, 0, '0', 'no', 377, 'Confirmado'),
+	(41, '2022-09-19', '23:01:32', 'Compra', 'ES UNA COMPRA DE PRUEBA', 54361.00, 0, 0, 'CHECKCODE', 6001, 22, 1, 0, '0', 'no', 377, 'Confirmado'),
+	(42, '2022-09-19', '23:03:42', 'Compra', 'ES UNA COMPRA DE PRUEBA', 54361.00, 0, 0, 'CHECKCODE', 4, 22, 1, 0, '0', 'no', 377, 'Confirmado'),
+	(44, '2022-09-20', '08:17:31', 'Compra', 'ES UNA COMPRA DE PRUEBA', 54361.00, 0, 0, 'CHECKCODE', 4, 22, 1, 0, '0', 'no', 377, 'Confirmado');
+/*!40000 ALTER TABLE `inv_ingresos_import` ENABLE KEYS */;
 
 -- Volcando estructura para tabla distribucion.inv_ingreso_material
 CREATE TABLE IF NOT EXISTS `inv_ingreso_material` (
@@ -2275,10 +2542,17 @@ CREATE TABLE IF NOT EXISTS `inv_pagos` (
   `tipo` enum('Ingreso','Egreso') NOT NULL,
   PRIMARY KEY (`id_pago`),
   KEY `movimiento_id` (`movimiento_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla distribucion.inv_pagos: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla distribucion.inv_pagos: ~5 rows (aproximadamente)
 /*!40000 ALTER TABLE `inv_pagos` DISABLE KEYS */;
+INSERT INTO `inv_pagos` (`id_pago`, `movimiento_id`, `interes_pago`, `tipo`) VALUES
+	(37, 41, 0, 'Egreso'),
+	(38, 42, 0, 'Egreso'),
+	(39, 43, 0, 'Egreso'),
+	(40, 44, 0, 'Egreso'),
+	(41, 45, 0, 'Egreso'),
+	(42, 46, 0, 'Egreso');
 /*!40000 ALTER TABLE `inv_pagos` ENABLE KEYS */;
 
 -- Volcando estructura para tabla distribucion.inv_pagos_detalles
@@ -2295,10 +2569,17 @@ CREATE TABLE IF NOT EXISTS `inv_pagos_detalles` (
   PRIMARY KEY (`id_pago_detalle`),
   KEY `nro_cuota` (`nro_cuota`),
   KEY `pago_id` (`pago_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=338 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=344 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla distribucion.inv_pagos_detalles: 0 rows
+-- Volcando datos para la tabla distribucion.inv_pagos_detalles: 6 rows
 /*!40000 ALTER TABLE `inv_pagos_detalles` DISABLE KEYS */;
+INSERT INTO `inv_pagos_detalles` (`id_pago_detalle`, `pago_id`, `fecha`, `monto`, `estado`, `fecha_pago`, `tipo_pago`, `nro_cuota`, `empleado_id`) VALUES
+	(338, 37, '2022-09-09', 460, 0, '2022-09-09', '', 1, 1),
+	(339, 38, '2022-09-09', 460, 0, '2022-09-09', '', 1, 1),
+	(340, 39, '2022-09-09', 460, 0, '2022-09-09', '', 1, 1),
+	(341, 40, '2022-09-20', 485, 0, '2022-09-20', '', 1, 1),
+	(342, 41, '2022-09-20', 55, 0, '2022-09-20', '', 1, 1),
+	(343, 42, '2022-09-20', 460, 0, '2022-09-20', '', 1, 1);
 /*!40000 ALTER TABLE `inv_pagos_detalles` ENABLE KEYS */;
 
 -- Volcando estructura para tabla distribucion.inv_participantes_promos
@@ -2324,12 +2605,19 @@ CREATE TABLE IF NOT EXISTS `inv_precios` (
   `producto_id` int(11) NOT NULL,
   `empleado_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_precio`)
-) ENGINE=MyISAM AUTO_INCREMENT=492 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=499 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla distribucion.inv_precios: 1 rows
+-- Volcando datos para la tabla distribucion.inv_precios: 8 rows
 /*!40000 ALTER TABLE `inv_precios` DISABLE KEYS */;
 INSERT INTO `inv_precios` (`id_precio`, `precio`, `fecha_registro`, `hora_registro`, `asignacion_id`, `producto_id`, `empleado_id`) VALUES
-	(491, 570.00, '2022-09-01', '22:33:15', 33, 1, 1);
+	(491, 570.00, '2022-09-01', '22:33:15', 33, 1, 1),
+	(492, 33.00, '2022-09-07', '14:08:27', 34, 1, 1),
+	(493, 34.00, '2022-09-07', '23:50:40', 35, 18, 1),
+	(494, 456.00, '2022-09-07', '23:52:28', 36, 18, 1),
+	(495, 4.00, '2022-09-08', '21:43:19', 37, 19, 1),
+	(496, 4.50, '2022-09-08', '21:43:50', 38, 19, 1),
+	(497, 55.00, '2022-09-09', '11:55:54', 39, 20, 1),
+	(498, 4.00, '2022-09-09', '11:57:57', 40, 20, 1);
 /*!40000 ALTER TABLE `inv_precios` ENABLE KEYS */;
 
 -- Volcando estructura para tabla distribucion.inv_prioridades_ventas
@@ -2374,12 +2662,28 @@ CREATE TABLE IF NOT EXISTS `inv_productos` (
   KEY `unidad_id` (`unidad_id`),
   KEY `categoria_id` (`categoria_id`),
   KEY `marca_id` (`marca_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla distribucion.inv_productos: 1 rows
+-- Volcando datos para la tabla distribucion.inv_productos: 17 rows
 /*!40000 ALTER TABLE `inv_productos` DISABLE KEYS */;
 INSERT INTO `inv_productos` (`id_producto`, `codigo`, `codigo_barras`, `nombre`, `nombre_factura`, `promocion`, `fecha_registro`, `hora_registro`, `fecha_vencimiento`, `fecha_limite`, `precio_actual`, `cantidad_minima`, `imagen`, `ubicacion`, `descripcion`, `unidad_id`, `categoria_id`, `marca_id`, `sigla_contenedor`, `nro_dui`, `precio_sugerido`, `grupo`, `regalo`, `marca`, `eliminado`) VALUES
-	(1, '', 'CB', 'producto de prueba', 'producto de prueba', '', '2022-09-01', '20:09:49', NULL, '1000-01-01', 25.00, 10, '', '', '', 1, 17, 0, NULL, '0', 0.00, '', 0, NULL, 0);
+	(1, '', 'CB', 'producto de prueba', 'producto de prueba', '', '2022-09-01', '20:09:49', NULL, '1000-01-01', 25.00, 10, '', '', '', 1, 17, 0, NULL, '0', 0.00, '', 0, NULL, 0),
+	(5, 'kjhk', 'CB', 'chocolate', 'chocolate', '', '2022-09-07', '17:38:45', NULL, '1000-01-01', 35.00, 10, '', '', '', 1, 17, 0, NULL, '0', 0.00, '', 0, NULL, 0),
+	(6, 'dfgdf', 'CB', 'chocolates', 'chocolates', '', '2022-09-07', '17:40:01', NULL, '1000-01-01', 24.00, 10, '', '', '', 1, 17, 0, NULL, '0', 0.00, '', 0, NULL, 1),
+	(7, 'vdf', 'CB', 'prueba', 'prueba', '', '2022-09-07', '17:48:17', NULL, '1000-01-01', 576.00, 10, '', '', '', 1, 17, 0, NULL, '0', 0.00, '', 0, NULL, 1),
+	(8, 'vdf', 'CB', 'prueba', 'prueba', '', '2022-09-07', '17:58:35', NULL, '1000-01-01', 576.00, 10, '', '', '', 1, 17, 0, NULL, '0', 0.00, '', 0, NULL, 1),
+	(9, 'vdf', 'CB', 'prueba', 'prueba', '', '2022-09-07', '17:58:38', NULL, '1000-01-01', 576.00, 10, '', '', '', 1, 17, 0, NULL, '0', 0.00, '', 0, NULL, 1),
+	(10, 'vdf', 'CB', 'prueba', 'prueba', '', '2022-09-07', '17:59:06', NULL, '1000-01-01', 576.00, 10, '', '', '', 1, 17, 0, NULL, '0', 0.00, '', 0, NULL, 1),
+	(11, 'fgdfg', 'CB', 'producto de prueba', 'producto de prueba', '', '2022-09-07', '18:02:18', NULL, '1000-01-01', 34.00, 10, '', '', '', 1, 17, 0, NULL, '0', 0.00, '', 0, NULL, 1),
+	(12, 'fgdfg', 'CB', 'producto de prueba', 'producto de prueba', '', '2022-09-07', '18:04:57', NULL, '1000-01-01', 34.00, 10, '', '', '', 1, 17, 0, NULL, '0', 0.00, '', 0, NULL, 1),
+	(13, 'lknklk', 'CB', 'galletas', 'galletas', '', '2022-09-07', '18:08:22', NULL, '1000-01-01', 23.00, 10, '', '', '', 1, 17, 0, NULL, '0', 0.00, '', 0, NULL, 1),
+	(14, 'ghfgh', 'CB', 'dulces', 'dulces', '', '2022-09-07', '18:33:42', NULL, '1000-01-01', 2.00, 10, '', '', '', 1, 17, 0, NULL, '0', 0.00, '', 0, NULL, 1),
+	(15, 'fsfsd', 'CB', 'pruebita', 'pruebita', '', '2022-09-07', '23:38:26', NULL, '1000-01-01', 23.00, 10, '', '', '', 3, 17, 0, NULL, '0', 0.00, '', 0, NULL, 1),
+	(16, 'vdfv', 'CB', 'vvvvvvv', 'vvvvvvv', '', '2022-09-07', '23:43:56', NULL, '1000-01-01', 34.00, 10, '', '', '', 8, 17, 0, NULL, '0', 0.00, '', 0, NULL, 1),
+	(17, 'dasd', 'CB', 'sdddddd', 'sdddddd', '', '2022-09-07', '23:45:01', NULL, '1000-01-01', 44.00, 10, '', '', '', 3, 17, 0, NULL, '0', 0.00, '', 0, NULL, 1),
+	(18, 'dfdfdfdf', 'CB', 'chocolate ceibo', 'chocolate ceibo', '', '2022-09-07', '23:45:29', NULL, '1000-01-01', 55.00, 10, '', '', '', 39, 17, 0, NULL, '0', 0.00, '', 0, NULL, 0),
+	(19, 'cccwe', 'CB', 'yogurt pil', 'yogurt pil', '', '2022-09-08', '21:42:45', NULL, '1000-01-01', 5.00, 10, '', '', '', 38, 17, 0, NULL, '0', 0.00, '', 0, NULL, 0),
+	(20, 'fdf', 'CB', 'galleta', 'galleta', '', '2022-09-09', '11:55:24', NULL, '1000-01-01', 5.00, 10, '', '', '', 39, 17, 0, NULL, '0', 0.00, '', 0, NULL, 0);
 /*!40000 ALTER TABLE `inv_productos` ENABLE KEYS */;
 
 -- Volcando estructura para tabla distribucion.inv_proformas
@@ -2474,12 +2778,13 @@ CREATE TABLE IF NOT EXISTS `inv_proveedores` (
   `direccion` text DEFAULT NULL,
   `telefono` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_proveedor`)
-) ENGINE=InnoDB AUTO_INCREMENT=377 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=378 DEFAULT CHARSET=utf8;
 
 -- Volcando datos para la tabla distribucion.inv_proveedores: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `inv_proveedores` DISABLE KEYS */;
 INSERT INTO `inv_proveedores` (`id_proveedor`, `proveedor`, `nit`, `direccion`, `telefono`) VALUES
-	(376, 'PROVEEEDOR DE PRUEBA', '7239099333', 'PROVEEEDOR DE PRUEBA', '600000005');
+	(376, 'PROVEEEDOR DE PRUEBA', '7239099333', 'PROVEEEDOR DE PRUEBA', '600000005'),
+	(377, 'CHECKCODE', '0', NULL, NULL);
 /*!40000 ALTER TABLE `inv_proveedores` ENABLE KEYS */;
 
 -- Volcando estructura para tabla distribucion.inv_requisitos_promo
@@ -2514,14 +2819,15 @@ CREATE TABLE IF NOT EXISTS `inv_tipos_clientes` (
   `id_tipo_cliente` int(11) NOT NULL AUTO_INCREMENT,
   `tipo_cliente` varchar(50) NOT NULL,
   PRIMARY KEY (`id_tipo_cliente`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 -- Volcando datos para la tabla distribucion.inv_tipos_clientes: ~2 rows (aproximadamente)
 /*!40000 ALTER TABLE `inv_tipos_clientes` DISABLE KEYS */;
 INSERT INTO `inv_tipos_clientes` (`id_tipo_cliente`, `tipo_cliente`) VALUES
 	(17, 'Talleres'),
 	(18, 'Publico en general'),
-	(20, 'Mayorista o minorista');
+	(20, 'Mayorista o minorista'),
+	(21, 'EXPORTADORES');
 /*!40000 ALTER TABLE `inv_tipos_clientes` ENABLE KEYS */;
 
 -- Volcando estructura para tabla distribucion.inv_tipo_calculo
@@ -2563,23 +2869,18 @@ CREATE TABLE IF NOT EXISTS `inv_unidades` (
   `descripcion` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `tamanio` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_unidad`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla distribucion.inv_unidades: 12 rows
+-- Volcando datos para la tabla distribucion.inv_unidades: 7 rows
 /*!40000 ALTER TABLE `inv_unidades` DISABLE KEYS */;
 INSERT INTO `inv_unidades` (`id_unidad`, `unidad`, `sigla`, `descripcion`, `tamanio`) VALUES
 	(1, 'UNIDAD', 'UN', '', NULL),
-	(2, 'UNIDADES', 'UNDS', '', NULL),
 	(3, 'CAJA', 'CJA', '', NULL),
-	(4, 'BOLSA', 'BOL', '', NULL),
-	(5, 'SACO', 'CA', '', NULL),
-	(6, 'ARROBA', 'A', '', NULL),
-	(7, 'PROMOCION', '', '', NULL),
 	(8, 'PAQUETE', 'PQT', '', NULL),
-	(9, 'TIRA', 'TIR', '', NULL),
-	(10, 'MEDIA SACO', 'MESAC', '', NULL),
-	(11, '15 UNIDADES', '15UNI', 'MERC', NULL),
-	(12, 'unidad bolsa con cajas', 'BC', 'unidad bolsa con cajas, prueba beca', NULL);
+	(37, 'CAJA|TALLERES', 'CAJATALLER', 'Unidad creada de forma automatica en relacion al tipo de clientes.', NULL),
+	(38, 'CAJA|PUBLICO EN GENERAL', 'CAJAPUBLIC', 'Unidad creada de forma automatica en relacion al tipo de clientes.', NULL),
+	(39, 'CAJA|MAYORISTA O MINORISTA', 'CAJAMAYORI', 'Unidad creada de forma automatica en relacion al tipo de clientes.', NULL),
+	(43, 'CAJA|EXPORTADORES', 'CAJAEXPORT', 'Unidad creada de forma automatica en relacion al tipo de clientes.', NULL);
 /*!40000 ALTER TABLE `inv_unidades` ENABLE KEYS */;
 
 -- Volcando estructura para tabla distribucion.sys_desc_generales
@@ -2627,12 +2928,13 @@ CREATE TABLE IF NOT EXISTS `sys_empleados` (
   `fecha` date DEFAULT '0000-00-00',
   `hora` time DEFAULT '00:00:00',
   PRIMARY KEY (`id_empleado`)
-) ENGINE=MyISAM AUTO_INCREMENT=128 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=129 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla distribucion.sys_empleados: 1 rows
+-- Volcando datos para la tabla distribucion.sys_empleados: 2 rows
 /*!40000 ALTER TABLE `sys_empleados` DISABLE KEYS */;
 INSERT INTO `sys_empleados` (`id_empleado`, `nombres`, `paterno`, `materno`, `genero`, `fecha_nacimiento`, `telefono`, `empresa`, `cargo`, `fecha`, `hora`) VALUES
-	(1, 'checkcode', 'checkcode', '', 'Masculino', '0000-00-00', '', NULL, '1', '2021-03-26', '16:14:20');
+	(1, 'checkcode', 'checkcode', '', 'Masculino', '0000-00-00', '', NULL, '1', '2021-03-26', '16:14:20'),
+	(128, 'distribuidor', '', '', 'Masculino', '0000-00-00', '', '', '1', '0000-00-00', '00:00:00');
 /*!40000 ALTER TABLE `sys_empleados` ENABLE KEYS */;
 
 -- Volcando estructura para tabla distribucion.sys_instituciones
@@ -2660,7 +2962,7 @@ CREATE TABLE IF NOT EXISTS `sys_instituciones` (
 -- Volcando datos para la tabla distribucion.sys_instituciones: 1 rows
 /*!40000 ALTER TABLE `sys_instituciones` DISABLE KEYS */;
 INSERT INTO `sys_instituciones` (`id_institucion`, `nombre`, `sigla`, `lema`, `razon_social`, `propietario`, `direccion`, `descripcion`, `telefono`, `nit`, `correo`, `imagen_encabezado`, `pie_pagina`, `formato`, `tema`, `empresa1`, `empresa2`) VALUES
-	(1, 'CHECKCODE', 'FA', 'VENTA DE PRODUCTOS', 'VENTA DE PRODUCTOS', 'CHECKCODE', 'CALLE 3 AVENIDA 6 DE MARZO', 'Atención: Lun. a Vie. de 08:30 a 18:30 y Sáb. de 08:30 a 13:00', '6000001', '6000001', 'checkcode@checkcode.bo', 'c1b0f085771c01f9b9614c7574f4d7af.jpg', 'CHECKCODE-DISTRIBUCION', 'Y-m-d', 'bootstrap', 'CHECKCODE', '');
+	(1, 'CHECKCODE', 'FA', 'VENTA DE PRODUCTOS', 'VENTA DE PRODUCTOS', 'CHECKCODE', 'CALLE 3 AVENIDA 6 DE MARZO', 'Atencion: Lun. a Vie. de 08:30 a 18:30 y Sab. de 08:30 a 13:00', '6000001', '6000001', 'checkcode@checkcode.bo', '7af745f8074e10dc76a12a8633e7ceed.jpg', 'CHECKCODE-DISTRIBUCION', 'Y-m-d', 'bootstrap', 'CHECKCODE', '');
 /*!40000 ALTER TABLE `sys_instituciones` ENABLE KEYS */;
 
 -- Volcando estructura para tabla distribucion.sys_menus
@@ -2673,9 +2975,9 @@ CREATE TABLE IF NOT EXISTS `sys_menus` (
   `orden` int(11) NOT NULL DEFAULT 0,
   `antecesor_id` int(11) NOT NULL,
   PRIMARY KEY (`id_menu`)
-) ENGINE=MyISAM AUTO_INCREMENT=141 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=143 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla distribucion.sys_menus: 105 rows
+-- Volcando datos para la tabla distribucion.sys_menus: 107 rows
 /*!40000 ALTER TABLE `sys_menus` DISABLE KEYS */;
 INSERT INTO `sys_menus` (`id_menu`, `menu`, `icono`, `ruta`, `modulo`, `orden`, `antecesor_id`) VALUES
 	(1, 'Módulo Administración', 'dashboard', '', '', 1, 0),
@@ -2782,7 +3084,9 @@ INSERT INTO `sys_menus` (`id_menu`, `menu`, `icono`, `ruta`, `modulo`, `orden`, 
 	(137, 'Registro de Egresos Efectivo', 'minus', '?/movimientos/egresos_listar', 'movimientos', 0, 135),
 	(138, 'Registro de Gastos Efectivo', 'minus-sign', '?/movimientos/gastos_listar', 'movimientos', 0, 135),
 	(139, 'Reporte Personal Caja', 'user', '?/movimientos/cerrar', 'movimientos', 0, 135),
-	(140, 'Reporte General de Caja', 'stats', '?/movimientos/mostrar', 'movimientos', 0, 135);
+	(140, 'Reporte General de Caja', 'stats', '?/movimientos/mostrar', 'movimientos', 0, 135),
+	(141, 'Import Documents', 'cloud-upload', '', '', 0, 0),
+	(142, 'Subir Compra', 'open-file', '?/import/compra-crear', 'import', 0, 141);
 /*!40000 ALTER TABLE `sys_menus` ENABLE KEYS */;
 
 -- Volcando estructura para tabla distribucion.sys_permisos
@@ -2793,7 +3097,7 @@ CREATE TABLE IF NOT EXISTS `sys_permisos` (
   PRIMARY KEY (`rol_id`,`menu_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla distribucion.sys_permisos: 291 rows
+-- Volcando datos para la tabla distribucion.sys_permisos: 293 rows
 /*!40000 ALTER TABLE `sys_permisos` DISABLE KEYS */;
 INSERT INTO `sys_permisos` (`rol_id`, `menu_id`, `archivos`) VALUES
 	(2, 43, 'facturas_editar,facturas_imprimir,facturas_listar,facturas_obtener,facturas_ver,listar_manuales,manuales_editar,manuales_eliminar,manuales_ver,notas_imprimir,notas_listar,notas_obtener,notas_ver,preventas_obtener,preventa_ver,proformas_editar,proformas_eliminar,proformas_facturar,proformas_imprimir,proformas_listar,proformas_modificar,proformas_obtener,proformas_ver,xproformas_imprimir'),
@@ -2871,6 +3175,12 @@ INSERT INTO `sys_permisos` (`rol_id`, `menu_id`, `archivos`) VALUES
 	(4, 41, ''),
 	(4, 58, 'guardar_devolucionn,preventas_imprimir,notas_obtener,xproformas_imprimir,proformas_ver,buscar,proforma_ver,guardar_devolucion,facturas_listar,facturas_ver,facturas_listar2,facturas_imprimir,notas_actualizar,preventas_devolucion,activar_nota,proformas_modificar,notas_devolucion,guardar,proformas_editar,manuales_ver,notas_listar2,proformas_obtener,preventas_obtener,activar_factura,preventas_facturar,proformas_eliminar,facturas_obtener,listar_manuales,proformas_listar,proformas_facturar,preventas_ver,manuales_eliminar,preventas_listar,preventa_ver,preventas_editar2,proformas_imprimir,notas_imprimir,proformas_devolucion,preventas_editar,preventas_eliminar,notas_ver,manuales_editar,notas_editar,preventas_listar2,notas_listar,facturas_editar'),
 	(4, 76, ''),
+	(1, 28, 'crear,descargar,editar,eliminar,guardar,imprimir,listar,ver'),
+	(1, 26, ''),
+	(1, 67, 'crear,editar,eliminar,guardar,imprimir,imprimir2,listar,ver,visitas'),
+	(1, 35, 'diario,listar_productos,productos,utilidades,utilidades_ant,utilidades_dia,ventas_electronicas,ventas_generales,ventas_generales2,ventas_manuales,ventas_notas,ventas_personales'),
+	(1, 37, 'diario,listar_productos,productos,utilidades,utilidades_ant,utilidades_dia,ventas_electronicas,ventas_generales,ventas_generales2,ventas_manuales,ventas_notas,ventas_personales'),
+	(1, 107, 'utilidades,utilidades2,utilidades_ant,utilidades_BACK,utilidades_dia'),
 	(12, 60, 'preventas] disponibles — crear1, actualizar, buscar, proformas_listar_ant, a, guardar_noventa, editar, guardar, proformas_editar, imprimir, facturar, seleccionar_almacen, ver, eliminar, proformas_listar, imprimir_nota, guardar1, crear, modificar, proformas_imprimir, obtener, mostrar, noventa'),
 	(12, 30, ''),
 	(12, 21, ''),
@@ -2924,50 +3234,45 @@ INSERT INTO `sys_permisos` (`rol_id`, `menu_id`, `archivos`) VALUES
 	(13, 84, ''),
 	(13, 85, ''),
 	(13, 78, ''),
+	(1, 27, ''),
+	(1, 57, 'verificar'),
+	(1, 29, 'bloquear,crear,editar,eliminar,guardar,imprimir,listar,ver'),
+	(1, 56, 'diario,listar_productos,productos,utilidades,utilidades_ant,utilidades_dia,ventas_electronicas,ventas_generales,ventas_generales2,ventas_manuales,ventas_notas,ventas_personales'),
+	(1, 122, 'diario,listar_productos,productos,utilidades,utilidades_ant,utilidades_dia,ventas_electronicas,ventas_generales,ventas_generales2,ventas_manuales,ventas_notas,ventas_personales'),
+	(1, 39, 'diario,listar_productos,productos,utilidades,utilidades_ant,utilidades_dia,ventas_electronicas,ventas_generales,ventas_generales2,ventas_manuales,ventas_notas,ventas_personales'),
+	(1, 132, ''),
+	(1, 124, 'utilidades,utilidades2,utilidades_ant,utilidades_BACK,utilidades_dia'),
+	(1, 38, 'diario,listar_productos,productos,utilidades,utilidades_ant,utilidades_dia,ventas_electronicas,ventas_generales,ventas_generales2,ventas_manuales,ventas_notas,ventas_personales'),
+	(1, 55, 'diario,listar_productos,productos,utilidades,utilidades_ant,utilidades_dia,ventas_electronicas,ventas_generales,ventas_generales2,ventas_manuales,ventas_notas,ventas_personales'),
 	(1, 105, 'activar_factura,activar_manuales,activar_nota,bajas_devoluciones,buscar,facturas_editar,facturas_imprimir,facturas_listar,facturas_listar2,facturas_obtener,facturas_ver,guardar,guardar_conversion,guardar_devolucion,guardar_devolucionn,manuales_actualizar,manuales_editar,manuales_eliminar,manuales_listar,manuales_ver,notas_actualizar,notas_devolucion,notas_editar,notas_imprimir,notas_listar,notas_listar2,notas_obtener,notas_ver,nota_electronica,preventas_devolucion,preventas_editar,preventas_editar2,preventas_eliminar,preventas_facturar,preventas_facturar_directo,preventas_imprimir,preventas_listar,preventas_listar2,preventas_obtener,preventas_ver,preventa_ver,proformas_actualizar,proformas_devolucion,proformas_editar,proformas_eliminar,proformas_facturar,proformas_imprimir,proformas_listar,proformas_modificar,proformas_obtener,proformas_ver,proforma_ver,ver_devoluciones,xproformas_imprimir'),
-	(1, 43, 'activar_factura,activar_manuales,activar_nota,bajas_devoluciones,buscar,facturas_editar,facturas_imprimir,facturas_listar,facturas_listar2,facturas_obtener,facturas_ver,guardar,guardar_conversion,guardar_devolucion,guardar_devolucionn,manuales_actualizar,manuales_editar,manuales_eliminar,manuales_listar,manuales_ver,notas_actualizar,notas_devolucion,notas_editar,notas_imprimir,notas_listar,notas_listar2,notas_obtener,notas_ver,nota_electronica,preventas_devolucion,preventas_editar,preventas_editar2,preventas_eliminar,preventas_facturar,preventas_facturar_directo,preventas_imprimir,preventas_listar,preventas_listar2,preventas_obtener,preventas_ver,preventa_ver,proformas_actualizar,proformas_devolucion,proformas_editar,proformas_eliminar,proformas_facturar,proformas_imprimir,proformas_listar,proformas_modificar,proformas_obtener,proformas_ver,proforma_ver,ver_devoluciones,xproformas_imprimir'),
-	(1, 54, 'activar_factura,activar_manuales,activar_nota,bajas_devoluciones,buscar,facturas_editar,facturas_imprimir,facturas_listar,facturas_listar2,facturas_obtener,facturas_ver,guardar,guardar_conversion,guardar_devolucion,guardar_devolucionn,manuales_actualizar,manuales_editar,manuales_eliminar,manuales_listar,manuales_ver,notas_actualizar,notas_devolucion,notas_editar,notas_imprimir,notas_listar,notas_listar2,notas_obtener,notas_ver,nota_electronica,preventas_devolucion,preventas_editar,preventas_editar2,preventas_eliminar,preventas_facturar,preventas_facturar_directo,preventas_imprimir,preventas_listar,preventas_listar2,preventas_obtener,preventas_ver,preventa_ver,proformas_actualizar,proformas_devolucion,proformas_editar,proformas_eliminar,proformas_facturar,proformas_imprimir,proformas_listar,proformas_modificar,proformas_obtener,proformas_ver,proforma_ver,ver_devoluciones,xproformas_imprimir'),
-	(1, 42, 'activar_factura,activar_manuales,activar_nota,bajas_devoluciones,buscar,facturas_editar,facturas_imprimir,facturas_listar,facturas_listar2,facturas_obtener,facturas_ver,guardar,guardar_conversion,guardar_devolucion,guardar_devolucionn,manuales_actualizar,manuales_editar,manuales_eliminar,manuales_listar,manuales_ver,notas_actualizar,notas_devolucion,notas_editar,notas_imprimir,notas_listar,notas_listar2,notas_obtener,notas_ver,nota_electronica,preventas_devolucion,preventas_editar,preventas_editar2,preventas_eliminar,preventas_facturar,preventas_facturar_directo,preventas_imprimir,preventas_listar,preventas_listar2,preventas_obtener,preventas_ver,preventa_ver,proformas_actualizar,proformas_devolucion,proformas_editar,proformas_eliminar,proformas_facturar,proformas_imprimir,proformas_listar,proformas_modificar,proformas_obtener,proformas_ver,proforma_ver,ver_devoluciones,xproformas_imprimir'),
 	(3, 30, ''),
-	(1, 36, 'actualizar,buscar,buscar_cliente,crear(2),crear,editar,editar_venta,editar_venta_ant,eliminar,guardar,guardar_ant,guardar_c,guardar_copia,guardar_m,mostrar,obtener,seleccionar_almacen,suprimir,ver'),
 	(1, 41, ''),
 	(1, 58, 'activar_factura,activar_manuales,activar_nota,bajas_devoluciones,buscar,facturas_editar,facturas_imprimir,facturas_listar,facturas_listar2,facturas_obtener,facturas_ver,guardar,guardar_conversion,guardar_devolucion,guardar_devolucionn,manuales_actualizar,manuales_editar,manuales_eliminar,manuales_listar,manuales_ver,notas_actualizar,notas_devolucion,notas_editar,notas_imprimir,notas_listar,notas_listar2,notas_obtener,notas_ver,nota_electronica,preventas_devolucion,preventas_editar,preventas_editar2,preventas_eliminar,preventas_facturar,preventas_facturar_directo,preventas_imprimir,preventas_listar,preventas_listar2,preventas_obtener,preventas_ver,preventa_ver,proformas_actualizar,proformas_devolucion,proformas_editar,proformas_eliminar,proformas_facturar,proformas_imprimir,proformas_listar,proformas_modificar,proformas_obtener,proformas_ver,proforma_ver,ver_devoluciones,xproformas_imprimir'),
-	(1, 33, 'a,actualizar,buscar,crear-copia,crear,crear_ant,editar,eliminar,facturar,guardar,guardar_ant,guardar_noventa,imprimir,imprimir_nota,modificar,mostrar,noventa,obtener,proformas_editar,proformas_imprimir,proformas_listar,proformas_listar_ant,seleccionar_almacen,ver'),
-	(1, 48, 'activar,actualizar,buscar,crear,crear1,editar,facturar,guardar,guardar1,imprimir,mostrar,obtener,seleccionar,seleccionar_almacen,ver'),
-	(1, 34, 'actualizar,buscar,crear,crear1,editar,facturar,guardar,guardar1,imprimir,mostrar,obtener,seleccionar_almacen,ver'),
-	(1, 60, 'a,actualizar,buscar,crear,crear1,editar,editar_antiguo,eliminar,facturar,guardar,guardar1,guardar_noventa,imprimir,imprimir_nota,modificar,mostrar,noventa,obtener,proformas_editar,proformas_imprimir,proformas_listar,proformas_listar_ant,ruta_por_empleado,seleccionar_almacen,ver'),
-	(1, 30, ''),
-	(1, 20, 'asignar,saltar,ver_ant,validar,activar_producto,ver_promocion,subir,listar_eliminados,suprimir,editar,listar_sin_ajax,quitar,guardar,validar_barras,listar_productos,imprimir,listar,eliminados,activar,fijar,generar,ver,eliminar,cambiar,crear,generarbc'),
-	(1, 22, 'asignar,actualizar,ver_ant,listar_producto,quitar,imprimir,listar,fijar,ver,eliminar,cambiar'),
-	(1, 21, 'listar_producto,listar'),
+	(1, 42, 'activar_factura,activar_manuales,activar_nota,bajas_devoluciones,buscar,facturas_editar,facturas_imprimir,facturas_listar,facturas_listar2,facturas_obtener,facturas_ver,guardar,guardar_conversion,guardar_devolucion,guardar_devolucionn,manuales_actualizar,manuales_editar,manuales_eliminar,manuales_listar,manuales_ver,notas_actualizar,notas_devolucion,notas_editar,notas_imprimir,notas_listar,notas_listar2,notas_obtener,notas_ver,nota_electronica,preventas_devolucion,preventas_editar,preventas_editar2,preventas_eliminar,preventas_facturar,preventas_facturar_directo,preventas_imprimir,preventas_listar,preventas_listar2,preventas_obtener,preventas_ver,preventa_ver,proformas_actualizar,proformas_devolucion,proformas_editar,proformas_eliminar,proformas_facturar,proformas_imprimir,proformas_listar,proformas_modificar,proformas_obtener,proformas_ver,proforma_ver,ver_devoluciones,xproformas_imprimir'),
+	(1, 54, 'activar_factura,activar_manuales,activar_nota,bajas_devoluciones,buscar,facturas_editar,facturas_imprimir,facturas_listar,facturas_listar2,facturas_obtener,facturas_ver,guardar,guardar_conversion,guardar_devolucion,guardar_devolucionn,manuales_actualizar,manuales_editar,manuales_eliminar,manuales_listar,manuales_ver,notas_actualizar,notas_devolucion,notas_editar,notas_imprimir,notas_listar,notas_listar2,notas_obtener,notas_ver,nota_electronica,preventas_devolucion,preventas_editar,preventas_editar2,preventas_eliminar,preventas_facturar,preventas_facturar_directo,preventas_imprimir,preventas_listar,preventas_listar2,preventas_obtener,preventas_ver,preventa_ver,proformas_actualizar,proformas_devolucion,proformas_editar,proformas_eliminar,proformas_facturar,proformas_imprimir,proformas_listar,proformas_modificar,proformas_obtener,proformas_ver,proforma_ver,ver_devoluciones,xproformas_imprimir'),
+	(1, 43, 'activar_factura,activar_manuales,activar_nota,bajas_devoluciones,buscar,facturas_editar,facturas_imprimir,facturas_listar,facturas_listar2,facturas_obtener,facturas_ver,guardar,guardar_conversion,guardar_devolucion,guardar_devolucionn,manuales_actualizar,manuales_editar,manuales_eliminar,manuales_listar,manuales_ver,notas_actualizar,notas_devolucion,notas_editar,notas_imprimir,notas_listar,notas_listar2,notas_obtener,notas_ver,nota_electronica,preventas_devolucion,preventas_editar,preventas_editar2,preventas_eliminar,preventas_facturar,preventas_facturar_directo,preventas_imprimir,preventas_listar,preventas_listar2,preventas_obtener,preventas_ver,preventa_ver,proformas_actualizar,proformas_devolucion,proformas_editar,proformas_eliminar,proformas_facturar,proformas_imprimir,proformas_listar,proformas_modificar,proformas_obtener,proformas_ver,proforma_ver,ver_devoluciones,xproformas_imprimir'),
 	(1, 25, 'listar_producto,listar'),
 	(1, 23, 'listar_producto,actualizar_stock,listar,buscar_detalle,mostrar'),
-	(1, 32, 'libro_venta_excel,actualizar,libro_venta,libro_venta_pdf,suprimir,guardar,imprimir,listar,ver,eliminar,crear,bajas_devoluciones'),
-	(1, 53, 'listar_producto,detallar,imprimir,listar'),
-	(1, 31, 'guardar-cambio,libro_compra,suprimir,editar,guardar,listar_productos,imprimir,listar1,listar,activar,seleccionar_almacen,ver,eliminar,libro_compra_pdf,guardar1,crear,modificar,libro_compra_excel'),
-	(1, 7, 'editar,guardar,imprimir,listar,ver,eliminar,crear'),
-	(1, 10, 'imprimir,listar,eliminar,ver,guardar,crear,editar'),
-	(1, 9, 'asignar,actualizar,validar,subir,crear_ant,editar,guardar_ant,guardar,imprimir,listar,activar,ver,eliminar,listar_ant,crear,capturar,editar_ant'),
-	(1, 11, ''),
-	(1, 12, 'editar,guardar,imprimir,listar,ver,eliminar,crear'),
-	(1, 13, 'editar,guardar,imprimir,listar,ver,eliminar,crear'),
-	(1, 14, 'editar,guardar,imprimir,listar,ver,eliminar,crear'),
-	(1, 18, 'crear,editar,eliminar,guardar,imprimir,listar,validar,ver'),
-	(1, 131, 'crear,editar,eliminar,guardar,imprimir,listar,ver'),
-	(1, 15, ''),
-	(1, 17, 'editar,guardar,imprimir,listar,eliminar,crear'),
-	(1, 19, ''),
-	(1, 3, 'reportes,reportes_guardar,institucion,apariencia,institucion_editar,reportes_editar,preferencias_editar,apariencia_guardar,institucion_guardar,preferencias,preferencias_guardar'),
-	(1, 6, 'reportes,reportes_guardar,institucion,apariencia,institucion_editar,reportes_editar,preferencias_editar,apariencia_guardar,institucion_guardar,preferencias,preferencias_guardar'),
-	(1, 5, 'reportes,reportes_guardar,institucion,apariencia,institucion_editar,reportes_editar,preferencias_editar,apariencia_guardar,institucion_guardar,preferencias,preferencias_guardar'),
-	(1, 1, ''),
-	(1, 2, ''),
-	(1, 4, 'reportes,reportes_guardar,institucion,apariencia,institucion_editar,reportes_editar,preferencias_editar,apariencia_guardar,institucion_guardar,preferencias,preferencias_guardar'),
+	(1, 30, ''),
+	(1, 60, 'a,actualizar,buscar,crear,crear1,editar,editar_antiguo,eliminar,facturar,guardar,guardar1,guardar_noventa,imprimir,imprimir_nota,modificar,mostrar,noventa,obtener,proformas_editar,proformas_imprimir,proformas_listar,proformas_listar_ant,ruta_por_empleado,seleccionar_almacen,ver'),
+	(1, 34, 'actualizar,buscar,crear,crear1,editar,facturar,guardar,guardar1,imprimir,mostrar,obtener,seleccionar_almacen,ver'),
+	(1, 36, 'actualizar,buscar,buscar_cliente,crear(2),crear,editar,editar_venta,editar_venta_ant,eliminar,guardar,guardar_ant,guardar_c,guardar_copia,guardar_m,mostrar,obtener,seleccionar_almacen,suprimir,ver'),
+	(1, 33, 'a,actualizar,buscar,crear-copia,crear,crear_ant,editar,eliminar,facturar,guardar,guardar_ant,guardar_noventa,imprimir,imprimir_nota,modificar,mostrar,noventa,obtener,proformas_editar,proformas_imprimir,proformas_listar,proformas_listar_ant,seleccionar_almacen,ver'),
+	(1, 48, 'activar,actualizar,buscar,crear,crear1,editar,facturar,guardar,guardar1,imprimir,mostrar,obtener,seleccionar,seleccionar_almacen,ver'),
 	(3, 48, 'obtener,imprimir,buscar,crear_ant,seleccionar_almacen,guardar_ant,ver,mostrar,guardar,crear,seleccionar,editar,facturar,actualizar,activar'),
 	(3, 26, ''),
 	(3, 56, ''),
 	(3, 107, ''),
-	(1, 139, 'abrir_caja,api_obtener_cobros,api_obtener_compras,api_obtener_cronogramas,api_obtener_egresos,api_obtener_gastos,api_obtener_ingresos,api_obtener_pagos,api_obtener_ventas,balance_caja,caja,cerrar,cerrar_caja,egresos_crear,egresos_eliminar,egresos_guardar,egresos_imprimir,egresos_listar,egresos_modificar,gastos_crear,gastos_eliminar,gastos_guardar,gastos_imprimir,gastos_listar,gastos_modificar,imprimir,imprimir_general,ingresos_crear,ingresos_eliminar,ingresos_guardar,ingresos_imprimir,ingresos_listar,ingresos_modificar,mostrar,obtener'),
+	(1, 32, 'libro_venta_excel,actualizar,libro_venta,libro_venta_pdf,suprimir,guardar,imprimir,listar,ver,eliminar,crear,bajas_devoluciones'),
+	(1, 31, 'guardar-cambio,libro_compra,suprimir,editar,guardar,listar_productos,imprimir,listar1,listar,activar,seleccionar_almacen,ver,eliminar,libro_compra_pdf,guardar1,crear,modificar,libro_compra_excel'),
+	(1, 15, ''),
+	(1, 17, 'editar,guardar,imprimir,listar,eliminar,crear'),
+	(1, 19, ''),
+	(1, 53, 'listar_producto,detallar,imprimir,listar'),
+	(1, 20, 'asignar,saltar,ver_ant,validar,activar_producto,ver_promocion,subir,listar_eliminados,suprimir,editar,listar_sin_ajax,quitar,guardar,validar_barras,listar_productos,imprimir,listar,eliminados,activar,fijar,generar,ver,eliminar,cambiar,crear,generarbc'),
+	(1, 21, 'listar_producto,listar'),
+	(1, 22, 'asignar,actualizar,ver_ant,listar_producto,quitar,imprimir,listar,fijar,ver,eliminar,cambiar'),
+	(1, 14, 'editar,guardar,imprimir,listar,ver,eliminar,crear'),
 	(16, 101, ''),
 	(16, 116, ''),
 	(16, 90, ''),
@@ -3009,14 +3314,18 @@ INSERT INTO `sys_permisos` (`rol_id`, `menu_id`, `archivos`) VALUES
 	(16, 105, ''),
 	(16, 26, ''),
 	(16, 56, ''),
+	(1, 131, 'crear,editar,eliminar,guardar,imprimir,listar,ver'),
 	(12, 84, 'imprimir,listar,detalle_historial,imprimir2,eliminar,control,ver,asignar,historial,visitas,guardar,crear,editar,activar'),
 	(12, 83, ''),
 	(12, 85, 'imprimir,listar,detalle_historial,imprimir2,eliminar,control,ver,asignar,historial,visitas,guardar,crear,editar,activar'),
 	(12, 82, 'imprimir,listar,imprimir2,eliminar,ver,visitas,guardar,crear,editar,ver2,recorrido'),
 	(12, 77, ''),
 	(12, 76, ''),
-	(1, 138, 'abrir_caja,api_obtener_cobros,api_obtener_compras,api_obtener_cronogramas,api_obtener_egresos,api_obtener_gastos,api_obtener_ingresos,api_obtener_pagos,api_obtener_ventas,balance_caja,caja,cerrar,cerrar_caja,egresos_crear,egresos_eliminar,egresos_guardar,egresos_imprimir,egresos_listar,egresos_modificar,gastos_crear,gastos_eliminar,gastos_guardar,gastos_imprimir,gastos_listar,gastos_modificar,imprimir,imprimir_general,ingresos_crear,ingresos_eliminar,ingresos_guardar,ingresos_imprimir,ingresos_listar,ingresos_modificar,mostrar,obtener'),
-	(1, 137, 'abrir_caja,api_obtener_cobros,api_obtener_compras,api_obtener_cronogramas,api_obtener_egresos,api_obtener_gastos,api_obtener_ingresos,api_obtener_pagos,api_obtener_ventas,balance_caja,caja,cerrar,cerrar_caja,egresos_crear,egresos_eliminar,egresos_guardar,egresos_imprimir,egresos_listar,egresos_modificar,gastos_crear,gastos_eliminar,gastos_guardar,gastos_imprimir,gastos_listar,gastos_modificar,imprimir,imprimir_general,ingresos_crear,ingresos_eliminar,ingresos_guardar,ingresos_imprimir,ingresos_listar,ingresos_modificar,mostrar,obtener'),
+	(1, 18, 'crear,editar,eliminar,guardar,imprimir,listar,validar,ver'),
+	(1, 13, 'editar,guardar,imprimir,listar,ver,eliminar,crear'),
+	(1, 11, ''),
+	(1, 12, 'editar,guardar,imprimir,listar,ver,eliminar,crear'),
+	(1, 9, 'asignar,actualizar,validar,subir,crear_ant,editar,guardar_ant,guardar,imprimir,listar,activar,ver,eliminar,listar_ant,crear,capturar,editar_ant'),
 	(4, 105, 'guardar_devolucionn,preventas_imprimir,notas_obtener,xproformas_imprimir,proformas_ver,buscar,proforma_ver,guardar_devolucion,facturas_listar,facturas_ver,facturas_listar2,facturas_imprimir,notas_actualizar,preventas_devolucion,activar_nota,proformas_modificar,notas_devolucion,guardar,proformas_editar,manuales_ver,notas_listar2,proformas_obtener,preventas_obtener,activar_factura,preventas_facturar,proformas_eliminar,facturas_obtener,listar_manuales,proformas_listar,proformas_facturar,preventas_ver,manuales_eliminar,preventas_listar,preventa_ver,preventas_editar2,proformas_imprimir,notas_imprimir,proformas_devolucion,preventas_editar,preventas_eliminar,notas_ver,manuales_editar,notas_editar,preventas_listar2,notas_listar,facturas_editar'),
 	(4, 54, 'guardar_devolucionn,preventas_imprimir,notas_obtener,xproformas_imprimir,proformas_ver,buscar,proforma_ver,guardar_devolucion,facturas_listar,facturas_ver,facturas_listar2,facturas_imprimir,notas_actualizar,preventas_devolucion,activar_nota,proformas_modificar,notas_devolucion,guardar,proformas_editar,manuales_ver,notas_listar2,proformas_obtener,preventas_obtener,activar_factura,preventas_facturar,proformas_eliminar,facturas_obtener,listar_manuales,proformas_listar,proformas_facturar,preventas_ver,manuales_eliminar,preventas_listar,preventa_ver,preventas_editar2,proformas_imprimir,notas_imprimir,proformas_devolucion,preventas_editar,preventas_eliminar,notas_ver,manuales_editar,notas_editar,preventas_listar2,notas_listar,facturas_editar'),
 	(4, 43, 'guardar_devolucionn,preventas_imprimir,notas_obtener,xproformas_imprimir,proformas_ver,buscar,proforma_ver,guardar_devolucion,facturas_listar,facturas_ver,facturas_listar2,facturas_imprimir,notas_actualizar,preventas_devolucion,activar_nota,proformas_modificar,notas_devolucion,guardar,proformas_editar,manuales_ver,notas_listar2,proformas_obtener,preventas_obtener,activar_factura,preventas_facturar,proformas_eliminar,facturas_obtener,listar_manuales,proformas_listar,proformas_facturar,preventas_ver,manuales_eliminar,preventas_listar,preventa_ver,preventas_editar2,proformas_imprimir,notas_imprimir,proformas_devolucion,preventas_editar,preventas_eliminar,notas_ver,manuales_editar,notas_editar,preventas_listar2,notas_listar,facturas_editar'),
@@ -3031,62 +3340,59 @@ INSERT INTO `sys_permisos` (`rol_id`, `menu_id`, `archivos`) VALUES
 	(4, 48, 'actualizar,buscar,crear,crear2,crear3,editar,facturar,guardar,imprimir,mostrar,obtener,seleccionar,ver'),
 	(4, 26, ''),
 	(4, 56, ''),
-	(1, 136, 'abrir_caja,api_obtener_cobros,api_obtener_compras,api_obtener_cronogramas,api_obtener_egresos,api_obtener_gastos,api_obtener_ingresos,api_obtener_pagos,api_obtener_ventas,balance_caja,caja,cerrar,cerrar_caja,egresos_crear,egresos_eliminar,egresos_guardar,egresos_imprimir,egresos_listar,egresos_modificar,gastos_crear,gastos_eliminar,gastos_guardar,gastos_imprimir,gastos_listar,gastos_modificar,imprimir,imprimir_general,ingresos_crear,ingresos_eliminar,ingresos_guardar,ingresos_imprimir,ingresos_listar,ingresos_modificar,mostrar,obtener'),
-	(1, 119, 'guardar,listar,ver,eliminar,crear,buscar_producto'),
-	(1, 121, 'guardar,listar,ver,eliminar,crear'),
-	(1, 135, ''),
+	(1, 10, 'imprimir,listar,eliminar,ver,guardar,crear,editar'),
+	(1, 7, 'editar,guardar,imprimir,listar,ver,eliminar,crear'),
+	(1, 3, 'reportes,reportes_guardar,institucion,apariencia,institucion_editar,reportes_editar,preferencias_editar,apariencia_guardar,institucion_guardar,preferencias,preferencias_guardar'),
+	(1, 141, ''),
+	(1, 142, 'compra-crear,compra-excel,confirm-importacion,eliminar-importacion,subir-compra-borrador,subir-compra,ultima-importacion-ingreso'),
+	(1, 1, ''),
+	(1, 2, ''),
+	(1, 4, 'reportes,reportes_guardar,institucion,apariencia,institucion_editar,reportes_editar,preferencias_editar,apariencia_guardar,institucion_guardar,preferencias,preferencias_guardar'),
+	(1, 6, 'reportes,reportes_guardar,institucion,apariencia,institucion_editar,reportes_editar,preferencias_editar,apariencia_guardar,institucion_guardar,preferencias,preferencias_guardar'),
+	(1, 5, 'reportes,reportes_guardar,institucion,apariencia,institucion_editar,reportes_editar,preferencias_editar,apariencia_guardar,institucion_guardar,preferencias,preferencias_guardar'),
 	(1, 140, 'abrir_caja,api_obtener_cobros,api_obtener_compras,api_obtener_cronogramas,api_obtener_egresos,api_obtener_gastos,api_obtener_ingresos,api_obtener_pagos,api_obtener_ventas,balance_caja,caja,cerrar,cerrar_caja,egresos_crear,egresos_eliminar,egresos_guardar,egresos_imprimir,egresos_listar,egresos_modificar,gastos_crear,gastos_eliminar,gastos_guardar,gastos_imprimir,gastos_listar,gastos_modificar,imprimir,imprimir_general,ingresos_crear,ingresos_eliminar,ingresos_guardar,ingresos_imprimir,ingresos_listar,ingresos_modificar,mostrar,obtener'),
-	(1, 128, ''),
-	(1, 94, 'eliminar_prioridad,eliminar_motivo,guardar_prioridad,crear_prioridad,guardar_motivo,crear_motivo'),
-	(1, 95, 'eliminar_prioridad,eliminar_motivo,guardar_prioridad,crear_prioridad,guardar_motivo,crear_motivo'),
-	(1, 108, ''),
-	(1, 120, 'guardar,listar,ver,eliminar,crear'),
-	(1, 125, 'guardar,listar,ver,eliminar,crear'),
+	(1, 102, 'imprimir_comprobante,guardar_pago_varios,reporte_cuentas_pagar,guardar_pago,guardar_plan_pagos,utilidad,plan_pagos,ver,eliminar,crear,eliminar_pago,pagar,reporte_proveedores_detalle,reporte_proveedores'),
+	(1, 100, 'guardar_pagos,reporte_cuentas_pagar,guardar,listar,utilidad,delete,plan_pagos,ver,eliminar,crear,pagar,cronograma'),
+	(1, 135, ''),
 	(2, 26, ''),
 	(2, 35, 'diario,ventas_electronicas,ventas_generales,ventas_manuales,ventas_notas,ventas_personales'),
 	(2, 55, 'diario,ventas_electronicas,ventas_generales,ventas_manuales,ventas_notas,ventas_personales'),
 	(2, 38, 'diario,ventas_electronicas,ventas_generales,ventas_manuales,ventas_notas,ventas_personales'),
 	(2, 39, 'diario,ventas_electronicas,ventas_generales,ventas_manuales,ventas_notas,ventas_personales'),
-	(1, 103, 'listar_credito,listar_clientes,editar_credito,crear_tipo,crear_grupo,guardar_tipo,crear_credito,imprimir_reporte,editar,eliminar_tipo,listar_sin_ajax,guardar,detallar,reporte,imprimir,listar,guardar_credito,eliminar,listar_ant,eliminar_grupo,crear,eliminar_credito,cliente_cuenta,guardar_grupo,credito'),
-	(1, 81, 'listar_credito,listar_clientes,editar_credito,crear_tipo,crear_grupo,guardar_tipo,crear_credito,imprimir_reporte,editar,eliminar_tipo,listar_sin_ajax,guardar,detallar,reporte,imprimir,listar,guardar_credito,eliminar,listar_ant,eliminar_grupo,crear,eliminar_credito,cliente_cuenta,guardar_grupo,credito'),
-	(1, 126, 'listar_credito,listar_clientes,editar_credito,crear_tipo,crear_grupo,guardar_tipo,crear_credito,imprimir_reporte,editar,eliminar_tipo,listar_sin_ajax,guardar,detallar,reporte,imprimir,listar,guardar_credito,eliminar,listar_ant,eliminar_grupo,crear,eliminar_credito,cliente_cuenta,guardar_grupo,credito'),
-	(1, 79, ''),
-	(1, 80, 'listar_credito,listar_clientes,editar_credito,crear_tipo,crear_grupo,guardar_tipo,crear_credito,imprimir_reporte,editar,eliminar_tipo,listar_sin_ajax,guardar,detallar,reporte,imprimir,listar,guardar_credito,eliminar,listar_ant,eliminar_grupo,crear,eliminar_credito,cliente_cuenta,guardar_grupo,credito'),
-	(1, 82, 'recorrido,asignar_color,ver2,editar,guardar,imprimir,listar,ver,imprimir2,eliminar,crear,visitas,guardar_color'),
-	(1, 91, 'asignar,asignar2,ver4,imprimir2_ant,listar2_2,ver2,duplicados_ver,editar,imprimir4,guardar,imprimir3,imprimir4_ant,imprimir,imprimir5,imprimir7,listar,imprimir6_ant,activar,imprimir6,buscar_duplicado,ver,imprimir2,eliminar,ver3,listar3,activar2,visitas2,activar3,imprimir1,listar2,eliminar_duplicado,visitas,imprimir1_termico'),
-	(1, 93, 'asignar,asignar2,ver4,imprimir2_ant,listar2_2,ver2,duplicados_ver,editar,imprimir4,guardar,imprimir3,imprimir4_ant,imprimir,imprimir5,imprimir7,listar,imprimir6_ant,activar,imprimir6,buscar_duplicado,ver,imprimir2,eliminar,ver3,listar3,activar2,visitas2,activar3,imprimir1,listar2,eliminar_duplicado,visitas,imprimir1_termico'),
-	(1, 90, 'crear1,asignar,seleccionar,editar,guardar,imprimir,listar,historial,vertodo,crear2,ver,eliminar,asignar_dia,crear,visitas2,visitas,vertodo2'),
-	(1, 78, ''),
-	(1, 92, 'activar,activar2,activar3,asignar,asignar2,buscar_duplicado,duplicados_ver,editar,eliminar,eliminar_duplicado,guardar,imprimir,imprimir1,imprimir1_termico,imprimir2,imprimir2_ant,imprimir3,imprimir3_v2,imprimir4,imprimir4_ant,imprimir5,imprimir6,imprimir6_ant,imprimir7,listar,listar2,listar2_2,listar3,ver,ver2,ver3,ver4,visitas,visitas2'),
-	(1, 76, ''),
-	(1, 77, ''),
-	(1, 84, 'imprimir_ant,asignar,editar,guardar,imprimir2_termico,imprimir_termico,listar2(1),imprimir,listar1,listar,historial,activar,control,ver,imprimir2,eliminar,detalle_historial,crear,visitas'),
-	(1, 85, 'imprimir_ant,asignar,editar,guardar,imprimir2_termico,imprimir_termico,listar2(1),imprimir,listar1,listar,historial,activar,control,ver,imprimir2,eliminar,detalle_historial,crear,visitas'),
-	(1, 100, 'guardar_pagos,reporte_cuentas_pagar,guardar,listar,utilidad,delete,plan_pagos,ver,eliminar,crear,pagar,cronograma'),
-	(1, 102, 'imprimir_comprobante,guardar_pago_varios,reporte_cuentas_pagar,guardar_pago,guardar_plan_pagos,utilidad,plan_pagos,ver,eliminar,crear,eliminar_pago,pagar,reporte_proveedores_detalle,reporte_proveedores'),
-	(1, 130, ''),
+	(1, 139, 'abrir_caja,api_obtener_cobros,api_obtener_compras,api_obtener_cronogramas,api_obtener_egresos,api_obtener_gastos,api_obtener_ingresos,api_obtener_pagos,api_obtener_ventas,balance_caja,caja,cerrar,cerrar_caja,egresos_crear,egresos_eliminar,egresos_guardar,egresos_imprimir,egresos_listar,egresos_modificar,gastos_crear,gastos_eliminar,gastos_guardar,gastos_imprimir,gastos_listar,gastos_modificar,imprimir,imprimir_general,ingresos_crear,ingresos_eliminar,ingresos_guardar,ingresos_imprimir,ingresos_listar,ingresos_modificar,mostrar,obtener'),
+	(1, 138, 'abrir_caja,api_obtener_cobros,api_obtener_compras,api_obtener_cronogramas,api_obtener_egresos,api_obtener_gastos,api_obtener_ingresos,api_obtener_pagos,api_obtener_ventas,balance_caja,caja,cerrar,cerrar_caja,egresos_crear,egresos_eliminar,egresos_guardar,egresos_imprimir,egresos_listar,egresos_modificar,gastos_crear,gastos_eliminar,gastos_guardar,gastos_imprimir,gastos_listar,gastos_modificar,imprimir,imprimir_general,ingresos_crear,ingresos_eliminar,ingresos_guardar,ingresos_imprimir,ingresos_listar,ingresos_modificar,mostrar,obtener'),
+	(1, 137, 'abrir_caja,api_obtener_cobros,api_obtener_compras,api_obtener_cronogramas,api_obtener_egresos,api_obtener_gastos,api_obtener_ingresos,api_obtener_pagos,api_obtener_ventas,balance_caja,caja,cerrar,cerrar_caja,egresos_crear,egresos_eliminar,egresos_guardar,egresos_imprimir,egresos_listar,egresos_modificar,gastos_crear,gastos_eliminar,gastos_guardar,gastos_imprimir,gastos_listar,gastos_modificar,imprimir,imprimir_general,ingresos_crear,ingresos_eliminar,ingresos_guardar,ingresos_imprimir,ingresos_listar,ingresos_modificar,mostrar,obtener'),
+	(1, 136, 'abrir_caja,api_obtener_cobros,api_obtener_compras,api_obtener_cronogramas,api_obtener_egresos,api_obtener_gastos,api_obtener_ingresos,api_obtener_pagos,api_obtener_ventas,balance_caja,caja,cerrar,cerrar_caja,egresos_crear,egresos_eliminar,egresos_guardar,egresos_imprimir,egresos_listar,egresos_modificar,gastos_crear,gastos_eliminar,gastos_guardar,gastos_imprimir,gastos_listar,gastos_modificar,imprimir,imprimir_general,ingresos_crear,ingresos_eliminar,ingresos_guardar,ingresos_imprimir,ingresos_listar,ingresos_modificar,mostrar,obtener'),
 	(1, 99, 'imprimir_comprobante,guardar_pago_varios,reporte_cuentas_pagar,guardar_pago,guardar_plan_pagos,utilidad,plan_pagos,ver,eliminar,crear,eliminar_pago,pagar,reporte_proveedores_detalle,reporte_proveedores'),
+	(1, 130, ''),
 	(1, 116, 'guardar_entrega,imprimir_comprobante,guardar_devolucion,detalle_envio,guardar_pago_varios,devolucion,guardar_pago,lista_general,reporte_clientes,guardar_plan_pagos,lista_material_fabrica,listar,utilidad,lista_material_cliente,seleccionar_almacen,eliminar_pago,imprimir_factura,reporte_cuentas_cobrar,pagar,notas_ver,reporte_clientes_detalle,guardar_ingreso'),
 	(1, 101, 'guardar_entrega,imprimir_comprobante,guardar_devolucion,detalle_envio,guardar_pago_varios,devolucion,guardar_pago,lista_general,reporte_clientes,guardar_plan_pagos,lista_material_fabrica,listar,utilidad,lista_material_cliente,seleccionar_almacen,eliminar_pago,imprimir_factura,reporte_cuentas_cobrar,pagar,notas_ver,reporte_clientes_detalle,guardar_ingreso'),
-	(1, 98, 'guardar_entrega,imprimir_comprobante,guardar_devolucion,detalle_envio,guardar_pago_varios,devolucion,guardar_pago,lista_general,reporte_clientes,guardar_plan_pagos,lista_material_fabrica,listar,utilidad,lista_material_cliente,seleccionar_almacen,eliminar_pago,imprimir_factura,reporte_cuentas_cobrar,pagar,notas_ver,reporte_clientes_detalle,guardar_ingreso'),
-	(1, 129, ''),
+	(1, 121, 'guardar,listar,ver,eliminar,crear'),
 	(1, 97, ''),
-	(1, 26, ''),
-	(1, 67, 'crear,editar,eliminar,guardar,imprimir,imprimir2,listar,ver,visitas'),
-	(1, 35, 'diario,listar_productos,productos,utilidades,utilidades_ant,utilidades_dia,ventas_electronicas,ventas_generales,ventas_generales2,ventas_manuales,ventas_notas,ventas_personales'),
-	(1, 37, 'diario,listar_productos,productos,utilidades,utilidades_ant,utilidades_dia,ventas_electronicas,ventas_generales,ventas_generales2,ventas_manuales,ventas_notas,ventas_personales'),
-	(1, 55, 'diario,listar_productos,productos,utilidades,utilidades_ant,utilidades_dia,ventas_electronicas,ventas_generales,ventas_generales2,ventas_manuales,ventas_notas,ventas_personales'),
-	(1, 38, 'diario,listar_productos,productos,utilidades,utilidades_ant,utilidades_dia,ventas_electronicas,ventas_generales,ventas_generales2,ventas_manuales,ventas_notas,ventas_personales'),
-	(1, 39, 'diario,listar_productos,productos,utilidades,utilidades_ant,utilidades_dia,ventas_electronicas,ventas_generales,ventas_generales2,ventas_manuales,ventas_notas,ventas_personales'),
-	(1, 132, ''),
-	(1, 124, 'utilidades,utilidades2,utilidades_ant,utilidades_BACK,utilidades_dia'),
-	(1, 122, 'diario,listar_productos,productos,utilidades,utilidades_ant,utilidades_dia,ventas_electronicas,ventas_generales,ventas_generales2,ventas_manuales,ventas_notas,ventas_personales'),
-	(1, 56, 'diario,listar_productos,productos,utilidades,utilidades_ant,utilidades_dia,ventas_electronicas,ventas_generales,ventas_generales2,ventas_manuales,ventas_notas,ventas_personales'),
-	(1, 107, 'utilidades,utilidades2,utilidades_ant,utilidades_BACK,utilidades_dia'),
-	(1, 27, ''),
-	(1, 57, 'verificar'),
-	(1, 29, 'bloquear,crear,editar,eliminar,guardar,imprimir,listar,ver'),
-	(1, 28, 'crear,descargar,editar,eliminar,guardar,imprimir,listar,ver');
+	(1, 129, ''),
+	(1, 98, 'guardar_entrega,imprimir_comprobante,guardar_devolucion,detalle_envio,guardar_pago_varios,devolucion,guardar_pago,lista_general,reporte_clientes,guardar_plan_pagos,lista_material_fabrica,listar,utilidad,lista_material_cliente,seleccionar_almacen,eliminar_pago,imprimir_factura,reporte_cuentas_cobrar,pagar,notas_ver,reporte_clientes_detalle,guardar_ingreso'),
+	(1, 119, 'guardar,listar,ver,eliminar,crear,buscar_producto'),
+	(1, 120, 'guardar,listar,ver,eliminar,crear'),
+	(1, 125, 'guardar,listar,ver,eliminar,crear'),
+	(1, 108, ''),
+	(1, 95, 'eliminar_prioridad,eliminar_motivo,guardar_prioridad,crear_prioridad,guardar_motivo,crear_motivo'),
+	(1, 94, 'eliminar_prioridad,eliminar_motivo,guardar_prioridad,crear_prioridad,guardar_motivo,crear_motivo'),
+	(1, 128, ''),
+	(1, 126, 'listar_credito,listar_clientes,editar_credito,crear_tipo,crear_grupo,guardar_tipo,crear_credito,imprimir_reporte,editar,eliminar_tipo,listar_sin_ajax,guardar,detallar,reporte,imprimir,listar,guardar_credito,eliminar,listar_ant,eliminar_grupo,crear,eliminar_credito,cliente_cuenta,guardar_grupo,credito'),
+	(1, 103, 'listar_credito,listar_clientes,editar_credito,crear_tipo,crear_grupo,guardar_tipo,crear_credito,imprimir_reporte,editar,eliminar_tipo,listar_sin_ajax,guardar,detallar,reporte,imprimir,listar,guardar_credito,eliminar,listar_ant,eliminar_grupo,crear,eliminar_credito,cliente_cuenta,guardar_grupo,credito'),
+	(1, 79, ''),
+	(1, 81, 'listar_credito,listar_clientes,editar_credito,crear_tipo,crear_grupo,guardar_tipo,crear_credito,imprimir_reporte,editar,eliminar_tipo,listar_sin_ajax,guardar,detallar,reporte,imprimir,listar,guardar_credito,eliminar,listar_ant,eliminar_grupo,crear,eliminar_credito,cliente_cuenta,guardar_grupo,credito'),
+	(1, 80, 'listar_credito,listar_clientes,editar_credito,crear_tipo,crear_grupo,guardar_tipo,crear_credito,imprimir_reporte,editar,eliminar_tipo,listar_sin_ajax,guardar,detallar,reporte,imprimir,listar,guardar_credito,eliminar,listar_ant,eliminar_grupo,crear,eliminar_credito,cliente_cuenta,guardar_grupo,credito'),
+	(1, 82, 'recorrido,asignar_color,ver2,editar,guardar,imprimir,listar,ver,imprimir2,eliminar,crear,visitas,guardar_color'),
+	(1, 78, ''),
+	(1, 92, 'activar,activar2,activar3,asignar,asignar2,buscar_duplicado,duplicados_ver,editar,eliminar,eliminar_duplicado,guardar,imprimir,imprimir1,imprimir1_termico,imprimir2,imprimir2_ant,imprimir3,imprimir3_v2,imprimir4,imprimir4_ant,imprimir5,imprimir6,imprimir6_ant,imprimir7,listar,listar2,listar2_2,listar3,ver,ver2,ver3,ver4,visitas,visitas2'),
+	(1, 91, 'asignar,asignar2,ver4,imprimir2_ant,listar2_2,ver2,duplicados_ver,editar,imprimir4,guardar,imprimir3,imprimir4_ant,imprimir,imprimir5,imprimir7,listar,imprimir6_ant,activar,imprimir6,buscar_duplicado,ver,imprimir2,eliminar,ver3,listar3,activar2,visitas2,activar3,imprimir1,listar2,eliminar_duplicado,visitas,imprimir1_termico'),
+	(1, 90, 'crear1,asignar,seleccionar,editar,guardar,imprimir,listar,historial,vertodo,crear2,ver,eliminar,asignar_dia,crear,visitas2,visitas,vertodo2'),
+	(1, 93, 'asignar,asignar2,ver4,imprimir2_ant,listar2_2,ver2,duplicados_ver,editar,imprimir4,guardar,imprimir3,imprimir4_ant,imprimir,imprimir5,imprimir7,listar,imprimir6_ant,activar,imprimir6,buscar_duplicado,ver,imprimir2,eliminar,ver3,listar3,activar2,visitas2,activar3,imprimir1,listar2,eliminar_duplicado,visitas,imprimir1_termico'),
+	(1, 84, 'imprimir_ant,asignar,editar,guardar,imprimir2_termico,imprimir_termico,listar2(1),imprimir,listar1,listar,historial,activar,control,ver,imprimir2,eliminar,detalle_historial,crear,visitas'),
+	(1, 85, 'imprimir_ant,asignar,editar,guardar,imprimir2_termico,imprimir_termico,listar2(1),imprimir,listar1,listar,historial,activar,control,ver,imprimir2,eliminar,detalle_historial,crear,visitas'),
+	(1, 77, ''),
+	(1, 76, '');
 /*!40000 ALTER TABLE `sys_permisos` ENABLE KEYS */;
 
 -- Volcando estructura para tabla distribucion.sys_planes
@@ -3159,7 +3465,7 @@ CREATE TABLE IF NOT EXISTS `sys_planes_config` (
   `configuracion` enum('Habilitado','Deshabilitado') COLLATE utf8_spanish_ci NOT NULL DEFAULT 'Deshabilitado',
   `descripcion` varchar(500) COLLATE utf8_spanish_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id_config`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- Volcando datos para la tabla distribucion.sys_planes_config: ~6 rows (aproximadamente)
 /*!40000 ALTER TABLE `sys_planes_config` DISABLE KEYS */;
@@ -3169,7 +3475,8 @@ INSERT INTO `sys_planes_config` (`id_config`, `plan_id`, `modulo`, `configuracio
 	(3, 1, 'operaciones', 'Deshabilitado', 'Devoluciones gestion registro'),
 	(4, 1, 'operaciones', 'Deshabilitado', 'Editar preventas del preventista antes de entrega por el distribuidor'),
 	(7, 1, 'ingresos', 'Deshabilitado', 'Libro de compras'),
-	(8, 1, 'egresos', 'Deshabilitado', 'Libro de ventas');
+	(8, 1, 'egresos', 'Deshabilitado', 'Libro de ventas'),
+	(9, 1, 'productos', 'Deshabilitado', 'Categorizacion de precio de acuerdo a tipo de cliente');
 /*!40000 ALTER TABLE `sys_planes_config` ENABLE KEYS */;
 
 -- Volcando estructura para tabla distribucion.sys_planes_config_detalles
@@ -3179,7 +3486,7 @@ CREATE TABLE IF NOT EXISTS `sys_planes_config_detalles` (
   `atributo_id` int(11) NOT NULL,
   `archivo` varchar(500) COLLATE utf8_spanish_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id_detalle`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- Volcando datos para la tabla distribucion.sys_planes_config_detalles: ~6 rows (aproximadamente)
 /*!40000 ALTER TABLE `sys_planes_config_detalles` DISABLE KEYS */;
@@ -3189,7 +3496,8 @@ INSERT INTO `sys_planes_config_detalles` (`id_detalle`, `config_id`, `atributo_i
 	(3, 3, 3, 'preventas_listar'),
 	(4, 4, 4, 'preventas_listar'),
 	(7, 5, 5, 'listar'),
-	(8, 6, 6, 'listar');
+	(8, 6, 6, 'listar'),
+	(9, 9, 9, 'crear');
 /*!40000 ALTER TABLE `sys_planes_config_detalles` ENABLE KEYS */;
 
 -- Volcando estructura para tabla distribucion.sys_planes_detalles
@@ -3223,216 +3531,398 @@ CREATE TABLE IF NOT EXISTS `sys_procesos` (
   `detalle` text NOT NULL,
   `usuario_id` int(11) NOT NULL,
   PRIMARY KEY (`id_proceso`)
-) ENGINE=MyISAM AUTO_INCREMENT=206 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=388 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla distribucion.sys_procesos: 205 rows
+-- Volcando datos para la tabla distribucion.sys_procesos: 387 rows
 /*!40000 ALTER TABLE `sys_procesos` DISABLE KEYS */;
 INSERT INTO `sys_procesos` (`id_proceso`, `fecha_proceso`, `hora_proceso`, `proceso`, `nivel`, `direccion`, `detalle`, `usuario_id`) VALUES
-	(1, '2022-09-01 00:00:00', '17:09:02', 'c', 'l', '?/tipo/guardar', 'Se inserto categoria con identificador numero 17', 1),
-	(2, '2022-09-01 00:00:00', '17:09:15', 'c', 'l', '?/unidades/guardar', 'Se inserto la unidad con identificador numero 16', 1),
-	(3, '2022-09-01 00:00:00', '17:09:27', 'c', 'l', '?/unidades/guardar', 'Se inserto la unidad con identificador numero 17', 1),
-	(4, '2022-09-01 00:00:00', '17:42:15', 'c', 'l', '?/productos/guardar', 'Se inserto el producto con identificador numero 273', 1),
-	(5, '2022-09-01 00:00:00', '18:18:48', 'c', 'l', '?/productos/guardar', 'Se inserto el producto con identificador numero 274', 1),
-	(6, '2022-09-01 00:00:00', '18:40:57', 'c', 'l', '?/productos/guardar', 'Se inserto el producto con identificador numero 275', 1),
-	(7, '2022-09-01 00:00:00', '20:09:49', 'c', 'l', '?/productos/guardar', 'Se inserto el producto con identificador numero 1', 1),
-	(8, '2022-09-01 00:00:00', '21:30:49', 'c', 'l', '?/clientes/guardar_tipo', 'Se inserto tipo cliente con identificador numero 15', 1),
-	(9, '2022-09-01 00:00:00', '21:31:00', 'd', 'l', '?/clientes/eliminar_tipo', 'Se elimino tipo cliente con identificador numero 15', 1),
-	(10, '2022-09-01 00:00:00', '21:31:12', 'c', 'l', '?/clientes/guardar_tipo', 'Se inserto tipo cliente con identificador numero 16', 1),
-	(11, '2022-09-01 00:00:00', '21:31:31', 'c', 'l', '?/clientes/guardar_tipo', 'Se inserto tipo cliente con identificador numero 17', 1),
-	(12, '2022-09-01 00:00:00', '21:31:45', 'c', 'l', '?/clientes/guardar_tipo', 'Se inserto tipo cliente con identificador numero 18', 1),
-	(13, '2022-09-01 00:00:00', '21:31:52', 'd', 'l', '?/clientes/eliminar_tipo', 'Se elimino tipo cliente con identificador numero 16', 1),
-	(14, '2022-09-01 00:00:00', '21:32:12', 'c', 'l', '?/clientes/guardar_tipo', 'Se inserto tipo cliente con identificador numero 19', 1),
-	(15, '2022-09-01 00:00:00', '21:33:56', 'd', 'l', '?/clientes/eliminar_tipo', 'Se elimino tipo cliente con identificador numero 19', 1),
-	(16, '2022-09-01 00:00:00', '21:34:11', 'c', 'l', '?/clientes/guardar_tipo', 'Se inserto tipo cliente con identificador numero 20', 1),
-	(17, '2022-09-01 00:00:00', '22:14:44', 'u', 'l', '?/almacenes/guardar', 'Se actualizo almacén con identificador número 0', 1),
-	(18, '2022-09-01 00:00:00', '22:14:44', 'c', 'l', '?/almacenes/guardar', 'Se creó almacen con identificador número 22', 1),
-	(19, '2022-09-01 00:00:00', '22:15:12', 'c', 'l', '?/almacenes/guardar', 'Se creó almacen con identificador número 23', 1),
-	(20, '2022-09-01 00:00:00', '22:29:48', 'c', 'l', '?/monedas/guardar', 'Se inserto la moneda con identificador numero 22', 1),
-	(21, '2022-09-01 00:00:00', '22:30:25', 'c', 'l', '?/marcas/guardar', 'Se inserto marca con identificador numero 5', 1),
-	(22, '2022-09-01 00:00:00', '22:32:11', 'c', 'l', '?/proveedores/guardar', 'Se inserto proveedor con identificador numero 376', 1),
-	(23, '2022-09-01 00:00:00', '22:33:15', 'c', 'l', '?/productos/asignar', 'Se creó asignacion con identificador número 33', 1),
-	(24, '2022-09-01 00:00:00', '22:33:15', 'c', 'l', '?/productos/asignar', 'Se creó precio con identificador número 491', 1),
-	(25, '2022-09-02 00:00:00', '08:23:15', 'u', 'l', '?/usuarios/guardar', 'Se actualizo usuario con identificador número 1', 1),
-	(26, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(27, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(28, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(29, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(30, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(31, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(32, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(33, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(34, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(35, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(36, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(37, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(38, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(39, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(40, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(41, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(42, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(43, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(44, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(45, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(46, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(47, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(48, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(49, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(50, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(51, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(52, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(53, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(54, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(55, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(56, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(57, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(58, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(59, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(60, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(61, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(62, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(63, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(64, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(65, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(66, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(67, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(68, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(69, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(70, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(71, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(72, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(73, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(74, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(75, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(76, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(77, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(78, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(79, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(80, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(81, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(82, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(83, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(84, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(85, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(86, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(87, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(88, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(89, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(90, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(91, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(92, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(93, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(94, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(95, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(96, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(97, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(98, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(99, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(100, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(101, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(102, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(103, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(104, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(105, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(106, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(107, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(108, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(109, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(110, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(111, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(112, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(113, '2022-09-02 00:00:00', '09:03:58', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(114, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(115, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(116, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(117, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(118, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(119, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(120, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(121, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(122, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(123, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(124, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(125, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(126, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(127, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(128, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(129, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(130, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(131, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(132, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(133, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(134, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(135, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(136, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(137, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(138, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(139, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(140, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(141, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(142, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(143, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(144, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(145, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(146, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(147, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(148, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(149, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(150, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(151, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(152, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(153, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(154, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(155, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(156, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(157, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(158, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(159, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(160, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(161, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(162, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(163, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(164, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(165, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(166, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(167, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(168, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(169, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(170, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(171, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(172, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(173, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(174, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(175, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(176, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(177, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(178, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(179, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(180, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(181, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(182, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(183, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(184, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(185, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(186, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(187, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(188, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(189, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(190, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(191, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(192, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(193, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(194, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(195, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(196, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(197, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(198, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(199, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(200, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(201, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(202, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(203, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(204, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
-	(205, '2022-09-02 00:00:00', '09:15:09', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1);
+	(1, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(2, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(3, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(4, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(5, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(6, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(7, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(8, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(9, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(10, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(11, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(12, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(13, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(14, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(15, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(16, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(17, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(18, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(19, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(20, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(21, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(22, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(23, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(24, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(25, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(26, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(27, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(28, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(29, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(30, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(31, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(32, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(33, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(34, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(35, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(36, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(37, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(38, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(39, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(40, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(41, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(42, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(43, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(44, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(45, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(46, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(47, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(48, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(49, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(50, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(51, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(52, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(53, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(54, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(55, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(56, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(57, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(58, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(59, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(60, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(61, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(62, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(63, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(64, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(65, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(66, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(67, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(68, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(69, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(70, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(71, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(72, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(73, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(74, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(75, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(76, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(77, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(78, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(79, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(80, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(81, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(82, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(83, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(84, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(85, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(86, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(87, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(88, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(89, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(90, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(91, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(92, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(93, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(94, '2022-09-12 00:00:00', '14:21:48', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(95, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(96, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(97, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(98, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(99, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(100, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(101, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(102, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(103, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(104, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(105, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(106, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(107, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(108, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(109, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(110, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(111, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(112, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(113, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(114, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(115, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(116, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(117, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(118, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(119, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(120, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(121, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(122, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(123, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(124, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(125, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(126, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(127, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(128, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(129, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(130, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(131, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(132, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(133, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(134, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(135, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(136, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(137, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(138, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(139, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(140, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(141, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(142, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(143, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(144, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(145, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(146, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(147, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(148, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(149, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(150, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(151, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(152, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(153, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(154, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(155, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(156, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(157, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(158, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(159, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(160, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(161, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(162, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(163, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(164, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(165, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(166, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(167, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(168, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(169, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(170, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(171, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(172, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(173, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(174, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(175, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(176, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(177, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(178, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(179, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(180, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(181, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(182, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(183, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(184, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(185, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(186, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(187, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(188, '2022-09-19 00:00:00', '17:17:34', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(189, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(190, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(191, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(192, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(193, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(194, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(195, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(196, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(197, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(198, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(199, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(200, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(201, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(202, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(203, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(204, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(205, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(206, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(207, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(208, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(209, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(210, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(211, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(212, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(213, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(214, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(215, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(216, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(217, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(218, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(219, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(220, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(221, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(222, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(223, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(224, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(225, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(226, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(227, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(228, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(229, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(230, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(231, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(232, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(233, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(234, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(235, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(236, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(237, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(238, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(239, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(240, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(241, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(242, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(243, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(244, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(245, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(246, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(247, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(248, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(249, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(250, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(251, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(252, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(253, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(254, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(255, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(256, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(257, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(258, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(259, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(260, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(261, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(262, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(263, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(264, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(265, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(266, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(267, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(268, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(269, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(270, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(271, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(272, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(273, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(274, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(275, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(276, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(277, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(278, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(279, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(280, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(281, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(282, '2022-09-19 00:00:00', '18:34:24', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(283, '2022-09-19 00:00:00', '20:30:55', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(284, '2022-09-19 00:00:00', '20:30:55', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(285, '2022-09-19 00:00:00', '20:30:55', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(286, '2022-09-19 00:00:00', '20:30:55', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(287, '2022-09-19 00:00:00', '20:30:55', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(288, '2022-09-19 00:00:00', '20:30:55', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(289, '2022-09-19 00:00:00', '20:30:55', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(290, '2022-09-19 00:00:00', '20:30:55', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(291, '2022-09-19 00:00:00', '20:30:55', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(292, '2022-09-19 00:00:00', '20:30:55', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(293, '2022-09-19 00:00:00', '20:30:55', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(294, '2022-09-19 00:00:00', '20:30:55', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(295, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(296, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(297, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(298, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(299, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(300, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(301, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(302, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(303, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(304, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(305, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(306, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(307, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(308, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(309, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(310, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(311, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(312, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(313, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(314, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(315, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(316, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(317, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(318, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(319, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(320, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(321, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(322, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(323, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(324, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(325, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(326, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(327, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(328, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(329, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(330, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(331, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(332, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(333, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(334, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(335, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(336, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(337, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(338, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(339, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(340, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(341, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(342, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(343, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(344, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(345, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(346, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(347, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(348, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(349, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(350, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(351, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(352, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(353, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(354, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(355, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(356, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(357, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(358, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(359, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(360, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(361, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(362, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(363, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(364, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(365, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(366, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(367, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(368, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(369, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(370, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(371, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(372, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(373, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(374, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(375, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(376, '2022-09-19 00:00:00', '20:30:56', 'c', 'l', '?/permisos/guardar', 'Se creo permiso del rol con identificador 1', 1),
+	(377, '2022-09-19 00:00:00', '20:50:56', 'u', 'l', '?/ingresos/eliminar', 'Se elimino ingreso con identificador numero39', 1),
+	(378, '2022-09-19 00:00:00', '20:50:56', 'u', 'l', '?/ingresos/eliminar', 'Se elimino ingreso detalle con identificador numero39', 1),
+	(379, '2022-09-20 00:00:00', '09:51:58', 'c', 'l', '?/notas/guardar', 'Se inserto el inventario egreso con identificador numero 44', 1),
+	(380, '2022-09-20 00:00:00', '09:51:58', 'c', 'l', '?/notas/guardar', 'Se inserto el inventario egreso detalle con identificador numero 154', 1),
+	(381, '2022-09-20 00:00:00', '09:51:58', 'c', 'l', '?/notas/guardar', 'Se inserto el inventario egreso detalle con identificador numero 155', 1),
+	(382, '2022-09-20 00:00:00', '09:51:58', 'c', 'l', '?/notas/guardar', 'Se inserto el inventario egreso detalle con identificador numero 156', 1),
+	(383, '2022-09-20 00:00:00', '15:06:34', 'c', 'l', '?/notas/guardar', 'Se inserto el inventario egreso con identificador numero 45', 1),
+	(384, '2022-09-20 00:00:00', '15:06:34', 'c', 'l', '?/notas/guardar', 'Se inserto el inventario egreso detalle con identificador numero 157', 1),
+	(385, '2022-09-20 00:00:00', '23:09:26', 'c', 'l', '?/notas/guardar', 'Se inserto el inventario egreso con identificador numero 46', 1),
+	(386, '2022-09-20 00:00:00', '23:09:26', 'c', 'l', '?/notas/guardar', 'Se inserto el inventario egreso detalle con identificador numero 158', 1),
+	(387, '2022-09-20 00:00:00', '23:09:26', 'c', 'l', '?/notas/guardar', 'Se inserto el inventario egreso detalle con identificador numero 159', 1);
 /*!40000 ALTER TABLE `sys_procesos` ENABLE KEYS */;
 
 -- Volcando estructura para tabla distribucion.sys_procesos_device
@@ -3522,12 +4012,13 @@ CREATE TABLE IF NOT EXISTS `sys_users` (
   KEY `rol_id` (`rol_id`),
   KEY `persona_id` (`persona_id`),
   KEY `almacen_id` (`almacen_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=103 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=104 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla distribucion.sys_users: 1 rows
+-- Volcando datos para la tabla distribucion.sys_users: 2 rows
 /*!40000 ALTER TABLE `sys_users` DISABLE KEYS */;
 INSERT INTO `sys_users` (`id_user`, `username`, `password`, `email`, `avatar`, `active`, `login_at`, `logout_at`, `rol_id`, `persona_id`, `almacen_id`) VALUES
-	(1, 'checkcode', '727e8337449f57726ebf45335e2e0984c7c9cf8a', 'info@dominio.com', 'cc885704c6d1ecd69f310b36a26ec129.jpg', 1, '2022-09-02 08:22:35', '2022-09-02 08:22:35', 1, 1, 22);
+	(1, 'checkcode', '727e8337449f57726ebf45335e2e0984c7c9cf8a', 'info@dominio.com', 'cc885704c6d1ecd69f310b36a26ec129.jpg', 1, '2022-09-21 11:06:18', '2022-09-21 11:06:18', 1, 1, 22),
+	(103, 'distrisam1', '33b50afea85325f2a9cdd5d993baa17926d16c72', 'distrisam1@gmail.com', '', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 4, 128, 22);
 /*!40000 ALTER TABLE `sys_users` ENABLE KEYS */;
 
 -- Volcando estructura para tabla distribucion.sys_users_devices

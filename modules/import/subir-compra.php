@@ -200,24 +200,24 @@ if (!empty($_FILES['archivo'])) {
             // Envia respuesta
             echo json_encode(array('estado' => 'success', 'responce' => $ingreso_id));
 
-    } catch (Exception $e) {
-        $status = false;
-        $error = $e->getMessage();
-    
-        // Instancia la variable de notificacion
-        $_SESSION[temporary] = array(
-            'alert' => 'danger',
-            'title' => 'Problemas en el proceso de interacción con la base de datos.',
-            'message' => (environment == 'development' || ($_user['id_user'] == 1 && $_user['rol'] == 'Superusuario' )) ? $error: 'Error en el proceso; comunicarse con soporte tecnico'
-        );
-        // Redirecciona a la pagina principal
-        //redirect('?/notas/mostrar');
-        //Se devuelve el error en mensaje json
-        echo json_encode(array("estado" => 'n', 'msg' => (environment == 'development' || ($_user['id_user'] == 1 && $_user['rol'] == 'Superusuario' )) ? $error: 'Error en el proceso; comunicarse con soporte tecnico'));
-    
-        //se cierra transaccion
-        $db->rollback();
-    }
+        } catch (Exception $e) {
+            $status = false;
+            $error = $e->getMessage();
+        
+            // Instancia la variable de notificacion
+            $_SESSION[temporary] = array(
+                'alert' => 'danger',
+                'title' => 'Problemas en el proceso de interacción con la base de datos.',
+                'message' => (environment == 'development' || ($_user['id_user'] == 1 && $_user['rol'] == 'Superusuario' )) ? $error: 'Error en el proceso; comunicarse con soporte tecnico'
+            );
+            // Redirecciona a la pagina principal
+            //redirect('?/notas/mostrar');
+            //Se devuelve el error en mensaje json
+            echo json_encode(array("estado" => 'n', 'msg' => (environment == 'development' || ($_user['id_user'] == 1 && $_user['rol'] == 'Superusuario' )) ? $error: 'Error en el proceso; comunicarse con soporte tecnico'));
+        
+            //se cierra transaccion
+            $db->rollback();
+        }
         
     }else{
 
