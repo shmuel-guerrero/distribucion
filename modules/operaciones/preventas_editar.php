@@ -316,8 +316,8 @@ $categorias = $db->from('inv_categorias')->order_by('categoria')->fetch();
                         <!-- cuentas --->
     					<div id="credito_cliente">
     					    <p class="text-info" id="cred">
-    					        <? if($egreso['plan_de_pagos'] == 'si') {
-    					            echo '<div class="alert alert-info" id="borrar"> <b>Forma de pago: </b> El cliente tiene un contrato de créditos de: '.$egreso['dias']. ' días.  </div>';
+    					        <?php if($egreso['plan_de_pagos'] == 'si') {
+    					            echo '<div class="alert alert-info" id="borrar"> <b>Forma de pago: </b> El cliente tiene un contrato de créditos de: '.$egreso["dias"]. ' días.  </div>';
     					        } else {
     					            echo '<div class="alert alert-success" id="borrar"> <b>Forma de pago: </b> El cliente no tiene contrato de créditos. </div>';
     					        } ?>
