@@ -195,10 +195,10 @@ $(function () {
 
     let $loader_mostrar = $('.spinner-load-personal');
 
-    /* window.addEventListener('load', ()=>{
+    window.addEventListener('load', ()=>{
         
         $.ajax({
-            url: '?/import/ultima-importacion-ingreso',
+            url: '?/import/ultima-importacion-productos',
             type: 'POST',
             success: function(resp){
                 let id_importacion = resp;
@@ -207,7 +207,7 @@ $(function () {
                     $.ajax({
                         url: '?/import/compra-excel',
                         type: 'POST',
-                        data: { id_iimport: id_importacion },
+                        data: { id_iimport: id_importacion, tipo_importacion: 'productos'},
                         beforeSend:function(){
                             $loader_mostrar.show();
                         },
@@ -215,31 +215,30 @@ $(function () {
                             $loader_mostrar.hide();
                         },
                         success:function(dats){
+                            
                             $loader_mostrar.hide();
                             let respuesta = JSON.parse(dats);
-                            let compra = respuesta.compra;
-                            let detalles = respuesta.detalles;
-
+                            let compra = respuesta.data.compra;
+                            let detalles = respuesta.data.productos;
+                            
                             document.querySelector("#fecha_compra").innerHTML = `${compra.fecha_ingreso} <small id="hora_compra">${compra.hora_ingreso} </small>`;
-                            document.querySelector("#proveedor_compra").innerHTML = `${compra.nombre_proveedor}`;
-                            document.querySelector("#descrip_compra").innerHTML = `${compra.descripcion}`;
-                            document.querySelector("#total_compra").innerHTML = `${compra.monto_total}`;
-                            document.querySelector("#almacen_compra").innerHTML = `${compra.almacen}`;
-                            document.querySelector("#emple_compra").innerHTML = `${compra.empleado}`;    
-
+                                document.querySelector("#proveedor_compra").innerHTML = `${compra.nombre_proveedor}`;
+                                document.querySelector("#descrip_compra").innerHTML = `${compra.descripcion}`;
+                                document.querySelector("#total_compra").innerHTML = `${compra.monto_total}`;
+                                document.querySelector("#almacen_compra").innerHTML = `${compra.almacen}`;
+                                document.querySelector("#emple_compra").innerHTML = `${compra.empleado}`;   
                                     
                             let tabla = document.querySelector("#table tbody");
                             let cantFilas = detalles.length;
                             let fila = ``;
                             let import_total = 0;
-                            detalles.forEach((element, id )=> {
-                                import_total = import_total + (element.cantidad)*(element.costo);
-                                fila = `<td>${id+1}</td><td>${element.codigo}</td>
-                                        <td>${element.nombre}</td>
-                                        <td class="text-right ${validarinfo(element.cantidad)}">${element.cantidad}</td>
-                                        <td class="text-right ${validarinfo(element.costo)}">${element.costo}</td>
-                                        <td class="text-right ${validarinfo((element.cantidad)*(element.costo))}">${((element.cantidad)*(element.costo)).toFixed(2)}</td>`;
-                                tabla.insertAdjacentHTML('beforeend', fila);
+                            detalles.forEach((element, id )=> {                                
+                                fila = `<td>${id+1}</td><td>Codigo: ${element.codigo}<br>Cod Barras: <small class="text-success">${element.codigo_barras}</small></td>
+                                            <td>${element.nombre}<br>Comprobantes: <small class="text-success">${element.nombre_factura}</small></td>
+                                            <td class="text-right ${validarinfo(element.categoria)}">${element.categoria}</td>
+                                            <td class="text-right ${validarinfo(element.descripcion)}">${element.precio_actual}</td>
+                                            <td class="text-right ${validarinfo(element.unidad)}">${(element.unidad)}</td>`;
+                                    tabla.insertAdjacentHTML('beforeend', fila);
                                 
                             });
 
@@ -278,7 +277,7 @@ $(function () {
             }
         });
 
-    }); */
+    }); 
 
 
 
@@ -380,7 +379,7 @@ $(function () {
                                 let compra = respuesta.data.compra;
                                 let detalles = respuesta.data.productos;
                                 
-                                document.querySelector("#fecha_compra").innerHTML = `${compra.fecha_registro} <small id="hora_compra">${compra.hora_registro} </small>`;
+                                document.querySelector("#fecha_compra").innerHTML = `${compra.fecha_ingreso} <small id="hora_compra">${compra.hora_ingreso} </small>`;
                                 document.querySelector("#proveedor_compra").innerHTML = `${compra.nombre_proveedor}`;
                                 document.querySelector("#descrip_compra").innerHTML = `${compra.descripcion}`;
                                 document.querySelector("#total_compra").innerHTML = `${compra.monto_total}`;

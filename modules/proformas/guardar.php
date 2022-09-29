@@ -60,16 +60,6 @@ if (is_ajax() && is_post()) {
 		// Define la variable de subtotales
 		$subtotales = array();
 
-		// Obtiene la moneda
-		$moneda = $db->from('inv_monedas')->where('oficial', 'S')->fetch_first();
-		$moneda = ($moneda) ? $moneda['moneda'] : '';
-
-		// Obtiene los datos del monto total
-		$conversor = new NumberToLetterConverter();
-		$monto_textual = explode('.', $monto_total);
-		$monto_numeral = $monto_textual[0];
-		$monto_decimal = $monto_textual[1];
-		$monto_literal = ucfirst(strtolower(trim($conversor->to_word($monto_numeral))));
 
 		if(isset($descuento_bs)){
 			
@@ -103,7 +93,7 @@ if (is_ajax() && is_post()) {
 		// Recorre los productos
 		foreach ($productos as $nro => $elemento) {
 			// Forma el detalle
-			$id_unidad = $db->select('id_unidad')->from('inv_unidades')->where('unidad', $unidades[$nro])->fetch_first();
+			$id_unidad = $db->query("SELECT id_unidad FROM inv_unidades where unidad = '{$unidades[$nro]}'")->fetch_first();
 			$cantidad = $cantidades[$nro] * cantidad_unidad($db, $productos[$nro], $id_unidad['id_unidad']);
 
 			$detalle = array(
@@ -124,36 +114,6 @@ if (is_ajax() && is_post()) {
 			// Guarda la informacion
 			$db->insert('inv_proformas_detalles', $detalle);
 		}
-
-		// Instancia la respuesta
-		$respuesta = array(
-			'papel_ancho' => 10,
-			'papel_alto' => 30,
-			'papel_limite' => 576,
-			'empresa_nombre' => $_institution['nombre'],
-			'empresa_sucursal' => 'SUCURSAL Nº 1',
-			'empresa_direccion' => $_institution['direccion'],
-			'empresa_telefono' => 'TELÉFONO ' . $_institution['telefono'],
-			'empresa_ciudad' => 'LA PAZ - BOLIVIA',
-			'empresa_actividad' => $_institution['razon_social'],
-			'empresa_nit' => $_institution['nit'],
-			'proforma_titulo' => 'P  R  O  F  O  R  M  A',
-			'proforma_numero' => $proforma['nro_proforma'],
-			'proforma_fecha' => date_decode($proforma['fecha_proforma'], 'd/m/Y'),
-			'proforma_hora' => substr($proforma['hora_proforma'], 0, 5),
-			'cliente_nit' => $proforma['nit_ci'],
-			'cliente_nombre' => $proforma['nombre_cliente'],
-			'venta_titulos' => array('CANTIDAD', 'DETALLE', 'P. UNIT.', 'SUBTOTAL', 'TOTAL'),
-			'venta_cantidades' => $cantidades,
-			'venta_detalles' => $nombres,
-			'venta_precios' => $precios,
-			'venta_subtotales' => $subtotales,
-			'venta_total_numeral' => $proforma['monto_total'],
-			'venta_total_literal' => $monto_literal,
-			'venta_total_decimal' => $monto_decimal . '/100',
-			'venta_moneda' => $moneda,
-			'impresora' => $_terminal['impresora']
-		);
 
 		// Envia respuesta
 		echo json_encode($proforma_id);

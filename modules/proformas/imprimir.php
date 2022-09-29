@@ -77,8 +77,8 @@ $pdf->SetSubject($_institution['propietario']);
 $pdf->SetKeywords($_institution['sigla']);
 
 // Define tamanos y fuentes
-$font_name_main = 'roboto';
-$font_name_data = 'roboto';
+$font_name_main = 'times';
+$font_name_data = 'times';
 $font_size_main = 10;
 $font_size_data = 8;
 
@@ -187,7 +187,8 @@ $pdf->Cell($width_page * 0.12, $height_cell * 1.5, 'P. UNITARIO', 0, 0, 'C', 0, 
 $pdf->Cell($width_page * 0.12, $height_cell * 1.5, 'SUBTOTAL', 0, 1, 'C', 0, '', 1, true, 'T', 'M');
 
 // Imprime la imagen
-$imagen = (IMAGEN != '') ? institucion . '/' . escape($_institution['imagen_encabezado']) : imgs . '/empty.jpg' ;
+$imagen = (isset($_institution['imagen_encabezado'])) ? institucion . '/' . escape($_institution['imagen_encabezado']) : imgs . '/empty.jpg' ;
+
 $pdf->Image($imagen, $margin_left + $width_table + $padding, $margin_top, $width_image, $height_image, 'jpg', '', 'T', false, false, '', false, false, 0, false, false, false);
 
 // Define el estilo de los bordes
@@ -234,6 +235,7 @@ $conversor = new NumberToLetterConverter();
 $monto_textual = explode('.', $monto_total_descuento);
 $monto_numeral = $monto_textual[0];
 $monto_decimal = $monto_textual[1];
+
 $monto_literal = strtoupper($conversor->to_word($monto_numeral));
 
 // Formatea la tabla en caso de tabla vacia
@@ -264,6 +266,7 @@ $pdf->SetTextColor(52, 73, 94);
 $pdf->SetFont($font_name_data, 'B', $font_size_main);
 $pdf->Cell($width_page * 0.76, $height_cell * 1.5, ($proforma['descuento_bs'] != 0 ? 'MONTO' : 'IMPORTE').' TOTAL ' . $moneda .' ', 0, 0, 'L', 0, '', 1, true, 'T', 'M');
 $pdf->Cell($width_page * 0.24, $height_cell * 1.5, number_format($monto_total, 2, '.', ','), 0, 1, 'R', 0, '', 1, true, 'T', 'M');
+
 if($proforma['descuento_bs'] != 0){
 
 	$pdf->Cell($width_page * 0.76, $height_cell * 1.5, 'DESCUENTO '.($descuento_porcentaje != 0 ? '('.$descuento_porcentaje. '%) ' : '') . $moneda, 0, 0, 'L', 0, '', 1, true, 'T', 'M');

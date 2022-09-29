@@ -86,7 +86,7 @@
                                 <span class="text-primary"><?= $moneda; ?></span>
                             </label>
                             <div class="col-sm-12 col-md-7">
-                                <input type="text" value="0" name="cambioModal" id="cambioModal" class="form-control" autocomplete="off" data-validation="required number" data-validation-allowing="range[1;10000],float" maxlength="5">
+                                <input type="text" value="0" name="cambioModal" id="cambioModal" class="form-control" autocomplete="off" data-validation="required number" data-validation-allowing="range[0;10000],float" maxlength="5">
                             </div>
                         </div>
                     

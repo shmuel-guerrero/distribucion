@@ -93,11 +93,15 @@ require_once modules . '/00-components/index.php';
 	 	@media screen and (max-width: 768px){
 			#icons-general{
 				display: none;
-				opacity: 0;
+				opacity: 0;			
 			}
+					
 		} 
 
-
+		
+		#icons-general::-webkit-scrollbar{
+				display: none;
+			}
 	</style>
 </head>
 

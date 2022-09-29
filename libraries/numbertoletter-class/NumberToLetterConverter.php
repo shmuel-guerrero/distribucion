@@ -95,7 +95,7 @@ class NumberToLetterConverter {
     private function convertNumber($number, $type, $miMoneda = null) {   
         
         $converted = '';
-        if ($miMoneda !== null) {
+        /* if ($miMoneda !== null && $miMoneda && $miMoneda != '') {
             try {
                 
                 $moneda = array_filter($this->monedas, function($m) use ($miMoneda) {
@@ -113,7 +113,8 @@ class NumberToLetterConverter {
             }
         }else{
             $moneda = '';
-        }
+        } */
+        $moneda = '';
         if (($number < 0) || ($number > 999999999)) {
             return false;
         }

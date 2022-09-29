@@ -403,25 +403,6 @@ $permiso_listar = in_array('listar', $permisos);
                 }
             });
 
-            // $('#almacen').selectize({
-            //     persist: false,
-            //     onInitialize: function () {
-            //         $('#almacen').css({
-            //             display: 'block',
-            //             left: '-10000px',
-            //             opacity: '0',
-            //             position: 'absolute',
-            //             top: '-10000px'
-            //         });
-            //     },
-            //     onChange: function () {
-            //         $('#almacen').trigger('blur');
-            //     },
-            //     onBlur: function () {
-            //         $('#almacen').trigger('blur');
-            //     }
-            // });
-
             $(':reset').on('click', function () {
                 $('#proveedor')[0].selectize.clear();
                 // $('#almacen')[0].selectize.clear();

@@ -528,10 +528,10 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 		<table class="table table-bordered table-condensed table-striped table-hover">
 			<thead>
 				<tr class="active">
-					<th class="text-nowrap text-middle text-center width-none">Imagen</th>
-					<th class="text-nowrap text-middle text-center">Código</th>
+					<th class="text-nowrap text-middle text-center width-none hidden-md hidden-sm hidden-xs">Imagen</th>
+					<th class="text-nowrap text-middle text-center hidden-md hidden-sm hidden-xs">Código</th>
 					<th class="text-nowrap text-middle text-center">Producto</th>
-					<th class="text-nowrap text-middle text-center">Categoría</th>
+					<th class="text-nowrap text-middle text-center hidden-md hidden-sm hidden-xs">Categoría</th>
 					<th class="text-nowrap text-middle text-center">Stock</th>
 					<th class="text-middle text-center" width="18%">Precio</th>
 					<th class="text-nowrap text-middle text-center width-none">Acciones</th>
@@ -835,18 +835,22 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 			form: '#formulario',
 			modules: 'basic',
 			onSuccess: function() {
-				console.log(permisoAgregado);
+				//console.log(permisoAgregado);
 				//guardar_nota();
 			}
 		});
 
 		var $modal_efectivo_cambio = $('#modal_efectivo_cambio');
 		$modal_efectivo_cambio.on('hidden.bs.modal', function () {
-			console.log("ocultar");
+			//console.log("ocultar");
 			document.getElementById("modal_efect_cambio").reset();
 		});
 
 		$formulario.on('submit', function(e) {
+			e.preventDefault();
+		});
+
+		document.getElementById("modal_efect_cambio").addEventListener('submit', (e)=>{
 			e.preventDefault();
 		});
 
@@ -891,9 +895,11 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 					if (productos.length) {
 						var $ultimo;
 						var $ultimo2;
+						let cantProductos = 0;
 						$contenido_filtrar.html($tabla_filtrar.html());
 						for (var i in productos) {
 							if ((parseInt(productos[i].cantidad_ingresos) - parseInt(productos[i].cantidad_egresos)) > 0) {
+								cantProductos++;
 								productos[i].imagen = (productos[i].imagen == '') ? $fila_filtrar.attr('data-negativo') + 'image.jpg' : $fila_filtrar.attr('data-positivo') + productos[i].imagen;
 								productos[i].codigo = productos[i].codigo;
 								$contenido_filtrar.find('tbody').append($fila_filtrar.html());
@@ -907,12 +913,15 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 								$ultimo2 = $contenido_filtrar.find('tbody tr:last').children();
 								$ultimo2.eq(0).find('em2').text(productos[i].descripcion);
 								$ultimo.eq(0).find('img').attr('src', productos[i].imagen);
+								$ultimo.eq(0).addClass('hidden-md hidden-sm hidden-xs');
 								$ultimo.eq(1).attr('data-codigo', productos[i].id_producto);
+								$ultimo.eq(1).addClass('hidden-md hidden-sm hidden-xs');
 								$ultimo.eq(1).text(productos[i].codigo);
 								$ultimo.eq(2).find('em').text(productos[i].nombre);
 								$ultimo.eq(2).find('span').attr('data-nombre', productos[i].id_producto);
 								$ultimo.eq(2).find('span').text(productos[i].nombre_factura);
 								$ultimo.eq(3).text(productos[i].categoria);
+								$ultimo.eq(3).addClass('hidden-md hidden-sm hidden-xs');
 								var str = productos[i].unidade;
 
 								if (!str) {
@@ -939,8 +948,9 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 						if (productos.length == 1) {
 				// 			$contenido_filtrar.find('table tbody tr button').trigger('click');
 						}
+
 						$.notify({
-							message: 'La operación fue ejecutada con éxito, se encontraron ' + productos.length + ' resultados.'
+							message: 'La operación fue ejecutada con éxito, se encontraron ' + cantProductos + ' resultados.'
 						}, {
 							type: 'success'
 						});
@@ -1142,10 +1152,12 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 							modules: 'basic',
 							onSuccess: function() {
 								let formCambio = $('#modal_efect_cambio');
-
+								
 								guardar_nota(formCambio);
 							}
 						});
+					}else{
+						guardar_nota();
 					}
 
 				}
@@ -1301,10 +1313,13 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 		var data = $('#formulario, #modal_efect_cambio').serialize();
 		
 		/* console.log(data);
-		console.log(formModal);
-		debugger; */
+		console.log(formModal);		
+		*/
 
+		
+		
 		$('#loader').fadeIn(100);
+		//		debugger;
 
 		 $.ajax({
 			type: 'post',
@@ -1312,6 +1327,8 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 			url: '?/notas/guardar',
 			data: data
 		}).done(function(venta) {
+			window.open('?/notas/imprimir/' + venta.responce, true);
+			
 			switch (venta.status) {
 				case 'success':
 						$.notify({
@@ -1319,8 +1336,8 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 							}, {
 								type: 'success'
 							});
-						$('#loader').fadeOut(100);
-						imprimir_nota(venta.responce);
+							imprimir_nota(venta.responce);
+							$('#loader').fadeOut(100);
 					break;
 				case 'invalid':
 					$('#loader').fadeOut(100);
@@ -1340,7 +1357,8 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 						break;
 			}
 		}).fail(function(e) {
-			console.log(e);
+			//console.log(e);
+
 			$('#loader').fadeOut(100);
 			$.notify({
 				message: 'Ocurrió un problema en el proceso, no se puedo guardar los datos de la nota de remisión, verifique si la se guardó parcialmente.'
