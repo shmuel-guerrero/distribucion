@@ -111,6 +111,9 @@ ADD COLUMN `accion_id_backup` INT(11) NOT NULL DEFAULT '0' AFTER `delet_empleado
 
 
 
+ALTER TABLE `inv_egresos_efectivo`
+	ADD COLUMN `estado` enum('Pedido','Editado','Cerrado') NOT NULL DEFAULT 'Pedido' AFTER `tipo_movimiento`;
+
 
 
 

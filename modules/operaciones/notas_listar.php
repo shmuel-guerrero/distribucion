@@ -60,6 +60,8 @@ $permiso_anular = in_array('activar_nota', $permisos);
 $permiso_devolucion = in_array('notas_devolucion', $permisos);
 $permiso_cambiar = true;
 
+
+
 ?>
 <?php require_once show_template('header-configured'); ?>
 <style>

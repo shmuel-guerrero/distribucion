@@ -218,7 +218,7 @@ if (true) {
     
     
     // MONTO LIQUIDACION
-    $valor_total_liquidacion = number_format(( $valor_total_entrega) , 2, '.', '');
+    $valor_total_liquidacion = number_format(( $liquidacion_efectivo) , 2, '.', '');
 
 
 // Formateamos la tabla

@@ -40,9 +40,9 @@ $moneda = ($moneda) ? '(' . $moneda['sigla'] . ')' : '';
 $permisos = explode(',', permits);
 
 // Almacena los permisos en variables
-$permiso_crear = in_array('crear', $permisos);
-$permiso_ver = in_array('ver', $permisos);
-$permiso_eliminar = in_array('eliminar', $permisos);
+$permiso_crear = true;
+$permiso_ver = true;
+$permiso_eliminar = true;
 $permiso_cambiar = true;
 
 require libraries . '/mis_clases/class_ventas.php';
@@ -71,7 +71,7 @@ $validarVenta = new ventasClass();
 	</h3>
 </div>
 <div class="panel-body">
-	<?php if ($permiso_cambiar || $permiso_crear) { ?>
+	<?php if (($permiso_cambiar || $permiso_crear)) { ?>
 	<div class="row">
 		<div class="col-sm-8 hidden-xs">
 			<div class="text-label">Para realizar acciones clic en el siguiente botón(es): </div>
@@ -83,7 +83,7 @@ $validarVenta = new ventasClass();
 				<span class="hidden-xs">Cambiar</span>
 			</button>
 			<?php } ?>
-			<?php if ($permiso_crear) { ?>			
+			<?php if ($permiso_crear && false) { ?>			
 			<a href="?/notas/crear" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span><span class="hidden-xs"> Crear venta con nota de remisi&oacute;n</span></a>
 			<?php } ?>
 		</div>
@@ -130,27 +130,30 @@ $validarVenta = new ventasClass();
 		</tfoot>
 		<tbody>
 			<?php foreach ($ventas as $nro => $venta) { ?>
-			<tr>
+			<tr data-venta="<?= $venta['id_egreso']; ?>">
 				<th class="text-nowrap"><?= $nro + 1; ?></th>
 				<td class="text-nowrap"><?= escape(date_decode($venta['fecha_egreso'], $_institution['formato'])); ?> <small class="text-success"><?= escape($venta['hora_egreso']); ?></small></td>
 				<td class="text-nowrap">Nota de remisión</td>
 				<td class="text-nowrap"><?= escape($venta['nombre_cliente']); ?></td>
 				<td class="text-nowrap"><?= escape($venta['nit_ci']); ?></td>
 				<td class="text-nowrap text-right"><?= escape($venta['nro_factura']); ?></td>
-				<td class="text-nowrap text-right"><?= escape($venta['monto_total_descuento']); ?></td>
+				<td class="text-nowrap text-right" data-monto-total><?= escape($venta['monto_total_descuento']); ?></td>
 				<td class="text-nowrap text-right"><?= escape($venta['nro_registros']); ?></td>
                 <td class="text-nowrap"><?= escape($venta['almacen']); ?></td>
                 <td class="text-nowrap"><?php if($venta['cobrar']=='si'){ ?><a href="?/notas/activar/<?= $venta['id_ingreso']; ?>"  class="label label-danger" >Deuda</a><?php }?></td>
 				<td class="width-md"><?= escape($venta['nombres'] . ' ' . $venta['paterno'] . ' ' . $venta['materno']); ?></td>
 				<?php if (($permiso_ver || $permiso_eliminar)) { ?>
 				<td class="text-nowrap">
-					<?php if (!$validarVenta->verificaVenta($venta['id_egreso'])) { ?>					
-						<?php if ($permiso_ver) { ?>
+					
+					<?php if ($permiso_ver) { ?>
 						<a href="?/notas/ver/<?= $venta['id_egreso']; ?>" data-toggle="tooltip" data-title="Ver detalle de nota de remisión"><span class="glyphicon glyphicon-list-alt"></span></a>
 						<?php } ?>
-						<?php if ($permiso_eliminar) { ?>
-						<a href="?/notas/eliminar/<?= $venta['id_egreso']; ?>" data-toggle="tooltip" data-title="Eliminar nota de remisión" data-eliminar="true"><span class="glyphicon glyphicon-trash"></span></a>
-						<?php } ?>
+					<?php if ($validarVenta->verificaVenta($venta['id_egreso'])) { ?>					
+
+							<?php if ($permiso_eliminar) { ?>
+									<a href="?/notas/eliminar/<?= $venta['id_egreso']; ?>" class="text-danger" data-toggle="tooltip" data-title="Eliminar nota de remisión" data-eliminar="true"><span class="glyphicon glyphicon-trash"></span></a>
+							<?php } ?>
+							<a onclick="confirmar_venta(<?= $venta['id_egreso']; ?>)" data-toggle="tooltip" data-title="Confirmar nota de remisión"><span class="glyphicon glyphicon-question-sign"></span></a>
 					<?php } ?>
 				</td>
 				<?php } ?>
@@ -207,6 +210,12 @@ $validarVenta = new ventasClass();
 </div>
 <?php } ?>
 <!-- Fin modal fecha -->
+
+
+<!-- COMPONENTE DE MODAL DE CAMBIO DE EFECTIVO -->
+<?= (validar_atributo($db, $_plansistema['plan'], 'productos', 'crear', 'categoria_cliente')) ? modal_efectivo_cambio(): '' ?>
+
+
 
 <script src="<?= js; ?>/jquery.dataTables.min.js"></script>
 <script src="<?= js; ?>/dataTables.bootstrap.min.js"></script>
@@ -330,6 +339,155 @@ $(function () {
 		reports: 'xls|doc|pdf|html'
 	});
 	<?php } ?>
+
+
+
+
+	var $modal_efectivo_cambio = $('#modal_efectivo_cambio');
+	$modal_efectivo_cambio.on('hidden.bs.modal', function () {
+		document.getElementById("modal_efect_cambio").reset();
+		document.getElementById("detalleVenta").remove();
+	});
+
+	document.getElementById("modal_efect_cambio").addEventListener('submit', (e)=>{
+		e.preventDefault();		
+	});
+
+	document.querySelector("#modal_efectivo_cambio [data-cancelar]").addEventListener('click',(e)=>{
+		$modal_efectivo_cambio.modal('hide');
+	});
+
+	$.validate({
+		form: '#modal_efect_cambio',
+		modules: 'basic',
+		onSuccess: function() {
+			let formCambio = $('#modal_efect_cambio');
+			$modal_efectivo_cambio.modal('hide');
+			let idVentaObtenido = document.querySelector("[data-id-venta]").getAttribute("data-id-venta");
+			
+			guardar_venta(formCambio, idVentaObtenido);
+		}
+	});
+
 });
+
+function confirmar_venta(id_venta){
+	var $modal_efectivo_cambio = $('#modal_efectivo_cambio');
+	$modal_efectivo_cambio.modal('show');
+	let import_total = document.querySelector(`#table tbody [data-venta="${id_venta}"]`);
+	let nroItem = import_total.querySelector("th:nth-child(1)").textContent;
+	let fechaItem = import_total.querySelector("td:nth-child(2)").textContent;
+	let horaItem = fechaItem.split(" ");
+	horaItem = horaItem[1];
+	let tipoItem = import_total.querySelector("td:nth-child(3)").textContent;
+	let clienteItem = import_total.querySelector("td:nth-child(4)").textContent;
+	let nitItem = import_total.querySelector("td:nth-child(5)").textContent;
+	let nroNotaItem = import_total.querySelector("td:nth-child(6)").textContent;
+	let empleadoItem = import_total.querySelector("td:nth-child(11)").textContent;
+
+	let datsVenta = `	
+					<div id="detalleVenta" >
+						<div class="form-group">
+                            <div class="col-sm-12 col-md-5 text-right">
+                                <span>FECHA:</span><br>
+								<span>TIPO:</span><br>
+								<span class="h3">NIT:</span><br>
+								<span class="h3">CLIENTE:</span><br>
+								<span>NRO MOVIMIENTO:</span><br>
+								<span>EMPLEADO:</span><br>
+                            </div>
+                            <div class="col-sm-12 col-md-7">
+                                <div class="container">
+									<span class="text-primary">${fechaItem}
+									<small class="text-warning">${horaItem}</small></span><br>
+									<span class="text-primary">${tipoItem}</span><br>
+									<span class="text-danger h3">${nitItem}</span><br>
+									<span class="text-danger h3">${clienteItem}</span><br>
+									<span class="text-primary">${nroNotaItem}</span><br>
+									<span class="text-primary">${empleadoItem}</span><br>
+                                </div>
+                            </div>
+                        </div>
+					</div>`;
+	document.querySelector(`#modal_efectivo_cambio .modal-body`).insertAdjacentHTML("afterbegin", datsVenta);
+
+	let importe_desc = import_total.querySelector(`[data-monto-total]`).textContent;
+	importe_desc = (importe_desc > 0) ? importe_desc : 0;
+	//console.log(total_dessssss);
+
+	document.querySelector("[data-id-venta]").setAttribute('data-id-venta', id_venta);	
+	document.getElementById("importeTotalModal").value = importe_desc;
+	document.getElementById("modal_efect_cambio").reset;
+
+	document.getElementById("pagoEfectivoModal").addEventListener("keyup", ()=>{
+		let pagoEfectivo = document.getElementById("pagoEfectivoModal").value;
+
+		importe_desc = (Number.isInteger(importe_desc)) ? `${importe_desc}.00`: ((importe_desc % 1)?importe_desc : `${importe_desc}.00`);
+		
+		let cambioCalculado = importe_desc - pagoEfectivo;	
+		cambioCalculado = (Number.isInteger(cambioCalculado)) ? `${cambioCalculado}.00`: ((cambioCalculado % 1)?cambioCalculado : `${cambioCalculado}.00`);
+
+		let numeroArray = cambioCalculado.toString().split('.');
+		let decimal = numeroArray[1];
+		let decimalArray = Array.from(decimal);
+		decimal =  (decimalArray[1] > 0) ? decimalArray[0] +'0': '00';
+		cambioCalculado = `${numeroArray[0]}.${decimal}`;
+		
+		cambioCalculado = ((cambioCalculado)*(-1)).toFixed(1);
+		document.getElementById("cambioModal").value = `${(!isNaN(cambioCalculado) || parseFloat(cambioCalculado) || Number.isInteger(cambioCalculado)) ? cambioCalculado : 0}0`;
+	});
+}
+
+function guardar_venta(formulario, idVent){
+	let datos = formulario.serialize();
+	datos += `&id_venta=${idVent}`;
+
+	
+	 $.ajax({
+		type: 'post',
+		dataType: 'json',
+		url: '?/ventas-confirm/confirmar',
+		data: datos
+	}).done(function(resp){
+		console.log(resp);
+
+		switch (resp.status) {
+			case 'success':
+					$.notify({
+							message: 'La nota de remisión se concreto satisfactoriamente.'
+						}, {
+							type: 'success'
+						});
+						imprimir_nota(resp.responce);
+						$('#loader').fadeOut(100);
+				break;
+			case 'invalid':
+				$('#loader').fadeOut(100);
+						$.notify({								
+							message: 'Ocurrio un evento ' + venta.responce
+						}, {
+							type: 'warning'
+						});
+				break;			
+			default:
+				$('#loader').fadeOut(100);
+					$.notify({
+						message: 'Ocurrió un problema en el proceso, no se puedo guardar los datos de la nota de remisión, verifique si la se guardó parcialmente.'
+					}, {
+						type: 'danger'
+					});
+					break;
+		}
+
+	}).fail(function (e) {
+		console.log(e);
+	}); 
+}
+
+function imprimir_nota(nota) {
+		window.open('?/notas/imprimir/' + nota, true);
+		window.location.reload();
+	}
+
 </script>
 <?php require_once show_template('footer-configured'); ?>

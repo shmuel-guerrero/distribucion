@@ -395,6 +395,7 @@ if (($egresos_mov['id_egresos'] != '' || $egresos_mov['id_egresos'] != null) && 
     $productos_devueltos = array();
     $datos_resumen = '';
     $datos_cobros = '';
+    $liquidacion_efectivo = 0;
     
     $productos_entregados = $entregados;
     
@@ -427,6 +428,8 @@ if (($egresos_mov['id_egresos'] != '' || $egresos_mov['id_egresos'] != null) && 
 /**FUNCIONES DE ARMADO DE TABLAS PARA IMPRESION DE PDF */
 function prepara_tabla($datos_array = array(), $titulo = "REPORTE", $valor_moneda = "", $tipo_cant = "")
 {
+    global $liquidacion_efectivo;
+
     // Estructura la tabla
     $body = '';
     $total = 0;
@@ -485,6 +488,9 @@ function prepara_tabla($datos_array = array(), $titulo = "REPORTE", $valor_moned
     }else{
         $body .= '<tr><td colspan="7" align="center" class="all">No existe registros de movimientos para este reporte.</td></tr>';
     }
+    
+    $liquidacion_efectivo += ($titulo == 'VENTAS DIRECTAS' || $titulo == 'RESUMEN DE MOVIMIENTOS' || $titulo == 'COBROS DEUDAS') ? $valor_total_entrega : 0;
+
     $body .= '<tr>
         <th class="all" align="right" colspan="5">IMPORTE TOTAL ' . $valor_moneda . '</th>
         <th class="all" align="right"> ' . $valor_total_entrega . '</th>
@@ -499,6 +505,7 @@ function prepara_tabla($datos_array = array(), $titulo = "REPORTE", $valor_moned
 
 function prepara_tabla2($datos_array = array(), $titulo = "REPORTE", $valor_moneda = "")
 {
+    global $liquidacion_efectivo;
     // Estructura la tabla
     $body = '';
     $total = 0;
@@ -556,6 +563,8 @@ function prepara_tabla2($datos_array = array(), $titulo = "REPORTE", $valor_mone
     $monto_numeral = $monto_textual[0];
     $monto_decimal = $monto_textual[1];
     $monto_literal = strtoupper($conversor->to_word($monto_numeral));
+
+    $liquidacion_efectivo += ($titulo == 'VENTAS DIRECTAS' || $titulo == 'RESUMEN DE MOVIMIENTOS' || $titulo == 'COBROS DEUDAS') ? $valor_total_entrega : 0;
     
     $body .= '<tr>
         <th class="all" align="right" colspan="4">IMPORTE TOTAL ' . $valor_moneda . '</th>

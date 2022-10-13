@@ -62,6 +62,7 @@ if (!empty($_FILES['archivo'])) {
 			$db->autocommit(false);
 			$db->beginTransaction();
 
+            $classProduct = new MyClassProductos();
 
             if ($datosFila[4][0]) {                
                                 
@@ -70,11 +71,20 @@ if (!empty($_FILES['archivo'])) {
                     foreach ($datosFila as $key => $value) {
     
                         if ($value[0] && $key > 0 ) {
-                            $codigo          	= (isset($value[0]) && $value[0]) ? iconv("UTF-8", "UTF-8//IGNORE", $value[0]) : '--sincodigo--'; 
-                            $codigo_barras      = (isset($value[1])) ? iconv("UTF-8", "UTF-8//IGNORE", $value[1]) : '--sin codigo--'; 
-                            $nombre 				= (isset($value[2])) ? iconv("UTF-8", "UTF-8//IGNORE", $value[2]) : 0; 
+                            $codigo          	= (isset($value[0]) && $value[0]) ? iconv("UTF-8", "UTF-8//IGNORE", preg_replace('([^A-Za-z0-9 \_\-\/\:])', '', $value[0])) : '--sincodigo--'; 
+                            $codigo_barras      = (isset($value[1])) ? iconv("UTF-8", "UTF-8//IGNORE", preg_replace('([^A-Za-z0-9 \_\-\/\:])', '', $value[1])) : 'SCOD'; 
+                            $nombre 				= (isset($value[2])) ? iconv("UTF-8", "UTF-8//IGNORE", preg_replace('([^A-Za-z0-9 \_\-\/\:])', '', $value[2])) : 0; 
+                            $nombre_factura 				= (isset($value[3])) ? iconv("UTF-8", "UTF-8//IGNORE", preg_replace('([^A-Za-z0-9 \_\-\/\:])', '', $value[3])) : 0; 
+                            $categoria 				= (isset($value[4])) ? iconv("UTF-8", "UTF-8//IGNORE", preg_replace('([^A-Za-z0-9 \_\-\/\:])', '', $value[4])) : 0; 
+                            $unidad 				= (isset($value[5])) ? iconv("UTF-8", "UTF-8//IGNORE", preg_replace('([^A-Za-z0-9])', '', $value[5])) : 0; 
+                            $precio_base 				= (isset($value[6])) ? iconv("UTF-8", "UTF-8//IGNORE", floatval($value[6])) : 0; 
+
                             $categoria_id = 0;
                             $unidad_id = 0;
+
+                            $categoria_id =  $classProduct->crearCategoria($categoria);
+                            $unidad_id = $classProduct->crearUnidad($unidad);
+
     
                             $producto_id = $db->query("SELECT * FROM import_inv_productos WHERE codigo = '{$codigo}' OR  codigo_barras= '{$codigo_barras}'")->fetch_first();
                             $producto_id = (isset($producto_id['id_producto'])) ? $producto_id['id_producto'] : '';
@@ -85,7 +95,7 @@ if (!empty($_FILES['archivo'])) {
                                 $codigo_barras = $codigo_barras . '-' . $random;
                             }
     
-                            if ($codigo && $codigo_barras && $nombre) {
+                            if ($codigo && $codigo_barras && $nombre ) {
     
                                 if (!$categoria_id) {
                                     $categoria_id = $db->query("SELECT * FROM inv_categorias")->fetch_first()['id_categoria'];
@@ -95,7 +105,7 @@ if (!empty($_FILES['archivo'])) {
                                 }
                                 
                                 if (!$categoria_id || !$unidad_id) {
-                                    $classProduct = new MyClassProductos();
+                                    
                                     $atributos = $classProduct->verificarAtributosProducto();
                                     $categoria_id = $atributos['categoria_id'];
                                     $unidad_id = $atributos['unidad_id'];
@@ -110,7 +120,7 @@ if (!empty($_FILES['archivo'])) {
                                     'codigo_barras' => ($codigo_barras) ? $codigo_barras : '',
                                     'nombre' => ($nombre) ? $nombre : '',
                                     'nombre_factura' => (isset($nombre_factura)) ? $nombre_factura:(($nombre) ? $nombre : 'Sin nombre de fatura'),
-                                    'precio_actual' => (isset($precio_actual)) ? $precio_actual : 0,
+                                    'precio_actual' => (isset($precio_base)) ? $precio_base : 0,
                                     'precio_sugerido' => (isset($precio_sugerido)) ? $precio_sugerido : 0,
                                     'cantidad_minima' => (isset($cantidad_minima)) ? $cantidad_minima : 10,
                                     'ubicacion' => (isset($ubicacion)) ? $ubicacion : '',
@@ -125,7 +135,9 @@ if (!empty($_FILES['archivo'])) {
                                 $id_producto = $db->insert('import_inv_productos', $producto);
     
                             }else {
-                                $arrayDetallesObs[$key] = $datosFila[$key];                            
+                                // Envia respuesta
+                                echo json_encode(array('estado' => 'error', 'responce' => "Se importo parcialmente."));
+                                exit;                           
                             }                                              
                         }
                     }
@@ -166,3 +178,9 @@ if (!empty($_FILES['archivo'])) {
     // Envia respuesta
     echo json_encode(array('estado' => 'error', 'responce' => 'Error, archivo observado.'));
 }
+
+
+
+
+
+

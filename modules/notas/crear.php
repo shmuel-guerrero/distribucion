@@ -547,12 +547,12 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 			<td class="text-nowrap text-middle text-center width-none">
 				<img src="" class="img-rounded cursor-pointer" data-toggle="modal" data-target="#modal_mostrar" data-modal-size="modal-md" data-modal-title="Imagen" width="75" height="75">
 			</td>
-			<td class="text-nowrap text-middle" data-codigo=""></td>
-			<td class="text-middle">
+			<td class="text-nowrap text-middle" data-codigo=""  style="font-size:xx-small"></td>
+			<td class="text-middle" style="font-size:x-small">
 				<em></em>
 				<span class="hidden" data-nombre=""></span>
 			</td>
-			<td class="text-nowrap text-middle"></td>
+			<td class="text-middle" style="font-size:x-small"></td>
 			<td class="text-nowrap text-middle text-right" data-stock=""></td>
 			<td class="text-middle text-right" data-valor=""></td>
 			<td class="text-nowrap text-middle text-center width-none">
@@ -740,10 +740,10 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 				$telefono.prop('readonly', true);
 				$ubicacion.prop('readonly', true);
 
-				$nit_ci.val(valor[0]);
-				$nombre_cliente.val(valor[1]);
-				$direccion.val(valor[3]);
-				$telefono.val(valor[4]);
+				$nit_ci.val((valor[0]) ? valor[0] : 0);
+				$nombre_cliente.val((valor[1]) ? valor[1] : 'S/N');
+				$direccion.val((valor[3]) ? valor[3] : 'S/D');
+				$telefono.val((valor[4])?valor[4] : 0);
 				$ubicacion.val(valor[5]);
 				$id_cliente.val(valor[2]);
 				$credito.val(valor[6]);
@@ -852,6 +852,10 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 
 		document.getElementById("modal_efect_cambio").addEventListener('submit', (e)=>{
 			e.preventDefault();
+		});
+
+		document.querySelector("#modal_efectivo_cambio [data-cancelar]").addEventListener('click',(e)=>{
+			$modal_efectivo_cambio.modal('hide');
 		});
 
 		$formulario.on('reset', function() {
@@ -1054,8 +1058,11 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 
 						//se obtiene la categoria unida a la unidad
 						let unidadSelect = oparte[1].split('|');
-						let unidadDesmenbrada = unidadSelect[1];
+						let unidadDesmenbrada = '';
 						
+						//console.log(unidadSelect[1]);
+
+						unidadDesmenbrada = (unidadSelect[1]) ? unidadSelect[1] : '';
 						//console.log(optionSeleccionado, unidadDesmenbrada);
 
 						if (optionSeleccionado.toUpperCase() == unidadDesmenbrada.toUpperCase()) {							

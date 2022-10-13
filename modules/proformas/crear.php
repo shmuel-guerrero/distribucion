@@ -677,6 +677,7 @@ $(function () {
     }).on('change', function (e) {
         var valor = $(this).val();
         valor = valor.split('|');
+
         $(this)[0].selectize.clear();
         if (valor.length != 1) {
             $nit_ci.prop('readonly', true);
@@ -685,11 +686,11 @@ $(function () {
 			$telefono.prop('readonly', true);
 			$ubicacion.prop('readonly', true);
             $atencion.prop('readonly', false);
-
-            $nit_ci.val(valor[0]);
-			$nombre_cliente.val(valor[1]);
-			$direccion.val(valor[3]);
-			$telefono.val(valor[4]);
+			
+            $nit_ci.val((valor[0]) ? valor[0] : 0);
+			$nombre_cliente.val((valor[1]) ? valor[1] : 'S/N');
+			$direccion.val((valor[3]) ? valor[3] : 'S/D');
+			$telefono.val((valor[4])?valor[4] : 0);
 			$ubicacion.val(valor[5]);
 			$id_cliente.val(valor[2]);
 

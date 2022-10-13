@@ -37,7 +37,7 @@
                 <h4 class="modal-title">Importe</h4>
             </div>
             <div class="modal-body">  
-                <div class="">
+                <div class="" data-id-venta>
                     
                         <div class="form-group">
                             <label for="importe_total" class="col-sm-12 col-md-5 control-label">
@@ -101,7 +101,7 @@
                     <span class="glyphicon glyphicon-refresh"></span>
                     <span>Restablecer</span>
                 </button> -->
-                <button type="button" class="btn btn-default" data-dismiss="modal">
+                <button type="button" class="btn btn-default"  data-cancelar="true">
                     <span class="glyphicon glyphicon-remove"></span>
                     <span>Cancelar</span>
                 </button>

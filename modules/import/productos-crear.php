@@ -73,7 +73,7 @@ $moneda = ($moneda) ? '(' . $moneda['sigla'] . ')' : '';
                 <div class="col-sm-12 col-md-12">
                         <div class="form-horizontal" id="section_action" hidden>
                             <div class="col-sm-6 col-md-6 text-right">
-                                <form action="?/import/confirm-importacion" method="post" id="confirmar-form">
+                                <form action="?/import/confirm-importacion-productos" method="post" id="confirmar-form">
                                     <input type="hidden" name="id_import_ingreso">
                                     <button type="submit" class="btn btn-primary">
                                         <span class="glyphicon glyphicon-ok"></span>
@@ -82,7 +82,7 @@ $moneda = ($moneda) ? '(' . $moneda['sigla'] . ')' : '';
                                 </form>
                             </div>
                             <div class="col-sm-6 col-md-6 text-left">
-                                <form action="?/import/eliminar-importacion" method="post" id="eliminar-form">                                
+                                <form action="?/import/eliminar-importacion-productos" method="post" id="eliminar-form">                                
                                     <input type="hidden" name="id_import_ingreso">
                                     <button type="submit" class="btn btn-danger">
                                         <span class="glyphicon glyphicon-remove"></span>
@@ -193,7 +193,7 @@ $(function () {
 		modules: 'basic,file'
 	});
 
-    let $loader_mostrar = $('.spinner-load-personal');
+    let $loader_mostrar = $('[data-spinner]:first');
 
     window.addEventListener('load', ()=>{
         
@@ -202,7 +202,7 @@ $(function () {
             type: 'POST',
             success: function(resp){
                 let id_importacion = resp;
-
+                $loader_mostrar.show();
                 if (id_importacion > 0) {
                     $.ajax({
                         url: '?/import/compra-excel',
@@ -264,7 +264,7 @@ $(function () {
                     document.querySelector("#total_compra").innerHTML = `total`;
                     document.querySelector("#almacen_compra").innerHTML = `almacen`;
                     document.querySelector("#emple_compra").innerHTML = `emple`;     
-                    
+                    $loader_mostrar.hide();
                     document.querySelector("#table tfoot [data-importe]").insertAdjacentHTML('beforeend', (0).toFixed(2));
                     let proveedor = document.querySelector("#proveedor_compra").textContent;
                     if (proveedor == 'proveedor') {
@@ -328,7 +328,7 @@ $(function () {
                 });
         }
 
-
+        $loader_mostrar.show();
 
         var formulario = $("#formulario")[0];
         let formData = new FormData(formulario);
@@ -362,7 +362,7 @@ $(function () {
                         });
                         let datos = resps.responce;
                         document.getElementById("formulario").reset();
-                        
+                        $loader_mostrar.show();
                         $.ajax({
                             url: '?/import/compra-excel',
                             type: 'POST',
@@ -444,7 +444,7 @@ $(function () {
                         });
                         break;			
                     default:
-                        console.log(resps);
+                        //console.log(resps);
                         Swal.fire({
                                 position: 'top-end',
                                 icon: 'error',
@@ -457,7 +457,7 @@ $(function () {
             },
             error:function(e){
                 $loader_mostrar.hide();
-                console.log(e);
+                //console.log(e);
                 Swal.fire({
                                 position: 'top-end',
                                 icon: 'error',
@@ -475,7 +475,7 @@ $(function () {
 
 function action_ingreso_importadp(actionForm = '', idIngresoImport = 0, accion='') {
 
-    let $loader_mostrar = $('.spinner-load-personal');
+    let $loader_mostrar = $('[data-spinner]:first');
 
     let titulo = (accion == 'Confirmar') ? 'Ingreso Registrado!': 'Ingreso Eliminado';
     let descrip = (accion == 'Confirmar') ? 'El ingreso y sus detalles se registraron el la base de datos.': 'El ingreso y sus detalles importados se eliminaron.';
@@ -500,7 +500,9 @@ function action_ingreso_importadp(actionForm = '', idIngresoImport = 0, accion='
                     descrip,
                     tipo
                 )
-
+                    //console.log("confirmacion");
+                    //debugger;
+                $loader_mostrar.show();
                 $.ajax({
                     url: actionForm,
                     type: 'POST',
@@ -512,6 +514,7 @@ function action_ingreso_importadp(actionForm = '', idIngresoImport = 0, accion='
                         $loader_mostrar.hide();
                     },
                     success:function (resp){
+                        console.log(resp);
                         $loader_mostrar.hide();
                         //console.log("se guarda en base de datos");
                         Swal.fire({
@@ -524,6 +527,7 @@ function action_ingreso_importadp(actionForm = '', idIngresoImport = 0, accion='
                         setInterval(location.reload(), 5000);
                     },
                     error:function(e){
+                        //console.log(e);
                         $loader_mostrar.hide();
                         Swal.fire({
                                     position: 'top-end',

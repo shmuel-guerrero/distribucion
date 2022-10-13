@@ -67,7 +67,8 @@ if (is_post()) {
                             'monto_total' => 0, 
                             'almacen' => '', 
                             'empleado' =>  $imports_general['nombres'],
-                            'nombre_proveedor' => $imports_general['nombres']
+                            'nombre_proveedor' => $imports_general['nombres'],
+                            'id_ingreso' => $imports_general['id_general']
                         );
                         $datos = array(
                             'compra' => ($datoImport) ? $datoImport : array(),

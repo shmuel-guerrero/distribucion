@@ -75,7 +75,7 @@ if(is_post()) {
                                     ORDER BY u.unidad DESC) w
                                 GROUP BY w.producto_id ) z ON p.id_producto = z.producto_id 
                         WHERE ('$Fecha'<=p.fecha_limite OR p.fecha_limite='1000-01-01') AND  p.promocion != 'si' AND p.eliminado = 0
-                        AND (p.codigo_barras like '%" . $busqueda . "%' p.codigo like '%" . $busqueda . "%' OR p.nombre_factura like '%" . $busqueda . "%' OR p.nombre like '%" . $busqueda . "%' OR c.categoria like '%" . $busqueda . "%') ")->fetch();
+                        AND (p.codigo_barras like '%" . $busqueda . "%' OR p.codigo like '%" . $busqueda . "%' OR p.nombre_factura like '%" . $busqueda . "%' OR p.nombre like '%" . $busqueda . "%' OR c.categoria like '%" . $busqueda . "%') ")->fetch();
 
                 $nroProducts = $db->affected_rows;
                 $nroPaginas= ceil($nroProducts / $item);
@@ -108,7 +108,7 @@ if(is_post()) {
                                     LEFT JOIN inv_unidades u ON q.unidad_id = u.id_unidad AND q.visible = 's' WHERE q.visible = 's'
                                             ORDER BY u.unidad DESC) w GROUP BY w.producto_id ) z ON p.id_producto = z.producto_id
                                             WHERE ('$Fecha'<=p.fecha_limite OR p.fecha_limite='1000-01-01')  AND  p.promocion != 'si' AND p.eliminado = 0
-                                            AND (p.codigo_barras like '%" . $busqueda . "%' p.codigo like '%" . $busqueda . "%' OR p.nombre_factura like '%" . $busqueda . "%' OR p.nombre like '%" . $busqueda . "%' OR c.categoria like '%" . $busqueda . "%') ")->limit( $pagina, 0 )->fetch();
+                                            AND (p.codigo_barras like '%" . $busqueda . "%' OR p.codigo like '%" . $busqueda . "%' OR p.nombre_factura like '%" . $busqueda . "%' OR p.nombre like '%" . $busqueda . "%' OR c.categoria like '%" . $busqueda . "%') ")->limit( $pagina, 0 )->fetch();
                 $datos = array();
 
                 foreach($productos as $nro => $producto){                        
