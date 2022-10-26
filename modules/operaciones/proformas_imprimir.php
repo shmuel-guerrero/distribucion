@@ -59,8 +59,8 @@ $pdf->SetSubject($_institution['propietario']);
 $pdf->SetKeywords($_institution['sigla']);
 
 // Define tamanos y fuentes
-$font_name_main = 'roboto';
-$font_name_data = 'roboto';
+$font_name_main = 'times';
+$font_name_data = 'times';
 $font_size_main = 10;
 $font_size_data = 8;
 

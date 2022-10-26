@@ -314,9 +314,9 @@ $permiso_listar = in_array('listar', $permisos);
                                 <tr class="<?php if($producto['promocion']=='si'){echo 'warning';}?>" >
                                     <td class="text-nowrap" data-codigo="<?= $producto['id_producto']; ?>"><?= escape($producto['codigo']); ?></td>
                                     <td data-nombre="<?= $producto['id_producto']; ?>"><?= escape($producto['nombre']); ?></td>
-                                    <td class="text-nowrap"><?= escape($producto['descripcion']); ?></td>
+                                    <td><?= escape($producto['descripcion']); ?></td>
                                     <!--<td class="text-nowrap"><?= escape($producto['color']); ?></td>-->
-                                    <td class="text-nowrap"><?= escape($producto['categoria']); ?></td>
+                                    <td><?= escape($producto['categoria']); ?></td>
                                     <td class="text-nowrap text-right"><?= escape($producto['cantidad_ingresos'] - $producto['cantidad_egresos']); ?></td>
 
                                     <?php 

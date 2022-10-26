@@ -67,7 +67,7 @@ define('FECHA', date(escape($_institution['formato'])) . ' ' . date('H:i:s'));
 class MYPDF extends TCPDF {
 	public function Header() {
 		$this->Ln(5);
-		$this->SetFont(PDF_FONT_NAME_HEAD, 'I', PDF_FONT_SIZE_HEAD);
+		//$this->SetFont(PDF_FONT_NAME_HEAD, 'I', PDF_FONT_SIZE_HEAD);
 		$this->Cell(0, 5, NOMBRE, 0, true, 'R', false, '', 0, false, 'T', 'M');
 		$this->Cell(0, 5, PROPIETARIO, 0, true, 'R', false, '', 0, false, 'T', 'M');
 		$this->Cell(0, 5, FECHA, 'B', true, 'R', false, '', 0, false, 'T', 'M');
@@ -77,7 +77,7 @@ class MYPDF extends TCPDF {
 	
 	public function Footer() {
 		$this->SetY(-10);
-		$this->SetFont(PDF_FONT_NAME_HEAD, 'I', PDF_FONT_SIZE_HEAD);
+		//$this->SetFont(PDF_FONT_NAME_HEAD, 'I', PDF_FONT_SIZE_HEAD);
 		$length = ($this->getPageWidth() - PDF_MARGIN_LEFT - PDF_MARGIN_RIGHT) / 2;
 		$number = $this->getAliasNumPage() . ' / ' . $this->getAliasNbPages();
 		$this->Cell($length, 5, $number, 'T', false, 'L', false, '', 0, false, 'T', 'M');
