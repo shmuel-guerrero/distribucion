@@ -78,6 +78,10 @@ if (!empty($_FILES['archivo'])) {
                             $categoria 				= (isset($value[4])) ? iconv("UTF-8", "UTF-8//IGNORE", preg_replace('([^A-Za-z0-9 \_\-\/\:])', '', $value[4])) : 0; 
                             $unidad 				= (isset($value[5])) ? iconv("UTF-8", "UTF-8//IGNORE", preg_replace('([^A-Za-z0-9])', '', $value[5])) : 0; 
                             $precio_base 				= (isset($value[6])) ? iconv("UTF-8", "UTF-8//IGNORE", floatval($value[6])) : 0; 
+                            
+                            $unidad2 				= (isset($value[7])) ? iconv("UTF-8", "UTF-8//IGNORE", preg_replace('([^A-Za-z0-9])', '', $value[7])) : ''; 
+                            $tamanio2 				= (isset($value[8])) ? iconv("UTF-8", "UTF-8//IGNORE", preg_replace('([^A-Za-z0-9])', '', $value[8])) : 0; 
+                            $precio_2 				= (isset($value[9])) ? iconv("UTF-8", "UTF-8//IGNORE", floatval($value[9])) : 0; 
 
                             $categoria_id = 0;
                             $unidad_id = 0;
@@ -95,7 +99,12 @@ if (!empty($_FILES['archivo'])) {
                                 $codigo_barras = $codigo_barras . '-' . $random;
                             }
     
-                            if ($codigo && $codigo_barras && $nombre ) {
+                            if (!$codigo && !$codigo_barras && !$nombre ) {                            
+                                // Envia respuesta
+                                echo json_encode(array('estado' => 'error', 'responce' => "Datos incompletos; favor proporcinar todos los datos necesarios para la importacion."));                                                         
+                                return;
+                            }  
+
     
                                 if (!$categoria_id) {
                                     $categoria_id = $db->query("SELECT * FROM inv_categorias")->fetch_first()['id_categoria'];
@@ -113,7 +122,8 @@ if (!empty($_FILES['archivo'])) {
                                     $categoria_id = $db->from('inv_categorias')->where(array('id_categoria' => $categoria_id))->fetch_first()['id_categoria'];
                                     $unidad_id = $db->from('inv_unidades')->where(array('id_unidad' => $unidad_id))->fetch_first()['id_unidad'];
                                 }
-    
+                                
+                            if ($codigo && $codigo_barras && $nombre ) { 
                                 // Instancia el producto
                                 $producto = array(
                                     'codigo' => ($codigo) ? $codigo: '',
@@ -133,16 +143,29 @@ if (!empty($_FILES['archivo'])) {
     
                                 // Guarda la informacion
                                 $id_producto = $db->insert('import_inv_productos', $producto);
-    
-                            }else {
-                                // Envia respuesta
-                                echo json_encode(array('estado' => 'error', 'responce' => "Se importo parcialmente."));
-                                exit;                           
-                            }                                              
+
+                                //Registro de 2da unidad de venta
+                                if ($id_producto && $unidad2 && $tamanio2 && $precio_2) {
+                                    
+                                    $unidad_id2 = $classProduct->crearUnidad($unidad2);
+
+                                    $dats2 = array(
+                                        'producto_id' => ($id_producto > 0) ? $id_producto : 0, 
+                                        'unidad_id' => ($unidad_id2 > 0)? $unidad_id2 : 0, 
+                                        'cantidad_unidad' => ($tamanio2 > 0) ? $tamanio2 : 0, 
+                                        'otro_precio' => ($precio_2 > 0) ? $precio_2 : 0, 
+                                        'visible' => 's'
+                                    );
+                                    $id_asig = $db->insert('import_inv_asignaciones', $dats2);
+                                }
+                            }
+                                                                        
                         }
                     }
                 }
 
+                //se cierra transaccion
+                $db->commit();
 
                 // Envia respuesta
                 echo json_encode(array('estado' => 'success', 'responce' => $ingreso_id));

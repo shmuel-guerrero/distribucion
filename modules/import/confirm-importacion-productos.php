@@ -5,13 +5,13 @@ if (is_post()) {
     
     if (isset($_POST['idIngresoImport'])) {
 
-       /*  //Habilita las funciones internas de notificación
+       //Habilita las funciones internas de notificación
 		mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT ); 
 		try {
  
 			//Se abre nueva transacción.
 			$db->autocommit(false);
-			$db->beginTransaction(); */
+			$db->beginTransaction(); 
 
             require libraries ."/mis_clases/class_productos.php";
             $classProduct = new MyClassProductos();
@@ -27,7 +27,7 @@ if (is_post()) {
 
             $id_ingreso = $id_ingreso_import;
             
-            if (true) {
+            if ($detalles) {
                 
                 foreach ($detalles as $value) {
                     if ($classProduct->verificarProducto($value)) {                        
@@ -36,13 +36,27 @@ if (is_post()) {
                         unset($value['general_id'], $value['fecha_vencimiento'], $value['fecha_limite']);
                         $db->insert('inv_productos', $value);
                         //var_dump($classProduct->verificarProducto($value));
+
+                        $asignacion = $db->from('import_inv_asignaciones')
+                                        ->where(array('producto_id' => $value['id_producto']))->fetch_first();
+
+                        if ($asignacion) {
+                            unset($asignacion['id_asignacionimport']);
+                            $db->insert('inv_asignaciones', $asignacion);
+                        }
+                    
                     }
                 }
+
+
             }
+
+            //se cierra transaccion
+            $db->commit();
 
             echo json_encode($id_ingreso);
 
-        /* } catch (Exception $e) {
+        } catch (Exception $e) {
             $status = false;
             $error = $e->getMessage();
         
@@ -59,7 +73,7 @@ if (is_post()) {
         
             //se cierra transaccion
             $db->rollback();
-        } */
+        } 
 
     }else {
         
