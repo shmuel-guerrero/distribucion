@@ -130,6 +130,8 @@ if (!empty($_FILES['archivo'])) {
                                     'codigo_barras' => ($codigo_barras) ? $codigo_barras : '',
                                     'nombre' => ($nombre) ? $nombre : '',
                                     'nombre_factura' => (isset($nombre_factura)) ? $nombre_factura:(($nombre) ? $nombre : 'Sin nombre de fatura'),
+                                    'fecha_registro' => date('Y-m-d'),
+                                    'hora_registro' => date('H:i:s'),
                                     'precio_actual' => (isset($precio_base)) ? $precio_base : 0,
                                     'precio_sugerido' => (isset($precio_sugerido)) ? $precio_sugerido : 0,
                                     'cantidad_minima' => (isset($cantidad_minima)) ? $cantidad_minima : 10,

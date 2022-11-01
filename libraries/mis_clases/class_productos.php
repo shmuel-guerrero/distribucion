@@ -74,7 +74,7 @@ class MyClassProductos
         if (!$unidadVerificada) {
             $datos = array(
                 'unidad' => ($unidad) ? $unidad: 'Nueva Unidad',
-                'sigla' => ($unidad) ? $unidad: 'SS',
+                'sigla' => ($unidad) ? substr($unidad, 0 , 3): 'SS',
                 'descripcion' => 'Sin descripcion'
             );    
             $id_unidad = $db->insert("inv_unidades", $datos);            
