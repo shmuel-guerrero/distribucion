@@ -23,7 +23,7 @@ foreach ($_menus as $_menu) {
 define('permits', $_views);
 
 // Verifica si tiene acceso al modulo
-if (!$_is_module && module != home && module != tools && module != 'cuentas' && module != 'asientos' && module != 'balances' && module != 'diario' && module != 'estados_financieros' && module != 'hoja_trabajo' && module != 'libro_mayor' && module != 'movimientos') {
+if (!$_is_module && module != home && module != tools && module != 'document') {
 	// Error 401
 	require_once bad_request();
 	exit;
@@ -32,7 +32,7 @@ if (!$_is_module && module != home && module != tools && module != 'cuentas' && 
 	$_views = explode(',', $_views);
 
 	// Verifica si tiene acceso a la vista
-	if (!in_array(file, $_views) && module != home && module != tools && module != 'cuentas' && module != 'asientos' && module != 'balances' && module != 'diario' && module != 'estados_financieros' && module != 'hoja_trabajo' && module != 'libro_mayor' && module != 'movimientos') {
+	if (!in_array(file, $_views) && module != home && module != tools && module != 'document') {
 		// Error 401
 		require_once bad_request();
 		exit;

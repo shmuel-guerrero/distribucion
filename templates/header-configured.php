@@ -154,15 +154,21 @@ require_once modules . '/00-components/index.php';
 											</a>
 										</li>
 										<li>
-											<a href="?/site/logout" data-cerrar-sesion>
-												<span class="glyphicon glyphicon-lock"></span>
-												<span>Cerrar sesión</span>
-											</a>
-										</li>
-										<li>
 											<a href="#" data-toggle="modal" data-target="#modal_ayudar" data-comando-ayudar="true">
 												<span class="glyphicon glyphicon-question-sign"></span>
 												<span>Ayuda</span>
+											</a>
+										</li>
+										<li>
+											<a href="?/document/listar">
+												<span class="glyphicon glyphicon-question-sign"></span>
+												<span>Documentación</span>
+											</a>
+										</li>
+										<li>
+											<a href="?/site/logout" data-cerrar-sesion>
+												<span class="glyphicon glyphicon-lock"></span>
+												<span>Cerrar sesión</span>
 											</a>
 										</li>
 									</ul>
