@@ -599,13 +599,13 @@ $permiso_listar = in_array('listar', $permisos);
             }       
         }
         function set_plan_pagos(){
-            if($("#forma_pago").val()==1){
+            /* if($("#forma_pago").val()==1){
                 $('#plan_de_pagos').css({'display':'none'});
             }
             else{
                 $('#plan_de_pagos').css({'display':'block'});
             }
-            set_cuotas();
+            set_cuotas(); */
         }
         function calcular_cuota(x) {
             var cantidad = $('#nro_cuentas').val();

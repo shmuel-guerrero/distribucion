@@ -20,8 +20,9 @@ $ingreso = $db->select('i.*, a.almacen, a.principal, e.nombres, e.paterno, e.mat
 			  ->from('inv_ingresos i')
 			  ->join('inv_almacenes a', 'i.almacen_id = a.id_almacen', 'left')
 			  ->join('sys_empleados e', 'i.empleado_id = e.id_empleado', 'left')
-			  ->join('inv_pagos p', 'p.movimiento_id = i.id_ingreso                      AND                                  p.tipo="Ingreso"', 'left')
+			  ->join('inv_pagos p', 'p.movimiento_id = i.id_ingreso AND  p.tipo="Ingreso"', 'left')
 			  ->where('id_ingreso', $id_ingreso)
+			  ->where('p.tipo', 'Ingreso')
 			  ->fetch_first();
 
 // Verifica si existe el ingreso
@@ -119,7 +120,7 @@ $permiso_imprimir_comprobante = in_array('imprimir_comprobante', $permisos);
 <input id="pago" name="pago" type="hidden" value="<?php echo $ingreso['id_pago']; ?>">
 
 <div class="row">
-		<div class="col-sm-12 col-sm-8">
+		<div class="col-sm-12 col-md-8">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h3 class="panel-title"><i class="glyphicon glyphicon-list"></i> Detalle del ingreso</h3>
@@ -284,7 +285,7 @@ $permiso_imprimir_comprobante = in_array('imprimir_comprobante', $permisos);
 			</div>
 			<?php } ?>
 		</div>
-		<div class="col-sm-12 col-sm-4">
+		<div class="col-sm-12 col-md-4">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h3 class="panel-title"><i class="glyphicon glyphicon-log-in"></i> Información del ingreso</h3>

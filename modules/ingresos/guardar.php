@@ -198,36 +198,24 @@ if (is_post()) {
 						$ingreso_id_plan = $db->insert('inv_pagos', $ingresoPlan);
 						$nro_cuota=0;
 
-						for($nro2=0; $nro2<$nro_cuentas; $nro2++) {
-							$fecha_format=(is_date($fechas[$nro2])) ? date_encode($fechas[$nro2]): date_encode($fechas[$nro2]);
-							$nro_cuota++;
-							
-							if($fecha_format == date('Y-m-d')){
-								$detallePlan = array(
-									'nro_cuota' => $nro_cuota,
-									'pago_id' => $ingreso_id_plan,
-									'fecha' => $fecha_format,
-									'fecha_pago' => $fecha_format,
-									'monto' => (isset($cuotas[$nro2])) ? $cuotas[$nro2]: 0,
-									'tipo_pago' => "Efectivo",
-									'empleado_id' => $_user['persona_id'],
-									'estado'  => '1'
-								);
-							}else{
-								$detallePlan = array(
-									'nro_cuota' => $nro_cuota,
-									'pago_id' => $ingreso_id_plan,
-									'fecha' => $fecha_format,
-									'fecha_pago' => $fecha_format,
-									'empleado_id' => $_user['persona_id'],
-									'tipo_pago' => "",
-									'monto' => (isset($cuotas[$nro2])) ? $cuotas[$nro2]: 0,
-									'estado'  => '0'
-								);
-							}
-							// Guarda la informacion
-							$db->insert('inv_pagos_detalles', $detallePlan);
-						}
+						$fecha_format=(is_date($fechas[$nro2])) ? date_encode($fechas[$nro2]): date_encode($fechas[$nro2]);
+						$nro_cuota++;
+						
+						
+						$detallePlan = array(
+							'nro_cuota' => $nro_cuota,
+							'pago_id' => $ingreso_id_plan,
+							'fecha' => $fecha_format,
+							'fecha_pago' => $fecha_format,
+							'empleado_id' => $_user['persona_id'],
+							'tipo_pago' => "",
+							'monto' => $monto_total,
+							'estado'  => '0'
+						);
+						
+						// Guarda la informacion
+						$db->insert('inv_pagos_detalles', $detallePlan);
+						
 					}
 				}else {
 					// Instancia la variable de notificacion
@@ -318,24 +306,24 @@ if (is_post()) {
 					$db->insert('sys_procesos', $data);
 
 					$nro_cuota=0;
-					for($nro2=0; $nro2<$nro_cuentas; $nro2++) {
-						$fecha_format=(is_date($fechas[$nro2])) ? date_encode($fechas[$nro2]): "0000-00-00";
-						$nro_cuota++;
-						//si la cuota es igual a la actual se guarda como pagada en efectivo
-						$detallePlan = array(
-							'nro_cuota' => $nro_cuota,
-							'pago_id' => $ingreso_id_plan,
-							'fecha' => $fecha_format,
-							'fecha_pago' => $fecha_format,
-							'monto' => (isset($cuotas[$nro2])) ? $cuotas[$nro2]: 0,
-							'tipo_pago' => ($fecha_format == date('Y-m-d')) ? "Efectivo" : "",
-							'empleado_id' => $_user['persona_id'],
-							'estado'  => ($fecha_format == date('Y-m-d')) ? '1' : '0'
-						);
+					$fecha_format=(is_date($fechas[$nro2])) ? date_encode($fechas[$nro2]): "0000-00-00";
+					$nro_cuota++;
+					//si la cuota es igual a la actual se guarda como pagada en efectivo
 
-						// Guarda la informacion
-						$db->insert('inv_pagos_detalles', $detallePlan);
-					}
+					$detallePlan = array(
+						'nro_cuota' => $nro_cuota,
+						'pago_id' => $ingreso_id_plan,
+						'fecha' => $fecha_format,
+						'fecha_pago' => $fecha_format,
+						'monto' => $monto_total,
+						'tipo_pago' => "",
+						'empleado_id' => $_user['persona_id'],
+						'estado'  => '0'
+					);
+
+					// Guarda la informacion
+					$db->insert('inv_pagos_detalles', $detallePlan);
+					
 				}
 
 				$_user=$db->query("SELECT CONCAT(em.nombres,' ',em.paterno,' ',em.materno)AS empleado
@@ -382,3 +370,5 @@ if (is_post()) {
 	require_once not_found();
 	exit;
 }
+
+

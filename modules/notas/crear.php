@@ -674,7 +674,7 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 	permisoAgregado = "<?= validar_atributo($db, $_plansistema['plan'], 'productos', 'crear', 'categoria_cliente'); ?>";
 	permisoAgregado = (permisoAgregado) ? true: false;
 
-	if (permisoAgregado) {		
+	if (permisoAgregado && false) {		
 		window.addEventListener('load', ()=>{
 			let tipo_precio = document.getElementById('tipo_precio_label');
 			tipo_precio.classList.remove('col-md-3');
@@ -850,13 +850,22 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 			e.preventDefault();
 		});
 
-		document.getElementById("modal_efect_cambio").addEventListener('submit', (e)=>{
-			e.preventDefault();
-		});
+		/* SE DEFINE NUEVO REQUERIMIENTO SI SE TIENE LOSPERMISOS CONFIGURADOS */
+		var permisoAgregado = false;
+		permisoAgregado = "<?= validar_atributo($db, $_plansistema['plan'], 'productos', 'crear', 'categoria_cliente'); ?>";
+		permisoAgregado = (permisoAgregado) ? true: false;
 
-		document.querySelector("#modal_efectivo_cambio [data-cancelar]").addEventListener('click',(e)=>{
-			$modal_efectivo_cambio.modal('hide');
-		});
+		if (permisoAgregado && false) {	
+
+			document.getElementById("modal_efect_cambio").addEventListener('submit', (e)=>{
+				e.preventDefault();
+			});
+
+			document.querySelector("#modal_efectivo_cambio [data-cancelar]").addEventListener('click',(e)=>{
+				$modal_efectivo_cambio.modal('hide');
+			});
+		}
+
 
 		$formulario.on('reset', function() {
 			$('#ventas tbody').empty();
@@ -1046,9 +1055,9 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 			if (porciones.length > 2) {
 
 				let elementPrecio = document.querySelector('#tipo_precio');
-				let optionSeleccionado = elementPrecio.options[elementPrecio.selectedIndex].text;
+				//let optionSeleccionado = elementPrecio.options[elementPrecio.selectedIndex].text;
 			
-				if (permisoAgregado && optionSeleccionado) {
+				if (permisoAgregado) {
 
 					plantilla += `<td class="unid-categoria"><select name="unidad[]" id="unidad[]" data-xxx="true" class="form-control">`;
 					aparte = porciones[1].split(':');
