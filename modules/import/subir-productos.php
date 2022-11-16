@@ -155,10 +155,12 @@ if (!empty($_FILES['archivo'])) {
                                         'producto_id' => ($id_producto > 0) ? $id_producto : 0, 
                                         'unidad_id' => ($unidad_id2 > 0)? $unidad_id2 : 0, 
                                         'cantidad_unidad' => ($tamanio2 > 0) ? $tamanio2 : 0, 
-                                        'otro_precio' => ($precio_2 > 0) ? $precio_2 : 0, 
+                                        'otro_precio' => ($precio_2 > 0) ? round($precio_2, 1) : 0, 
                                         'visible' => 's'
                                     );
                                     $id_asig = $db->insert('import_inv_asignaciones', $dats2);
+
+                                    registroUnidades ($id_producto, $classProduct, $value);
                                 }
                             }
                                                                         
@@ -208,4 +210,30 @@ if (!empty($_FILES['archivo'])) {
 
 
 
+function registroUnidades ($id_producto = 0, $classProduct, $value = array()){
+    $i = 10;
+    global $db;
 
+    for ($j=0; $j < 7; $j++) { 
+        $unidad2 				= (isset($value[$i])) ? iconv("UTF-8", "UTF-8//IGNORE", preg_replace('([^A-Za-z0-9])', '', $value[$i])) : ''; 
+        $tamanio2 				= (isset($value[$i+1])) ? iconv("UTF-8", "UTF-8//IGNORE", preg_replace('([^A-Za-z0-9])', '', $value[$i+1])) : 0; 
+        $precio_2 				= (isset($value[$i+2])) ? iconv("UTF-8", "UTF-8//IGNORE", floatval($value[$i+2])) : 0; 
+    
+        //Registro de 2da unidad de venta
+        if ($id_producto && $unidad2 && $tamanio2 && $precio_2) {
+                                        
+            $unidad_id2 = $classProduct->crearUnidad($unidad2);
+    
+            $dats2 = array(
+                'producto_id' => ($id_producto > 0) ? $id_producto : 0, 
+                'unidad_id' => ($unidad_id2 > 0)? $unidad_id2 : 0, 
+                'cantidad_unidad' => ($tamanio2 > 0) ? $tamanio2 : 0, 
+                'otro_precio' => ($precio_2 > 0) ? round($precio_2, 1) : 0, 
+                'visible' => 's'
+            );
+            $id_asig = $db->insert('import_inv_asignaciones', $dats2);
+        }
+        $i = $i + 3;
+    }
+
+}

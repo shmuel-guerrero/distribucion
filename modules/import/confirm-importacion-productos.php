@@ -38,11 +38,13 @@ if (is_post()) {
                         //var_dump($classProduct->verificarProducto($value));
 
                         $asignacion = $db->from('import_inv_asignaciones')
-                                        ->where(array('producto_id' => $value['id_producto']))->fetch_first();
+                                        ->where(array('producto_id' => $value['id_producto']))->fetch();
 
                         if ($asignacion) {
-                            unset($asignacion['id_asignacionimport']);
-                            $db->insert('inv_asignaciones', $asignacion);
+                            foreach ($asignacion as $key => $value) {                                
+                                unset($value['id_asignacionimport']);
+                                $db->insert('inv_asignaciones', $value);
+                            }
                         }
                     
                     }
