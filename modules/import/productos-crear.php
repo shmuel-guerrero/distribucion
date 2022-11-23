@@ -4,7 +4,7 @@
 $permisos = explode(',', permits);
 
 // Almacena los permisos en variables
-$permiso_listar = in_array('subir-compra', $permisos);
+$permiso_listar = in_array('subir-productos', $permisos);
 
 // Obtiene la moneda oficial
 $moneda = $db->from('inv_monedas')->where('oficial', 'S')->fetch_first();
@@ -21,13 +21,13 @@ $moneda = ($moneda) ? '(' . $moneda['sigla'] . ')' : '';
 	</h3>
 </div>
 <div class="panel-body">
-    <?php if (false) { ?>
+    <?php if ($permiso_listar) { ?>
         <div class="row">
             <div class="col-sm-8 hidden-xs">
                 <div class="text-label">Para realizar acciones hacer click en el siguiente boton:</div>
             </div>
             <div class="col-xs-12 col-sm-4 text-right">
-                <a href="?/productos/listar" class="btn btn-primary"><i class="glyphicon glyphicon-list-alt"></i><span> Listado</span></a>
+                <a href="../sistema-app/storage/Modelo-Productos.xlsx" class="btn btn-warning"><i class="glyphicon glyphicon-download"></i><span> Descargar Modelo de productos</span></a>
             </div>
         </div>
         <?php } ?>
