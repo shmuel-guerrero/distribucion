@@ -424,16 +424,32 @@ $permiso_cambiar = true;
 			}
 		});
 
-		<?php if ($proformas) { ?>
-			var table = $('#table').on('search.dt order.dt page.dt length.dt', function() {
-				var suma = 0;
-				$('[data-total]:visible').each(function(i) {
-					var total = parseFloat($(this).attr('data-total'));
-					//console.log(total);
-					suma = suma + total;
+		window.addEventListener('load', e=>{				
+			let importtotal = 0;
+			let tot = 0;
+
+			let selectt = document.querySelectorAll('#table tbody tr [data-total]');
+			let imptotal = selectt.forEach(dato =>{
+				tot = tot + (+dato.textContent);
+			});
+			$('#total').text(tot.toFixed(2));						
+
+			let selector = document.getElementById('table_length').addEventListener('change', e=>{
+				importtotal = 0;
+				tot = 0;
+				let selectt = document.querySelectorAll('#table tbody tr [data-total]');
+				let imptotal = selectt.forEach(dato =>{
+					tot = tot + (+dato.textContent);
 				});
-				$('#total').text(suma.toFixed(2));
-			}).DataFilter({
+				$('#total').text(tot.toFixed(2));						
+			});
+
+		});
+
+		
+
+		<?php if ($proformas) { ?>
+			var table = $('#table').DataFilter({
 				filter: true,
 				name: 'reporte_diario',
 				reports: 'xls|doc|pdf|html'
