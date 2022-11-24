@@ -73,15 +73,16 @@ if (!empty($_FILES['archivo'])) {
                         if ($value[0] && $key > 0 ) {
                             $codigo          	= (isset($value[0]) && $value[0]) ? iconv("UTF-8", "UTF-8//IGNORE", preg_replace('([^A-Za-z0-9 \_\-\/\:])', '', $value[0])) : '--sincodigo--'; 
                             $codigo_barras      = (isset($value[1])) ? iconv("UTF-8", "UTF-8//IGNORE", preg_replace('([^A-Za-z0-9 \_\-\/\:])', '', $value[1])) : 'SCOD'; 
-                            $nombre 				= (isset($value[2])) ? iconv("UTF-8", "UTF-8//IGNORE", preg_replace('([^A-Za-z0-9 \_\-\/\:])', '', $value[2])) : 0; 
-                            $nombre_factura 				= (isset($value[3])) ? iconv("UTF-8", "UTF-8//IGNORE", preg_replace('([^A-Za-z0-9 \_\-\/\:])', '', $value[3])) : 0; 
-                            $categoria 				= (isset($value[4])) ? iconv("UTF-8", "UTF-8//IGNORE", preg_replace('([^A-Za-z0-9 \_\-\/\:])', '', $value[4])) : 0; 
-                            $unidad 				= (isset($value[5])) ? iconv("UTF-8", "UTF-8//IGNORE", preg_replace('([^A-Za-z0-9])', '', $value[5])) : 0; 
-                            $precio_base 				= (isset($value[6])) ? iconv("UTF-8", "UTF-8//IGNORE", floatval($value[6])) : 0; 
+                            $nombre 			= (isset($value[2])) ? iconv("UTF-8", "UTF-8//IGNORE", preg_replace('([^A-Za-z0-9 \_\-\/\:])', '', $value[2])) : 0; 
+                            $nombre_factura 	= (isset($value[3])) ? iconv("UTF-8", "UTF-8//IGNORE", preg_replace('([^A-Za-z0-9 \_\-\/\:])', '', $value[3])) : 0; 
+                            $descripcion 		= (isset($value[4])) ? iconv("UTF-8", "UTF-8//IGNORE", preg_replace('([^A-Za-z0-9 \_\-\/\:])', '', $value[4])) : 0; 
+                            $categoria 			= (isset($value[5])) ? iconv("UTF-8", "UTF-8//IGNORE", preg_replace('([^A-Za-z0-9 \_\-\/\:])', '', $value[5])) : 0; 
+                            $unidad 			= (isset($value[6])) ? iconv("UTF-8", "UTF-8//IGNORE", preg_replace('([^A-Za-z0-9])', '', $value[6])) : 0; 
+                            $precio_base 		= (isset($value[7])) ? iconv("UTF-8", "UTF-8//IGNORE", floatval($value[7])) : 0; 
                             
-                            $unidad2 				= (isset($value[7])) ? iconv("UTF-8", "UTF-8//IGNORE", preg_replace('([^A-Za-z0-9])', '', $value[7])) : ''; 
-                            $tamanio2 				= (isset($value[8])) ? iconv("UTF-8", "UTF-8//IGNORE", preg_replace('([^A-Za-z0-9])', '', $value[8])) : 0; 
-                            $precio_2 				= (isset($value[9])) ? iconv("UTF-8", "UTF-8//IGNORE", floatval($value[9])) : 0; 
+                            $unidad2 			= (isset($value[8])) ? iconv("UTF-8", "UTF-8//IGNORE", preg_replace('([^A-Za-z0-9])', '', $value[8])) : ''; 
+                            $tamanio2 			= (isset($value[9])) ? iconv("UTF-8", "UTF-8//IGNORE", preg_replace('([^A-Za-z0-9])', '', $value[9])) : 0; 
+                            $precio_2 			= (isset($value[10])) ? iconv("UTF-8", "UTF-8//IGNORE", floatval($value[10])) : 0; 
 
                             $categoria_id = 0;
                             $unidad_id = 0;
@@ -133,6 +134,7 @@ if (!empty($_FILES['archivo'])) {
                                     'fecha_registro' => date('Y-m-d'),
                                     'hora_registro' => date('H:i:s'),
                                     'precio_actual' => (isset($precio_base)) ? $precio_base : 0,
+                                    'descripcion' => ($descripcion) ? $descripcion : '',
                                     'precio_sugerido' => (isset($precio_sugerido)) ? $precio_sugerido : 0,
                                     'cantidad_minima' => (isset($cantidad_minima)) ? $cantidad_minima : 10,
                                     'ubicacion' => (isset($ubicacion)) ? $ubicacion : '',
@@ -214,7 +216,7 @@ function registroUnidades ($id_producto = 0, $classProduct, $value = array()){
     $i = 10;
     global $db;
 
-    for ($j=0; $j < 7; $j++) { 
+    for ($j=0; $j < 8; $j++) { 
         $unidad2 				= (isset($value[$i])) ? iconv("UTF-8", "UTF-8//IGNORE", preg_replace('([^A-Za-z0-9])', '', $value[$i])) : ''; 
         $tamanio2 				= (isset($value[$i+1])) ? iconv("UTF-8", "UTF-8//IGNORE", preg_replace('([^A-Za-z0-9])', '', $value[$i+1])) : 0; 
         $precio_2 				= (isset($value[$i+2])) ? iconv("UTF-8", "UTF-8//IGNORE", floatval($value[$i+2])) : 0; 

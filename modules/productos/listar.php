@@ -520,7 +520,7 @@ $(function () {
 				$('td', nRow).eq(2).addClass('text-nowrap text-middle').attr('data-codigo',aData[13]);
 				$('td', nRow).eq(3).addClass('text-middle text-uppercase');
 				$('td', nRow).eq(4).addClass('text-middle');
-				$('td', nRow).eq(5).addClass('text-nowrap text-middle');
+				$('td', nRow).eq(5).addClass('text-middle width-collapse');
 				$('td', nRow).eq(6).addClass('text-nowrap text-middle');
 				$('td', nRow).eq(8).addClass('text-nowrap text-middle');
 				$('td', nRow).eq(9).addClass('text-nowrap text-middle');
