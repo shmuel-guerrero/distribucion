@@ -99,7 +99,7 @@
         $Aux = $Aux2 = "";
         $Aux = escape($Dato['precio_actual']);
         $unidad_principal = ($Dato['unidad']) ? escape($Dato['unidad']) : '';
-        $Aux="<b class='text-uppercase text-primary'>Precio - Unidad Principal</b><br><span class='glyphicon glyphicon-remove-circle'></span> <a href='#' data-toggle='tooltip' data-title='Actualizar precio' data-actualizar='{$Dato['id_producto']}'><span class='glyphicon glyphicon-refresh'></span></a>{$moneda}<b data-precio='{$Dato['id_producto']}'>{$Aux}</b> <b>{$unidad_principal} (1)</b><br>";
+        $Aux="<b class='text-uppercase text-primary'>Precio - Unidad Principal</b><br><span class='glyphicon glyphicon-remove-circle'></span> <a href='#' data-toggle='tooltip' data-title='Actualizar precio'  data-cambiar='0' data-actualizar='{$Dato['id_producto']}'><span class='glyphicon glyphicon-refresh'></span></a>{$moneda}<span data-asig='0' data-precio='{$Dato['id_producto']}'>{$Aux}</span> <b>{$unidad_principal} (1)</b><br>";
         $nestedData= array();
         $nestedData[]=$requestData['start']+$kex+1;
 
@@ -134,8 +134,11 @@
                     <span class='glyphicon glyphicon-remove-circle'></span>
                     </a>";
                 endif;
-                $Extra = $moneda . " " . escape($id_asignacion['otro_precio']);
-                $Aux .= "<span>{$Extra}</span> ";
+                if($permiso_cambiar):
+                    $Aux .= "<a style='margin-right: 3px' href='#' data-toggle='tooltip' data-title='Actualizar precio' data-cambiar='{$id_asignacion['id_asignacion']}' data-actualizar='{$Dato['id_producto']}'><span class='glyphicon glyphicon-refresh'></span></a>";
+                endif;
+                $Extra =  escape($id_asignacion['otro_precio']);
+                $Aux .= $moneda . "<span data-asig='{$id_asignacion['id_asignacion']}' data-precio='{$Dato['id_producto']}'>{$Extra}</span> ";
                 $Aux .= " <span>" . escape($id_asignacion['unidad']) . "</span>" . " (" . escape($id_asignacion['cantidad_unidad']) . ")";
                 if($permiso_fijar):
                     $Aux .= "<a href='?/productos/fijar/{$id_asignacion['id_asignacion']}' class='underline-none text-primary' data-toggle='tooltip' data-title='Fijar precio' data-fijar='true'>
@@ -144,6 +147,7 @@
                 else:
                     $Extra = escape($id_asignacion['otro_precio']);
                 endif;
+
             endif;
         endforeach; 
 

@@ -148,6 +148,7 @@ $unidades = $db->from('inv_unidades')->order_by('unidad')->fetch();
 						<div class="form-group">
 							<label for="nuevo_precio">Precio nuevo <?= $moneda; ?>:</label>
 							<input type="text" value="" id="producto_precio" class="translate" tabindex="-1" data-validation="required number">
+							<input type="text" value="" id="asignacion_prod" class="translate" tabindex="-1" data-validation="required number">
 							<input type="text" value="" id="nuevo_precio" class="form-control" autocomplete="off" data-validation="required number" data-validation-allowing="range[0;10000000],float">
 						</div>
 					</div>
@@ -448,18 +449,34 @@ $(function () {
 
 	$(document).on('click', '[data-actualizar]', function(e) {
 		e.preventDefault();
-		var id_producto = $(this).attr('data-actualizar'),
-			codigo = $.trim($('[data-codigo=' + id_producto + ']').text()),
-			precio = $.trim($('[data-precio=' + id_producto + ']').text());
+		
+		let precioobt = $(this).attr('data-cambiar');
+		let id_producto = $(this).attr('data-actualizar');
+		let codigo = $.trim($('[data-codigo=' + id_producto + ']').text());
 
+		let $precObt = $(this).parent();
+		let precio = 0;
+
+		if (precioobt==='0') {
+			precio = $precObt.children('[data-asig="0"]').text();
+		}
+		
+		if (precioobt > 0) {
+			precio = $precObt.children(`[data-asig="${precioobt}"]`).text();			
+		}
+			
 		$('#producto_precio').val(id_producto);
+		$('#asignacion_prod').val(precioobt);
 		$('#codigo_precio').text(codigo);
-		$('#actual_precio').text(precio);
+		$('#actual_precio').text(precio);			
+
 		$modal_precio.modal({
 			backdrop: 'static'
 		});
 	});
 	<?php } ?>
+
+	
 	<?php if ($productos) : ?>
 	$loader_mostrar = $('#loader_mostrar')
 	<?php
@@ -519,8 +536,9 @@ $(function () {
 		form: '#form_precio',
 		modules: 'basic',
 		onSuccess: function () {
-			var producto = $('#producto_precio').val();
-			var precio = $('#nuevo_precio').val();
+			let producto = $('#producto_precio').val();
+			let id_asignacion = $('#asignacion_prod').val();
+			let precio = $('#nuevo_precio').val();
 
 			$loader_precio.fadeIn(100);
 
@@ -530,16 +548,21 @@ $(function () {
 				url: '?/productos/cambiar',
 				data: {
 					id_producto: producto,
+					id_asignacion: id_asignacion,
 					precio: parseFloat(precio).toFixed(2)
 				}
-			}).done(function (producto) {				
-				$.trim($('[data-precio=' + producto.producto_id + ']').text(producto.precio));
+			}).done(function (product) {	
+
+				let elemt = document.querySelector(`[data-producto='${producto}']`);	
+				elemt.querySelector(`[data-asig='${id_asignacion}']`).textContent = product.precio;
+
 				$.notify({
 					message: 'El precio del producto se actualizó correctamente.'
 				}, {
 					type: 'success'
 				});
 			}).fail(function () {
+				//console.log(e);
 				$.notify({
 					message: 'Ocurrió un problema y el precio del producto no se actualizó correctamente.'
 				}, {
