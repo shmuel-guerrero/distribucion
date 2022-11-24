@@ -427,26 +427,19 @@ $permiso_cambiar = true;
 		window.addEventListener('load', e=>{				
 			let importtotal = 0;
 			let tot = 0;
+			let importeTot = 0;
 
-			let selectt = document.querySelectorAll('#table tbody tr [data-total]');
-			let imptotal = selectt.forEach(dato =>{
-				tot = tot + (+dato.textContent);
-			});
-			$('#total').text(tot.toFixed(2));						
+			//obtener el total de los importes de la tabla
+			importtotal = sumatotal();
+			$('#total').text(importtotal.toFixed(2));						
 
-			let selector = document.getElementById('table_length').addEventListener('change', e=>{
-				importtotal = 0;
-				tot = 0;
-				let selectt = document.querySelectorAll('#table tbody tr [data-total]');
-				let imptotal = selectt.forEach(dato =>{
-					tot = tot + (+dato.textContent);
-				});
-				$('#total').text(tot.toFixed(2));						
+			document.getElementById('table_length').addEventListener('change', e=>{
+				//obtener el total de los importes de la tabla
+				importtotal = sumatotal();
+				$('#total').text(importtotal.toFixed(2));						
 			});
 
-		});
-
-		
+		});		
 
 		<?php if ($proformas) { ?>
 			var table = $('#table').DataFilter({
@@ -457,5 +450,19 @@ $permiso_cambiar = true;
 		<?php } ?>
 
 	});
+
+
+	function sumatotal() {
+		let importtotal = 0;
+		let tot = 0;
+
+		let selectt = document.querySelectorAll('#table tbody tr [data-total]');
+		let imptotal = selectt.forEach(dato =>{
+			tot = tot + (+dato.textContent);
+		});
+		
+		return tot;
+	}
+
 </script>
 <?php require_once show_template('footer-configured'); ?>
