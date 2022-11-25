@@ -2,6 +2,9 @@
 
 
 // Verifica la peticion post
+
+use Verot\Upload\Upload;
+
 if (is_post()) {
 	// Verifica la existencia de datos
 	if (isset($_POST['id_producto']) && isset($_POST['data']) && isset($_FILES['imagen'])) {
@@ -49,8 +52,8 @@ if (is_post()) {
 				// Define el nombre de la imagen final
 				$imagen_final = md5(secret . random_string() . $id_producto);
 
-				// Instancia la imagen
-				$imagen = new upload($imagen);
+				// Instancia la imagen				
+				$imagen = new Upload($imagen);
 
 				// Verifica si la imagen puede ser subida
 				if ($imagen->uploaded) {
