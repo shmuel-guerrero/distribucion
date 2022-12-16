@@ -95,7 +95,7 @@ if (!empty($_FILES['archivo'])) {
                             $producto_id = (isset($producto_id['id_producto'])) ? $producto_id['id_producto'] : '';
     
                             if ($producto_id) {
-                                $random = mt_rand(100, 1500);
+                                $random = mt_rand(100, 999999);
                                 $codigo = $codigo . '-' . $random;
                                 $codigo_barras = $codigo_barras . '-' . $random;
                             }

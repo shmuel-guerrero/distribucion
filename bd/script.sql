@@ -116,8 +116,9 @@ ALTER TABLE `inv_egresos_efectivo`
 
 
 
-
-
+-- MODIFICAR DE BASICO A PREMIUM LOS DISPOSITIVOS
+ALTER TABLE sys_users_devices MODIFY COLUMN 
+`tipo` enum('Basic','Premium') COLLATE utf8_spanish_ci NOT NULL DEFAULT 'Premium'
 
 
 
