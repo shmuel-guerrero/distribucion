@@ -959,7 +959,7 @@ $permiso_mostrar = in_array('mostrar', $permisos);
 							}
 						}
 						if (productos.length == 1) {
-				// 			$contenido_filtrar.find('table tbody tr button').trigger('click');
+				 			$contenido_filtrar.find('table tbody tr button').trigger('click');
 						}
 
 						$.notify({
