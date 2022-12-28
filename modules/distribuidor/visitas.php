@@ -13,6 +13,9 @@ $gestion_limite = ($gestion + 16) . date('-m-d');
 // Obtiene fecha inicial
 $empleado = (isset($params[0])) ? $params[0] : 0;
 
+$usuario3 = $db->select('id_user')->from('sys_users')->where('persona_id',$empleado)->fetch_first();
+$usuario3 = $usuario3['id_user'];
+
 // Obtiene fecha inicial
 $fecha_inicial = (isset($params[1])) ? $params[1] : $gestion_base;
 $fecha_inicial = (is_date($fecha_inicial)) ? $fecha_inicial : $gestion_base;
@@ -237,8 +240,10 @@ $permiso_cambiar = true;
                                     <?php if ($permiso_imprimir) {
                                         if($proforma['estadoe']==2){?>
                                             <a href="?/distribuidor/imprimir4/<?= $proforma['id_egreso']; ?>" data-toggle="tooltip" data-title="Imprimir" target="_blank"><span class="glyphicon glyphicon-print" style="color:blue"></span></a>
-                                            <a  data-toggle="tooltip" data-title="Entregar" onclick="cambiar_estado(<?php echo $usuario3; ?>,<?= escape('["'.$proforma['id_egreso'].'"]'); ?>)"><span class="glyphicon glyphicon-upload" style="color:green"></span></a>
-                                            <a  data-toggle="tooltip" data-title="No entregar" onclick="cambiar_estadn(<?php echo $usuario3; ?>,<?= escape($proforma['cliente_id']); ?>,12,<?= escape($proforma['id_egreso']); ?>)"><span class="glyphicon glyphicon-download" style="color:red"></span></a>
+                                            <?php $id_profor = ''; 
+                                                    $id_profor =  escape('[' . $proforma['id_egreso'] . ']'); ?>
+                                            <a  data-toggle="tooltip" data-title="Entregar" onclick="cambiar_estado(<?= $usuario3; ?>,<?= escape($id_profor); ?>)"><span class="glyphicon glyphicon-upload" style="color:green"></span></a>
+                                            <a  data-toggle="tooltip" data-title="No entregar" onclick="cambiar_estado(<?= $usuario3; ?>,<?= escape($proforma['cliente_id']); ?>,12,<?= escape($proforma['id_egreso']); ?>)"><span class="glyphicon glyphicon-download" style="color:red"></span></a>
 
                                         <?php } if($proforma['estadoe']==1){?>
                                             <a href="?/distribuidor/imprimir4/<?= $proforma['id_egreso']; ?>" data-toggle="tooltip" data-title="Imprimir" target="_blank"><span class="glyphicon glyphicon-print" style="color:red"></span></a>

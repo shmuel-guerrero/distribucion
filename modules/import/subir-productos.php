@@ -213,7 +213,7 @@ if (!empty($_FILES['archivo'])) {
 
 
 function registroUnidades ($id_producto = 0, $classProduct, $value = array()){
-    $i = 10;
+    $i = 11;
     global $db;
 
     for ($j=0; $j < 8; $j++) { 
