@@ -436,7 +436,7 @@ $permiso_cambiar = true;
                         } else {
                             $('#loader').fadeOut(100);
                             $.notify({
-                                message: 'Ocurrió un problema en el proceso, no se puedo guardar los datos, verifique si la se guardó parcialmente..........'
+                                message: 'Excedio el limitie establecido.'
                             }, {
                                 type: 'danger'
                             });
