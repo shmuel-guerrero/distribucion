@@ -2,6 +2,7 @@
 
 // Obtiene el codigo
 $codigo = (isset($params[0])) ? $params[0] : 0;
+//$nombre = $db->query("SELECT * FROM inv_productos WHERE codigo_barras LIKE '%{$codigo}%'")->fetch_first()['nombre_factura'];
 $nombre = '';
 $cantidad = (isset($params[1])) ? $params[1] : 0;
 
@@ -111,7 +112,7 @@ if ($codigos && $nombres && $cantidades) {
 				if ($h < $hlength) {
 					// Imprime la celda con el nombre recortado
 					$pdf->SetFont($font_name_data, '', $font_size_data);
-					$pdf->MultiCell($hspace, 10, strtoupper(substr($nombre, 0, 70)), $border, 'C', 0, 0, $hposition + ($hpadding * $h) + ($hmargin * ($h + 1)) + ($hspace * $h) + ($hpadding * ($h + 1)), $vposition + ($vpadding * $v) + ($vmargin * ($v + 1)) + ($vspace * $v) + ($vpadding * ($v + 1)) + 5, true);
+					$pdf->MultiCell($hspace, 10, strtoupper(substr($nombre, 0, 30)), $border, 'C', 0, 0, $hposition + ($hpadding * $h) + ($hmargin * ($h + 1)) + ($hspace * $h) + ($hpadding * ($h + 1)), $vposition + ($vpadding * $v) + ($vmargin * ($v + 1)) + ($vspace * $v) + ($vpadding * ($v + 1)) + 5, true);
 
 					// Imprime el codigo de barras
 					$pdf->write1DBarcode($codigo, 'C128', $hposition + ($hpadding * $h) + ($hmargin * ($h + 1)) + ($hspace * $h) + ($hpadding * ($h + 1)), $vposition + ($vpadding * $v) + ($vmargin * ($v + 1)) + ($vspace * $v) + ($vpadding * ($v + 1)), $hspace, $vspace, 0, $style, 'N');
