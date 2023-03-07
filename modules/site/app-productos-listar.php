@@ -45,7 +45,8 @@ if(is_post()) {
             if($usuario['fecha'] != date('Y-m-d')){
 
                 $id_categoria = $_POST['id_categoria'];
-                $productos2 = $db->query("SELECT p.id_producto, p.promocion, z.id_asignacion, z.unidad_id, z.unidade, z.cantidad2, p.descripcion, p.imagen, p.codigo, p.nombre_factura as nombre, p.nombre_factura, p.cantidad_minima, p.precio_actual, IFNULL(e.cantidad_ingresos, 0) AS cantidad_ingresos, (IFNULL(s.cantidad_egresos, 0) + IFNULL(sp.cantidad_promocion, 0) + IFNULL(spr.cantidad_venta_promo, 0)) AS cantidad_egresos, u.unidad, u.sigla, c.categoria
+                $productos2 = $db->query("SELECT p.id_producto, p.promocion, z.id_asignacion, z.unidad_id, z.unidade, z.cantidad2, p.descripcion, p.imagen, p.codigo, p.nombre_factura as nombre, p.nombre_factura, p.cantidad_minima, p.precio_actual, 
+                                        IFNULL(e.cantidad_ingresos, 0) AS cantidad_ingresos, (IFNULL(s.cantidad_egresos, 0) + IFNULL(sp.cantidad_promocion, 0) + IFNULL(spr.cantidad_venta_promo, 0)) AS cantidad_egresos, u.unidad, u.sigla, c.categoria
                         FROM inv_productos p
                         LEFT JOIN (SELECT d.producto_id, SUM(d.cantidad) AS cantidad_ingresos
                             FROM inv_ingresos_detalles d
@@ -78,7 +79,7 @@ if(is_post()) {
                         AND (p.codigo_barras like '%" . $busqueda . "%' OR p.codigo like '%" . $busqueda . "%' OR p.nombre_factura like '%" . $busqueda . "%' OR p.nombre like '%" . $busqueda . "%' OR c.categoria like '%" . $busqueda . "%') ")->fetch();
 
                 $nroProducts = $db->affected_rows;
-                $nroPaginas= ceil($nroProducts / $item);
+
                 $productos = $db->query("SELECT p.id_producto, p.promocion, z.id_asignacion, z.unidad_id, z.unidade, z.cantidad2, p.descripcion, p.imagen, p.codigo, p.nombre_factura as nombre, p.nombre_factura, p.cantidad_minima, p.precio_actual, 
                                         IFNULL(e.cantidad_ingresos, 0) AS cantidad_ingresos, (IFNULL(s.cantidad_egresos, 0) + IFNULL(sp.cantidad_promocion, 0) + IFNULL(spr.cantidad_venta_promo, 0)) AS cantidad_egresos, u.unidad, u.sigla, c.categoria
                         FROM inv_productos p
@@ -111,6 +112,7 @@ if(is_post()) {
                                             AND (p.codigo_barras like '%" . $busqueda . "%' OR p.codigo like '%" . $busqueda . "%' OR p.nombre_factura like '%" . $busqueda . "%' OR p.nombre like '%" . $busqueda . "%' OR c.categoria like '%" . $busqueda . "%') ")->limit( $pagina, 0 )->fetch();
                 $datos = array();
 
+               
                 foreach($productos as $nro => $producto){                        
 
                         if($producto['promocion']=='si' && ($producto['cantidad_ingresos']-$producto['cantidad_egresos']) > 0) {
@@ -143,37 +145,44 @@ if(is_post()) {
                             $promocion = '';
                             $promo = array();
                         }
-                      
-                        
-                        $datos[$nro] = array(
-                            'id_producto' => (int)$producto['id_producto'],
-                            'descripcion' => $producto['descripcion'],
-                            //'imagen' => ($producto['imagen'] == '') ? url1 . imgs . '/image.jpg' : url1. productos . '/' . $producto['imagen'],
-                            'imagen' => ($producto['imagen'] == '') ? imgs2 . '/image.jpg' : productos2 . '/' . $producto['imagen'],
-                            'codigo' => $producto['codigo'],
-                            'nombre' => $producto['nombre_factura'],
-                            'promocion' => $producto['promocion'],
-                            'nombre_factura' => $producto['nombre_factura'],
-                            'cantidad_minima' => $producto['cantidad_minima'],
-                            'stock' => ( ($producto['cantidad_ingresos']-$producto['cantidad_egresos']) > 0 )?($producto['cantidad_ingresos']-$producto['cantidad_egresos']):0,
-                            'categoria' => $producto['categoria'],
-                            'precio_sugerido' => $producto['precio_sugerido'],
-                            'precios' => array(),
-                            'promociones' => $promo
-                        );
-                        array_push($datos[$nro]['precios'],array('unidad' => $producto['unidad'],'precio' => $producto['precio_actual'],'cantidad' => 1));
 
-                        $as = explode('&',$producto['unidade']);
-                        $ac = explode('*',$producto['cantidad2']);
-                        foreach($as as $nr => $a){
-                            $b = explode(':',$as[$nr]);
-                            $c = $ac[$nr];
-                            if($b[0]!=''){
-                                array_push($datos[$nro]['precios'],array('unidad' => $b[0],'precio' => $b[1],'cantidad' => (int)$c));
-                            }
-                        }                        
+                        if ( ($producto['cantidad_ingresos'] - $producto['cantidad_egresos']) == 0 ) {
+                            $nroProducts = $nroProducts--;
+                        }
+
+                        if ( ($producto['cantidad_ingresos'] - $producto['cantidad_egresos']) > 0 ) {
+                    
+                            $datos[$nro] = array(
+                                'id_producto' => (int)$producto['id_producto'],
+                                'descripcion' => $producto['descripcion'],
+                                //'imagen' => ($producto['imagen'] == '') ? url1 . imgs . '/image.jpg' : url1. productos . '/' . $producto['imagen'],
+                                'imagen' => ($producto['imagen'] == '') ? imgs2 . '/image.jpg' : productos2 . '/' . $producto['imagen'],
+                                'codigo' => $producto['codigo'],
+                                'nombre' => $producto['nombre_factura'],
+                                'promocion' => $producto['promocion'],
+                                'nombre_factura' => $producto['nombre_factura'],
+                                'cantidad_minima' => $producto['cantidad_minima'],
+                                'stock' => ( ($producto['cantidad_ingresos']-$producto['cantidad_egresos']) > 0 )?($producto['cantidad_ingresos']-$producto['cantidad_egresos']):0,
+                                'categoria' => $producto['categoria'],
+                                'precio_sugerido' => $producto['precio_sugerido'],
+                                'precios' => array(),
+                                'promociones' => $promo
+                            );
+                            array_push($datos[$nro]['precios'],array('unidad' => $producto['unidad'],'precio' => $producto['precio_actual'],'cantidad' => 1));                    
+    
+                            $as = explode('&',$producto['unidade']);
+                            $ac = explode('*',$producto['cantidad2']);
+                            foreach($as as $nr => $a){
+                                $b = explode(':',$as[$nr]);
+                                $c = $ac[$nr];
+                                if($b[0]!=''){
+                                    array_push($datos[$nro]['precios'],array('unidad' => $b[0],'precio' => $b[1],'cantidad' => (int)$c));
+                                }
+                            }                        
+                        }
                 }
 
+                $nroPaginas= ceil($nroProducts / $item);
                 //se cierra transaccion
 				$db->commit();
                 
